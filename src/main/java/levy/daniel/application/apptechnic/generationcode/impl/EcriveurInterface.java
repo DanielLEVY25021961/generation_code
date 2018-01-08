@@ -106,7 +106,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 	 * @param pFile : File : fichier java.<br/>
 	 */
 	@Override
-	protected void ecrireCodeHook(
+	protected final void ecrireCodeHook(
 			final File pFile) {
 				
 			
@@ -122,95 +122,89 @@ public class EcriveurInterface extends AbstractEcriveur {
 		this.ecrireMethodCompareTo(pFile);
 		
 		final String derniereLigneCompareTo 
-			= this.methodCompareTo.get(
-					this.methodCompareTo.size() - 1);
-		
+			= this.fournirDerniereLigneListe(this.methodCompareTo);
+					
 		/* Insère 3 lignes vides sous la dernière ligne de compareTo(). */
-//		this.insererLignesVidesSousLigneDansFichier(
-//				pFile, derniereLigneCompareTo, 3, CHARSET_UTF8);
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, derniereLigneCompareTo, 3, CHARSET_UTF8);
 		
 		/* Ecrit la méthode clone(). */
 		this.ecrireMethodClone(pFile);
 		
-		final String derniereLigneClone
-			= this.methodClone.get(this.methodClone.size() - 1);
+		final String derniereLigneClone 
+			= this.fournirDerniereLigneListe(this.methodClone);
+			
 		
 		/* Insère 3 lignes vides sous la dernière ligne
 		 *  de clone(). */
-//		this.insererLignesVidesSousLigneDansFichier(
-//				pFile, derniereLigneClone, 3, CHARSET_UTF8);
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, derniereLigneClone, 3, CHARSET_UTF8);
 		
 		/* Ecrit la méthode getEnTeteCsv(). */
 		this.ecrireMethodGetEnTeteCsv(pFile);
 		
-		final String derniereLigneGetEnTeteCsv
-			= this.methodGetEnTeteCsv.get(
-					this.methodGetEnTeteCsv.size() - 1);
-		
+		final String derniereLigneGetEnTeteCsv 
+			= this.fournirDerniereLigneListe(this.methodGetEnTeteCsv);
+					
 		/* Insère 3 lignes vides sous la dernière ligne 
 		 * de getEnTeteCsv(). */
-//		this.insererLignesVidesSousLigneDansFichier(
-//				pFile, derniereLigneGetEnTeteCsv, 3, CHARSET_UTF8);
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, derniereLigneGetEnTeteCsv, 3, CHARSET_UTF8);
 
 		/* Ecrit la méthode toStringCsv(). */
 		this.ecrireMethodToStringCsv(pFile);
 		
-		final String derniereLigneToStringCsv
-			= this.methodToStringCsv.get(
-					this.methodToStringCsv.size() - 1);
+		final String derniereLigneToStringCsv 
+			= this.fournirDerniereLigneListe(this.methodToStringCsv);			
 		
 		/* Insère 3 lignes vides sous la dernière ligne
 		 *  de toStringCsv(). */
-//		this.insererLignesVidesSousLigneDansFichier(
-//				pFile, derniereLigneToStringCsv, 3, CHARSET_UTF8);
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, derniereLigneToStringCsv, 3, CHARSET_UTF8);
 		
 		/* Ecrit la méthode getEnTeteColonne(). */
 		this.ecrireMethodGetEnTeteColonne(pFile);
 		
-		final String derniereLigneGetEnTeteColonne
-			= this.methodGetEnTeteColonne.get(
-					this.methodGetEnTeteColonne.size() - 1);
+		final String derniereLigneGetEnTeteColonne 
+			= this.fournirDerniereLigneListe(this.methodGetEnTeteColonne);
 		
 		/* Insère 3 lignes vides sous la dernière 
 		 * ligne de getEnTeteColonne(). */
-//		this.insererLignesVidesSousLigneDansFichier(
-//				pFile, derniereLigneGetEnTeteColonne, 3, CHARSET_UTF8);
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, derniereLigneGetEnTeteColonne, 3, CHARSET_UTF8);
 
 		/* Ecrit la méthode getValeurColonne(). */
 		this.ecrireMethodGetValeurColonne(pFile);
 		
-		final String derniereLigneGetValeurColonne
-			= this.methodGetValeurColonne.get(
-					this.methodGetValeurColonne.size() - 1);
+		final String derniereLigneGetValeurColonne 
+			= this.fournirDerniereLigneListe(this.methodGetValeurColonne);
 		
 		/* Insère 3 lignes vides sous la dernière 
 		 * ligne de getValeurColonne(). */
-//		this.insererLignesVidesSousLigneDansFichier(
-//				pFile, derniereLigneGetValeurColonne, 3, CHARSET_UTF8);
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, derniereLigneGetValeurColonne, 3, CHARSET_UTF8);
 		
 		/* Ecrit la méthode getId(). */
 		this.ecrireMethodGetId(pFile);
 		
-		final String derniereLigneGetId
-			= this.methodGetId.get(
-					this.methodGetId.size() - 1);
-		
+		final String derniereLigneGetId 
+			= this.fournirDerniereLigneListe(this.methodGetId);
+					
 		/* Insère 3 lignes vides sous la dernière 
 		 * ligne de getId(). */
-//		this.insererLignesVidesSousLigneDansFichier(
-//				pFile, derniereLigneGetId, 3, CHARSET_UTF8);
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, derniereLigneGetId, 3, CHARSET_UTF8);
 
 		/* Ecrit la méthode setId(). */
 		this.ecrireMethodSetId(pFile);
 		
-		final String derniereLigneSetId
-			= this.methodSetId.get(
-					this.methodSetId.size() - 1);
-		
+		final String derniereLigneSetId 
+			= this.fournirDerniereLigneListe(this.methodSetId);
+					
 		/* Insère 3 lignes vides sous la dernière 
 		 * ligne de setId(). */
-//		this.insererLignesVidesSousLigneDansFichier(
-//				pFile, derniereLigneSetId, 3, CHARSET_UTF8);
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, derniereLigneSetId, 3, CHARSET_UTF8);
 
 
 		/* Ecrit la ligne finale. */
@@ -218,7 +212,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 		
 		
 		
-	} // Fin de ecrireCode(...).___________________________________________
+	} // Fin de ecrireCodeHook(...)._______________________________________
 
 	
 		
@@ -226,7 +220,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> creerLignesImport() throws Exception {
+	protected final List<String> creerLignesImport() throws Exception {
 		
 		final String cheminFichier 
 			= BundleConfigurationProjetManager.getRacineMainResources() 
@@ -248,6 +242,18 @@ public class EcriveurInterface extends AbstractEcriveur {
 	} // Fin de creerLignesImport()._______________________________________
 	
 
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final List<String> creerLignesJavaDoc(
+			final File pFile) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -1259,7 +1265,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String fournirNomClasse() {
+	protected final String fournirNomClasse() {
 		return CLASSE_ECRIVEUR_INTERFACE;
 	} // Fin de fournirNomClasse().________________________________________
 	
@@ -1269,11 +1275,20 @@ public class EcriveurInterface extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String fournirDebutDeclaration() {
+	protected final String fournirDebutDeclaration() {
 		return INTERFACE;
 	} // Fin de fournirDebutDeclaration()._________________________________
+
+
 	
-	
-	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirDebutJavaDoc() {
+		return " * INTERFACE";
+	} // Fin de fournirDebutJavaDoc()._____________________________________
+
+
 	
 } // FIN DE LA CLASSE EcriveurInterface.-------------------------------------

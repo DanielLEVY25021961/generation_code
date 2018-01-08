@@ -98,3 +98,10 @@ java.lang.NullPointerException: null
 	at levy.daniel.application.apptechnic.generationcode.impl.EcriveurInterface.ecrireCodeInterface(EcriveurInterface.java:480) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.GenerateurCode.genererObjetMetier(GenerateurCode.java:161) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:68) [classes/:?]
+2018-janvier-08 17:54:35 [main] FATAL levy.daniel.application.apptechnic.generationcode.AbstractEcriveur - Impossible de créer la javadoc
+java.lang.NullPointerException: null
+	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireJavaDoc(AbstractEcriveur.java:873) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.impl.EcriveurAbstractClass.ecrireCodeHook(EcriveurAbstractClass.java:82) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireCode(AbstractEcriveur.java:596) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.GenerateurCode.genererObjetMetier(GenerateurCode.java:186) [classes/:?]
+	at levy.daniel.application.Application.main(Application.java:68) [classes/:?]

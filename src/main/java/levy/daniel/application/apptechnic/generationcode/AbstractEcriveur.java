@@ -20,6 +20,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -387,6 +389,13 @@ public abstract class AbstractEcriveur {
 	 * </code>
 	 */
 	protected transient List<String> imports;
+	
+	
+	/**
+	 * javadoc : List&lt;String&gt; :<br/>
+	 * javadoc du fichier Java.<br/>
+	 */
+	protected transient List<String> javadoc;
 	
 	
 	/**
@@ -809,11 +818,103 @@ public abstract class AbstractEcriveur {
 	 */
 	protected abstract List<String> creerLignesImport() throws Exception;
 	
+
 	
+	/**
+	 * method ecrireJavaDoc(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>Insère les lignes de Javadoc
+	 * à la suite.</li>
+	 * <li>N'insère les lignes que si elles n'existent pas déjà</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 * 
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected void ecrireJavaDoc(
+			final File pFile) {
+						
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
 		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		try {
+			
+			/* Crée la javadoc. */
+			this.creerLignesJavaDoc(pFile);
+			
+			/* Recherche la ligne identifiant la javadoc. */
+			final String ligneJavadoc 
+				= this.fournirDebutJavaDoc();
+			
+			/* Ne fait rien si la javadoc a déjà été écrite. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneJavadoc)) {
+				return;
+			}
+			
+			
+			for (final String ligne : this.javadoc) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la javadoc", e);
+			}
+		}
+								
+	} // Fin de ecrireJavaDoc(...).________________________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDoc(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes de la javadoc.</li>
+	 * <li>alimente this.javadoc</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : this.javadoc.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract List<String> creerLignesJavaDoc(File pFile) 
+			throws Exception;
+
+	
+	
 	/**
 	 * method ecrireLigneDeclaration(
-	 * ) :<br/>
+	 * File pFile) :<br/>
 	 * <ul>
 	 * <li>Insère la ligne de déclaration
 	 * à la suite.</li>
@@ -3294,6 +3395,124 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
+	 * method genererNomAbstractClass(
+	 * String pNomInterface) :<br/>
+	 * <ul>
+	 * <li>Génère le nom de la classe abstraite à partir 
+	 * du nom d'une Interface de type "IObjetMetier".</li>
+	 * <li>Par exemple :  genererNomAbstractClass("IProfil") 
+	 * retourne AbstractProfil.</li>
+	 * </ul>
+	 * retourne null si pNomInterface est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pNomInterface : String : nom de l'interface 
+	 * du type "IObjetMetier".<br/>
+	 * 
+	 * @return : String : nom de la classe abstraite 
+	 * du type "AbstractObjetMetie"r.<br/>
+	 */
+	protected String genererNomAbstractClass(
+			final String pNomInterface) {
+		
+		/* retourne null si pNomInterface est blank. */
+		if (StringUtils.isBlank(pNomInterface)) {
+			return null;
+		}
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par I
+		 * - poursuit par une Majuscule
+		 * - poursuit CamelCase. */
+		final String patternString = "(^I)([A-Z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pNomInterface);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.find();
+		
+		String group2 = null;
+		
+		String resultatString = null;
+		
+		if (trouve) {
+			
+			group2 = matcher.group(2);
+			
+			resultatString = "Abstract" + group2;
+			
+		}
+		
+		return resultatString;
+		
+	} // Fin de genererNomAbstractClass(...).______________________________
+	
+
+		
+	/**
+	 * method genererNomInterface(
+	 * String pNomAbstractClass) :<br/>
+	 * <ul>
+	 * <li>Génère le nom de l'interface à partir 
+	 * du nom d'une classe abstraite de type "AbstractObjetMetier".</li>
+	 * <li>Par exemple :  genererNomInterface("AbstractProfil") 
+	 * retourne IProfil.</li>
+	 * </ul>
+	 * retourne null si pNomAbstractClass est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pNomAbstractClass : String : nom de la classe abstraite 
+	 * du type "AbstractObjetMetier".<br/>
+	 * 
+	 * @return : String : nom de l'interface 
+	 * du type "IObjetMetie"r.<br/>
+	 */
+	protected String genererNomInterface(
+			final String pNomAbstractClass) {
+				
+		/* retourne null si pNomAbstractClass est blank. */
+		if (StringUtils.isBlank(pNomAbstractClass)) {
+			return null;
+		}
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par Abstract
+		 * - poursuit par une Majuscule
+		 * - poursuit CamelCase. */
+		final String patternString = "(^Abstract)([A-Z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pNomAbstractClass);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.find();
+		
+		String group2 = null;
+		
+		String resultatString = null;
+		
+		if (trouve) {
+			
+			group2 = matcher.group(2);
+			
+			resultatString = "I" + group2;
+			
+		}
+		
+		return resultatString;
+				
+	} // Fin de genererNomInterface(...).__________________________________
+	
+	
+	
+	/**
 	 * method fournirNomClasse() :<br/>
 	 * Fournit le nom de la classe concrète 
 	 * pour les messages des logs.<br/>
@@ -3314,6 +3533,17 @@ public abstract class AbstractEcriveur {
 	 * @return : String : début de la ligne de déclaration.<br/>
 	 */
 	protected abstract String fournirDebutDeclaration();
+	
+	
+	
+	/**
+	 * method fournirDebutJavaDoc() :<br/>
+	 * Fournit le début de la javadoc de la classe Java.<br/>
+	 * Par exemple : "* CLASSE ABSTRAITE"<br/>
+	 *
+	 * @return : String : début de la javadoc.<br/>
+	 */
+	protected abstract String fournirDebutJavaDoc();
 	
 	
 	

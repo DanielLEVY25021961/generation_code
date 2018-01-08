@@ -76,17 +76,20 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void ecrireCodeHook(
+	protected final void ecrireCodeHook(
 			final File pFile) {
-		// TODO Auto-generated method stub
+		
+		this.ecrireJavaDoc(pFile);
 
-	}
+	} // Fin de ecrireCodeHook(...)._______________________________________
+	
+	
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> creerLignesImport() throws Exception {
+	protected final List<String> creerLignesImport() throws Exception {
 		
 		final String cheminFichier 
 			= BundleConfigurationProjetManager.getRacineMainResources() 
@@ -108,12 +111,48 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	} // Fin de creerLignesImport()._______________________________________
 
 	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected List<String> creerLignesJavaDoc(
+			final File pFile) throws Exception {
+		
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/javadoc_abstractclass.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final String subst 
+			= this.genererNomInterface(this.nomSimpleFichierJava);
+		
+		final List<String> listeLignesProvisoire 
+			= this.substituerVariablesDansLigne(
+					listeLignes, "{$IObjet}", subst);
+		
+		final List<String> listeLignesSubstitue 
+		= this.substituerVariablesDansLigne(
+				listeLignesProvisoire
+				, "{$AbstractObjet}", this.nomSimpleFichierJava); // NOPMD by dan on 08/01/18 08:09
+		
+		this.javadoc = listeLignesSubstitue;
+		
+		return this.javadoc;
+				
+	} // Fin de creerLignesJavaDoc(...).___________________________________
+	
+
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String creerLigneDeclaration(
+	protected final String creerLigneDeclaration(
 			final File pFile) {
 		// TODO Auto-generated method stub
 		return null;
@@ -125,7 +164,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String fournirNomClasse() {
+	protected final String fournirNomClasse() {
 		return CLASSE_ECRIVEUR_ABSTRACTCLASS;
 	} // Fin de fournirNomClasse().________________________________________
 	
@@ -135,10 +174,20 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String fournirDebutDeclaration() {
+	protected final String fournirDebutDeclaration() {
 		return ABSTRACT_CLASS;
 	} // Fin de fournirDebutDeclaration()._________________________________
 
 
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirDebutJavaDoc() {
+		return "* CLASSE ABSTRAITE";
+	} // Fin de fournirDebutJavaDoc()._____________________________________
+
+	
+
 } // FIN DE LA CLASSE EcriveurAbstractClass.---------------------------------
