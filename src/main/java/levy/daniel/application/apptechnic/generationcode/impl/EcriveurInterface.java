@@ -108,8 +108,10 @@ public class EcriveurInterface extends AbstractEcriveur {
 	@Override
 	protected final void ecrireCodeHook(
 			final File pFile) {
-				
-			
+		
+		/* écrit la javadoc. */
+		this.ecrireJavaDoc(pFile);
+		
 		/* Ecrit la ligne de déclaration. */
 		this.ecrireLigneDeclaration(pFile);
 		
@@ -249,9 +251,26 @@ public class EcriveurInterface extends AbstractEcriveur {
 	@Override
 	protected final List<String> creerLignesJavaDoc(
 			final File pFile) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/javadoc_interface.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+				
+		final List<String> listeLignesSubstitue 
+		= this.substituerVariablesDansLigne(
+				listeLignes
+				, "{$IObjet}", this.nomSimpleFichierJava); // NOPMD by dan on 08/01/18 08:09
+		
+		this.javadoc = listeLignesSubstitue;
+		
+		return this.javadoc;
+		
+	} // Fin de creerLignesJavaDoc(...).___________________________________
 	
 	
 	

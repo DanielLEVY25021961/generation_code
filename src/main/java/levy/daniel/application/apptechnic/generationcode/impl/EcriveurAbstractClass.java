@@ -79,6 +79,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	protected final void ecrireCodeHook(
 			final File pFile) {
 		
+		/* écrit la javadoc. */
 		this.ecrireJavaDoc(pFile);
 
 	} // Fin de ecrireCodeHook(...)._______________________________________
@@ -116,7 +117,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> creerLignesJavaDoc(
+	protected final List<String> creerLignesJavaDoc(
 			final File pFile) throws Exception {
 		
 		final String cheminFichier 
