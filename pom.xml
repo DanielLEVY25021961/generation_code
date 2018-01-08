@@ -1,0 +1,732 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	        
+         <!-- ================================================== -->
+         <!-- 			POM pour MAVEN 3.5.0					 -->
+         <!-- 			Java 1.8.0_144							 -->
+         <!-- ================================================== -->
+         
+         
+	<!-- Version du POM. -->
+	<modelVersion>4.0.0</modelVersion>
+	
+	
+	<!-- ========================================================== -->
+	<!-- GAV (identifiant du projet)                                -->
+	<!-- G : groupId : nom de domaine                               -->
+	<!-- A : artifactId : nom du projet                             -->
+	<!-- V : version : version du projet                            -->
+	<!-- ========================================================== -->
+	<!-- domaine (espace de nom) appelé GROUPE (G) dans Maven -->	
+	<groupId>levy.daniel.application</groupId>
+	<!-- Nom du projet appelé artifactId (A) dans Maven -->
+	<artifactId>generation_code</artifactId>
+	<!-- Version Bêta de développement (SNAPSHOT) -->
+	<!--non incrémentée dans Maven -->
+	<version>0.0.1-SNAPSHOT</version>
+	
+	
+	<!-- ========================================================== -->
+	<!--                       PACKAGING                            -->
+	<!-- Préciser ici la forme du livrable                          -->
+	<!-- que le projet Maven doit produire (war, jar,               -->
+	<!--	POM, ...).                                              -->
+	<!-- ========================================================== -->
+	<!-- Résultat du Packaging (forme du livrable). Ici war -->
+	<packaging>war</packaging>
+
+	
+	<!-- ========================================================== -->
+	<!-- NOM DU LIVRABLE GENERE PAR MAVEN                           -->
+	<!-- Préciser le nom du livrable que Maven doit produire        -->
+	<!-- (monapplication.war,                                       -->
+	<!-- monapplication.jar, monapplication.POM, ...).              -->
+	<!-- ========================================================== -->
+	<!-- Nom de l'application générée par le projet Maven -->		
+	<name>generation_code</name>
+	<!-- Description de l'application générée par le projet Maven -->	
+	<description>Application WEB avec Maven 3.5.0, Spring 5.0.0, JPA 2.1, Hibernate 5.2.10</description>
+	<!-- URL éventuelle permettant de se connecter à l'application -->
+	<url></url>
+	
+	
+
+    <!-- ================================================ -->
+	<!--                    PROPERTIEs                    -->
+	<!-- Préciser ici les propriétés générales du projet. -->
+	<!-- ================================================ -->
+	<properties>
+		<!-- Force l'encoding des sources du projet en UTF-8 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- Vérifie la conformité des classes Java (.java) avec le JDK 1.8 -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<!-- Vérifie la conformité des classes Java (.class) avec le JDK 1.8 -->
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<!-- Encodage pourle Reporting (site web) -->
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
+
+
+	<!-- =========================================================== -->
+	<!--            DEPENDANCY MANAGEMENT POUR SPRING                -->
+	<!-- Gestion des dépendances SPRING utilisées par le projet      -->
+	<!-- Eviter des conflits de versions entre dépendances SPRING    -->
+	<!-- =========================================================== -->  
+	<dependencyManagement>
+	    <dependencies>
+	        <!-- https://mvnrepository.com/artifact/org.springframework/spring-framework-bom -->
+			<dependency>
+			    <groupId>org.springframework</groupId>
+			    <artifactId>spring-framework-bom</artifactId>
+			    <version>5.0.0.RELEASE</version>
+			    <type>pom</type>
+			    <!-- Indispensable de préciser scope = import -->
+			    <scope>import</scope>
+			</dependency>
+	    </dependencies>
+	</dependencyManagement>
+	
+	
+	<!-- =============================================== -->
+	<!--                DEPENDANCEs                      -->
+	<!-- Gestion des dépendances utilisées par le projet -->
+	<!-- =============================================== -->	
+	<dependencies>
+
+		<!-- ================================ -->
+		<!-- dépendances pour apache.commons -->
+		<!-- ================================ -->
+		<!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.6</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<!-- ================================ -->
+		<!-- dépendances pour log4J -->
+		<!-- ================================ -->
+		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+		<!-- ATTENTION : Log4j1.2 est un projet abandonné -->
+		<!-- https://resourcepool.io/fr/2015/04/06/java-university-logging-in-java/ -->
+		<!-- https://resourcepool.io/fr/2016/03/22/java-university-logging-in-java-2/ -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<scope>compile</scope>
+		</dependency>
+
+		
+		<!-- =============================================== -->
+		<!-- dépendances pour Log4j2 utilisé par Hibernate 5 -->
+		<!-- =============================================== -->		
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.9.0</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>2.9.0</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>2.9.0</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jcl -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-jcl</artifactId>
+		    <version>2.9.0</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jul -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-jul</artifactId>
+		    <version>2.9.0</version>
+		    <scope>runtime</scope>
+		</dependency>
+
+
+		<!-- ================================ -->
+		<!--      dépendances pour TESTS      -->
+		<!-- ================================ -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- ================================ -->
+		<!--    dépendances pour Joda Time    -->
+		<!-- ================================ -->		
+		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+		<dependency>
+		    <groupId>joda-time</groupId>
+		    <artifactId>joda-time</artifactId>
+		    <version>2.9.9</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- Joda Time avec Hibernate -->
+		<!-- https://mvnrepository.com/artifact/org.jadira.usertype/usertype.core -->
+		<dependency>
+		    <groupId>org.jadira.usertype</groupId>
+		    <artifactId>usertype.core</artifactId>
+		    <version>6.0.1.GA</version>
+		    <scope>compile</scope>
+		</dependency>
+
+
+		<!-- =================================================== -->
+		<!--    dépendances pour servlet-api                     -->
+		<!-- provided car ne sert qu'à la compilation.           -->
+		<!-- Le serveur doit être compatible servlet-api 3.1.0   -->
+		<!-- Le serveur applicatif (Tomcat) fournira cette bibli -->
+		<!-- =================================================== -->		
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.1.0</version>
+		    <scope>provided</scope>
+		</dependency>
+
+
+		<!-- ================================= -->
+		<!--    dépendances pour TAGLIBS       -->
+		<!-- ================================= -->
+		<!-- JSTL -->		
+		<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+		<!-- tuto : https://www.journaldev.com/2090/jstl-tutorial-jstl-tags-example -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>jstl</artifactId>
+		    <version>1.2</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
+		<dependency>
+		    <groupId>org.apache.taglibs</groupId>
+		    <artifactId>taglibs-standard-impl</artifactId>
+		    <version>1.2.5</version>
+		    <scope>compile</scope>
+		</dependency>		
+
+
+		<!-- ================================ -->
+		<!--    dépendances pour SPRING       -->
+		<!-- ================================ -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-core</artifactId>
+		    <scope>compile</scope>
+		</dependency>		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aop</artifactId>
+		    <scope>compile</scope>
+		</dependency>		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-webmvc</artifactId>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-orm</artifactId>
+		    <scope>compile</scope>
+		</dependency>
+
+
+
+		<!-- ================================ -->
+		<!--      dépendances pour JPA        -->
+		<!-- ================================ -->		
+		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
+		<!-- NE PAS METTRE -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>javax.persistence</groupId> -->
+<!-- 		    <artifactId>persistence-api</artifactId> -->
+<!-- 		    <version>1.0.2</version> -->
+<!-- 		</dependency> -->
+
+
+		<!-- ========================================================== -->
+		<!--    DEPENDANCES POUR la VALIDATION DES FORMULAIRES WEB  	-->
+		<!-- ========================================================== -->
+		<!-- JPA : validation-api -->	
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		    <version>2.0.0.Final</version>
+		    <scope>compile</scope>
+		</dependency>
+				
+		<!-- Hibernate-Validator -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+		<dependency>
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>6.0.2.Final</version>
+		    <scope>test</scope>
+		</dependency>
+
+				
+		<!-- ====================================================== -->
+		<!--        DEPENDANCES POUR ORM (Hibernate)  				-->
+		<!-- ====================================================== -->	
+		<!-- ESSENTIEL -->	
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<!-- Remplace hibernate-entitymanager, persistence-api, ... -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>5.2.10.Final</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- LIEN JPA - HIBERNATE -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+		<dependency>
+		    <groupId>org.hibernate.javax.persistence</groupId>
+		    <artifactId>hibernate-jpa-2.1-api</artifactId>
+		    <version>1.0.0.Final</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- POOL DE CONNEXION c3p0 -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-c3p0</artifactId>
+		    <version>5.2.10.Final</version>
+		    <scope>compile</scope>
+		</dependency>
+
+		
+		
+		<!-- ====================================================== -->
+		<!--        DEPENDANCES POUR Bases de Données  				-->
+		<!-- ====================================================== -->
+		<!-- HSQLDB -->		
+		<!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+		<dependency>
+		    <groupId>org.hsqldb</groupId>
+		    <artifactId>hsqldb</artifactId>
+		    <version>2.4.0</version>
+		    <scope>compile</scope>		    
+		</dependency>
+		<!-- MySQL -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.7-dmr</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- POSTGRESQL -->
+		<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+		<dependency>
+		    <groupId>postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>9.1-901-1.jdbc4</version>
+		    <scope>compile</scope>
+		</dependency>
+				
+	</dependencies>
+	
+	
+				<!-- ======================================  -->
+				<!--   REPOSITORIES	POUR LES DEPENDANCES  	 -->
+				<!-- ======================================  -->	
+			<!-- Précise la localisation des dépôts Maven -->
+	<repositories>
+	
+		<!-- Dépôt Central MAVEN pour les dépendances -->
+		<repository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<!-- Ici les RELEASES, pas les milestones ou les snapshots. -->
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>			
+		</repository>
+		
+		<!-- http://www.baeldung.com/spring-maven-repository -->
+		<!-- dépôt Maven pour SPRING au cas où le dépôt central est indisponible. -->
+		<repository> 
+        <id>repository.spring.release</id> 
+        	<name>Spring GA Repository</name> 
+        	<url>http://repo.spring.io/release</url>
+        	<!-- Ici les RELEASES, pas les milestones ou les snapshots. -->
+        	<snapshots>
+				<enabled>false</enabled>
+			</snapshots>			         
+    	</repository>
+    	
+    	<!-- dépôt Maven pour SPRING au cas où le dépôt central est indisponible. -->
+    	<repository>
+	        <id>io.spring.repo.maven.release</id>
+	        <url>http://repo.spring.io/release/</url>
+	        <!-- Ici les RELEASES, pas les milestones ou les snapshots. -->
+	        <snapshots>
+	        	<enabled>false</enabled>
+	        </snapshots>
+	    </repository>
+    	    	
+	</repositories>
+	
+  
+  				<!-- ================================== -->
+				<!--       PLUGIN REPOSITORIES			-->
+				<!-- ================================== -->	
+  			
+	  <pluginRepositories>
+	    <pluginRepository>
+	      <releases>
+	        <updatePolicy>never</updatePolicy>
+	      </releases>
+	      <snapshots>
+	        <enabled>false</enabled>
+	      </snapshots>
+	      <id>central</id>
+	      <name>Central Repository</name>
+	      <url>https://repo.maven.apache.org/maven2</url>
+	    </pluginRepository>
+	  </pluginRepositories>
+  
+  
+ 
+
+  				<!-- ================================== -->
+				<!--       			BUILD				-->
+				<!-- ================================== -->	
+				<!-- Définition de la Structure du projet Maven -->
+				<!-- ATTENTION : bien mettre des slash '/' 
+				et pas des antislashes '\' pour garantir la 
+				compatibilité avec LINUX -->
+  
+  <build>
+
+		<!-- ====================== -->
+		<!-- CHEMINS ET REPERTOIRES -->
+		<!-- ====================== -->
+
+		<!-- CREER A LA MAIN SI MANQUANT -->
+		
+		<!-- REPERTOIRE DES BUILDS (target)-->
+		<directory>${project.basedir}/target</directory>
+		<!-- Répetoire des classes compilées -->
+		<outputDirectory>${project.build.directory}/classes</outputDirectory>
+
+		<!-- REPERTOIRE DES SOURCES (target)-->
+		<!-- Répertoire des src Java. -->
+		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<!-- Répertoire des scripts (scripts SQL ou Batch) -->
+		<scriptSourceDirectory>${project.basedir}/src/main/scripts</scriptSourceDirectory>
+		<!-- Répertoire des Tests src Java. -->
+		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+		
+		<!-- Répetoire des classes compilées de test -->
+		<testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>${project.basedir}/src/test/resources</directory>
+			</testResource>
+		</testResources>
+
+		
+		<!-- ============================================== -->
+		<!-- NOM DU LIVRABLE CREE PAR MAVEN (jar, war, ...) -->
+		<!-- ============================================== -->
+		<finalName>${project.artifactId}-${project.version}</finalName>
+
+
+  				<!-- ================================== -->
+				<!--       	Management des plugins		-->
+				<!-- ================================== -->
+
+	<plugins>
+
+			<!-- Scripts particuliers ANT -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-antrun-plugin -->
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-antrun-plugin</artifactId>
+			    <version>1.8</version>
+			</plugin>
+			
+			<!-- Utilisé en fin de build des war, jar, ... -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
+			<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-assembly-plugin</artifactId>
+				    <version>3.1.0</version>
+			</plugin>
+			
+			<!-- IMPORTANT - Gère les dépendances -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
+			<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-dependency-plugin</artifactId>
+				    <version>3.0.1</version>
+			</plugin>
+			
+			<!-- Gestion des versions de livrables (artefacts) -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
+			<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+   					<artifactId>maven-release-plugin</artifactId>
+  						 <version>2.5.3</version>
+			</plugin>
+			
+			<!-- PHASE CLEAN (supression de target) -->	
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin -->
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-clean-plugin</artifactId>
+			    <version>3.0.0</version>					
+   				<executions>
+					<execution>
+						<id>default-clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Gestion des ressources. Copie des ressources au bon endroit lors des builds. -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+   				<artifactId>maven-resources-plugin</artifactId>
+   				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>default-testResources</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>testResources</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-resources</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>resources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Build des War -->
+			<!-- ATTENTION en fonction de la balise packaging - METTRE PLUGIN JAR SI APPLI DESKTOP -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+   				<artifactId>maven-war-plugin</artifactId>
+   				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>default-war</id>
+						<phase>package</phase>
+						<goals>
+							<goal>war</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			
+			
+			
+			<!-- Compilation des sources en classes. -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+   				<artifactId>maven-compiler-plugin</artifactId>
+  					<version>3.6.2</version>
+				<executions>
+					<execution>
+						<id>default-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<!-- Garantit l'utilisation dans Eclipse de la 
+						version majeure du JDK 1.8 par défaut 
+						(jdk1.8.144 dans mon Eclipse le 01/09/2017)-->
+						<configuration>
+			                <source>1.8</source>
+			                <target>1.8</target>
+		              	</configuration>
+					</execution>
+					<execution>
+						<id>default-testCompile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+						<!-- Garantit l'utilisation dans Eclipse de la 
+						version majeure du JDK 1.8 par défaut 
+						(jdk1.8.144 dans mon Eclipse le 01/09/2017)-->
+						<configuration>
+			                <source>1.8</source>
+			                <target>1.8</target>
+		              	</configuration>							
+					</execution>
+				</executions>
+				<!-- Garantit l'utilisation dans Eclipse de la 
+				version majeure du JDK 1.8 par défaut 
+				(jdk1.8.144 dans mon Eclipse le 01/09/2017)-->
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>					
+			</plugin>
+			
+			<!-- Tests unitaires -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+   				<artifactId>maven-surefire-plugin</artifactId>
+   				<version>2.20</version>
+				<executions>
+					<execution>
+						<id>default-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Installation locale (recopie des artefacts buildés dans le repository local)  -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-install-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+   				<artifactId>maven-install-plugin</artifactId>
+   				<version>2.5.2</version>
+				<executions>
+					<execution>
+						<id>default-install</id>
+						<phase>install</phase>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Déploiement sur le serveur applicatif. -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-deploy-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+   				<artifactId>maven-deploy-plugin</artifactId>
+   				<version>2.8.2</version>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+		</plugins>
+
+	</build>
+
+	<!-- ========= -->
+	<!-- REPORTING -->
+	<!-- ========= -->	
+	<reporting>
+		<outputDirectory>${project.build.directory}/site</outputDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.0-M1</version>
+				<configuration>
+				<!-- Permet d'éviter les erreurs de création de Javadoc avec les <br/> -->
+	                <additionalparam>-Xdoclint:none</additionalparam>
+	            </configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	
+	
+</project>

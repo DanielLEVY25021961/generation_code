@@ -1,0 +1,9 @@
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * <b>en-tête csv pour un {$IObjet}</b> :<br/>
+	 * ";".<br/>
+	 * <br/>
+	 */
+	@Override
+	String getEnTeteCsv();

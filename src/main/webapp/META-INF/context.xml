@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<Context>
+
+	<!-- Ce context.xml surchargeant celui de tomcat définit un pool de connexion à la base indiquée.  -->
+
+			<!-- ================================================== -->
+			<!-- Paramètres de connexion JDBC à la base de données -->
+			<!-- ================================================== -->
+
+	
+		    <!-- ========================================================= -->
+		    <!--    postgresql 9.6.4 - port : 5432 - [postgres, postgres]  -->
+		    <!-- ========================================================= -->
+				<!-- pour une base de données postgres  -->
+	<Resource auth="Container"
+    	name="jdbc/ds_squelette_Web_Spring_JPA_Hibernate"
+		url="jdbc:postgresql://localhost:5432/base-generation_code"
+        username="postgres"
+        password="postgres"
+        type="javax.sql.DataSource"
+        driverClassName="org.postgresql.Driver"
+        maxTotal="10"
+        maxIdle="5"
+        maxWaitMillis="-1"
+        removeAbandonedOnBorrow="true"
+        removeAbandonedOnMaintenance="true"
+        removeAbandonedTimeout="60"
+        logAbandoned="true"/>
+
+	
+			 <!-- ========================================================= -->
+			 <!--         mySql 5.7.19.0 - port : 3306 - [root, root]       -->
+			 <!-- ========================================================= -->  
+<!-- 	<Resource auth="Container" -->
+<!--     	name="jdbc/ds_squelette_Web_Spring_JPA_Hibernate" -->
+<!-- 		url="jdbc:mysql://localhost:3306/base-generation_code" -->
+<!--         username="root" -->
+<!--         password="root" -->
+<!--         type="javax.sql.DataSource" -->
+<!--         driverClassName="com.mysql.jdbc.Driver" -->
+<!--         maxTotal="10" -->
+<!--         maxIdle="5" -->
+<!--         maxWaitMillis="-1" -->
+<!--         removeAbandonedOnBorrow="true" -->
+<!-- 		 removeAbandonedOnMaintenance="true" -->
+<!--         removeAbandonedTimeout="60" -->
+<!--         logAbandoned="true"/> -->
+			  	
+	
+			<!-- ========================================================= -->
+		    <!--                     hsqldb 2.4.0                          -->
+		    <!-- ========================================================= -->
+	
+<!-- 	<Resource auth="Container" -->
+<!--     	name="jdbc/ds_squelette_Web_Spring_JPA_Hibernate" -->
+<!-- 		url="jdbc:hsqldb:file:D:/Donnees/eclipse/eclipseworkspace_neon/generation_code/data/base-generation_code" -->
+<!--         username="sa" -->
+<!--         password="" -->
+<!--         type="javax.sql.DataSource" -->
+<!--         driverClassName="org.hsqldb.jdbc.JDBCDriver" -->
+<!--         maxTotal="10" -->
+<!--         maxIdle="5" -->
+<!--         maxWaitMillis="-1" -->
+<!--         removeAbandonedOnBorrow="true" -->
+<!-- 		 removeAbandonedOnMaintenance="true" -->
+<!--         removeAbandonedTimeout="60" -->
+<!--         logAbandoned="true"/> -->
+
+
+
+</Context>

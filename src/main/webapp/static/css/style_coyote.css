@@ -1,0 +1,126 @@
+@charset "utf-8"; /* Déclaration de l'utilisation du Charset UTF-8 dans cette css.*/
+
+/* Général -------------------------------------------------------------- */
+
+body, p, legend, label, input {
+    font: normal 10pt verdana, helvetica, sans-serif;
+}
+
+
+/* Forms ---------------------------------------------------------------- */
+
+fieldset {
+    padding: 10px;
+    border: 1px #0568CD solid;
+    margin: 10px;
+}
+
+legend {
+    font-weight: bold;
+    color: #0568CD;
+}
+
+
+form label {
+    float: left;
+    width: 200px;
+    margin: 3px 0px 0px 0px;
+}
+
+form input[type="text"] {
+    margin: 3px 3px 0px 0px;
+    border: 1px #999 solid;
+}
+
+form input[type="text"]:focus {
+  border: 1px solid #000;
+}
+
+form input[type="tel"] {
+  border: 1px solid #ddd;
+  padding: 4px 8px;
+}
+
+form input[type="tel"]:focus {
+  border: 1px solid #000;
+}
+
+/* Bouton valider des formulaires de saisie. */
+form input[type="submit"] {
+  font-weight: bold;
+  padding: 4px 8px;
+  border:1px solid #000;
+  background: #3b5998;
+  color:#fff;
+}
+
+
+form input.sansLabel {
+    margin-left: 200px;
+}
+
+/* Styles et couleurs --------------------------------------------------- */
+
+.requis {
+    color: #c00;
+}
+
+
+.erreurs {
+    color: #c00;
+}
+
+.erreur {
+    color: #900;
+}
+
+.succes {
+    color: #090;
+}
+
+.info {
+    font-style: italic;
+    color: #E8A22B;
+    
+    padding: 10px;
+    border: 1px #0568CD solid;
+    margin: 10px;
+}
+
+.client {
+	padding: 10px;
+    border: 1px #0568CD solid;
+    margin: 10px;
+}
+
+.commande {
+	padding: 10px;
+    border: 1px #0568CD solid;
+    margin: 10px;
+}
+
+.souligne {
+	font-style: normal;         /* Removes italics */
+  	text-decoration: underline; /* Makes underline */
+}
+
+.ariane {
+	font-style: normal;         /* Removes italics */
+	font-size:7pt;
+	font: normal 7pt verdana, helvetica, sans-serif;
+	color:#0000ff;
+	padding: 6px;
+    border: 1px #0568CD solid;
+    margin: 10px;
+    text-decoration:none;
+	
+}
+.filariane {
+	border: none;
+	font-size:7pt;
+	font: normal 7pt verdana, helvetica, sans-serif;
+	color:#0000ff;
+	padding: 6px;
+	margin: 2px;
+    text-decoration:none;
+}

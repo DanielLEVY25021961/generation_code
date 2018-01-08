@@ -1,0 +1,424 @@
+<!-- DOCTYPE (DTD pour HTML5) -->
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+
+    <head>
+        		
+		<!-- Description du contenu de la page (texte HTML) et de son encodage. -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		
+		<meta charset="UTF-8"/>
+		
+		<!-- ========================================================================== -->
+		<!-- 			LIENS VERS LES css EN HTML. 									-->
+		<!-- Le lien "href" doit être interprété PAR RAPPORT au contexte (ABSOLU). 		-->
+		<!-- NE PAS METTRE de slash '/' au début de href="static/css/style_index.css" 	-->
+		<!-- permet de préciser que le lien démarre depuis le contexte.  				-->
+		<!-- href="static/css/style_index.css" sera interprété par le serveur web : 	-->
+		<!--  http://host:8080/context/static/css/style_index.css 						-->
+		<!-- * la présente page est située directement sous le contexte. 				-->
+		<!-- ========================================================================== -->
+		<link type="text/css" rel="stylesheet" href="static/css/style.css" />
+		<link type="text/css" rel="stylesheet" href="static/css/style_index.css" />
+		
+        
+		<!-- Titre s'affichant dans l'onglet. -->
+        <title>indexTest.html sous le contexte</title>
+        
+		<!-- REDIRECTION VERS /app/ AU BOUT DE 0 SECONDES -->
+<!-- 		<meta http-equiv="refresh" content="0; URL=app/"> -->
+        
+    </head>
+
+
+    <body>
+
+    	<!-- HEADER -->
+    	<header class="bordure">
+            <div>
+            	<p>HEADER</p>
+            </div>
+        </header>
+
+        <!-- MENU HAUT -->
+        <nav class="bordure_fond_bleu">
+			<table>
+				<tr>
+					<td>
+	            		<a href="app/accueil" 
+	            		title = "Vers la page d'accueil de l'application accueil.jsp">
+	            		Vers la page d'accueil de l'application accueil.jsp
+	            		</a>					
+					</td>
+				</tr>
+											
+				<tr>
+					<td>
+						<!-- LIEN (URL) -->
+						<a href="index.html" 
+						title="vers index.html directement sous le context (redirigé vers accueil.jsp)">
+							Vers la page index.html (redirigé vers accueil.jsp)
+						</a>		 
+					</td>
+					<td>
+						<!-- LIEN (URL) -->
+						<a href="static/indexStatic.html" 
+						title="vers indexStatic.html sous static/">
+							Vers la page static/indexStatic.html
+						</a>   
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<!-- LIEN (URL) -->
+						<a href="app/static/photos/armillaria_mellea.jpg" 
+						title="vers la photo armillaria_mellea.jpg">
+							vers la photo static/photos/armillaria_mellea.jpg
+						</a>   
+					</td>
+					<td>
+						<!-- LIEN (URL) -->
+						<a href="app/static/images/chemins_relatifs.png" 
+						title="vers l'image chemins_relatifs.png">
+							vers l'image chemins_relatifs.png
+						</a>   
+					</td>
+					<td>
+						<!-- LIEN (URL) -->
+						<a href="app/static/css/style_index.css" 
+						title="vers style_index.css sous /static/css/">
+							Vers style_index.css
+						</a>   
+					</td>						
+				</tr>
+																
+				<tr>				
+					<td>
+						<!-- LIEN (URL) -->
+						<!-- target="_blank" force l'ouverture dans un nouvel onglet -->
+						<a href="https://openclassrooms.com/courses/apprenez-a-creer-votre-site-web-avec-html5-et-css3" 
+						target="_blank">
+							Vers la page du tutoriel OpenClassrooms
+						</a>   					
+					</td>
+					<td>
+						<!-- LIEN (URL) -->
+						<!-- target="_blank" force l'ouverture dans un nouvel onglet -->
+						<a href="http://resizeimage.net/" 
+						title="site de redimensionnement d'images resizeimage.net" 
+						target="_blank">
+							Vers le site de redimensionnement d'images resizeimage.net
+						</a> 					
+					</td>
+					<td>
+						<!-- LIEN (URL) -->
+						<!-- target="_blank" force l'ouverture dans un nouvel onglet -->
+						<a href="https://www.caniuse.com/" 
+						title="site de vérification des fonctionnalités des navigateurs caniuse.com" 
+						target="_blank">
+							Vers le site de vérification des fonctionnalités des navigateurs caniuse.com
+						</a> 										
+					</td>									
+				</tr>								
+			</table>
+																
+         </nav>
+
+
+		
+		<div class="section1">
+		
+			<!-- TITRE 1 HTML -->
+			<h1 class="centre" id="objectif">
+				indexTest.html sous le contexte (webapp)
+			</h1>
+	
+			<!-- CONTENU DU TITRE 1 HTML -->			
+			<p class="centre-encadre">
+				<span class="souligne">OBJECTIF</span> : Vérifier que le 
+				Serveur Tomcat est bien démarré et que l'application a 
+				bien été déployée sous TOMCAT.
+			</p>
+						
+			<div>
+								
+				<p>
+					Cette page HTML <b>${context}/indexTest.html</b> située <b>
+					directement sous le contexte (webapp)</b> ne sert 
+					qu'a vérifier le fait que les ressources 
+					<i>hors WEB-INF</i> sont <i>accessibles</i> pour les
+					navigateurs (css, images, ...).
+				</p>
+		
+				<div>
+					Cette page HTML "indexTest.html" est accessible en tapant 
+					dans l'URL du navigateur soit :
+					<ul>
+						<li><b>http://host:8080:/${context}</b> si le 
+							welcome-file est <b>activé</b> dans le 
+							/WEB-INF/web.xml</li>
+						<li><b>http://host:8080:/${context}/indexTest.html</b> 
+							si le welcome-file est <b>désactivé</b> dans 
+							le /WEB-INF/web.xml</li>
+					</ul>
+				</div>
+		
+				<p>[http://localhost:8080/contexte_appli_web/] n'est donc
+					équivalent à [http://localhost:8080/contexte_appli_web/
+					indexTest.html]
+					que si le welcome-file vers indexTest.html est activé 
+					dans le web.xml.
+				</p>
+		
+				<p>
+					Le welcome-file exécute une <b>redirection</b> vers 
+					la première ressource valable 
+					(citée dans le &lt;welcome-file-list&gt; et
+					présente sous le contexte) qu'il trouve.
+				</p>
+		
+				<p>
+					<span class="gras-souligne">Remarque</span> : 
+					Les ressources statiques devant être servies en tapant 
+					leur URL directement dans le navigateur sont en réalité 
+					regroupées sous <b>${context}/static/</b> dans nos
+					applications.
+				</p>
+		
+			</div>
+		
+			<div>
+				<figure class="centre">	
+					<!-- IMAGE CENTREE -->
+					<img class="image_centree" src="static/images/index_html.png" 
+					alt="position de index.html" border="1" align="middle" 
+					title="position de index.html par rapport au contexte webapp"/>
+					<figcaption>
+						<p>
+							position de indexTest.html par rapport au contexte webapp
+						</p>						
+					</figcaption>								
+				</figure>				
+			</div>
+
+		</div>
+		
+		<!-- TRAIT HORIZONTAL SUR TOUTE LA PAGE -->
+		<hr width="100%"/>
+		
+		<div class="section2">
+					
+			<!-- TITRE 2 HTML -->
+			<h2 id="utilisation">
+				Utilisation de cette page ${context}/indexTest.html
+			</h2>
+	
+			<!-- CONTENU DU TITRE 2 HTML -->
+			<div>
+			
+				<p>
+					taper /indexTest.html après le contexte 
+					dans l'URL du navigateur (par exemple 
+					http://localhost:8080/monApplication/indexTest.html).
+				</p>
+				
+			</div>
+			
+		</div>
+
+		<!-- TRAIT HORIZONTAL SUR TOUTE LA PAGE -->
+		<hr width="100%"/>
+		
+		<div class="section3">
+	
+			<!-- TITRE 2 HTML -->
+			<h2 id="references">
+				Implémentation des ressources de cette page
+				${context}/indexTest.html avec chemin ABSOLU PAR RAPPORT au CONTEXT
+			</h2>
+	
+			<!-- CONTENU DU TITRE 2 HTML -->
+			<div>
+			
+				<p>
+					Cette page utilise une <b>css</b> : 
+					${context}/static/css/style_index.css.
+				</p>
+				
+				<p>
+					La css est référencée en <b>ABSOLU</b> 
+					href="static/css/style_index.css". En absolu signifie 
+					<i>par rapport au contexte</i> : 
+					http://host:8080/context/static/css/style_index.css.
+				</p>
+				
+				<p>
+					L'absence de "/" au début de l'URL permet au serveur 
+					de <b>résoudre le contexte</b> : http://host:8080/context/<br/>
+					href="static/css/style_index.css" permet de décrire le 
+					<b>chemin de la ressource css 
+					PAR RAPPORT A LA POSITION DE LA PAGE ACTUELLE</b> 
+					à concaténer au contexte lors de la résolution 
+					par le serveur.
+				</p>
+				 
+			</div>
+			
+			<div class="images_section3">
+							
+				<figure class="image_gauche">
+				
+								<!-- IMAGE GAUCHE -->
+					<img 
+					src="static/images/referencer_ressources_html.png" 
+					alt="position de index.html" border="1" align="middle" 
+					title="Comment bâtir l'URL de référencement d'une ressource"/>
+					<figcaption>
+						<p class="centre">
+							Comment bâtir l'URL de référencement d'une ressource
+						</p>						
+					</figcaption>
+					
+				</figure>
+				
+								<!-- IMAGE DROITE -->
+				<figure>
+					<img src="static/images/chemins_relatifs.png" 
+					alt="chemin relatifs" border="1" align="middle" 
+					title="références relatives des pages"/>
+					<figcaption>
+						<p class="centre">
+							références relatives des pages
+						</p>						
+					</figcaption>
+				</figure>	
+												
+			</div>
+				
+		</div>
+		
+		<!-- TRAIT HORIZONTAL SUR TOUTE LA PAGE -->
+		<hr width="100%"/>
+		
+		<div class="section4">
+		
+			<p id="miniature">
+				 Cliquez sur la miniature pour voir l'image dans sa taille d'origine
+			</p>		
+			<p>
+				<!-- PHOTO EN MINIATURE -->			
+			    <a href="static/photos/armillaria_mellea.jpg">
+			    	<img src="static/photos/armillaria_mellea_miniature.jpg" 
+			    		alt="Armillaria mellea" 
+			    		border="1" align="middle"
+			    			title="Cliquez pour agrandir" />
+			    </a>
+			</p>
+						
+		</div>	
+
+		
+		<!-- TRAIT HORIZONTAL SUR TOUTE LA PAGE -->
+		<hr width="100%"/>
+
+
+    	<h1>Page indexTest.html sous le contexte/</h1>
+
+    	<p>Bonjour et bienvenue sur mon site !<br />
+        Ceci est mon premier test alors <em>soyez indulgents</em> <mark>s'il vous plaît</mark>, j'apprends <strong>petit à petit</strong> comment cela marche.</p>
+
+        <p>Pour l'instant c'est un peu vide, mais revenez dans <span class="barre">2-3 jours</span> quand j'aurai appris un peu plus de choses, je vous assure que vous allez être surpris !</p>
+
+		<h1>Titre super important</h1>
+        <h2>Titre important</h2>
+        <h3>Titre un peu moins important (sous-titre)</h3>
+        <h4>Titre pas trop important</h4>
+        <h5>Titre pas important</h5>
+        <h6>Titre vraiment pas important du tout</h6>
+
+        <ul>
+    		<li>Fraises</li>
+ 		   <li>Framboises</li>
+		    <li>Cerises</li>
+		</ul>
+
+		<h1>Ma journée</h1>
+
+		<ol>
+		    <li>Je me lève.</li>
+		    <li>Je mange et je bois.</li>
+		    <li>Je retourne me coucher.</li>
+		</ol>
+
+		<div>
+			<p>
+				<img src="static/photos/armillaria_mellea_miniature.jpg" class="imageflottante" alt="Image flottante" /> 
+				Ceci est un texte normal de paragraphe, écrit à la suite de l'image et qui l'habillera car l'image est flottante.<br/>
+				Ceci est un texte normal de paragraphe, écrit à la suite de l'image et qui l'habillera car l'image est flottante.<br/>
+				Ceci est un texte normal de paragraphe, écrit à la suite de l'image et qui l'habillera car l'image est flottante.<br/>
+				Ceci est un texte normal de paragraphe, écrit à la suite de l'image et qui l'habillera car l'image est flottante.<br/>
+				Ceci est un texte normal de paragraphe, écrit à la suite de l'image et qui l'habillera car l'image est flottante.<br/>
+				Ceci est un texte normal de paragraphe, écrit à la suite de l'image et qui l'habillera car l'image est flottante.<br/>
+				Ceci est un texte normal de paragraphe, écrit à la suite de l'image et qui l'habillera car l'image est flottante.<br/>
+			
+			</p>
+
+			<p class="sous_flottant">
+				Ce texte est écrit sous l'image flottante.
+			</p>
+
+		</div>
+
+		<div>			
+			<figure>
+				<img src="static/images/couleurs_anglaises.png" 
+				alt="les 16 noms (anglais) de couleurs en CSS" border="1" align="middle" 
+				title="les 16 noms (anglais) de couleurs en CSS"/>
+				<figcaption>
+						<p>
+							les 16 noms (anglais) de couleurs en CSS
+						</p>											
+				</figcaption>
+			</figure>
+		</div>
+
+		<div>			
+			<figure>
+				<img src="static/images/types_bordure.png" 
+				alt="les 8 types (anglais) de bordures en CSS" border="1" align="middle" 
+				title="les 8 types (anglais) de bordures en CSS"/>
+				<figcaption>
+						<p>
+							les 8 types (anglais) de bordures en CSS
+						</p>											
+				</figcaption>
+			</figure>
+		</div>
+
+		<div>			
+			<figure>
+				<img src="static/images/sections_page.png" 
+				alt="les 6 types (anglais) de sections en CSS" border="1" align="middle" 
+				title="les 6 types (anglais) de sections en CSS"/>
+				<figcaption>
+						<p>
+							les 6 types (anglais) de sections en CSS
+						</p>											
+				</figcaption>
+			</figure>
+		</div>
+		
+		<!-- TRAIT HORIZONTAL SUR TOUTE LA PAGE -->
+		<hr width="100%"/>
+
+		<footer>
+            <p>Copyright Bibi - Tous droits réservés<br />
+            <a href="#">Me contacter !</a></p>
+        </footer>	
+          
+    </body>
+    
+</html>

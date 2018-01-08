@@ -1,0 +1,8 @@
+	/**
+	 * method getId() :<br/>
+	 * Getter de l'ID en base.<br/>
+	 * <br/>
+	 *
+	 * @return id : Long.<br/>
+	 */
+	Long getId();

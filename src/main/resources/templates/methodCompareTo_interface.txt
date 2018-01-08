@@ -1,0 +1,15 @@
+	/**
+	 * method compareTo(
+	 * {$IObjet} pObject) :<br/>
+	 * <ol>
+	 * Comparaison de 2 {$IObjet} par rapport : <br/>
+	 * <li>.</li>
+	 * </ol>
+	 *
+	 * @param pObject : {$IObjet}.<br/>
+	 * 
+	 * @return : int : négatif si la présente instance 
+	 * est "avant" pObject.<br/>
+	 */
+	@Override
+	int compareTo({$IObjet} pObject);

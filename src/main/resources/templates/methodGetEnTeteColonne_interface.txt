@@ -1,0 +1,9 @@
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * <b>en-tête Jtable pour un {$IObjet}</b> :<br/>
+	 * ";".<br/>
+	 * <br/>
+	 */
+	@Override
+	String getEnTeteColonne(int pI);

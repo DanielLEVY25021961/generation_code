@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ============================================================= 	-->
+<!-- VERSION DE SERVLET API 3.1.0                                   -->
+<!-- Doit correspondre avec Dynamic Web Module 3.1 dans Eclipse 	-->
+<!-- http://crunchify.com/ever-wondered-difference-between-dynamic-web-module-3-0-and-3-1-how-to-setup-3-1-correct-way-in-eclipse/ -->
+<!-- ============================================================= 	-->
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee" 
+         xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+
+	<!--  -->
+	<display-name>generation_code</display-name>
+	
+<!-- 	<descr>squelette d'une application web avec java 1.8.144, Spring 5.0.0, Servlet 3.1, JPA 2.1, Hibernate 5.2.10</descr> -->
+
+
+	
+	<!-- ==================================================== -->
+	<!--                      SPRING                          -->
+	<!-- ==================================================== -->
+	<!-- variable de contexte contextConfigLocation pointant  --> 
+	<!-- sur /WEB-INF/applicationContext.xml 				  -->
+	<context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+
+
+	<!-- CHARGEMENT DE LA CONFIGURATION DE SPRING							 -->
+	<!-- Le listener ContextLoaderListener charge la configuration Spring	 -->
+	<!-- à partir de la variable de contexte contextConfigLocation 			 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    
+    <!-- DECLARE LE CONTROLLER UNIQUE MVC2 de SPRING (DispatcherServlet)			-->
+    <!-- Declaration de la servlet DispatcherServlet de Spring et de son mapping 	-->
+    <!-- DispatcherServlet est le Controller UNIQUE MVC2 de SPRING. 				-->
+    <!-- ApplicationContext redirige les requêtes HTTP vers les contrôleurs voulus 	-->
+    <!-- ApplicationContext est équivalente à la « ActionServlet » de Struts). 		--> 
+    <servlet>
+        <servlet-name>servlet-application-context</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/applicationContext.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <!-- Précise que le Controller unique MVC2 DispatcherServlet de SPRING 	 -->
+    <!-- interceptera toutes les actions (URL) préfixées par /app.			 -->
+    <servlet-mapping>
+        <servlet-name>servlet-application-context</servlet-name>
+        <url-pattern>/app/*</url-pattern>
+    </servlet-mapping>
+ 
+	<jsp-config>
+	    <taglib>
+	        <taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+	        <taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+	    </taglib>
+	</jsp-config>
+
+    <!-- =============== -->
+    <!-- PAGES D'ACCUEIL -->
+    <!-- =============== -->
+    <welcome-file-list>
+    	<welcome-file>index.html</welcome-file>
+    	<welcome-file>static/indexStatic.html</welcome-file>
+	</welcome-file-list>
+	
+</web-app>

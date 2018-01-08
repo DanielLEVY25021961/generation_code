@@ -1,0 +1,74 @@
+@charset "utf-8";
+	/* Déclaration de l'utilisation du Charset UTF-8 dans cette css.*/
+	
+@import url(//fonts.googleapis.com/css?family=Oswald:300,400,700);
+
+@font-face { /* Définition d'une nouvelle police nommée CAC Champagne */
+	font-family: 'cac_champagneregular';
+	src:
+		url('../fontes/CAC-Champagne-fontfacekit/web fonts/cacchampagne_regular_macroman/cac_champagne-webfont.eot');
+	src:
+		url('../fontes/CAC-Champagne-fontfacekit/web fonts/cacchampagne_regular_macroman/cac_champagne-webfont.eot?#iefix')
+		format('embedded-opentype'),
+		url('../fontes/CAC-Champagne-fontfacekit/web fonts/cacchampagne_regular_macroman/cac_champagne-webfont.woff')
+		format('woff'),
+		url('../fontes/CAC-Champagne-fontfacekit/web fonts/cacchampagne_regular_macroman/cac_champagne-webfont.ttf')
+		format('truetype'),
+		url('../fontes/CAC-Champagne-fontfacekit/web fonts/cacchampagne_regular_macroman/cac_champagne-webfont.svg#cac_champagneregular')
+		format('svg');
+}
+
+h1 {
+	font-family: Arial, Verdana, Times New Roman, sans-serif;
+}
+
+h2 {
+	font-family: Arial, Verdana, Times New Roman, sans-serif;
+}
+
+h3 {
+	font-family: Arial, Verdana, Times New Roman, sans-serif;
+}
+
+p {
+	font-family: Oswald, Arial, Verdana, Times New Roman, sans-serif;
+	font-size: 0.8em;
+	color: blue;
+}
+
+.clignotant {
+	text-decoration: blink;
+}
+
+.souligne {
+	text-decoration: underline;
+}
+
+.barre {
+	text-decoration: line-through;
+}
+
+.ligne_dessus {
+	text-decoration: overline;
+}
+
+.imageflottante {
+	float: left;
+}
+
+.sous_flottant {
+	clear: both;
+}
+
+header.bordure {
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+}
+
+nav.bordure_fond_bleu {
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+	background-color: #e8faff;
+}

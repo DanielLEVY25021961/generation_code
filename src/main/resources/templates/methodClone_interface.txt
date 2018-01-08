@@ -1,0 +1,10 @@
+	/**
+	 * method clone() :<br/>
+	 * Clone un {$IObjet}.<br/>
+	 * <br/>
+	 *
+	 * @return {$IObjet} : clone.<br/>
+	 * 
+	 * @throws CloneNotSupportedException
+	 */
+	{$IObjet} clone() throws CloneNotSupportedException;

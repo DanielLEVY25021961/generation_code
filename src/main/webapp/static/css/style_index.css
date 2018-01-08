@@ -1,0 +1,296 @@
+@charset "UTF-8";
+ /* Déclaration de l'utilisation du Charset UTF-8 dans cette css.*/
+
+/* Général -------------------------------------------------------------- */
+
+body, p, legend, label, input {
+    font: normal 10pt verdana, helvetica, sans-serif;
+}
+
+h1 {
+/* 	text-decoration: underline; Makes underline */
+/* 	color:blue; */
+}
+
+h2 {
+	text-decoration: underline; /* Makes underline */
+	color:blue;
+}
+
+h3 {
+	text-decoration: underline; /* Makes underline */
+}
+
+
+/* .class : Styles et couleurs ------------------------------------------ */
+
+h1.centre {
+	
+	text-align: center; /* Centre le texte horizontalement dans la page. */
+	
+}
+
+.centre {
+	text-align: center; /* Centre le texte horizontalement dans la page. */
+}
+
+.centre-encadre {
+
+	/* TEXTE. */
+	font: normal 10pt verdana, helvetica, sans-serif; /* fonte. */
+	font-style: normal; /* style de la fonte (normal=sans italics, ...). */
+	font-size:10pt; /* taille de la fonte. */	
+	color:#000000; /* couleur de la fonte (#000000=noir). */
+	text-align: center; /* Contre le texte horizontalement dans la page. */
+    text-decoration:none; /* soulignement, surlignement, ... (none=rien). */
+    background-color:#fefbd6; /* couleur de background (#fefbd6=jaune clair). */
+
+    /* BORDURE. */
+    border: 3px #0000ff solid; /* taille et couleur de la bordure (#0000ff=bleu intense). */	
+	padding: 20px; /* ecartement de la bordure autour du texte. */
+    margin: 40px; /* marges autour du cadre*/	
+}
+
+.gras-souligne {
+	font-style:normal; /* style de la fonte (normal=sans italics, ...). */        
+  	text-decoration:underline; /* soulignement, surlignement, ... (none=rien). */
+  	font-weight: bold; /* en gras (normal=pas gras). */
+}
+
+
+.souligne {
+	font-style:normal; /* style de la fonte (normal=sans italics, ...). */        
+  	text-decoration:underline; /* soulignement, surlignement, ... (underline=soulignement). */
+}
+
+.image_centree {
+	display : block;
+	margin-left: auto; /* centre le bloc. */
+	margin-right: auto; /* centre le bloc. */
+}
+
+.menu-bas {
+	
+	position: fixed;
+	bottom: 30px;
+}
+
+.requis {
+    color: #c00;
+}
+
+
+.erreurs {
+    color: #c00;
+}
+
+.erreur {
+    color: #900;
+}
+
+.succes {
+    color: #090;
+}
+
+.info {
+    font-style: italic;
+    color: #E8A22B;
+    
+    padding: 10px;
+    border: 1px #0568CD solid;
+    margin: 10px;
+}
+
+.ariane {
+	font-style: normal;         /* Removes italics */
+	font-size:7pt;
+	font: normal 7pt verdana, helvetica, sans-serif;
+	color:#0000ff;
+	padding: 6px;
+    border: 1px #0568CD solid;
+    margin: 10px;
+    text-decoration:none;
+	
+}
+.filariane {
+	border: none;
+	font-size:7pt;
+	font: normal 7pt verdana, helvetica, sans-serif;
+	color:#0000ff;
+	padding: 6px;
+	margin: 2px;
+    text-decoration:none;
+}
+
+.menu1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 40px;
+        background-color : #d3feed;
+        border-top: solid black 2px;
+        border-bottom :  solid black 2px;
+        padding: 5px;
+        padding-left: 5px;
+        padding-top: 0;
+        color: white;
+        opacity: .8;
+        filter: alpha(opacity=80);
+        -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+        box-shadow: 1px 10px 12px #000000;
+        filter:progid:DXImageTransform.Microsoft.Shadow(color='#000000', Direction=200, Strength=12);
+        zoom: 1;
+}
+
+.menu1 td {
+        padding-left: 20px;
+        padding-top: 0;
+}
+ 
+body>.menu1 {position:fixed}
+ 
+.menu1 td {
+        padding-left: 20px;
+        padding-top: 0;
+}
+
+header.bordure {
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+}
+
+nav.bordure_fond_bleu {
+
+	color: black;
+	   
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+
+	background-color: #d3feed;	
+	
+/*     position: absolute; */
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+
+    border-top: solid black 2px;
+    border-bottom :  solid black 2px;
+    
+    padding: 5px;
+    padding-left: 5px;
+    padding-top: 0;
+ 
+
+    box-shadow: 1px 10px 12px #000000;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color='#000000', Direction=200, Strength=12);
+    zoom: 1;
+}
+
+
+p#menu_haut {
+	
+	color: #004080;
+	text-align: center; /* Contre le texte horizontalement dans la page. */
+	
+	font-style: normal;         /* Removes italics */
+	font-size: 1.5em; /* Taille double. */	
+}
+
+
+.section1 {
+	
+	width: 95%;
+/* 	border: 1px solid black; */
+	text-align: justify;
+	padding: 12px; /* Marge intérieure. */
+	margin: 50px; /* Marge extérieure de 50px */
+}
+
+.section2 {
+	
+	width: 95%;
+/* 	border: 1px solid black; */
+	text-align: justify;
+	padding: 12px; /* Marge intérieure. */
+	margin: 50px; /* Marge extérieure de 50px */
+}
+
+.section3 {
+	
+	width: 95%;
+/* 	border: 1px solid black; */
+	text-align: justify; /* texte justifié. */
+	padding: 12px; /* Marge intérieure. */
+	margin: 50px; /* Marge extérieure de 50px */
+}
+
+.images_section3 {
+	
+	display: flex; /* alignement en ligne. */
+    flex-direction: row; /* alignement en ligne sur l'axe horizontal (axe principal). */
+	justify-content: space-around; /* répartit l'espace entre chaque élément (y compris les bords). */
+	align-items: center; /* aligne les centres sur l'axe secondaire (vertical ici). */
+}
+
+
+.section4 {
+	
+	width: 95%;
+/* 	border: 1px solid black; */
+	text-align: justify;
+	padding: 12px; /* Marge intérieure. */
+	margin: 50px; /* Marge extérieure de 50px */
+}
+
+
+/* triangle vers le haut. */
+/* code HTML : <div class="arrow-up"></div> */
+.arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-bottom: 5px solid black;
+}
+
+
+/* triangle vers le bas. */
+/* Code HTML : <div class="arrow-down"></div> */
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  
+  border-top: 20px solid #f00;
+}
+
+
+/* flèche vers la droite. */
+/* Code HTML : <div class="arrow-right"></div>*/
+.arrow-right {
+  width: 0; 
+  height: 0; 
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  
+  border-left: 60px solid green;
+}
+
+
+/* flèche vers la gauche. */
+/* Code HTML : <div class="arrow-left"></div> */
+.arrow-left {
+  width: 0; 
+  height: 0; 
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent; 
+  
+  border-right:10px solid blue; 
+}

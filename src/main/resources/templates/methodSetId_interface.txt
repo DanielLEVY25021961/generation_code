@@ -1,0 +1,9 @@
+	/**
+	* method setId(
+	* Long pId) :<br/>
+	* Setter de l'ID en base.<br/>
+	* <br/>
+	*
+	* @param pId : Long : valeur à passer à id.<br/>
+	*/
+	void setId(Long pId);
