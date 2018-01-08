@@ -2,12 +2,15 @@ package levy.daniel.application.apptechnic.generationcode;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
+import levy.daniel.application.apptechnic.generationcode.impl.EcriveurAbstractClass;
 import levy.daniel.application.apptechnic.generationcode.impl.EcriveurInterface;
 import levy.daniel.application.apptechnic.generationcode.impl.GestionnaireFiles;
 
@@ -20,6 +23,8 @@ import levy.daniel.application.apptechnic.generationcode.impl.GestionnaireFiles;
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * Expressions régulières, RegEx, regex, <br/>
+ * créer nom classe abstraite à partir interface, génération nom,<br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -48,6 +53,14 @@ public class GenerateurCode {
 	 */
 	private final transient EcriveurInterface ecriveurInterface 
 		= new EcriveurInterface();
+	
+	
+	/**
+	 * ecriveurAbstractClass : EcriveurAbstractClass :<br/>
+	 * EcriveurAbstractClass.<br/>
+	 */
+	private final transient EcriveurAbstractClass ecriveurAbstractClass 
+		= new EcriveurAbstractClass();
 
 	
 	/**
@@ -80,6 +93,13 @@ public class GenerateurCode {
 	 * Interface de l'objet métier à générer.<br/>
 	 */
 	private transient File iObjetMetier;
+	
+	
+	/**
+	 * abstractObjetMetier : File :<br/>
+	 * Classe Abstraite de l'objet métier à générer.<br/>
+	 */
+	private transient File abstractObjetMetier;
 	
 	
 	/**
@@ -117,8 +137,8 @@ public class GenerateurCode {
 	 * method genererObjetMetier(
 	 * ) :<br/>
 	 * <ul>
-	 * <li>.</li>
-	 * <li>.</li>
+	 * <li>Génère le package pNomPackage sous model/metier.</li>
+	 * <li>Génère le package pNomPackage.impl.</li>
 	 * </ul>
 	 * retourne null si pNomPackage est blank.<br/>
 	 * retourne null si pNomInterface est blank.<br/>
@@ -150,21 +170,26 @@ public class GenerateurCode {
 		 * l'objet métier généré pNomObjetMetier sous model/metier */
 		this.genererPackageObjetMetier(pNomPackage);
 		
-		/* Génère le package impl devant contenir 
+		/* Génère le package pNomPackage.impl devant contenir 
 		 * les objet métier généré concrets pNomObjetMetier 
 		 * sous model/metier/packageObjetMetier */
 		this.genererSousPackageObjetMetierImpl();
 		
-		/* Génère l'Interface de l'objet métier. */
+		/* Génère l'Interface vide de l'objet métier. */
 		this.genererInterfaceObjetMetier(pNomInterface);
 		
-		this.ecriveurInterface.ecrireCodeInterface(this.iObjetMetier);
+		/* Génère la classe abstraite vide de l'objet métier. */
+		this.genererAbstractObjetMetier(pNomInterface);
+		
+		this.ecriveurInterface.ecrireCode(this.iObjetMetier);
+		
+		this.ecriveurAbstractClass.ecrireCode(this.abstractObjetMetier);
 		
 		/* package levy.daniel.application.model.metier.profil; */
 		/* public interface IProfil { */
 		return null;
 		
-	}
+	} // Fin de genererObjetMetier(...).___________________________________
 
 
 	
@@ -235,7 +260,7 @@ public class GenerateurCode {
 	 * </ul>
 	 *
 	 * @param pNomInterface : String : 
-	 * Nom de l'interface comme "IProfil pour IProfil.java.<br/>
+	 * Nom de l'interface comme "IProfil" pour IProfil.java.<br/>
 	 * 
 	 * @throws IOException
 	 */
@@ -251,6 +276,98 @@ public class GenerateurCode {
 					nomFichier, this.packageObjetMetier);
 		
 	} // Fin de genererInterfaceObjetMetier(...).__________________________
+	
+
+		
+	/**
+	 * method genererAbstractObjetMetier(
+	 * String pNomInterface) :<br/>
+	 * <ul>
+	 * <li>Génère le fichier vide abstractObjetMetier.java 
+	 * sous packageObjetMetier.</li>
+	 * <li>alimente this.AbstractObjetMetier.</li>
+	 * <li>Ne génère le fichier vide que si il n'existe pas déjà.</li>
+	 * <li>Par exemple : genererAbstractObjetMetier("IProfil") 
+	 * génère model/metier/profil/AbstractProfil.java</li>
+	 * </ul>
+	 *
+	 * @param pNomInterface : String : 
+	 * Nom de l'interface comme "IProfil" pour IProfil.java.<br/>
+	 * 
+	 * @throws IOException
+	 */
+	private void genererAbstractObjetMetier(
+			final String pNomInterface) 
+					throws IOException {
+		
+		final String nomFichier 
+			= this.genererNomAbstractClass(pNomInterface) + ".java";
+		
+		this.abstractObjetMetier
+			= this.gestionnaire
+			.creerFichierDansPackage(
+					nomFichier, this.packageObjetMetier);
+		
+	} // Fin de genererAbstractObjetMetier(...).___________________________
+	
+	
+	
+	/**
+	 * method genererNomAbstractClass(
+	 * String pNomInterface) :<br/>
+	 * <ul>
+	 * <li>Génère le nom de la classe abstraite à partir 
+	 * du nom d'une Interface de type "IObjetMetier".</li>
+	 * <li>Par exemple :  genererNomAbstractClass("IProfil") 
+	 * retourne AbstractProfil.</li>
+	 * </ul>
+	 * retourne null si pNomInterface est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pNomInterface : String : nom de l'interface 
+	 * du type "IObjetMetier".<br/>
+	 * 
+	 * @return : String : nom de la classe abstraite 
+	 * du type "AbstractObjetMetie"r.<br/>
+	 */
+	private String genererNomAbstractClass(
+			final String pNomInterface) {
+		
+		/* retourne null si pNomInterface est blank. */
+		if (StringUtils.isBlank(pNomInterface)) {
+			return null;
+		}
+		
+		/* Pattern sous forme de String. */
+		/* Commence par I
+		 * poursuit par une virgule
+		 * CamelCase. */
+		final String patternString = "(^I)([A-Z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pNomInterface);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.find();
+		
+		String group2 = null;
+		
+		String resultatString = null;
+		
+		if (trouve) {
+			
+			group2 = matcher.group(2);
+			
+			resultatString = "Abstract" + group2;
+			
+		}
+		
+		return resultatString;
+		
+	} // Fin de genererNomAbstractClass(...).______________________________
 	
 	
 	

@@ -8,7 +8,7 @@ import levy.daniel.application.model.metier.IExportateurJTable;
 
 
 /**
- * INTERFACE <b>IProfil</b> :<br/>
+ * INTERFACE <b>IProfil_old</b> :<br/>
  * .<br/>
  * <br/>
  *
@@ -27,47 +27,47 @@ import levy.daniel.application.model.metier.IExportateurJTable;
  * @since 7 janv. 2018
  *
  */
-public interface IProfil 
+public interface IProfil_old 
 		extends IExportateurCsv, IExportateurJTable
-			, Comparable<IProfil>, Cloneable, Serializable {
+			, Comparable<IProfil_old>, Cloneable, Serializable {
 
 
 
 	/**
 	 * method compareTo(
-	 * IProfil pObject) :<br/>
+	 * IProfil_old pObject) :<br/>
 	 * <ol>
-	 * Comparaison de 2 IProfil par rapport : <br/>
+	 * Comparaison de 2 IProfil_old par rapport : <br/>
 	 * <li>.</li>
 	 * </ol>
 	 *
-	 * @param pObject : IProfil.<br/>
+	 * @param pObject : IProfil_old.<br/>
 	 * 
 	 * @return : int : négatif si la présente instance 
 	 * est "avant" pObject.<br/>
 	 */
 	@Override
-	int compareTo(IProfil pObject);
+	int compareTo(IProfil_old pObject);
 
 
 
 	/**
 	 * method clone() :<br/>
-	 * Clone un IProfil.<br/>
+	 * Clone un IProfil_old.<br/>
 	 * <br/>
 	 *
-	 * @return IProfil : clone.<br/>
+	 * @return IProfil_old : clone.<br/>
 	 * 
 	 * @throws CloneNotSupportedException
 	 */
-	IProfil clone() throws CloneNotSupportedException;
+	IProfil_old clone() throws CloneNotSupportedException;
 
 
 
 	/**
 	 * {@inheritDoc}
 	 * <br/>
-	 * <b>en-tête csv pour un IProfil</b> :<br/>
+	 * <b>en-tête csv pour un IProfil_old</b> :<br/>
 	 * ";".<br/>
 	 * <br/>
 	 */
@@ -79,7 +79,7 @@ public interface IProfil
 	/**
 	 * {@inheritDoc}
 	 * <br/>
-	 * <b>ligne csv pour un IProfil</b> :<br/>
+	 * <b>ligne csv pour un IProfil_old</b> :<br/>
 	 * ";".<br/>
 	 * <br/>
 	 */
@@ -91,7 +91,7 @@ public interface IProfil
 	/**
 	 * {@inheritDoc}
 	 * <br/>
-	 * <b>en-tête Jtable pour un IProfil</b> :<br/>
+	 * <b>en-tête Jtable pour un IProfil_old</b> :<br/>
 	 * ";".<br/>
 	 * <br/>
 	 */
@@ -103,7 +103,7 @@ public interface IProfil
 	/**
 	 * {@inheritDoc}
 	 * <br/>
-	 * <b>ligne Jtable pour un IProfil</b> :<br/>
+	 * <b>ligne Jtable pour un IProfil_old</b> :<br/>
 	 * ";".<br/>
 	 * <br/>
 	 */
@@ -135,4 +135,4 @@ public interface IProfil
 
 
 
-} // FIN DE L'INTERFACE IProfil.---------------------------------------------
+} // FIN DE L'INTERFACE IProfil_old.---------------------------------------------

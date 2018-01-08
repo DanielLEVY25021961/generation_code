@@ -66,6 +66,7 @@ public final class Application {
 		final GenerateurCode generateurCode = new GenerateurCode();
 		
 		generateurCode.genererObjetMetier("profil", "IProfil", "profilSimple");
+		
 
 	} // Fin de main(...)._________________________________________________
 	
