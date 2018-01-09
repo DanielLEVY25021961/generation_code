@@ -1,6 +1,6 @@
 	/**
-	 * CLASSE_ABSTRACT_PROFIL : String :<br/>
-	 * "Classe AbstractProfil".<br/>
+	 * {$NOM_CLASSE} : String :<br/>
+	 * "Classe {$nomSimpleFichierJava}".<br/>
 	 */
-	public static final String CLASSE_ABSTRACT_PROFIL 
-		= "Classe AbstractProfil";
+	public static final String {$NOM_CLASSE} 
+		= "Classe {$nomSimpleFichierJava}";

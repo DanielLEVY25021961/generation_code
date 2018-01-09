@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.apptechnic.generationcode.GenerateurMetier;
+
 /**
  * class Application :<br/>
  * .<br/>
@@ -89,23 +91,19 @@ public final class Application {
 	public static void main(
 			final String[] pArgs) throws Exception {
 		
-//		final GenerateurMetier generateur = new GenerateurMetier();
-//		
-//		MAP_ATTRIBUTS.put("profilString", "String");
-//		MAP_ATTRIBUTS.put("porteeProfil", "String");
-//		MAP_ATTRIBUTS.put("restrictionProfil", "String");
-//		
-//		generateur
-//			.genererObjetMetier(
-//					"profil"
-//						, "IProfil"
-//							, "ProfilCerbere"
-//								, MAP_ATTRIBUTS);
+		final GenerateurMetier generateur = new GenerateurMetier();
 		
-		final String nom = "AbstractProfilSimple";
-		final List<String> liste = trouverCamel(nom);
+		MAP_ATTRIBUTS.put("profilString", "String");
+		MAP_ATTRIBUTS.put("porteeProfil", "String");
+		MAP_ATTRIBUTS.put("restrictionProfil", "String");
 		
-		System.out.println(afficherListString(liste));
+		generateur
+			.genererObjetMetier(
+					"profil"
+						, "IProfil"
+							, "ProfilCerbere"
+								, MAP_ATTRIBUTS);
+		
 		
 	} // Fin de main(...)._________________________________________________
 	

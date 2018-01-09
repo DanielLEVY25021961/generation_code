@@ -89,8 +89,13 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* écrit le séparateur attributs. */
 		this.ecrireSepAttributs(pFile);
 		
+		/* écrit la stringClasse. */
+		this.ecrireStringClasse(pFile);
+
+		
 		/* écrit le séparateur methodes. */
 		this.ecrireSepMethodes(pFile);
+		
 		
 	} // Fin de ecrireCodeHook(...)._______________________________________
 	

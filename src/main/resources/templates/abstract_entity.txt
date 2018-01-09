@@ -1,0 +1,5 @@
+@Entity(name="{$nomSimpleFichierJava}")
+@Table(name = "{$table_nomSimpleFichierJava}", schema = "PUBLIC"
+, uniqueConstraints=@UniqueConstraint(name="UNICITE_{$nom_unicite}"
+, columnNames={"{$Col_unicite_1}", "{$Col_unicite_2}"})
+, indexes={@Index(name = "INDEX_{$nom_index}", columnList="{$col_index1}, {$col_index2}")})
