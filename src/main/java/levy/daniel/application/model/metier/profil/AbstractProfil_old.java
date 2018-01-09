@@ -29,7 +29,7 @@ public abstract class AbstractProfil_old implements IProfil_old {
 
 	/**
 	 * serialVersionUID : long :<br/>
-	 * .<br/>
+	 * serialVersionUID = 1L.<br/>
 	 */
 	private static final long serialVersionUID = 1L;
 	

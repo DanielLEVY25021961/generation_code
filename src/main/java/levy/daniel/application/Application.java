@@ -1,9 +1,15 @@
 package levy.daniel.application;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import levy.daniel.application.apptechnic.generationcode.GenerateurCode;
 
 /**
  * class Application :<br/>
@@ -29,6 +35,26 @@ public final class Application {
 
 	// ************************ATTRIBUTS************************************/
 
+		
+	/**
+	 * SAUT_LIGNE : char :<br/>
+	 * '\n'.<br/>
+	 */
+	public static final char SAUT_LIGNE = '\n';
+
+
+	/**
+	 * MAP_ATTRIBUTS : Map&lt;String,String&gt; :<br/>
+	 * <ul>
+	 * Map&lt;String,String&gt; avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>String : type de l'attribut</li>
+	 * </ul>
+	 */
+	private static final Map<String, String> MAP_ATTRIBUTS 
+		= new ConcurrentHashMap<String, String>();
+
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -63,12 +89,282 @@ public final class Application {
 	public static void main(
 			final String[] pArgs) throws Exception {
 		
-		final GenerateurCode generateurCode = new GenerateurCode();
+//		final GenerateurMetier generateur = new GenerateurMetier();
+//		
+//		MAP_ATTRIBUTS.put("profilString", "String");
+//		MAP_ATTRIBUTS.put("porteeProfil", "String");
+//		MAP_ATTRIBUTS.put("restrictionProfil", "String");
+//		
+//		generateur
+//			.genererObjetMetier(
+//					"profil"
+//						, "IProfil"
+//							, "ProfilCerbere"
+//								, MAP_ATTRIBUTS);
 		
-		generateurCode.genererObjetMetier("profil", "IProfil", "profilSimple");
+		final String nom = "AbstractProfilSimple";
+		final List<String> liste = trouverCamel(nom);
 		
-
+		System.out.println(afficherListString(liste));
+		
 	} // Fin de main(...)._________________________________________________
+	
+
+		
+	/**
+	 * method trouverCamel(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li><b>Décompose un mot camelCase</b> et retourne une liste 
+	 * des sous-mots le composant</li>
+	 * <ul>
+	 * <li>trouverCamel("abel") retourne "abel".</li>
+	 * <li>trouverCamel("Abel") retourne "Abel".</li>
+	 * <li>trouverCamel("abel7Medard") retourne "abel7" 
+	 * et "Medard".</li>
+	 * <li>trouverCamel("AbelMedardGoro") retourne "Abel"
+	 * , "Medard", "Goro".</li>
+	 * <li>trouverCamel("AbstractProfilSimple") retourne "Abstract"
+	 * , "Profil", "Simple".</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : List&lt;String&gt; : Liste des "bosses" du chameau.<br/>
+	 */
+	private static List<String> trouverCamel(
+			final String pString) {
+		
+		final List<String> resultat = new ArrayList<String>();
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par une Majuscule ou une minuscule
+		 * - poursuit par des minuscules. */
+		final String patternStringDebut = "^([A-Z][a-z0-9]*|[a-z0-9]*)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern patternDebut = Pattern.compile(patternStringDebut);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcherDebut = patternDebut.matcher(pString);
+		
+		String suite = null;
+		
+		/* Recherche des ocurrences du Pattern. */
+		while (matcherDebut.find()) {
+			
+			final String lu = matcherDebut.group();
+			resultat.add(lu);
+			suite = StringUtils.removeStart(pString, lu);
+			
+		}
+		
+		if (!StringUtils.isBlank(suite)) {
+			
+			/* Pattern sous forme de String. */
+			/* - Commence par I
+			 * - poursuit par une Majuscule
+			 * - poursuit CamelCase. */
+			final String patternString = "([A-Z][a-z0-9]*)";
+			
+			/* Instanciation d'un Pattern. */
+			final Pattern pattern = Pattern.compile(patternString);
+			
+			/* Instanciation d'un moteur de recherche Matcher. */
+			final Matcher matcher = pattern.matcher(suite);
+			
+			/* Recherche des ocurrences du Pattern. */
+			while (matcher.find()) {
+				
+				final String lu = matcher.group();
+				resultat.add(lu);		
+				
+			}
+			
+		}
+				
+		return resultat;
+
+	} // Fin de trouverCamel(...)._________________________________________
+	
+	
+	
+	/**
+	 * method conformeNomPackage(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms de package java
+	 * , à savoir que des lettres minuscules et des chiffres 
+	 * (pas de majuscules ou de caractères spéciaux).</li>
+	 * <li>accepte "profil", "profil7", ...</li>
+	 * <li>refuse "Profil", "profil_7", ...</li>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	private static boolean conformeNomPackage(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par I
+		 * - poursuit par une Majuscule
+		 * - poursuit CamelCase. */
+		final String patternString = "([a-z0-9]*)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeNomPackage(...).___________________________________
+	
+	
+	
+	/**
+	 * method conformeNomInterface(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms des Interfaces
+	 * , à savoir I, puis une majuscule, puis une suite camelCase 
+	 * sans caractères spéciaux.</li>
+	 * <li>accepte "IProfil", "IProfilSimple", "IProfil7", ...</li>
+	 * <li>refuse "Profil", "IProfil_Simple", "iProfil", ...</li>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	private static boolean conformeNomInterface(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par I
+		 * - poursuit par une Majuscule
+		 * - poursuit CamelCase. */
+		final String patternString = "(^I)([A-Z][a-z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.find();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeNomInterface(...)._________________________________
+	
+	
+	
+	/**
+	 * method conformeNomClasse(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms des Classes
+	 * , à savoir une majuscule, puis une suite camelCase 
+	 * sans caractères spéciaux.</li>
+	 * <li>accepte "Profil", "ProfilSimple", "ProfilSimple7", ...</li>
+	 * <li>refuse "IProfil", "profil", "ProfilSimple_7", ...</li>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	private static boolean conformeNomClasse(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par une Majuscule
+		 * - poursuit camelCase. */
+		final String patternString = "(^[A-Z][a-z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.find();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeNomClasse(...).____________________________________
+	
+
+	
+	/**
+	 * method afficherListString(
+	 * List&lt;String&gt; pList) :<br/>
+	 * <ul>
+	 * fabrique une String pour l'affichage des Strings 
+	 * contenus dans la liste pList.
+	 * </ul>
+	 * retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;String&gt;.<br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	public static String afficherListString(
+			final List<String> pList) {
+		
+		/* retourne null si pList == null. */
+		if (pList == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		int compteur = 0;
+		final int tailleListe = pList.size();
+		
+		for (final String chaine : pList) {
+			
+			compteur++;
+			
+			stb.append(chaine);
+			
+			if (compteur < tailleListe) {
+				stb.append(SAUT_LIGNE);
+			}			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherListString(...).___________________________________
 	
 
 

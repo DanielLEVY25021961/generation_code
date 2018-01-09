@@ -50,6 +50,13 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 
 	
 	/**
+	 * IMPLEMENTS : String :<br/>
+	 * " implements ".<br/>
+	 */
+	public static final String IMPLEMENTS = " implements ";
+	
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -79,9 +86,12 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	protected final void ecrireCodeHook(
 			final File pFile) {
 		
-		/* écrit la javadoc. */
-		this.ecrireJavaDoc(pFile);
-
+		/* écrit le séparateur attributs. */
+		this.ecrireSepAttributs(pFile);
+		
+		/* écrit le séparateur methodes. */
+		this.ecrireSepMethodes(pFile);
+		
 	} // Fin de ecrireCodeHook(...)._______________________________________
 	
 	
@@ -155,11 +165,86 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	@Override
 	protected final String creerLigneDeclaration(
 			final File pFile) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			
+			/* Retourne null si pFile est null. */
+			if (pFile == null) {
+				return null;
+			}
+			
+			/* Retourne null si pFile n'existe pas sur le disque. */
+			if (!pFile.exists()) {
+				return null;
+			}
+			
+			/* Retourne null si pFile est un répertoire. */
+			if (pFile.isDirectory()) {
+				return null;
+			}
+
+			
+			final StringBuilder stb = new StringBuilder();
+			
+			stb.append(ABSTRACT_CLASS);
+			stb.append(this.nomSimpleFichierJava);
+			stb.append(IMPLEMENTS);
+			stb.append(this.genererNomInterface(this.nomSimpleFichierJava));
+			stb.append(' ');
+			stb.append(CROCHET_OUVRANT);
+			
+			this.ligneDeclaration = stb.toString();
+			
+			return this.ligneDeclaration;
+			
+		} // Fin de creerLigneDeclaration(...).________________________________
 
 	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String creerLigneFinale(
+			final File pFile) {
+		
+		/* Retourne null si pFile est null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* Retourne null si pFile n'existe pas sur le disque. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* Retourne null si pFile est un répertoire. */
+		if (pFile.isDirectory()) {
+			return null;
+		}
+
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append(CROCHET_FERMANT);
+		stb.append(" // FIN DE LA CLASSE ");
+		stb.append(this.nomSimpleFichierJava);
+		stb.append(POINT);
+		
+		final String provisoire = stb.toString();
+		final int longueurProvisoire = provisoire.length();
+		
+		final int nombreTirets = 77 - longueurProvisoire;
+		
+		for (int i=0; i < nombreTirets; i++) {
+			stb.append('-');
+		}
+		
+		this.ligneFinale = stb.toString();
+		
+		return this.ligneFinale;
+		
+	} // Fin de creerLigneFinale(...)._____________________________________
+	
+
 	
 	/**
 	 * {@inheritDoc}
@@ -186,7 +271,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	 */
 	@Override
 	protected final String fournirDebutJavaDoc() {
-		return "* CLASSE ABSTRAITE";
+		return " * CLASSE ABSTRAITE";
 	} // Fin de fournirDebutJavaDoc()._____________________________________
 
 	

@@ -172,7 +172,7 @@ public abstract class AbstractEcriveur {
 	 * "Exception GRAVE : ".<br/>
 	 */
 	public static final String MESSAGE_EXCEPTION = "Exception GRAVE : ";
-	
+
 	
 	/**
 	 * CROCHET_OUVRANT : char :<br/>
@@ -320,8 +320,13 @@ public abstract class AbstractEcriveur {
 		= Charset.forName("UTF-8");
 	
 
+	/**
+	 * generateurMetier : GenerateurMetier :<br/>
+	 * GenerateurMetier.<br/>
+	 */
+	protected transient GenerateurMetier generateurMetier;
 
-
+	
 	/**
 	 * fichierJava : File :<br/>
 	 * Fichier Java à générer.<br/>
@@ -407,6 +412,27 @@ public abstract class AbstractEcriveur {
 	 * , Cloneable, Serializable {</code><br/>
 	 */
 	protected transient String ligneDeclaration;
+
+
+	/**
+	 * sepAttributs : List&lt;String&gt; :<br/>
+	 * ligne de séparation des attributs.<br/>
+	 */
+	protected transient List<String> sepAttributs;
+
+	
+	/**
+	 * stringClasse : List&lt;String&gt; :<br/>
+	 * Ligne classe.<br/>
+	 */
+	protected transient List<String> stringClasse;
+	
+	
+	/**
+	 * sepMethodes : List<String> :<br/>
+	 * ligne de séparation des methodes.<br/>
+	 */
+	protected transient List<String> sepMethodes;
 
 	
 	/**
@@ -532,14 +558,18 @@ public abstract class AbstractEcriveur {
 	 * <ul>
 	 * <li><b>Génère le code dans le fichier java pFile</b>.</li>
 	 * <li>Traite le cas des mauvais fichiers.</li>
+	 * <li>alimente this.generateurMetier.</li>
 	 * <li>alimente this.fichierJava.</li>
 	 * <li>alimente this.nomSimpleFichierJava.</li>
-	 * <li>écrit la ligne de code package (1ère ligne).</li>
+	 * <li>écrit la ligne de code <b>package</b> (1ère ligne).</li>
 	 * <li>Insère 1 ligne vide sous la ligne de code package.</li>
-	 * <li>Ecrit les imports à partir de la 3ème ligne.</li>
+	 * <li>Ecrit les <b>imports</b> à partir de la 3ème ligne.</li>
 	 * <li>Insère 3 lignes vides sous la dernière ligne d'imports.</li>
+	 * <li>écrit les lignes de <b>javadoc</b>.</li>
+	 * <li>écrit la ligne de <b>DECLARATION</b> à la suite.
 	 * <li><b>Appelle un HOOK</b> pour terminer la génération du code 
 	 * dans un Ecriveur concret.</li> 
+	 * <li>écrit la ligne <b>finale</b>.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -547,9 +577,11 @@ public abstract class AbstractEcriveur {
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
+	 * @param pGenerateurMetier : GenerateurMetier.<br/>
 	 */
 	public void ecrireCode(
-			final File pFile) {
+			final File pFile
+				, final GenerateurMetier pGenerateurMetier) {
 		
 		/* ne fait rien si pFile est null. */
 		if (pFile == null) {
@@ -566,6 +598,9 @@ public abstract class AbstractEcriveur {
 			return;
 		}
 		
+		/* alimente this.generateurMetier. */
+		this.generateurMetier = pGenerateurMetier;
+		
 		/* alimente this.fichierJava. */
 		this.fichierJava = pFile;
 		
@@ -573,14 +608,14 @@ public abstract class AbstractEcriveur {
 		this.nomSimpleFichierJava 
 			= this.fournirNomFichierSansExtension(this.fichierJava);
 
-		/* écrit la ligne de code package (1ère ligne). */
+		/* écrit la ligne de code PACKAGE (1ère ligne). */
 		this.ecrireLignePackage(pFile);
 		
 		/* Insère 1 ligne vide sous la ligne de code package.*/
 		this.insererLignesVidesSousLigneDansFichier(
 				pFile, this.lignePackage, 1, CHARSET_UTF8);
 		
-		/* Ecrit les imports à partir de la 3ème ligne. */
+		/* Ecrit les IMPORTS à partir de la 3ème ligne. */
 		this.ecrireImports(pFile);
 		
 		final String derniereLigneImports 
@@ -590,16 +625,32 @@ public abstract class AbstractEcriveur {
 		 * ligne d'import.*/
 		this.insererLignesVidesSousLigneDansFichier(
 				pFile, derniereLigneImports, 3, CHARSET_UTF8);
+		
+		/* Ecrit la JAVADOC à la suite. */
+		this.ecrireJavaDoc(pFile);
+		
+		/* Ecrit la ligne de DECLARATION à la suite. */
+		this.ecrireLigneDeclaration(pFile);
 
 		/* Appelle un HOOK pour terminer la génération 
 		 * du code dans un Ecriveur concret. */
 		this.ecrireCodeHook(this.fichierJava);
+		
+		/* Ecrit la ligne FINALE. */
+		this.ecrireLigneFinale(this.fichierJava);
 		
 	} // Fin de ecrireCode(...).___________________________________________
 	
 
 	
 	
+	/**
+	 * method ecrireCodeHook(File pFile) :<br/>
+	 * .<br/>
+	 * <br/>
+	 *
+	 * @param pFile : void :  .<br/>
+	 */
 	protected abstract void ecrireCodeHook(File pFile);
 	
 	
@@ -836,7 +887,7 @@ public abstract class AbstractEcriveur {
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 */
-	protected void ecrireJavaDoc(
+	protected final void ecrireJavaDoc(
 			final File pFile) {
 						
 		/* ne fait rien si pFile est null. */
@@ -926,7 +977,7 @@ public abstract class AbstractEcriveur {
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 */
-	protected void ecrireLigneDeclaration(
+	protected final void ecrireLigneDeclaration(
 			final File pFile) {
 		
 		/* Crée la ligne de déclaration du fichier Java. */
@@ -973,6 +1024,342 @@ public abstract class AbstractEcriveur {
 
 
 	/**
+	 * method ecrireLigneFinale(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>Insère la ligne de déclaration
+	 * à la cinquième ligne du fichier.</li>
+	 * <li>N'insère la ligne que si elle n'existe pas déjà</li>
+	 * <li>Par exemple : <code>public interface IProfil extends 
+	 * IExportateurCsv, IExportateurJTable, 
+	 * Comparable&lt;IProfil&gt;, Cloneable, Serializable {</code>.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireLigneFinale(
+			final File pFile) {
+		
+		/* Crée la ligne finale de l'Interface. */
+		this.creerLigneFinale(pFile);
+		
+		if (!this.existLigneDansFichier(
+				pFile, CHARSET_UTF8, this.ligneFinale)) {
+			
+			/* Insère la ligne finale à la fin du fichier. */
+			this.ecrireStringDansFileSansSaut(
+					pFile, this.ligneFinale
+					, CHARSET_UTF8, NEWLINE);
+						
+		}
+		
+	} // Fin de ecrireLigneFinale(...).____________________________________
+	
+
+	
+	/**
+	 * method creerLigneFinale(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>Génère la ligne de code pour la 
+	 * ligne finale du fichier Java.</li>
+	 * <li>Alimente this.ligneFinale.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>public interface IProfil extends 
+	 * IExportateurCsv, IExportateurJTable, 
+	 * Comparable<IProfil>, Cloneable, Serializable {</code>.</li>
+	 * </ul>
+	 * Retourne null si pFile est null.<br/>
+	 * Retourne null si pFile n'existe pas sur le disque.<br/>
+	 * Retourne null si pFile est un répertoire.<br/>
+	 * <br/>
+	 * 
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @return : String : Ligne de code pour la ligne finale.<br/>
+	 */
+	protected abstract String creerLigneFinale(File pFile);
+	
+
+	
+	/**
+	 * method ecrireSepAttributs() :<br/>
+	 * écrit la ligne de séparation des attributs.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireSepAttributs(
+			final File pFile) {
+
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		try {
+
+			/* Crée le Séparateur d'attributs. */
+			this.creerSepAttributs();
+
+			/* Recherche la ligne identifiant sepAttributs. */
+			final String ligneAttributs = this.fournirDebutSepAttributs();
+
+			/* Ne fait rien si sepAttributs a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneAttributs)) {
+				return;
+			}
+
+			for (final String ligne : this.sepAttributs) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le séparateur d'attributs", e);
+			}
+		}
+
+	} // Fin de ecrireSepAttributs().______________________________________
+	
+
+	
+	/**
+	 * method creerSepAttributs() :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes du séparateur Attributs.</li>
+	 * <li>alimente this.sepAttributs</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : this.sepAttributs.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private List<String> creerSepAttributs() 
+					throws Exception {
+				
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/sep_attributs.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+				
+		this.sepAttributs = listeLignes;
+		
+		return this.sepAttributs;
+					
+	} // Fin de creerSepAttributs(...).____________________________________
+	
+
+	
+	/**
+	 * method ecrireStringClasse() :<br/>
+	 * écrit la ligne de séparation des attributs.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireStringClasse(
+			final File pFile) {
+
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		try {
+
+			/* Crée le Séparateur d'attributs. */
+			this.creerStringClasse();
+
+			/* Recherche la ligne identifiant stringClasse. */
+			final String ligneAttributs = this.fournirDebutStringClasse();
+
+			/* Ne fait rien si stringClasse a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneAttributs)) {
+				return;
+			}
+
+			for (final String ligne : this.stringClasse) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le séparateur d'attributs", e);
+			}
+		}
+
+	} // Fin de ecrireStringClasse().______________________________________
+	
+
+	
+	/**
+	 * method creerStringClasse() :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes du séparateur Attributs.</li>
+	 * <li>alimente this.stringClasse</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : this.stringClasse.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private List<String> creerStringClasse() 
+					throws Exception {
+				
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/sep_attributs.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+				
+		this.stringClasse = listeLignes;
+		
+		return this.stringClasse;
+					
+	} // Fin de creerStringClasse(...).____________________________________
+	
+
+	
+	/**
+	 * method ecrireSepMethodes() :<br/>
+	 * écrit la ligne de séparation des methodes.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireSepMethodes(
+			final File pFile) {
+
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		try {
+
+			/* Crée le Séparateur d'attributs. */
+			this.creerSepMethodes();
+
+			/* Recherche la ligne identifiant sepMethodes. */
+			final String ligneMethodes = this.fournirDebutSepMethodes();
+
+			/* Ne fait rien si sepMethodes a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneMethodes)) {
+				return;
+			}
+
+			for (final String ligne : this.sepMethodes) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le séparateur de méthodes", e);
+			}
+		}
+
+	} // Fin de ecrireSepMethodes().______________________________________
+	
+
+	
+	/**
+	 * method creerSepMethodes() :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes du séparateur Methodes.</li>
+	 * <li>alimente this.sepMethodes</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : this.sepMethodes.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private List<String> creerSepMethodes() 
+					throws Exception {
+				
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/sep_methodes.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> listeLignesSubstitue 
+		= this.substituerVariablesDansLigne(
+				listeLignes
+					, "{$nomSimpleFichierJava}", this.nomSimpleFichierJava);
+				
+		this.sepMethodes = listeLignesSubstitue;
+		
+		return this.sepMethodes;
+					
+	} // Fin de creerSepMethodes(...)._____________________________________
+	
+
+	
+	
+	
+	/**
 	 * method fournirPathMetier() :<br/>
 	 * <ul>
 	 * <li>Détermine le path relatif de model.metier par rapport 
@@ -1017,101 +1404,12 @@ public abstract class AbstractEcriveur {
 
 		
 	/**
-	 * method insererLignesVidesSousLigneDansFichier(
-	 * File pFile
-	 * , String pLigne
-	 * , int pNombreLignesVides
-	 * , Charset pCharsetLecture) :<br/>
-	 * <ul>
-	 * <li>Insère pNombreLignesVides lignes vides 
-	 * sous la ligne pLigne.</li>
-	 * <li>N'insère que si les lignes vides n'existent pas déjà.</li>
-	 * <li>retourne null et ne fait rien si la ligne pLigne 
-	 * n'est pas trouvée.</li>
-	 * </ul>
-	 * Retourne null si pFile est null.<br/>
-	 * Retourne null si pFile n'existe pas sur le disque.<br/>
-	 * Retourne null si pFile est un répertoire.<br/>
-	 * <br/>
-	 * 
-	 *
-	 * @param pFile : File : fichier Java.<br/>
-	 * @param pLigne : String : ligne sous laquelle insérer.<br/>
-	 * @param pNombreLignesVides : int : nombre de lignes 
-	 * vides à insérer sous pLigne.<br/>
-	 * 
-	 * @return : File : fichier Java.<br/>
-	 */
-	protected final File insererLignesVidesSousLigneDansFichier(
-			final File pFile
-				, final String pLigne
-					, final int pNombreLignesVides
-						, final Charset pCharsetLecture) {
-		
-		
-		/* Retourne null si pFile est null. */
-		if (pFile == null) {
-			return null;
-		}
-		
-		/* Retourne null si pFile n'existe pas sur le disque. */
-		if (!pFile.exists()) {
-			return null;
-		}
-		
-		/* Retourne null si pFile est un répertoire. */
-		if (pFile.isDirectory()) {
-			return null;
-		}
-		
-		/* Récupère le numéro (1-based) de la ligne 
-		 * sous laquelle insérer des lignes vides. */
-		final int numeroLigne 
-			= this.trouverNumeroLigne(pFile, pCharsetLecture, pLigne);
-		
-		/* retourne null et ne fait rien si la ligne pLigne n'est pas trouvée. */
-		if (numeroLigne == 0) {
-			return null;
-		}
-		
-		final int numPremiereLigneAInserer = numeroLigne + 1;
-		
-		for (int i = 0; i < pNombreLignesVides; i++) {
-			
-			final int numLigne = numPremiereLigneAInserer + i;
-			
-			final String ligne 
-			= this.lireLigneDansFichier(
-					pFile, pCharsetLecture, numLigne);
-			
-			if (ligne==null || ligne.length() != 0) {
-				
-				/* Insertion des lignes vides. */
-				this.insererLigneDansFichier(
-						pFile
-						, pCharsetLecture
-						, numLigne
-						, pCharsetLecture
-						, "");
-				
-			}
-						
-		}
-
-		return pFile;
-		
-	} // Fin de insererLignesVidesSousLigneDansFichier(...)._______________
-	
-
-	
-	
-	/**
 	 * method trouverNumeroLigne(
 	 * File pFile
 	 * , Charset pCharsetLecture
 	 * , String pLigne) :<br/>
 	 * <ul>
-	 * <li>Trouvel le numéro (1-based) de la ligne pLigne 
+	 * <li><b>Trouvel le numéro (1-based)</b> de la ligne pLigne 
 	 * dans le fichier pFile.</li>
 	 * <li>Trouvel la première ocurrence de la ligne pLigne 
 	 * dans le fichier pFile.</li>
@@ -1292,12 +1590,13 @@ public abstract class AbstractEcriveur {
 	 * File pFile
 	 * , Charset pCharset) :<br/>
 	 * <ul>
-	 * <li>Lit le contenu d'un fichier texte 
+	 * <li><b>Lit le contenu</b> d'un fichier texte 
 	 * (fichier simple contenant du texte) pFile.</li>
 	 * <li>Décode le contenu d'un fichier texte 
 	 * (fichier simple contenant du texte) pFile 
 	 * avec le Charset pCharset</li>
-	 * <li>Retourne la liste des lignes du fichier simple texte pFile 
+	 * <li><b>Retourne la liste des lignes</b> 
+	 * du fichier simple texte pFile 
 	 * lues avec le Charset pCharset.</li>
 	 * <ul>
 	 * <li>Utilise automatiquement le CHARSET_UTF8 
@@ -1411,7 +1710,6 @@ public abstract class AbstractEcriveur {
 	 // , Charset pCharset)._______________________________________________
 	
 
-
 	
 	/**
 	 * method lireLigneDansFichier(
@@ -1419,14 +1717,13 @@ public abstract class AbstractEcriveur {
 	 * , Charset pCharsetLecture
 	 * , int pNumLigne) :<br/>
 	 * <ul>
-	 * <li>Lit et retourne la pNumLigne-ième ligne 
-	 * (1-based) du fichier textuel simple pFile.</li><br/>
+	 * <li><b>Lit et retourne la pNumLigne-ième ligne 
+	 * (1-based)</b> du fichier textuel simple pFile.</li>
 	 * <li>Lit le fichier textuel simple 
-	 * pFile avec l'encodage pCharsetLecture.</li><br/>
-	 * <br/>
+	 * pFile avec l'encodage pCharsetLecture.</li>
 	 * <ul>
 	 * <li>Utilise automatiquement le CHARSET_UTF8 pour la lecture 
-	 * si pCharsetLecture est null.</li><br/>
+	 * si pCharsetLecture est null.</li>
 	 * </ul>
 	 * </ul>
 	 * - Retourne null si pFile est null.<br/>
@@ -1605,7 +1902,7 @@ public abstract class AbstractEcriveur {
 	 * , Charset pCharsetLecture
 	 * , String pLigne) :<br/>
 	 * <ul>
-	 * <li>Détermine si la ligne pLIgne existe dans pFile.</li>
+	 * <li><b>Détermine si la ligne pLigne existe dans pFile</b>.</li>
 	 * <li>Retourne true si c'est le cas.</li>
 	 * <li>Lit le fichier textuel simple 
 	 * pFile avec l'encodage pCharsetLecture.</li>
@@ -1779,8 +2076,8 @@ public abstract class AbstractEcriveur {
 	 * , Charset pCharsetLecture
 	 * , String pLigne) :<br/>
 	 * <ul>
-	 * <li>Détermine si une ligne commençant par pLIgne 
-	 * existe dans pFile.</li>
+	 * <li><b>Détermine si une ligne commençant par pLIgne 
+	 * existe dans pFile</b>.</li>
 	 * <li>Retourne true si c'est le cas.</li>
 	 * <li>Lit le fichier textuel simple 
 	 * pFile avec l'encodage pCharsetLecture.</li>
@@ -1955,10 +2252,11 @@ public abstract class AbstractEcriveur {
 	 * , Charset pCharset
 	 * , String pSautLigne) :<br/>
 	 * <ul>
-	 * <li>Ecrit la String pString à la <b>fin</b> du File pFile 
+	 * <li><b>Ecrit la String pString</b> à 
+	 * la <b>fin</b> du File pFile 
 	 * avec un encodage pCharset et en substituant 
 	 * les sauts de ligne déjà existants 
-	 * dans pString par pSautLigne.</li>
+	 * <b>à l'intérieur de</b> pString par pSautLigne.</li>
 	 * <li>N'efface ni le fichier ni son contenu 
 	 * si il est déjà existant.</li>
 	 * <ul>
@@ -2213,6 +2511,271 @@ public abstract class AbstractEcriveur {
 	} // Fin de ecrireStringDansFile(...)._________________________________
 	
 
+		
+	/**
+	 * method ecrireStringDansFileSansSaut(
+	 * File pFile
+	 * , String pString
+	 * , Charset pCharset
+	 * , String pSautLigne) :<br/>
+	 * <ul>
+	 * <li><b>Ecrit la String pString</b> à 
+	 * la <b>fin</b> du File pFile 
+	 * avec un encodage pCharset et en substituant 
+	 * les sauts de ligne déjà existants 
+	 * <b>à l'intérieur de</b> pString par pSautLigne.</li>
+	 * <li>N'efface ni le fichier ni son contenu 
+	 * si il est déjà existant.</li>
+	 * <ul>
+	 * <li>Crée pFile sur disque si il n'existe pas.</li>
+	 * <li>Crée sur disque les répertoires parents de pFile 
+	 * (arborescence) si il n'existent pas.</li>
+	 * <li>Ecrit la String pString à la fin du fichier 
+	 * pFile si pFile est déjà existant et rempli
+	 * (utilisation de FileOutputStream(pFile, true)).</li>
+	 * <li>ne <b>rajoute pas</b> automatiquement 
+	 * un saut de ligne à la fin de pString.</li>
+	 * <li>Substitue automatiquement pSautLigne aux sauts de ligne 
+	 * EXISTANTS dans pString si nécessaire.</li>
+	 * <li>Utilise FileOutputStream, 
+	 * new OutputStreamWriter(fileOutputStream, charset) 
+	 * et BufferedWriter pour écrire.</li>
+	 * <li>Ecriture dans un fichier, écriture sur disque.</li>
+	 * <li>Passe automatiquement le Charset à CHARSET_UTF8 
+	 * si pCharset est null.</li>
+	 * <li>Passe automatiquement le saut de ligne à NEWLINE 
+	 * (saut de ligne de la plateforme) si pSautLigne est blank.</li>
+	 * </ul>
+	 * </ul>
+	 * <br/>
+	 * - retourne null si le pFile est null.<br/>
+	 * - retourne null si le pFile est un répertoire.<br/>
+	 * - retourne null en cas d'Exception loggée 
+	 * (FileNotFoundException, IOException).<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier dans lequel on écrit.<br/>
+	 * @param pString : String : String que l'on copie dans pFile.<br/>
+	 * @param pCharset : Charset : Charset pour encoder le fichier.<br/>
+	 * @param pSautLigne : String : Saut de ligne que l'on veut 
+	 * dans pFile de sortie 
+	 * (\r\n pour DOS/Windows, \r pour Mac, \n pour Unix).<br/>
+	 * 
+	 * @return : File : Le fichier dans lequel on a écrit pString.<br/>
+	 */
+	protected final File ecrireStringDansFileSansSaut(
+			final File pFile
+				, final String pString
+					, final Charset pCharset
+						, final String pSautLigne) {
+		
+		/* retourne null si le pFile est null. */
+		if (pFile == null) {
+			
+			/* LOG de niveau INFO. */
+			this.loggerInfo(
+					this.fournirNomClasse()
+						, METHODE_ECRIRESTRINGDANSFILE
+							, MESSAGE_FICHIER_NULL);
+			
+			/* retour de null. */
+			return null;
+			
+		} // Fin de if (pFile == null).______________________
+		
+		/* retourne null si le pFile est un répertoire. */
+		if (pFile.isDirectory()) {
+			
+			/* LOG de niveau INFO. */
+			this.loggerInfo(
+					this.fournirNomClasse()
+						, METHODE_ECRIRESTRINGDANSFILE
+							, MESSAGE_FICHIER_REPERTOIRE
+								, pFile.getAbsolutePath());
+			
+			/* retour de null. */
+			return null;
+			
+		} // Fin de if (pFile.isDirectory())._________________
+		
+		
+		final Path pathFichier = pFile.toPath();
+		final Path pathRepertoirePere = pathFichier.getParent();
+		File repertoirePere = null;
+		
+		if (pathRepertoirePere != null) {
+			repertoirePere = pathRepertoirePere.toFile();
+		} else {
+			return null;
+		}
+		
+				
+		/* Crée pFile sur disque si il n'existe pas. */
+		if (!pFile.exists()) {
+						
+			try {
+				
+				/* Crée sur disque les répertoires parents de pFile 
+				 * (arborescence) si il n'existent pas. */
+				if (!repertoirePere.exists()) {
+					Files.createDirectories(pathRepertoirePere);
+				}
+				
+				/* Crée le fichier sur disque si il n'existe pas. */
+				Files.createFile(pathFichier);
+				
+			} catch (IOException ioe) {
+				
+				/* LOG de niveau Error. */
+				loggerError(
+						this.fournirNomClasse()
+							, METHODE_ECRIRESTRINGDANSFILE
+								, ioe);
+				
+				/* retour de null. */
+				return null;
+			}
+			
+		} // Fin de if (!pFile.exists())._____________________
+		
+		
+		
+		Charset charset = null;
+		
+		/* Passe automatiquement le charset à UTF-8 si pCharset est null. */
+		if (pCharset == null) {
+			charset = CHARSET_UTF8;
+		}
+		else {
+			charset = pCharset;
+		}
+		
+		String sautLigne = null;
+		
+		/* Passe automatiquement le saut de ligne à NEWLINE 
+		 * (saut de ligne de la plateforme) si pSautLigne est blank. */
+		if (StringUtils.isBlank(pSautLigne)) {
+			sautLigne = NEWLINE;
+		} else {
+			sautLigne = pSautLigne;
+		}
+		
+		// ECRITURE SUR DISQUE ***************
+		FileOutputStream fileOutputStream = null;
+		OutputStreamWriter outputStreamWriter = null;
+		BufferedWriter bufferedWriter = null;
+		
+		try {
+			
+			/* Ouverture d'un FileOutputStream sur le fichier. */
+			/* Ecrit la String pString à la fin du fichier pFile 
+			 * si pFile est déjà existant et rempli sur le disque. */
+			fileOutputStream 
+				= new FileOutputStream(pFile, true);
+			
+			/* Ouverture d'un OutputStreamWriter 
+			 * sur le FileOutputStream en lui passant le Charset. */
+			outputStreamWriter 
+				= new OutputStreamWriter(fileOutputStream, charset);
+			
+			/* Ouverture d'un tampon d'écriture 
+			 * BufferedWriter sur le OutputStreamWriter. */
+			bufferedWriter 
+				= new BufferedWriter(outputStreamWriter);
+			
+			// ECRITURE.
+			/* Substitue automatiquement sautLigne aux sauts de ligne 
+			 * dans pString si nécessaire. */
+			String stringAEcrire = null;
+			
+			if (pString.length() == 0) {
+				stringAEcrire = "";
+			} else {
+				stringAEcrire = substituerSautLigne(pString, sautLigne);
+			}
+			
+			bufferedWriter.write(stringAEcrire);
+			
+			bufferedWriter.flush();
+			
+			// Retour du fichier. 
+			return pFile;
+			
+		} catch (FileNotFoundException fnfe) {
+			
+			/* LOG de niveau ERROR. */
+			loggerError(
+					this.fournirNomClasse()
+						, MESSAGE_EXCEPTION				
+							, fnfe);
+			
+			/* retour de null. */
+			return null;
+			
+		} catch (IOException ioe) {
+			
+			/* LOG de niveau ERROR. */
+			loggerError(
+					this.fournirNomClasse()
+						, MESSAGE_EXCEPTION				
+							, ioe);
+			
+			/* retour de null. */
+			return null;
+		}
+		
+		finally {
+			
+			if (bufferedWriter != null) {
+				try {
+					
+					bufferedWriter.close();
+					
+				} catch (IOException ioe1) {
+					
+					/* LOG de niveau ERROR. */
+					loggerError(
+							this.fournirNomClasse()
+								, MESSAGE_EXCEPTION				
+									, ioe1);
+				}
+			} // Fin de if (bufferedWriter != null).__________
+			
+			if (outputStreamWriter != null) {
+				try {
+					
+					outputStreamWriter.close();
+					
+				} catch (IOException ioe2) {
+					
+					/* LOG de niveau ERROR. */
+					loggerError(
+							this.fournirNomClasse()
+								, MESSAGE_EXCEPTION				
+									, ioe2);
+				}
+			} // Fin de if (outputStreamWriter != null).______
+			
+			if (fileOutputStream != null) {
+				try {
+					
+					fileOutputStream.close();
+					
+				} catch (IOException ioe3) {
+					
+					//* LOG de niveau ERROR. */
+					loggerError(
+							this.fournirNomClasse()
+								, MESSAGE_EXCEPTION				
+									, ioe3);
+				}
+			}
+			
+		} // Fin du finally.____________________________
+			
+	} // Fin de ecrireStringDansFileSansSaut(...)._________________________
+	
+
 	
 	/**
 	 * method insererLigneDansFichier(
@@ -2222,18 +2785,18 @@ public abstract class AbstractEcriveur {
 	 * , Charset pCharsetEcriture
 	 * , String pLigneAInserer) :<br/>
 	 * <ul>
-	 * <li>Insère la ligne pLigneAInserer à la pNumLigne-ième ligne 
-	 * (1-based) du fichier textuel simple pFile.</li><br/>
+	 * <li><b>Insère la ligne pLigneAInserer</b> à la pNumLigne-ième ligne 
+	 * (1-based) du fichier textuel simple pFile.</li>
 	 * <li>Lit le fichier textuel simple 
-	 * pFile avec l'encodage pCharsetLecture.</li><br/>
+	 * pFile avec l'encodage pCharsetLecture.</li>
 	 * <li>Ecrit la ligne pLigneAInserer dans le fichier simple textuel pFile 
-	 * avec l'encodage pCharsetEcriture.</li><br/>
-	 * <br/>
+	 * avec l'encodage pCharsetEcriture.</li>
+	 * <li>insère un saut de ligne à la fin de la ligne insérée.</li>
 	 * <ul>
 	 * <li>Utilise automatiquement le CHARSET_UTF8 pour la lecture 
-	 * si pCharsetLecture est null.</li><br/>
+	 * si pCharsetLecture est null.</li>
 	 * <li>Utilise automatiquement le CHARSET_UTF8 pour l'écriture
-	 * si pCharsetEcriture est null.</li><br/>
+	 * si pCharsetEcriture est null.</li>
 	 * </ul> 
 	 * </ul>
 	 * - Retourne null si pFile est null.<br/>
@@ -2241,6 +2804,7 @@ public abstract class AbstractEcriveur {
 	 * - Retourne null si pFile est un répertoire.<br/>
 	 * - Retourne null si pNumLigne == 0.<br/>
 	 * - Retourne null en cas d'Exception loggée (IOException, ...).<br/>
+	 * - Retourne null si pNumLigne > nombre lignes du fichier.<br/>
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier textuel simple dans lequel 
@@ -2281,6 +2845,11 @@ public abstract class AbstractEcriveur {
 		
 		/* Retourne null si pNumLigne == 0. */
 		if (pNumLigne == 0) {
+			return null;
+		}
+		
+		/* Retourne null si pNumLigne > nombre lignes du fichier. */
+		if (pNumLigne > this.compterLignes(pFile)) {
 			return null;
 		}
 		
@@ -2374,6 +2943,8 @@ public abstract class AbstractEcriveur {
 				 * si la position dans le fichier pFile est pNumLigne. */
 				if (numeroLigneLue == pNumLigne) {
 					bufferedWriter.write(pLigneAInserer);
+					/* insère un saut de ligne à la fin 
+					 * de la ligne insérée. */
 					bufferedWriter.write(NEWLINE);
 				}
 				
@@ -2531,26 +3102,114 @@ public abstract class AbstractEcriveur {
 	 // , String pLigneAInserer.___________________________________________
 	
 
+		
+	/**
+	 * method insererLignesVidesSousLigneDansFichier(
+	 * File pFile
+	 * , String pLigne
+	 * , int pNombreLignesVides
+	 * , Charset pCharsetLecture) :<br/>
+	 * <ul>
+	 * <li><b>Insère pNombreLignesVides lignes vides 
+	 * sous la ligne pLigne</b>.</li>
+	 * <li>N'insère que si les lignes vides n'existent pas déjà sous pLigne.</li>
+	 * <li>retourne null et ne fait rien si la ligne pLigne 
+	 * n'est pas trouvée.</li>
+	 * </ul>
+	 * Retourne null si pFile est null.<br/>
+	 * Retourne null si pFile n'existe pas sur le disque.<br/>
+	 * Retourne null si pFile est un répertoire.<br/>
+	 * <br/>
+	 * 
+	 *
+	 * @param pFile : File : fichier Java.<br/>
+	 * @param pLigne : String : ligne sous laquelle insérer.<br/>
+	 * @param pNombreLignesVides : int : nombre de lignes 
+	 * vides à insérer sous pLigne.<br/>
+	 * 
+	 * @return : File : fichier Java.<br/>
+	 */
+	protected final File insererLignesVidesSousLigneDansFichier(
+			final File pFile
+				, final String pLigne
+					, final int pNombreLignesVides
+						, final Charset pCharsetLecture) {
+		
+		
+		/* Retourne null si pFile est null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* Retourne null si pFile n'existe pas sur le disque. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* Retourne null si pFile est un répertoire. */
+		if (pFile.isDirectory()) {
+			return null;
+		}
+		
+		/* Récupère le numéro (1-based) de la ligne 
+		 * sous laquelle insérer des lignes vides. */
+		final int numeroLigne 
+			= this.trouverNumeroLigne(pFile, pCharsetLecture, pLigne);
+		
+		/* retourne null et ne fait rien si la 
+		 * ligne pLigne n'est pas trouvée. */
+		if (numeroLigne == 0) {
+			return null;
+		}
+		
+		final int numPremiereLigneAInserer = numeroLigne + 1;
+		
+		for (int i = 0; i < pNombreLignesVides; i++) {
+			
+			final int numLigne = numPremiereLigneAInserer + i;
+			
+			final String ligne 
+			= this.lireLigneDansFichier(
+					pFile, pCharsetLecture, numLigne);
+			
+			if (ligne==null || ligne.length() != 0) {
+				
+				/* Insertion des lignes vides. */
+				this.insererLigneDansFichier(
+						pFile
+						, pCharsetLecture
+						, numLigne
+						, pCharsetLecture
+						, "");
+				
+			}
+						
+		}
+	
+		return pFile;
+		
+	} // Fin de insererLignesVidesSousLigneDansFichier(...)._______________
+	
+	
 	
 	/**
 	 * method fournirFichierAPartirDeFile(
 	 * File pFile
 	 * , String pSuffixe) :<br/>
 	 * <ul>
-	 * <li>Fournit un fichier (vide) dans le même répertoire 
-	 * que pFile en le nommant pFile_suffixe.ext.</li><br/>
-	 * <br/>
+	 * <li><b>Fournit un fichier (vide) dans le même répertoire 
+	 * que pFile en le nommant pFile_suffixe.ext</b>.</li>
 	 * <ul>
 	 * <li>Récupère le chemin de pFile avec 
-	 * la méthode pFile.getParent().</li><br/>
+	 * la méthode pFile.getParent().</li>
 	 * <li>Récupère le nom simple de pFile 
-	 * avec la méthode pFile.getName().</li><br/>
+	 * avec la méthode pFile.getName().</li>
 	 * <li>Décompose le nom simple de pFile en nom de base et extension 
-	 * avec la méthode StringUtils.split(nomSimple, '.').</li><br/>
+	 * avec la méthode StringUtils.split(nomSimple, '.').</li>
 	 * <li>Récupère le séparateur de fichiers auprès de la plateforme 
-	 * avec la méthode System.getProperty("file.separator").</li><br/>
+	 * avec la méthode System.getProperty("file.separator").</li>
 	 * <li>Construit le fichier suffixé dans 
-	 * le même répertoire que pFile.</li><br/>
+	 * le même répertoire que pFile.</li>
 	 * </ul>
 	 * </ul>
 	 * <br/>
@@ -2651,21 +3310,19 @@ public abstract class AbstractEcriveur {
 	 * , String pSuffixe
 	 * , File pRepertoire) :<br/>
 	 * <ul>
-	 * <li>Fournit un fichier (vide) dans pRepertoire 
-	 * en le nommant pFile_suffixe.ext.</li><br/>
-	 * <br/>
+	 * <li><b>Fournit un fichier (vide) dans pRepertoire 
+	 * en le nommant pFile_suffixe.ext</b>.</li>
 	 * <ul>
 	 * <li>Récupère le nom simple de pFile 
-	 * avec la méthode pFile.getName().</li><br/>
+	 * avec la méthode pFile.getName().</li>
 	 * <li>Décompose le nom simple de pFile en nom de base et extension 
-	 * avec la méthode StringUtils.split(nomSimple, '.').</li><br/>
+	 * avec la méthode StringUtils.split(nomSimple, '.').</li>
 	 * <li>Récupère le séparateur de fichiers auprès de la plateforme 
-	 * avec la méthode System.getProperty("file.separator").</li><br/>
+	 * avec la méthode System.getProperty("file.separator").</li>
 	 * <li>Construit le fichier suffixé dans 
-	 * pRepertoire.</li><br/>
+	 * pRepertoire.</li>
 	 * </ul>
 	 * </ul>
-	 * <br/>
 	 * - Retourne null si pFile == null.<br/>
 	 * - Retourne null si pSuffixe est blank.<br/>
 	 * - Retourne null si pRepertoire == null.<br/>
@@ -2762,7 +3419,7 @@ public abstract class AbstractEcriveur {
 	 * method compterLignes(
 	 * File pFile) :<br/>
 	 * <ul>
-	 * <li>Compte le nombre de lignes dans un fichier.</li><br/>
+	 * <li><b>Compte le nombre de lignes dans un fichier texte</b>.</li>
 	 * </ul>
 	 * - Retourne null si pFile est null.<br/>
 	 * - Retourne null si pFile n'existe pas sur le disque.<br/>
@@ -2897,11 +3554,13 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method substituerSautLignePlateforme(
 	 * String pString) :<br/>
-	 * Substitue les sauts de ligne dans pString 
+	 * <ul>
+	 * <li><b>Substitue les sauts</b> de ligne <b>à l'intérieur de</b> 
+	 * pString 
 	 * (\r\n pour DOS/Windows, \r pour Mac, \n pour Unix) 
 	 * par les sauts de ligne de la plate-forme
-	 * sur laquelle le programme s'exécute.<br/>
-	 * <br/>
+	 * sur laquelle le programme s'exécute.</li>
+	 * </ul>
 	 * - retourne null si pString est blank (null ou vide).<br/>
 	 * <br/>
 	 *
@@ -2925,12 +3584,14 @@ public abstract class AbstractEcriveur {
 	 * method substituerSautLigne(
 	 * String pString
 	 * , String pSautLigne) :<br/>
-	 * Substitue les sauts de ligne dans pString 
+	 * <ul>
+	 * <li><b>Substitue les sauts</b> de ligne <b>à l'intérieur</b> 
+	 * de pString 
 	 * (\r\n pour DOS/Windows, \r pour Mac, \n pour Unix) 
-	 * par les sauts de ligne pSautLigne.<br/>
-	 * <br/>
+	 * par les sauts de ligne pSautLigne.</li>
+	 * </ul>
 	 * - retourne null si pString est blank (null ou vide).<br/>
-	 * - retourne null si pSautLigne est blank (null ou vide).
+	 * - retourne null si pSautLigne est blank (null ou vide).<br/>
 	 * <br/>
 	 *
 	 * @param pString : String : String à corriger.<br/>
@@ -2997,7 +3658,8 @@ public abstract class AbstractEcriveur {
 	 * , String pVariable
 	 * , String pSubstituant) :<br/>
 	 * <ul>
-	 * <li>Substitue pSubstituant à la variable pVariable 
+	 * <li><b>Substitue</b> <i>pSubstituant</i> à la 
+	 * variable <i>pVariable</i> 
 	 * dans chaque ligne de pListe.</li>
 	 * <li>Par exemple : <br/>
 	 * Substitue "levy.daniel.application.model.metier" 
@@ -3045,8 +3707,9 @@ public abstract class AbstractEcriveur {
 	 * String pClasse
 	 * , String pMethode
 	 * , String pMessage) :<br/>
-	 * Créée un message de niveau INFO dans le LOG.<br/>
-	 * <br/>
+	 * <ul>
+	 * <li>Crée un message de niveau INFO dans le LOG.</li>
+	 * </ul>
 	 * - Ne fait rien si un des paramètres est null.<br/>
 	 * <br/>
 	 *
@@ -3090,8 +3753,9 @@ public abstract class AbstractEcriveur {
 	 * , String pMethode
 	 * , String pMessage
 	 * , String pComplement) :<br/>
-	 * Créée un message de niveau INFO dans le LOG.<br/>
-	 * <br/>
+	 * <ul>
+	 * <li>Créée un message de niveau INFO dans le LOG.</li>
+	 * </ul>
 	 * - Ne fait rien si un des paramètres est null.<br/>
 	 * <br/>
 	 *
@@ -3139,8 +3803,9 @@ public abstract class AbstractEcriveur {
 	 * String pClasse
 	 * , String pMethode
 	 * , Exception pException) :<br/>
-	 * Créée un message de niveau ERROR dans le LOG.<br/>
-	 * <br/>
+	 * <ul>
+	 * <li>Crée un message de niveau ERROR dans le LOG.</li>
+	 * </ul>
 	 * - Ne fait rien si un des paramètres est null.<br/>
 	 * <br/>
 	 *
@@ -3544,6 +4209,45 @@ public abstract class AbstractEcriveur {
 	 * @return : String : début de la javadoc.<br/>
 	 */
 	protected abstract String fournirDebutJavaDoc();
+
+	
+	
+	/**
+	 * method fournirDebutSepAttributs() :<br/>
+	 * retourne le début du séparateur attributs.<br/>
+	 * "	// ************************ATTRIBUTS"<br/>
+	 *
+	 * @return : String : "	// ************************ATTRIBUTS".<br/>
+	 */
+	private String fournirDebutSepAttributs() {
+		return "	// ************************ATTRIBUTS";
+	} // Fin de fournirDebutSepAttributs().________________________________
+	
+
+	
+	/**
+	 * method fournirDebutSepMethodes() :<br/>
+	 * retourne le début du séparateur méthodes.<br/>
+	 * "	private static final Log LOG"<br/>
+	 *
+	 * @return : String : "	private static final Log LOG".<br/>
+	 */
+	private String fournirDebutSepMethodes() {
+		return "	private static final Log LOG";
+	} // Fin de fournirDebutSepMethodes()._________________________________
+	
+
+	
+	/**
+	 * method fournirDebutStringClasse() :<br/>
+	 * retourne le début de la ligne stringClasse.<br/>
+	 * "	public static final String CLASSE"<br/>
+	 *
+	 * @return : String : "	public static final String CLASSE".<br/>
+	 */
+	private String fournirDebutStringClasse() {
+		return "	public static final String CLASSE";
+	} // Fin de fournirDebutStringClasse().________________________________
 	
 	
 	

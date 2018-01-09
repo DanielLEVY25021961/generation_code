@@ -108,13 +108,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 	@Override
 	protected final void ecrireCodeHook(
 			final File pFile) {
-		
-		/* écrit la javadoc. */
-		this.ecrireJavaDoc(pFile);
-		
-		/* Ecrit la ligne de déclaration. */
-		this.ecrireLigneDeclaration(pFile);
-		
+				
 		/* Insère 3 lignes vides sous la ligne 
 		 * de déclaration.*/
 		this.insererLignesVidesSousLigneDansFichier(
@@ -207,12 +201,6 @@ public class EcriveurInterface extends AbstractEcriveur {
 		 * ligne de setId(). */
 		this.insererLignesVidesSousLigneDansFichier(
 				pFile, derniereLigneSetId, 3, CHARSET_UTF8);
-
-
-		/* Ecrit la ligne finale. */
-		this.ecrireLigneFinale(pFile);
-		
-		
 		
 	} // Fin de ecrireCodeHook(...)._______________________________________
 
@@ -1181,63 +1169,13 @@ public class EcriveurInterface extends AbstractEcriveur {
 				
 	} // Fin de creerLignesMethodSetId()._______________________
 	
-
-
-	/**
-	 * method ecrireLigneFinale(
-	 * ) :<br/>
-	 * <ul>
-	 * <li>Insère la ligne de déclaration
-	 * à la cinquième ligne du fichier.</li>
-	 * <li>N'insère la ligne que si elle n'existe pas déjà</li>
-	 * <li>Par exemple : <code>public interface IProfil extends 
-	 * IExportateurCsv, IExportateurJTable, 
-	 * Comparable&lt;IProfil&gt;, Cloneable, Serializable {</code>.</li>
-	 * </ul>
-	 *
-	 * @param pFile : File : fichier java.<br/>
-	 */
-	private void ecrireLigneFinale(
-			final File pFile) {
-		
-		/* Crée la ligne finale de l'Interface. */
-		this.creerLigneFinale(pFile);
-		
-		if (!this.existLigneDansFichier(
-				pFile, CHARSET_UTF8, this.ligneFinale)) {
-			
-			/* Insère la ligne finale à la fin du fichier. */
-			this.ecrireStringDansFile(
-					pFile, this.ligneFinale
-					, CHARSET_UTF8, NEWLINE);
-						
-		}
-		
-	} // Fin de ecrireLigneFinale(...).____________________________________
-	
 	
 	
 	/**
-	 * method creerLigneFinale(
-	 * ) :<br/>
-	 * <ul>
-	 * <li>Génère la ligne de code pour la 
-	 * ligne finale du fichier Java.</li>
-	 * <li>Alimente this.ligneFinale.</li>
-	 * <li>Par exemple : <code>public interface IProfil extends 
-	 * IExportateurCsv, IExportateurJTable, 
-	 * Comparable<IProfil>, Cloneable, Serializable {</code>.</li>
-	 * </ul>
-	 * Retourne null si pFile est null.<br/>
-	 * Retourne null si pFile n'existe pas sur le disque.<br/>
-	 * Retourne null si pFile est un répertoire.<br/>
-	 * <br/>
-	 * 
-	 * @param pFile : File : fichier java.<br/>
-	 * 
-	 * @return : String : Ligne de code pour la ligne finale.<br/>
+	 * {@inheritDoc}
 	 */
-	private String creerLigneFinale(
+	@Override
+	protected final String creerLigneFinale(
 			final File pFile) {
 		
 		/* Retourne null si pFile est null. */

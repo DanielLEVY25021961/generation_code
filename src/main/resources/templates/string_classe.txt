@@ -1,0 +1,6 @@
+	/**
+	 * CLASSE_ABSTRACT_PROFIL : String :<br/>
+	 * "Classe AbstractProfil".<br/>
+	 */
+	public static final String CLASSE_ABSTRACT_PROFIL 
+		= "Classe AbstractProfil";
