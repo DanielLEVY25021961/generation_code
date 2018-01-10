@@ -1,0 +1,17 @@
+	public boolean equals(
+			final Object pObject) {
+
+		if (this == pObject) {
+			return true;
+		}
+		
+		if (pObject == null) {
+			return false;
+		}
+		
+		if (!(pObject instanceof {$nomSimpleFichierJava})) {
+			return false;
+		}
+		
+		final {$nomSimpleFichierJava} other = ({$nomSimpleFichierJava}) pObject;
+		

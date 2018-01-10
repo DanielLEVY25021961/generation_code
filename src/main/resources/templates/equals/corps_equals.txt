@@ -1,0 +1,10 @@
+		/* {$nomAttribut}. */
+		if (this.{$nomAttribut} == null) {
+			if (other.{$nomAttribut} != null) {
+				return false;
+			}
+		}
+		else if (!this.{$nomAttribut}.equals(other.{$nomAttribut})) {
+			return false;
+		}
+		

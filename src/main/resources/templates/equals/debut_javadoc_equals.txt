@@ -1,0 +1,5 @@
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * <ul>
+	 * <b>equals(...) pour un {$nomSimpleFichierJava}</b> sur :

@@ -2843,11 +2843,11 @@ public abstract class AbstractEcriveur {
 		}
 		
 		/* FIN. */
-		final String cheminFichierFint 
+		final String cheminFichierFin 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
 		+ "/templates/hashcode/fin_hashcode.txt";
 	
-		final File fichierFin = new File(cheminFichierFint);
+		final File fichierFin = new File(cheminFichierFin);
 	
 		final List<String> listeLignesFin 
 			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
@@ -2888,10 +2888,254 @@ public abstract class AbstractEcriveur {
 				LOG.fatal("Impossible de créer le code du hashcode", e);
 			}
 		}
-		
-		
+				
 	} // Fin de ecrireHashCode(...)._______________________________________
 	
+
+		
+	/**
+	 * method ecrireEquals(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la javadoc de equals().</li>
+	 * <li>écrit le code de equals().</li>
+	 * <li>insère 3 lignes vides ensuite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireEquals(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+		return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+		return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+		return;
+		}
+		
+		final List<String> listeMethode = new ArrayList<String>();
+
+		/* écrit la javadoc. */
+		this.ecrireJavadocEquals(listeMethode);
+		
+		/* écrit le code. */
+		this.ecrireCodeEquals(listeMethode);
+		
+		
+		/* ENREGISTREMENT *********/
+		
+		final String ligneIdentifiant = "	public boolean equals";
+		
+		try {
+
+			/* Ne fait rien si le code a déjà été écrit. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			for (final String ligne : listeMethode) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
+					
+				} else {
+
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+					
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le code du hashcode", e);
+			}
+		}
+				
+	} // Fin de ecrireEquals(...)._________________________________________
+	
+
+	
+	/**
+	 * method ecrireJavadocEquals(
+	 * List&lt;String&gt; pListeMethode) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de equals().</li>
+	 * <li>insère la javadoc générée dans pListeMethode.</li>
+	 * </ul>
+	 *
+	 * @param pListeMethode : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireJavadocEquals(
+			final List<String> pListeMethode) throws Exception {
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/equals/debut_javadoc_equals.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		final List<String> listeLignesDebutAAjouter 
+			= this.substituerVariablesDansLigne(
+					listeLignesDebut
+						, "{$nomSimpleFichierJava}"
+							, this.nomSimpleFichierJava);
+		
+		/* Ajout des lignes du début. */
+		pListeMethode.addAll(listeLignesDebutAAjouter);
+		
+		/* CORPS. */
+		final String cheminFichierCorps 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/equals/corps_javadoc_equals.txt";
+	
+		final File fichierCorps = new File(cheminFichierCorps);
+	
+		final List<String> listeLignesCorps 
+			= this.lireStringsDansFile(fichierCorps, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetCorps 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteCorps 
+			= entrySetCorps.iterator();
+		
+		while (iteCorps.hasNext()) {
+			
+			final Entry<String, String> entryCorps = iteCorps.next();
+			
+			final String nomAttribut = entryCorps.getKey();
+			
+			final List<String> lignesAAjouter 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorps, "{$nomAttribut}", nomAttribut);
+			
+			/* Ajout des lignes du corps. */
+			pListeMethode.addAll(lignesAAjouter);
+
+		}
+
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/equals/fin_javadoc_equals.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes du fin. */
+		pListeMethode.addAll(listeLignesFin);
+		
+	} // Fin de ecrireJavadocEquals(...).__________________________________
+
+
+	
+	/**
+	 * method ecrireCodeEquals(
+	 * List&lt;String&gt; pListeMethode) :<br/>
+	 * <ul>
+	 * <li>génère le code de equals().</li>
+	 * <li>insère le code généré dans pListeMethode.</li>
+	 * </ul>
+	 *
+	 * @param pListeMethode : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireCodeEquals(
+			final List<String> pListeMethode) throws Exception {
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/equals/debut_equals.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		final List<String> listeLignesDebutAAjouter 
+			= this.substituerVariablesDansLigne(
+					listeLignesDebut
+						, "{$nomSimpleFichierJava}"
+							, this.nomSimpleFichierJava);
+		
+		/* Ajout des lignes du début. */
+		pListeMethode.addAll(listeLignesDebutAAjouter);
+		
+		/* CORPS. */
+		final String cheminFichierCorps 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/equals/corps_equals.txt";
+	
+		final File fichierCorps = new File(cheminFichierCorps);
+	
+		final List<String> listeLignesCorps 
+			= this.lireStringsDansFile(fichierCorps, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetCorps 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteCorps 
+			= entrySetCorps.iterator();
+		
+		while (iteCorps.hasNext()) {
+			
+			final Entry<String, String> entryCorps = iteCorps.next();
+			
+			final String nomAttribut = entryCorps.getKey();
+			
+			final List<String> lignesAAjouter 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorps, "{$nomAttribut}", nomAttribut);
+			
+			/* Ajout des lignes du corps. */
+			pListeMethode.addAll(lignesAAjouter);
+
+		}
+
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/equals/fin_equals.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes du fin. */
+		pListeMethode.addAll(listeLignesFin);
+				
+	} // Fin de ecrireCodeEquals(...)._____________________________________
+
 	
 	
 	/**
