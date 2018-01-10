@@ -121,12 +121,25 @@ public class GenerateurMetier {
 	/**
 	 * mapAttributs : Map&lt;String,String&gt; :<br/>
 	 * <ul>
-	 * Map&lt;String,String&gt; des attributs de l'objet métier avec :
+	 * Map&lt;String,String&gt; des attributs 
+	 * de l'objet métier (hors id) avec :
 	 * <li>String : nom de l'attribut</li>
 	 * <li>String : type de l'attribut</li>
 	 * </ul>
 	 */
 	private transient Map<String, String> mapAttributs;
+	
+	
+	/**
+	 * mapAttributsEquals : Map&lt;String,String&gt; :<br/>
+	 * <ul>
+	 * Map&lt;String,String&gt; des attributs 
+	 * de l'objet métier (hors id) utilisés dans equals() avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>String : type de l'attribut</li>
+	 * </ul>
+	 */
+	private transient Map<String, String> mapAttributsEquals;
 	
 	
 	/**
@@ -165,10 +178,14 @@ public class GenerateurMetier {
 	 * method genererObjetMetier(
 	 * String pNomPackage
 	 * , String pNomInterface
-	 * , String pNomObjetMetier) :<br/>
+	 * , String pNomObjetMetier
+	 * , Map<String, String> pMapAttributs
+	 * , Map<String, String> pMapAttributsEquals) :<br/>
 	 * <ul>
 	 * <li><b>Génère le code model.metier</b>;</li>
 	 * <li>alimente la map des attributs de l'objet métier.</li>
+	 * <li>alimente la map des attributs de l'objet métier 
+	 * utilisés dans equals().</li>
 	 * <li>Génère le package pNomPackage sous model/metier.</li>
 	 * <li>Génère le package pNomPackage.impl.</li>
 	 * <li>Génère l'Interface vide de l'objet métier.</li>
@@ -190,6 +207,7 @@ public class GenerateurMetier {
 	 * @param pNomInterface
 	 * @param pNomObjetMetier
 	 * @param pMapAttributs 
+	 * @param pMapAttributsEquals 
 	 * 
 	 * @throws IOException
 	 */
@@ -197,7 +215,8 @@ public class GenerateurMetier {
 			final String pNomPackage
 				, final String pNomInterface
 					, final String pNomObjetMetier
-						, final Map<String, String> pMapAttributs) 
+						, final Map<String, String> pMapAttributs
+							, final Map<String, String> pMapAttributsEquals) 
 			throws IOException {
 		
 		/* retourne si pNomPackage est blank. */
@@ -250,6 +269,9 @@ public class GenerateurMetier {
 
 		/* alimente la map des attributs de l'objet métier. */
 		this.mapAttributs = pMapAttributs;
+		
+		/* alimente la map des attributs de l'objet métier utilisés dans equals(). */
+		this.mapAttributsEquals = pMapAttributsEquals;
 		
 		/* Génère le package pNomPackage devant contenir 
 		 * l'objet métier généré pNomObjetMetier sous model/metier */
@@ -369,7 +391,7 @@ public class GenerateurMetier {
 	 * method getMapAttributs() :<br/>
 	 * <ul>
 	 * Getter de la Map&lt;String,String&gt; des attributs 
-	 * de l'objet métier avec :
+	 * de l'objet métier (hors id) avec :
 	 * <li>String : nom de l'attribut</li>
 	 * <li>String : type de l'attribut</li>
 	 * </ul>
@@ -379,6 +401,23 @@ public class GenerateurMetier {
 	public final Map<String, String> getMapAttributs() {
 		return this.mapAttributs;
 	} // Fin de getMapAttributs()._________________________________________
+
+
+	
+	/**
+	 * method getMapAttributsEquals() :<br/>
+	 * <ul>
+	 * Getter de la Map&lt;String,String&gt; des attributs 
+	 * de l'objet métier (hors id) utilisés dans equals() avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>String : type de l'attribut</li>
+	 * </ul>
+	 *
+	 * @return mapAttributsEquals : Map<String,String>.<br/>
+	 */
+	public final Map<String, String> getMapAttributsEquals() {
+		return this.mapAttributsEquals;
+	} // Fin de getMapAttributsEquals().___________________________________
 
 
 

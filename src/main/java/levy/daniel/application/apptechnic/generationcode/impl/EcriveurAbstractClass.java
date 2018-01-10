@@ -130,6 +130,9 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 			/* écrit le constructeur complet base. */
 			this.ecrireConstructeurCompletBase(pFile);
 			
+			/* écrit la méthode hashcode(). */
+			this.ecrireHashCode(pFile);
+			
 		} catch (Exception e) {
 					
 			if (LOG.isFatalEnabled()) {

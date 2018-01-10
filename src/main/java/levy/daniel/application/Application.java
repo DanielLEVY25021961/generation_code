@@ -48,13 +48,27 @@ public final class Application {
 	/**
 	 * MAP_ATTRIBUTS : Map&lt;String,String&gt; :<br/>
 	 * <ul>
-	 * Map&lt;String,String&gt; avec :
+	 * Map&lt;String,String&gt; ordonnée 
+	 * contenant tous les attributs avec :
 	 * <li>String : nom de l'attribut</li>
 	 * <li>String : type de l'attribut</li>
 	 * </ul>
 	 */
 	private static final Map<String, String> MAP_ATTRIBUTS  // NOPMD by daniel.levy on 10/01/18 10:15
 		= new LinkedHashMap<String, String>();
+
+	
+	/**
+	 * MAP_ATTRIBUTS_EQUALS : Map<String,String> :<br/>
+	 * <ul>
+	 * Map&lt;String,String&gt; ordonnée 
+	 * contenant uniquement les attributs de equals avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>String : type de l'attribut</li>
+	 * </ul>
+	 */
+	private static final Map<String, String> MAP_ATTRIBUTS_EQUALS  // NOPMD by daniel.levy on 10/01/18 10:15
+	= new LinkedHashMap<String, String>();
 
 	
 	/**
@@ -97,12 +111,16 @@ public final class Application {
 		MAP_ATTRIBUTS.put("porteeProfil", "String");
 		MAP_ATTRIBUTS.put("restrictionProfil", "String");
 		
+		MAP_ATTRIBUTS_EQUALS.put("profilString", "String");
+		MAP_ATTRIBUTS_EQUALS.put("porteeProfil", "String");
+		
 		generateur
 			.genererObjetMetier(
 					"profil"
 						, "IProfil"
 							, "ProfilCerbere"
-								, MAP_ATTRIBUTS);
+								, MAP_ATTRIBUTS
+									, MAP_ATTRIBUTS_EQUALS);
 		
 		
 	} // Fin de main(...)._________________________________________________

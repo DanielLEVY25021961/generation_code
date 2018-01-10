@@ -393,6 +393,14 @@ public abstract class AbstractEcriveur {
 	 */
 	public static final String LIGNE_CONSTR_NULL_JAVADOC 
 		= "	 * CONSTRUCTEUR D'ARITE NULLE.<br/>";
+
+	
+	/**
+	 * LIGNE_FIN_CONSTR_NULL : String :<br/>
+	 * "} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________".<br/>
+	 */
+	public static final String LIGNE_FIN_CONSTR_NULL 
+		= "} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________";
 	
 	
 	/**
@@ -404,12 +412,28 @@ public abstract class AbstractEcriveur {
 	
 	
 	/**
+	 * LIGNE_FIN_CONSTR_COMPLET : String :<br/>
+	 * "} // Fin de CONSTRUCTEUR COMPLET.______________________________________".<br/>
+	 */
+	public static final String LIGNE_FIN_CONSTR_COMPLET 
+		= "} // Fin de CONSTRUCTEUR COMPLET.______________________________________";
+	
+	
+	/**
 	 * LIGNE_CONSTR_COMPLET_BASE_JAVADOC : String :<br/>
 	 * "	 * <li>CONSTRUCTEUR COMPLET BASE.</li>".<br/>
 	 */
 	public static final String LIGNE_CONSTR_COMPLET_BASE_JAVADOC 
 		= "	 * <li>CONSTRUCTEUR COMPLET BASE.</li>";
 
+	
+	/**
+	 * LIGNE_FIN_CONSTR_COMPLET_BASE : String :<br/>
+	 * "} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________".<br/>
+	 */
+	public static final String LIGNE_FIN_CONSTR_COMPLET_BASE 
+		= "} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________";
+	
 	
 	/**
 	 * SANS_ID_JAVADOC : String :<br/>
@@ -532,7 +556,8 @@ public abstract class AbstractEcriveur {
 	/**
 	 * mapAttributs : Map&lt;String,String&gt; :<br/>
 	 * <ul>
-	 * Map&lt;String,String&gt; des attributs de l'objet métier avec :
+	 * Map&lt;String,String&gt; des attributs 
+	 * de l'objet métier (hors id) avec :
 	 * <li>String : nom de l'attribut</li>
 	 * <li>String : type de l'attribut</li>
 	 * </ul>
@@ -540,6 +565,19 @@ public abstract class AbstractEcriveur {
 	protected transient Map<String, String> mapAttributs;
 	
 	
+	
+	/**
+	 * mapAttributsEquals : Map&lt;String,String&gt; :<br/>
+	 * <ul>
+	 * Map&lt;String,String&gt; des attributs 
+	 * de l'objet métier (hors id) utilisés dans equals() avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>String : type de l'attribut</li>
+	 * </ul>
+	 */
+	protected transient Map<String, String> mapAttributsEquals;
+	
+
 	
 	/**
 	 * pathRacineMainJavaString : String :<br/>
@@ -765,6 +803,7 @@ public abstract class AbstractEcriveur {
 	 * <li>Traite le cas des mauvais fichiers.</li>
 	 * <li>alimente this.generateurMetier.</li>
 	 * <li>alimente this.mapAttributs.</li>
+	 * <li>alimente this.mapAttributsEquals.</li>
 	 * <li>alimente this.fichierJava.</li>
 	 * <li>alimente this.nomSimpleFichierJava.</li>
 	 * <li>écrit la ligne de code <b>package</b> (1ère ligne).</li>
@@ -810,6 +849,9 @@ public abstract class AbstractEcriveur {
 		/* alimente this.mapAttributs. */
 		this.mapAttributs = this.generateurMetier.getMapAttributs();
 		
+		/* alimente this.mapAttributsEquals. */
+		this.mapAttributsEquals = this.generateurMetier.getMapAttributsEquals();
+
 		/* alimente this.fichierJava. */
 		this.fichierJava = pFile;
 		
@@ -1676,6 +1718,102 @@ public abstract class AbstractEcriveur {
 	} // Fin de ecrireAttributs(...).______________________________________
 	
 
+	
+	/**
+	 * method ecrireSepMethodes() :<br/>
+	 * écrit la ligne de séparation des methodes.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireSepMethodes(
+			final File pFile) {
+
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		try {
+
+			/* Crée le Séparateur d'attributs. */
+			this.creerSepMethodes();
+
+			/* Recherche la ligne identifiant sepMethodes. */
+			final String ligneMethodes = this.fournirDebutSepMethodes();
+
+			/* Ne fait rien si sepMethodes a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneMethodes)) {
+				return;
+			}
+
+			for (final String ligne : this.sepMethodes) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le séparateur de méthodes", e);
+			}
+		}
+
+	} // Fin de ecrireSepMethodes().______________________________________
+	
+
+	
+	/**
+	 * method creerSepMethodes() :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes du séparateur Methodes.</li>
+	 * <li>alimente this.sepMethodes</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : this.sepMethodes.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private List<String> creerSepMethodes() 
+					throws Exception {
+				
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/sep_methodes.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> listeLignesSubstitue 
+		= this.substituerVariablesDansLigne(
+				listeLignes
+					, "{$nomSimpleFichierJava}", this.nomSimpleFichierJava);
+				
+		this.sepMethodes = listeLignesSubstitue;
+		
+		return this.sepMethodes;
+					
+	} // Fin de creerSepMethodes(...)._____________________________________
+	
+
+	
 		
 	/**
 	 * method ecrireConstructeurNull(
@@ -1767,7 +1905,8 @@ public abstract class AbstractEcriveur {
 			final String ligneIdentifiant = LIGNE_CONSTR_NULL_JAVADOC;
 	
 			/* Ne fait rien si la javadoc a déjà été écrite. */
-			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
 				return;
 			}
 	
@@ -1775,10 +1914,13 @@ public abstract class AbstractEcriveur {
 	
 				if (StringUtils.isBlank(ligne)) {
 	
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
+					
 				} else {
 	
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
 				}
 			}
 		} catch (Exception e) {
@@ -1795,7 +1937,7 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method ecrireCodeConstructeurNull(
 	 * File pFile) :<br/>
-	 * génère le code du constructeur complet.<br/>
+	 * génère le code du constructeur d'arite nulle.<br/>
 	 * <br/>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -1825,11 +1967,10 @@ public abstract class AbstractEcriveur {
 		}
 	
 		final List<String> listCode = new ArrayList<String>();
-		
-		listCode.add(PUBLIC + this.nomSimpleFichierJava + "() {");
-	
 		final String decalageCode = "\t" + "\t";
 		
+		listCode.add(PUBLIC + this.nomSimpleFichierJava + "() {");
+			
 		listCode.add("");
 	
 		final StringBuilder stb = new StringBuilder();
@@ -1843,7 +1984,8 @@ public abstract class AbstractEcriveur {
 		final Set<Entry<String, String>> entrySet2 
 		= this.mapAttributs.entrySet();
 	
-		final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
+		final Iterator<Entry<String, String>> ite2 
+			= entrySet2.iterator();
 		
 		while (ite2.hasNext()) {
 			
@@ -1868,9 +2010,10 @@ public abstract class AbstractEcriveur {
 		
 		final String ligneIdentifiant 
 			= "\t" 
-			+ "} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________";
+			+ LIGNE_FIN_CONSTR_NULL;
 		
 		listCode.add(ligneIdentifiant);
+		
 		listCode.add("");
 		listCode.add("");
 		listCode.add("");
@@ -1878,7 +2021,8 @@ public abstract class AbstractEcriveur {
 		try {
 	
 			/* Ne fait rien si le code a déjà été écrit. */
-			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
 				return;
 			}
 	
@@ -1886,16 +2030,21 @@ public abstract class AbstractEcriveur {
 	
 				if (StringUtils.isBlank(ligne)) {
 	
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
+					
 				} else {
 	
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
 				}
 			}
 		} catch (Exception e) {
 	
 			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer le code du constructeur", e);
+				LOG.fatal(
+						"Impossible de créer "
+						+ "le code du constructeur", e);
 			}
 		}
 		
@@ -2077,7 +2226,8 @@ public abstract class AbstractEcriveur {
 			final String ligneIdentifiant = LIGNE_CONSTR_COMPLET_JAVADOC;
 
 			/* Ne fait rien si la javadoc a déjà été écrite. */
-			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
 				return;
 			}
 
@@ -2085,10 +2235,14 @@ public abstract class AbstractEcriveur {
 
 				if (StringUtils.isBlank(ligne)) {
 
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
+					
 				} else {
 
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+					
 				}
 			}
 		} catch (Exception e) {
@@ -2230,9 +2384,10 @@ public abstract class AbstractEcriveur {
 		
 		final String ligneIdentifiant 
 			= "\t" 
-			+ "} // Fin de CONSTRUCTEUR COMPLET.______________________________________";
+			+ LIGNE_FIN_CONSTR_COMPLET;
 		
 		listCode.add(ligneIdentifiant);
+		
 		listCode.add("");
 		listCode.add("");
 		listCode.add("");
@@ -2264,7 +2419,6 @@ public abstract class AbstractEcriveur {
 	} // Fin de ecrireCodeConstructeurComplet(...).____________________
 	
 	
-
 	
 	/**
 	 * method ecrireConstructeurCompletBase(
@@ -2424,10 +2578,12 @@ public abstract class AbstractEcriveur {
 		try {
 
 			/* Recherche la ligne identifiant. */
-			final String ligneIdentifiant = LIGNE_CONSTR_COMPLET_BASE_JAVADOC;
+			final String ligneIdentifiant 
+				= LIGNE_CONSTR_COMPLET_BASE_JAVADOC;
 
 			/* Ne fait rien si la javadoc a déjà été écrite. */
-			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
 				return;
 			}
 
@@ -2435,10 +2591,14 @@ public abstract class AbstractEcriveur {
 
 				if (StringUtils.isBlank(ligne)) {
 
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
+					
 				} else {
 
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+					
 				}
 			}
 		} catch (Exception e) {
@@ -2515,7 +2675,8 @@ public abstract class AbstractEcriveur {
 			
 			final String ligneACreerBase 
 				= decalage + ", " + FINAL
-				+ typeAttribut + SEP_ESPACE + this.fournirParametre(nomAttribut);
+				+ typeAttribut 
+				+ SEP_ESPACE + this.fournirParametre(nomAttribut);
 			
 			String ligneACreer = null;
 			
@@ -2559,7 +2720,7 @@ public abstract class AbstractEcriveur {
 		
 		final String ligneIdentifiant 
 			= "\t" 
-			+ "} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________";
+			+ LIGNE_FIN_CONSTR_COMPLET_BASE;
 		
 		listCode.add(ligneIdentifiant);
 		
@@ -2570,7 +2731,8 @@ public abstract class AbstractEcriveur {
 		try {
 
 			/* Ne fait rien si le code a déjà été écrit. */
-			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
 				return;
 			}
 
@@ -2578,10 +2740,14 @@ public abstract class AbstractEcriveur {
 
 				if (StringUtils.isBlank(ligne)) {
 
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
+					
 				} else {
 
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+					
 				}
 			}
 		} catch (Exception e) {
@@ -2596,99 +2762,135 @@ public abstract class AbstractEcriveur {
 	
 	
 	/**
-	 * method ecrireSepMethodes() :<br/>
-	 * écrit la ligne de séparation des methodes.<br/>
+	 * method ecrireHashCode(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la javadoc de hashCode().</li>
+	 * <li>écrit le code de hashCode().</li>
+	 * <li>insère 3 lignes vides ensuite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
 	 */
-	protected final void ecrireSepMethodes(
-			final File pFile) {
-
+	protected final void ecrireHashCode(
+			final File pFile) throws Exception {
+						
 		/* ne fait rien si pFile est null. */
 		if (pFile == null) {
 			return;
 		}
-
+		
 		/* ne fait rien si pFile n'existe pas. */
 		if (!pFile.exists()) {
 			return;
 		}
-
+		
 		/* ne fait rien si pFile n'est pas un fichier simple. */
 		if (!pFile.isFile()) {
 			return;
 		}
 
+		final List<String> listeMethode = new ArrayList<String>();
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/hashcode/debut_hashcode.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes du début. */
+		listeMethode.addAll(listeLignesDebut);
+
+		/* CORPS. */
+		final String cheminFichierCorps 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/hashcode/hashcode.txt";
+	
+		final File fichierCorps = new File(cheminFichierCorps);
+	
+		final List<String> listeLignesCorps 
+			= this.lireStringsDansFile(fichierCorps, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetCorps 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteCorps 
+			= entrySetCorps.iterator();
+		
+		while (iteCorps.hasNext()) {
+			
+			final Entry<String, String> entryCorps = iteCorps.next();
+			
+			final String nomAttribut = entryCorps.getKey();
+			
+			final List<String> lignesAAjouter 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorps, "{$nomAttribut}", nomAttribut);
+			
+			/* Ajout des lignes du corps. */
+			listeMethode.addAll(lignesAAjouter);
+
+		}
+		
+		/* FIN. */
+		final String cheminFichierFint 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/hashcode/fin_hashcode.txt";
+	
+		final File fichierFin = new File(cheminFichierFint);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes du fin. */
+		listeMethode.addAll(listeLignesFin);
+
+		
+		/* ENREGISTREMENT *********/
+		
+		final String ligneIdentifiant = "	public int hashCode()";
+		
 		try {
 
-			/* Crée le Séparateur d'attributs. */
-			this.creerSepMethodes();
-
-			/* Recherche la ligne identifiant sepMethodes. */
-			final String ligneMethodes = this.fournirDebutSepMethodes();
-
-			/* Ne fait rien si sepMethodes a déjà été écrit. */
-			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneMethodes)) {
+			/* Ne fait rien si le code a déjà été écrit. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
 				return;
 			}
 
-			for (final String ligne : this.sepMethodes) {
+			for (final String ligne : listeMethode) {
 
 				if (StringUtils.isBlank(ligne)) {
 
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
+					
 				} else {
 
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+					
 				}
 			}
 		} catch (Exception e) {
 
 			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer le séparateur de méthodes", e);
+				LOG.fatal("Impossible de créer le code du hashcode", e);
 			}
 		}
-
-	} // Fin de ecrireSepMethodes().______________________________________
-	
-
-	
-	/**
-	 * method creerSepMethodes() :<br/>
-	 * <ul>
-	 * <li>Crée la liste des lignes du séparateur Methodes.</li>
-	 * <li>alimente this.sepMethodes</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.sepMethodes.<br/>
-	 * 
-	 * @throws Exception 
-	 */
-	private List<String> creerSepMethodes() 
-					throws Exception {
-				
-		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/sep_methodes.txt";
 		
-		final File fichier = new File(cheminFichier);
 		
-		final List<String> listeLignes 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
-		
-		final List<String> listeLignesSubstitue 
-		= this.substituerVariablesDansLigne(
-				listeLignes
-					, "{$nomSimpleFichierJava}", this.nomSimpleFichierJava);
-				
-		this.sepMethodes = listeLignesSubstitue;
-		
-		return this.sepMethodes;
-					
-	} // Fin de creerSepMethodes(...)._____________________________________
-	
-
+	} // Fin de ecrireHashCode(...)._______________________________________
 	
 	
 	
