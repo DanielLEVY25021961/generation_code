@@ -1,9 +1,9 @@
 package levy.daniel.application;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,8 +53,8 @@ public final class Application {
 	 * <li>String : type de l'attribut</li>
 	 * </ul>
 	 */
-	private static final Map<String, String> MAP_ATTRIBUTS 
-		= new ConcurrentHashMap<String, String>();
+	private static final Map<String, String> MAP_ATTRIBUTS  // NOPMD by daniel.levy on 10/01/18 10:15
+		= new LinkedHashMap<String, String>();
 
 	
 	/**

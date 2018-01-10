@@ -18,8 +18,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -249,17 +253,39 @@ public abstract class AbstractEcriveur {
 	
 
 	/**
+	 * SEP_ESPACE : String :<br/>
+	 * " ".<br/>
+	 */
+	public static final String SEP_ESPACE = " ";
+	
+	
+	/**
 	 * SEP_PV : String :<br/>
 	 * Séparateur pour les CSV ";".<br/>
 	 */
 	public static final String SEP_PV = ";";
 
+	
+    /**
+     * SEP_2PTS_AERE : String :<br/>
+     * " : ".<br/>
+     */
+    public static final String SEP_2PTS_AERE = " : ";
+    
     
 	/**
 	 * SEPARATEUR_MOINS_AERE : String :<br/>
 	 * " - ".<br/>
 	 */
 	public static final String SEPARATEUR_MOINS_AERE = " - ";
+
+		
+	/**
+	 * EGAL : String :<br/>
+	 * " = ".<br/>
+	 */
+	public static final String EGAL 
+		= " = ";
 	
 	
 	/**
@@ -319,8 +345,168 @@ public abstract class AbstractEcriveur {
 	 */
 	public static final Charset CHARSET_UTF8 
 		= Charset.forName("UTF-8");
-	
 
+	
+	/**
+	 * DEBUT_JAVADOC : String :<br/>
+	 * .<br/>
+	 */
+	public static final String DEBUT_JAVADOC 
+		= "	 /**";
+
+	
+	/**
+	 * CONSTR_JAVADOC : String :<br/>
+	 * "	 * method CONSTRUCTEUR ".<br/>
+	 */
+	public static final String CONSTR_JAVADOC 
+		= "	 * method CONSTRUCTEUR ";
+
+	
+	/**
+	 * ID_JAVADOC : String :<br/>
+	 * "	 * Long pId".<br/>
+	 */
+	public static final String ID_JAVADOC 
+		= "	 * Long pId";
+
+	
+	/**
+	 * VIRGULE_JAVADOC : String :<br/>
+	 * "	 * , ".<br/>
+	 */
+	public static final String VIRGULE_JAVADOC 
+		= "	 * , ";
+
+	
+	/**
+	 * UL_OUVRANT_JAVADOC : String :<br/>
+	 * "	 * <ul>".<br/>
+	 */
+	public static final String UL_OUVRANT_JAVADOC 
+		= "	 * <ul>";
+
+	
+	/**
+	 * LIGNE_CONSTR_NULL_JAVADOC : String :<br/>
+	 * "	 * CONSTRUCTEUR D'ARITE NULLE.<br/>".<br/>
+	 */
+	public static final String LIGNE_CONSTR_NULL_JAVADOC 
+		= "	 * CONSTRUCTEUR D'ARITE NULLE.<br/>";
+	
+	
+	/**
+	 * LIGNE_CONSTR_COMPLET_JAVADOC : String :<br/>
+	 * "	 * <li>CONSTRUCTEUR COMPLET.</li>".<br/>
+	 */
+	public static final String LIGNE_CONSTR_COMPLET_JAVADOC 
+		= "	 * <li>CONSTRUCTEUR COMPLET.</li>";
+	
+	
+	/**
+	 * LIGNE_CONSTR_COMPLET_BASE_JAVADOC : String :<br/>
+	 * "	 * <li>CONSTRUCTEUR COMPLET BASE.</li>".<br/>
+	 */
+	public static final String LIGNE_CONSTR_COMPLET_BASE_JAVADOC 
+		= "	 * <li>CONSTRUCTEUR COMPLET BASE.</li>";
+
+	
+	/**
+	 * SANS_ID_JAVADOC : String :<br/>
+	 * "	 * <li>SANS ID en base.</li>".<br/>
+	 */
+	public static final String SANS_ID_JAVADOC 
+		= "	 * <li>SANS ID en base.</li>";
+	
+	
+	/**
+	 * AVEC_ID_JAVADOC : String :<br/>
+	 * "	 * <li>AVEC ID en base.</li>".<br/>
+	 */
+	public static final String AVEC_ID_JAVADOC 
+		= "	 * <li>AVEC ID en base.</li>";
+
+	
+	/**
+	 * UL_FERMANT_JAVADOC : String :<br/>
+	 * .<br/>
+	 */
+	public static final String UL_FERMANT_JAVADOC 
+		= "	 * </ul>";
+
+	
+	/**
+	 * LIGNE_VIDE_JAVADOC : String :<br/>
+	 * "	 *".<br/>
+	 */
+	public static final String LIGNE_VIDE_JAVADOC 
+		= "	 *";
+
+	
+	/**
+	 * PARAM_ID_JAVADOC : String :<br/>
+	 * "	 * @param pId : Long : ID en base.<br/>".<br/>
+	 */
+	public static final String PARAM_ID_JAVADOC 
+		= "	 * @param pId : Long : ID en base.<br/>";
+
+	
+	/**
+	 * LIGNE_PARAM_JAVADOC : String :<br/>
+	 * "	 * @param ".<br/>
+	 */
+	public static final String LIGNE_PARAM_JAVADOC 
+		= "	 * @param ";
+
+	
+	/**
+	 * POINT_BR : String :<br/>
+	 * ".<br/>".<br/>
+	 */
+	public static final String POINT_BR 
+		= ".<br/>";
+
+	
+	/**
+	 * FIN_JAVADOC : String :<br/>
+	 * 
+	 */
+	public static final String FIN_JAVADOC 
+		= "	 */";
+
+	
+	/**
+	 * PUBLIC : String :<br/>
+	 * "	public ".<br/>
+	 */
+	public static final String PUBLIC 
+		= "	public ";
+
+	
+	/**
+	 * FINAL : String :<br/>
+	 * "final ".<br/>
+	 */
+	public static final String FINAL 
+		= "final ";
+
+	
+	/**
+	 * SUPER : String :<br/>
+	 * "super();".<br/>
+	 */
+	public static final String SUPER 
+		= "super();";
+
+	
+	/**
+	 * THIS : String :<br/>
+	 * "this.".<br/>
+	 */
+	public static final String THIS 
+		= "this.";
+	
+	
 	/**
 	 * generateurMetier : GenerateurMetier :<br/>
 	 * GenerateurMetier.<br/>
@@ -341,6 +527,17 @@ public abstract class AbstractEcriveur {
 	 * Par exemple, "IProfil" pour IProfil.java<br/>
 	 */
 	protected transient String nomSimpleFichierJava;
+	
+	
+	/**
+	 * mapAttributs : Map&lt;String,String&gt; :<br/>
+	 * <ul>
+	 * Map&lt;String,String&gt; des attributs de l'objet métier avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>String : type de l'attribut</li>
+	 * </ul>
+	 */
+	protected transient Map<String, String> mapAttributs;
 	
 	
 	
@@ -430,7 +627,14 @@ public abstract class AbstractEcriveur {
 	
 	
 	/**
-	 * sepMethodes : List<String> :<br/>
+	 * attributId : List<String> :<br/>
+	 * Lignes attribut id.<br/>
+	 */
+	protected transient List<String> attributId;
+
+	
+	/**
+	 * sepMethodes : List&lt;String&gt; :<br/>
 	 * ligne de séparation des methodes.<br/>
 	 */
 	protected transient List<String> sepMethodes;
@@ -560,6 +764,7 @@ public abstract class AbstractEcriveur {
 	 * <li><b>Génère le code dans le fichier java pFile</b>.</li>
 	 * <li>Traite le cas des mauvais fichiers.</li>
 	 * <li>alimente this.generateurMetier.</li>
+	 * <li>alimente this.mapAttributs.</li>
 	 * <li>alimente this.fichierJava.</li>
 	 * <li>alimente this.nomSimpleFichierJava.</li>
 	 * <li>écrit la ligne de code <b>package</b> (1ère ligne).</li>
@@ -601,6 +806,9 @@ public abstract class AbstractEcriveur {
 		
 		/* alimente this.generateurMetier. */
 		this.generateurMetier = pGenerateurMetier;
+		
+		/* alimente this.mapAttributs. */
+		this.mapAttributs = this.generateurMetier.getMapAttributs();
 		
 		/* alimente this.fichierJava. */
 		this.fichierJava = pFile;
@@ -1274,6 +1482,1118 @@ public abstract class AbstractEcriveur {
 	} // Fin de creerStringClasse(...).____________________________________
 	
 
+	
+	/**
+	 * method ecrireAttributId() :<br/>
+	 * écrit la ligne attributId.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireAttributId(
+			final File pFile) {
+
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		try {
+
+			/* Crée le attributId. */
+			this.creerAttributId();
+
+			/* Recherche la ligne identifiant attributId. */
+			final String ligneIdentifiant = this.fournirDebutAttributId();
+
+			/* Ne fait rien si attributId a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			for (final String ligne : this.attributId) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer attributId", e);
+			}
+		}
+
+	} // Fin de ecrireAttributId().________________________________________
+	
+
+	
+	/**
+	 * method creerAttributId() :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes attributId.</li>
+	 * <li>alimente this.attributId</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : this.attributId.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private List<String> creerAttributId() 
+					throws Exception {
+				
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/attributId.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+						
+		this.attributId = listeLignes;
+		
+		return this.attributId;
+					
+	} // Fin de creerAttributId(...).______________________________________
+	
+
+	
+	/**
+	 * method ecrireAttributs(
+	 * File pFile) :<br/>
+	 * Ecrit tous les attributs stockés dans la Map this.mapAttributs.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireAttributs(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributs.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/attribut.txt";
+		
+			final File fichier = new File(cheminFichier);
+			
+			final List<String> attributListProvisoire 
+				= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+			
+			final List<String> attributListSubst1 
+				= this.substituerVariablesDansLigne(
+						attributListProvisoire
+						, "{$nomAttribut}", nomAttribut);
+			
+			final List<String> attributListSubst2 
+			= this.substituerVariablesDansLigne(
+					attributListSubst1
+					, "{$typeAttribut}", typeAttribut);
+			
+			/* Liste des lignes à générer pour l'attribut. */
+			final List<String> attributList 
+			= this.substituerVariablesDansLigne(
+					attributListSubst2
+					, "{$nomSimpleFichierJava}"
+						, this.nomSimpleFichierJava);
+			
+			final String ligneIdentifiant 
+				= "	protected " + typeAttribut + " " + nomAttribut;
+			
+			try {
+				
+				/* Ne fait rien si l'attribut a déjà été écrit. */
+				if (this.existLigneCommencant(
+						pFile, CHARSET_UTF8, ligneIdentifiant)) {
+					return;
+				}
+
+				for (final String ligne : attributList) {
+
+					if (StringUtils.isBlank(ligne)) {
+
+						this.ecrireStringDansFile(
+								pFile, "", CHARSET_UTF8, NEWLINE);
+					} else {
+
+						this.ecrireStringDansFile(
+								pFile, ligne, CHARSET_UTF8, NEWLINE);
+					}
+				}
+				
+			} catch (Exception e) {
+
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Impossible de créer l' attribut " 
+								+ nomAttribut, e);
+				}
+			}
+			
+		} // Fin de ite.hasNext().________________________________
+		
+	} // Fin de ecrireAttributs(...).______________________________________
+	
+
+		
+	/**
+	 * method ecrireConstructeurNull(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la javadoc du constructeur d'arite nulle.</li>
+	 * <li>écrit le code du constructeur d'arite nulle.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireConstructeurNull(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		/* écrit la javadoc du constructeur d'arite nulle. */
+		this.ecrireJavadocConstructeurNull(pFile);
+		
+		/* écrit le code du constructeur d'arite nulle. */
+		this.ecrireCodeConstructeurNull(pFile);
+		
+	} // Fin de ecrireConstructeurNull(...)._______________________________
+	
+
+	
+	/**
+	 * method ecrireJavadocConstructeurNull(
+	 * File pFile) :<br/>
+	 * Génère la javadoc du constructeur d'arite nulle.<br/>
+	 * <br/>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireJavadocConstructeurNull(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		final List<String> listJavadoc = new ArrayList<String>();
+		listJavadoc.add(DEBUT_JAVADOC);
+		listJavadoc.add(CONSTR_JAVADOC + this.nomSimpleFichierJava + "() :<br/>");
+		listJavadoc.add(LIGNE_CONSTR_NULL_JAVADOC);			
+		listJavadoc.add(FIN_JAVADOC);
+		
+		
+		
+		try {
+	
+			/* Recherche la ligne identifiant. */
+			final String ligneIdentifiant = LIGNE_CONSTR_NULL_JAVADOC;
+	
+			/* Ne fait rien si la javadoc a déjà été écrite. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+	
+			for (final String ligne : listJavadoc) {
+	
+				if (StringUtils.isBlank(ligne)) {
+	
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+	
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+	
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la Javadoc", e);
+			}
+		}
+		
+	} // Fin de ecrireJavadocConstructeurNull(...)._________________
+	
+	
+	
+	/**
+	 * method ecrireCodeConstructeurNull(
+	 * File pFile) :<br/>
+	 * génère le code du constructeur complet.<br/>
+	 * <br/>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireCodeConstructeurNull(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		final List<String> listCode = new ArrayList<String>();
+		
+		listCode.add(PUBLIC + this.nomSimpleFichierJava + "() {");
+	
+		final String decalageCode = "\t" + "\t";
+		
+		listCode.add("");
+	
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append("this(null");
+		
+		int compteur2 = 0;
+		
+		final int tailleMap = this.mapAttributs.size();
+		
+		final Set<Entry<String, String>> entrySet2 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
+		
+		while (ite2.hasNext()) {
+			
+			compteur2++;
+			
+			ite2.next();
+			
+			String aAjouter = null;
+			
+			if (compteur2 < tailleMap) {
+				aAjouter = ", null";
+			} else {
+				aAjouter = ", null);";
+			}
+			
+			stb.append(aAjouter);
+		}
+		
+		listCode.add(decalageCode + stb.toString());
+		
+		listCode.add("");
+		
+		final String ligneIdentifiant 
+			= "\t" 
+			+ "} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________";
+		
+		listCode.add(ligneIdentifiant);
+		listCode.add("");
+		listCode.add("");
+		listCode.add("");
+		
+		try {
+	
+			/* Ne fait rien si le code a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+	
+			for (final String ligne : listCode) {
+	
+				if (StringUtils.isBlank(ligne)) {
+	
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+	
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+	
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le code du constructeur", e);
+			}
+		}
+		
+	} // Fin de ecrireCodeConstructeurNull(...).____________________
+	
+	
+		
+	/**
+	 * method ecrireConstructeurComplet(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la javadoc du constructeur complet.</li>
+	 * <li>écrit le code du constructeur complet.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireConstructeurComplet(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* écrit la javadoc du constructeur complet. */
+		this.ecrireJavadocConstructeurComplet(pFile);
+		
+		/* écrit le code du constructeur complet. */
+		this.ecrireCodeConstructeurComplet(pFile);
+		
+	} // Fin de ecrireConstructeurComplet(...).____________________________
+	
+
+	
+	/**
+	 * method ecrireJavadocConstructeurComplet(
+	 * File pFile) :<br/>
+	 * Génère la javadoc du constructeur complet.<br/>
+	 * <br/>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireJavadocConstructeurComplet(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		final List<String> listJavadoc = new ArrayList<String>();
+		listJavadoc.add(DEBUT_JAVADOC);
+		listJavadoc.add(CONSTR_JAVADOC + this.nomSimpleFichierJava + "(");
+		
+		final int tailleMap = this.mapAttributs.size();
+		
+		final Set<Entry<String, String>> entrySet 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		int compteur = 0;
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			String ligneACreerBase = null;
+			
+			if (compteur == 1) {
+				
+				ligneACreerBase 
+				= LIGNE_VIDE_JAVADOC
+				+ SEP_ESPACE
+				+ typeAttribut 
+				+ SEP_ESPACE 
+				+ this.fournirParametre(nomAttribut);
+			}
+			else {
+				
+				ligneACreerBase 
+				= VIRGULE_JAVADOC 
+				+ typeAttribut 
+				+ SEP_ESPACE 
+				+ this.fournirParametre(nomAttribut);
+			}
+			
+			
+			String ligneACreer = null;
+			
+			if (compteur < tailleMap) {
+				ligneACreer = ligneACreerBase;
+			} else {
+				ligneACreer = ligneACreerBase + ") :<br/>";
+			}
+			
+			listJavadoc.add(ligneACreer);
+		}
+		
+		listJavadoc.add(UL_OUVRANT_JAVADOC);
+		listJavadoc.add(LIGNE_CONSTR_COMPLET_JAVADOC);
+		listJavadoc.add(SANS_ID_JAVADOC);
+		listJavadoc.add(UL_FERMANT_JAVADOC);
+		listJavadoc.add(LIGNE_VIDE_JAVADOC);
+
+		
+		final Set<Entry<String, String>> entrySet2 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
+		
+		while (ite2.hasNext()) {
+			
+			final Entry<String, String> entry2 = ite2.next();
+			
+			final String nomAttribut = entry2.getKey();
+			final String typeAttribut = entry2.getValue();
+			
+			final String ligneACreer 
+				= LIGNE_PARAM_JAVADOC 
+				+ fournirParametre(nomAttribut) 
+				+ SEP_2PTS_AERE 
+				+ typeAttribut 
+				+ SEP_2PTS_AERE 
+				+ nomAttribut 
+				+ " du " 
+				+ this.nomSimpleFichierJava 
+				+ POINT_BR;
+						
+			listJavadoc.add(ligneACreer);
+		}
+
+		
+		listJavadoc.add(FIN_JAVADOC);
+		
+		
+		
+		try {
+
+			/* Recherche la ligne identifiant. */
+			final String ligneIdentifiant = LIGNE_CONSTR_COMPLET_JAVADOC;
+
+			/* Ne fait rien si la javadoc a déjà été écrite. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			for (final String ligne : listJavadoc) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la Javadoc", e);
+			}
+		}
+		
+	} // Fin de ecrireJavadocConstructeurComplet(...)._________________
+	
+
+	
+	/**
+	 * method ecrireCodeConstructeurComplet(
+	 * File pFile) :<br/>
+	 * génère le code du constructeur complet.<br/>
+	 * <br/>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireCodeConstructeurComplet(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		final List<String> listCode = new ArrayList<String>();
+		
+		listCode.add(PUBLIC + this.nomSimpleFichierJava + "(");
+
+		final String decalageDebut = "\t" + "\t" + "\t";
+		
+		final int tailleMap = this.mapAttributs.size();
+		
+		final Set<Entry<String, String>> entrySet 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		int compteur = 0;
+		String decalage = decalageDebut;
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			String ligneACreer = null;
+			String ligneACreerBase = null;
+			
+			if (compteur == 1) {
+				
+				ligneACreerBase 
+					= decalage + FINAL
+						+ typeAttribut + SEP_ESPACE 
+							+ this.fournirParametre(nomAttribut);
+								
+			} else {
+				
+				decalage = decalage +"\t"; // NOPMD by daniel.levy on 10/01/18 14:43
+				
+				ligneACreerBase 
+					= decalage + ", " + FINAL
+						+ typeAttribut + SEP_ESPACE 
+						+ this.fournirParametre(nomAttribut);
+				
+			}
+			
+						
+			if (compteur < tailleMap) {
+				ligneACreer = ligneACreerBase;
+			} else {
+				ligneACreer = ligneACreerBase + ") {";
+			}
+			
+			listCode.add(ligneACreer);
+		}
+
+		final String decalageCode = "\t" + "\t";
+		
+		listCode.add("");
+
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append("this(null");
+		
+		int compteur2 = 0;
+		
+		final Set<Entry<String, String>> entrySet2 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
+		
+		while (ite2.hasNext()) {
+			
+			compteur2++;
+			
+			final Entry<String, String> entry2 = ite2.next();
+			
+			final String nomAttribut = entry2.getKey();
+
+			String aAjouter = null;
+			
+			if (compteur2 < tailleMap) {
+				aAjouter = ", " + this.fournirParametre(nomAttribut);
+			} else {
+				aAjouter = ", " + this.fournirParametre(nomAttribut) + ");";
+			}
+			
+			stb.append(aAjouter);
+		}
+		
+		listCode.add(decalageCode + stb.toString());
+		
+		listCode.add("");
+		
+		final String ligneIdentifiant 
+			= "\t" 
+			+ "} // Fin de CONSTRUCTEUR COMPLET.______________________________________";
+		
+		listCode.add(ligneIdentifiant);
+		listCode.add("");
+		listCode.add("");
+		listCode.add("");
+		
+		try {
+
+			/* Ne fait rien si le code a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			for (final String ligne : listCode) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le code du constructeur", e);
+			}
+		}
+		
+	} // Fin de ecrireCodeConstructeurComplet(...).____________________
+	
+	
+
+	
+	/**
+	 * method ecrireConstructeurCompletBase(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la javadoc du constructeur complet base.</li>
+	 * <li>écrit le code du constructeur complet base.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireConstructeurCompletBase(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* écrit la javadoc du constructeur complet base. */
+		this.ecrireJavadocConstructeurCompletBase(pFile);
+		
+		/* écrit le code du constructeur complet base. */
+		this.ecrireCodeConstructeurCompletBase(pFile);
+		
+	} // Fin de ecrireConstructeurCompletBase(...).________________________
+	
+
+	
+	/**
+	 * method ecrireJavadocConstructeurCompletBase(
+	 * File pFile) :<br/>
+	 * Génère la javadoc du constructeur complet base.<br/>
+	 * <br/>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireJavadocConstructeurCompletBase(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		final List<String> listJavadoc = new ArrayList<String>();
+		listJavadoc.add(DEBUT_JAVADOC);
+		listJavadoc.add(CONSTR_JAVADOC + this.nomSimpleFichierJava + "(");
+		listJavadoc.add(ID_JAVADOC);
+		
+		final int tailleMap = this.mapAttributs.size();
+		
+		final Set<Entry<String, String>> entrySet 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		int compteur = 0;
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			final String ligneACreerBase 
+				= VIRGULE_JAVADOC 
+				+ typeAttribut 
+				+ SEP_ESPACE 
+				+ this.fournirParametre(nomAttribut);
+			
+			String ligneACreer = null;
+			
+			if (compteur < tailleMap) {
+				ligneACreer = ligneACreerBase;
+			} else {
+				ligneACreer = ligneACreerBase + ") :<br/>";
+			}
+			
+			listJavadoc.add(ligneACreer);
+		}
+		
+		listJavadoc.add(UL_OUVRANT_JAVADOC);
+		listJavadoc.add(LIGNE_CONSTR_COMPLET_BASE_JAVADOC);
+		listJavadoc.add(AVEC_ID_JAVADOC);
+		listJavadoc.add(UL_FERMANT_JAVADOC);
+		listJavadoc.add(LIGNE_VIDE_JAVADOC);
+		listJavadoc.add(PARAM_ID_JAVADOC);
+
+		
+		final Set<Entry<String, String>> entrySet2 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
+		
+		while (ite2.hasNext()) {
+			
+			final Entry<String, String> entry2 = ite2.next();
+			
+			final String nomAttribut = entry2.getKey();
+			final String typeAttribut = entry2.getValue();
+			
+			final String ligneACreer 
+				= LIGNE_PARAM_JAVADOC 
+				+ fournirParametre(nomAttribut) 
+				+ SEP_2PTS_AERE 
+				+ typeAttribut 
+				+ SEP_2PTS_AERE 
+				+ nomAttribut 
+				+ " du " 
+				+ this.nomSimpleFichierJava 
+				+ POINT_BR;
+						
+			listJavadoc.add(ligneACreer);
+		}
+
+		
+		listJavadoc.add(FIN_JAVADOC);
+		
+		
+		
+		try {
+
+			/* Recherche la ligne identifiant. */
+			final String ligneIdentifiant = LIGNE_CONSTR_COMPLET_BASE_JAVADOC;
+
+			/* Ne fait rien si la javadoc a déjà été écrite. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			for (final String ligne : listJavadoc) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la Javadoc", e);
+			}
+		}
+		
+	} // Fin de ecrireJavadocConstructeurCompletBase(...)._________________
+	
+
+	
+	/**
+	 * method ecrireCodeConstructeurCompletBase(
+	 * File pFile) :<br/>
+	 * génère le code du constructeur complet base.<br/>
+	 * <br/>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireCodeConstructeurCompletBase(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		final List<String> listCode = new ArrayList<String>();
+		
+		listCode.add(PUBLIC + this.nomSimpleFichierJava + "(");
+
+		final String decalageDebut = "\t" + "\t" + "\t";
+		final String idString = decalageDebut + FINAL + "Long pId";
+		
+		listCode.add(idString);
+		
+		final int tailleMap = this.mapAttributs.size();
+		
+		final Set<Entry<String, String>> entrySet 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		int compteur = 0;
+		String decalage = decalageDebut;
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			decalage = decalage +"\t"; // NOPMD by daniel.levy on 10/01/18 14:43
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			final String ligneACreerBase 
+				= decalage + ", " + FINAL
+				+ typeAttribut + SEP_ESPACE + this.fournirParametre(nomAttribut);
+			
+			String ligneACreer = null;
+			
+			if (compteur < tailleMap) {
+				ligneACreer = ligneACreerBase;
+			} else {
+				ligneACreer = ligneACreerBase + ") {";
+			}
+			
+			listCode.add(ligneACreer);
+		}
+
+		final String decalageCode = "\t" + "\t";
+		
+		listCode.add("");
+		listCode.add(decalageCode + SUPER);
+		listCode.add("");
+		listCode.add(decalageCode + "this.id = pId;");
+		
+		
+		final Set<Entry<String, String>> entrySet2 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
+		
+		while (ite2.hasNext()) {
+			
+			final Entry<String, String> entry2 = ite2.next();
+			
+			final String nomAttribut = entry2.getKey();
+
+			final String ligneACreer 
+				= decalageCode 
+				+ THIS + nomAttribut + EGAL 
+				+ this.fournirParametre(nomAttribut) + SEP_PV;
+						
+			listCode.add(ligneACreer);
+		}
+		
+		listCode.add("");
+		
+		final String ligneIdentifiant 
+			= "\t" 
+			+ "} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________";
+		
+		listCode.add(ligneIdentifiant);
+		
+		listCode.add("");
+		listCode.add("");
+		listCode.add("");
+		
+		try {
+
+			/* Ne fait rien si le code a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			for (final String ligne : listCode) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+				} else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le code du constructeur", e);
+			}
+		}
+		
+	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
+	
+	
 	
 	/**
 	 * method ecrireSepMethodes() :<br/>
@@ -4256,6 +5576,19 @@ public abstract class AbstractEcriveur {
 		return "	public static final String CLASSE";
 	} // Fin de fournirDebutStringClasse().________________________________
 	
+
+	
+	/**
+	 * method fournirDebutAttributId() :<br/>
+	 * retourne le début de la ligne attributId.<br/>
+	 * "	protected Long id"<br/>
+	 *
+	 * @return : String : "	protected Long id".<br/>
+	 */
+	private String fournirDebutAttributId() {
+		return "	protected Long id";
+	} // Fin de fournirDebutAttributId().__________________________________
+	
 	
 	
 	/**
@@ -4395,7 +5728,7 @@ public abstract class AbstractEcriveur {
 		final Matcher matcher = pattern.matcher(pString);
 		
 		/* Recherche du Pattern. */
-		final boolean trouve = matcher.find();
+		final boolean trouve = matcher.matches();
 		
 		if (trouve) {
 			resultat = true;
@@ -4439,7 +5772,7 @@ public abstract class AbstractEcriveur {
 		final Matcher matcher = pattern.matcher(pString);
 		
 		/* Recherche du Pattern. */
-		final boolean trouve = matcher.find();
+		final boolean trouve = matcher.matches();
 		
 		if (trouve) {
 			resultat = true;
@@ -4450,7 +5783,51 @@ public abstract class AbstractEcriveur {
 	} // Fin de conformeNomClasse(...).____________________________________
 	
 
+	
+	/**
+	 * method conformeNomAttribut(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms des attributs
+	 * , à savoir une minuscule, puis une suite camelCase 
+	 * sans caractères spéciaux.</li>
+	 * <li>accepte "profil", "profilSimple", "profilSimple7", ...</li>
+	 * <li>refuse "IProfil", "Profil", "ProfilSimple_7", ...</li>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	private boolean conformeNomAttribut(
+			final String pString) {
 		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par une minuscule
+		 * - poursuit camelCase. */
+		final String patternString = "(^[a-z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeNomAttribut(...).__________________________________
+	
+	
+	
 	/**
 	 * method trouverCamel(
 	 * String pString) :<br/>
@@ -4568,10 +5945,11 @@ public abstract class AbstractEcriveur {
 	 * <ul>
 	 * <li>Met la première lettre de chaque mots séparés 
 	 * par des espaces en majuscule.</li>
-	 * <li>Met les autres de lettres de chaque mots séparés 
+	 * <li>Met les autres lettres de chaque mots séparés 
 	 * par un espace en minuscule.</li>
 	 * <li>Par exemple : "premier" est transformé en "Premier".</li>
 	 * <li>"PREMIER" est transformé en "Premier".</li>
+	 * <li>WordUtils.capitalizeFully("i am FINE") = "I Am Fine"</li>
 	 * </ul>
 	 * retourne null si pString == null.<br/>
 	 * <br/>
@@ -4592,6 +5970,39 @@ public abstract class AbstractEcriveur {
 		return WordUtils.capitalizeFully(pString);
 		
 	} // Fin de mettrePremiereEnMajuscule(...).____________________________
+	
+	
+	/**
+	 * method mettrePremiereEnMajusculeEtGarder(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Met la première lettre de chaque mots séparés 
+	 * par des espaces en majuscule.</li>
+	 * <li>Conserve les autres lettres de chaque mots séparés 
+	 * par un espace.</li>
+	 * <li>Par exemple : "premier" est transformé en "Premier".</li>
+	 * <li>"PREMIER" est transformé en "Premier".</li>
+	 * <li>WordUtils.capitalize("i am FINE") = "I Am FINE"</li>
+	 * </ul>
+	 * retourne null si pString == null.<br/>
+	 * <br/>
+	 * 
+	 *
+	 * @param pString : String. <br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	private String mettrePremiereEnMajusculeEtGarder(
+			final String pString) {
+		
+		/* retourne null si pString == null. */
+		if (pString == null) {
+			return null;
+		}
+		
+		return WordUtils.capitalize(pString);
+		
+	} // Fin de mettrePremiereEnMajusculeEtGarder(...).____________________
 	
 	
 	
@@ -4626,6 +6037,45 @@ public abstract class AbstractEcriveur {
 		
 	} // Fin de mettreEnMinuscules(...).___________________________________
 	
+
+	
+	/**
+	 * method fournirParametre(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>fournit un paramètre à partir d'un attribut.</li>
+	 * <li>par exemple : <br/>
+	 * <code>fournirParametre(profilString) 
+	 * retourne pProfilString</code></li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas conforme 
+	 * aux noms d'attributs.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : attribut.<br/>
+	 * 
+	 * @return : String : paramètre généré à partir de l'attribut.<br/>
+	 */
+	private String fournirParametre(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pString n'est pas conforme aux noms d'attributs. */
+		if (!conformeNomAttribut(pString)) {
+			return null;
+		}
+		
+		final String resultat 
+			= "p" + mettrePremiereEnMajusculeEtGarder(pString);
+
+		return resultat;
+		
+	} // Fin de fournirParametre(...)._____________________________________
 	
 
 	

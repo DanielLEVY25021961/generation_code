@@ -33,6 +33,48 @@ public abstract class AbstractProfil_old implements IProfil_old {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * POINT_VIRGULE : char :<br/>
+	 * ';'.<br/>
+	 */
+	public static final char POINT_VIRGULE = ';';
+	
+	
+	/**
+	 * VIRGULE_ESPACE : String :<br/>
+	 * ", ".<br/>
+	 */
+	public static final String VIRGULE_ESPACE = ", ";
+	
+    
+	/**
+	 * SEPARATEUR_MOINS_AERE : String :<br/>
+	 * " - ".<br/>
+	 */
+	public static final String SEPARATEUR_MOINS_AERE = " - ";
+	
+	
+	/**
+	 * UNDERSCORE : String :<br/>
+	 * "_".<br/>
+	 */
+	public static final String UNDERSCORE = "_";
+
+	
+	/**
+	 * NULL : String :<br/>
+	 * "null".<br/>
+	 */
+	public static final String NULL = "null";
+
+
+	
+	/**
+	 * id : Long :<br/>
+	 * ID en base.<br/>
+	 */
+	protected Long id;
+
 	
 	/**
 	 * LOG : Log : 

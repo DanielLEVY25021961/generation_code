@@ -91,11 +91,52 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		
 		/* écrit la stringClasse. */
 		this.ecrireStringClasse(pFile);
-
+		
+		final String derniereLigneStringClasse 
+			= this.fournirDerniereLigneListe(this.stringClasse);
+		
+		/* insère 2 lignes sous stringClasse. */
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, derniereLigneStringClasse, 2, CHARSET_UTF8);
+		
+		/* écrit attributId. */
+		this.ecrireAttributId(pFile);
+		
+		
+		try {
+			
+			/* écrit tous les attributs. */
+			this.ecrireAttributs(pFile);
+			
+		} catch (Exception e) {
+					
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer les attributs", e);
+			}
+		}
 		
 		/* écrit le séparateur methodes. */
 		this.ecrireSepMethodes(pFile);
 		
+		
+		try {
+			
+			/* écrit le constructeur d'arité nulle. */
+			this.ecrireConstructeurNull(pFile);
+			
+			/* écrit le constructeur complet. */
+			this.ecrireConstructeurComplet(pFile);
+			
+			/* écrit le constructeur complet base. */
+			this.ecrireConstructeurCompletBase(pFile);
+			
+		} catch (Exception e) {
+					
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer les attributs", e);
+			}
+		}
+
 		
 	} // Fin de ecrireCodeHook(...)._______________________________________
 	
