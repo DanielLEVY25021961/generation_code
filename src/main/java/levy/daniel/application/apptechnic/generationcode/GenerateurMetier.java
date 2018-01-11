@@ -102,6 +102,14 @@ public class GenerateurMetier {
 	
 	
 	/**
+	 * nomSimpleInterface : String :<br/>
+	 * Nom simple de l'interface à générer.<br/>
+	 * Par exemple "IProfil".<br/>
+	 */
+	private transient String nomSimpleInterface;
+	
+	
+	/**
 	 * abstractObjetMetier : File :<br/>
 	 * Classe Abstraite de l'objet métier à générer.<br/>
 	 * Par exemple : "AbstractProfil.java" pour l'objet métier 

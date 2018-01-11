@@ -180,6 +180,24 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
+	 * VARIABLE_NOMSIMPLEFICHIERJAVA : String :<br/>
+	 * "{$nomSimpleFichierJava}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_NOMSIMPLEFICHIERJAVA 
+		= "{$nomSimpleFichierJava}";
+	
+	
+	/**
+	 * VARIABLE_NOMATTRIBUT : String :<br/>
+	 * "{$nomAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_NOMATTRIBUT 
+		= "{$nomAttribut}";
+	
+	
+	/**
 	 * CROCHET_OUVRANT : char :<br/>
 	 * '{'.<br/>
 	 */
@@ -551,7 +569,7 @@ public abstract class AbstractEcriveur {
 	 * Par exemple, "IProfil" pour IProfil.java<br/>
 	 */
 	protected transient String nomSimpleFichierJava;
-	
+		
 	
 	/**
 	 * mapAttributs : Map&lt;String,String&gt; :<br/>
@@ -1514,7 +1532,7 @@ public abstract class AbstractEcriveur {
 		final List<String> listeLignesSubst2 
 			= substituerVariablesDansLigne(
 					listeLignesSubst1
-					, "{$nomSimpleFichierJava}"
+					, VARIABLE_NOMSIMPLEFICHIERJAVA
 						, this.nomSimpleFichierJava);
 				
 		this.stringClasse = listeLignesSubst2;
@@ -1667,7 +1685,8 @@ public abstract class AbstractEcriveur {
 			final List<String> attributListSubst1 
 				= this.substituerVariablesDansLigne(
 						attributListProvisoire
-						, "{$nomAttribut}", nomAttribut);
+						, VARIABLE_NOMATTRIBUT
+							, nomAttribut);
 			
 			final List<String> attributListSubst2 
 			= this.substituerVariablesDansLigne(
@@ -1678,7 +1697,7 @@ public abstract class AbstractEcriveur {
 			final List<String> attributList 
 			= this.substituerVariablesDansLigne(
 					attributListSubst2
-					, "{$nomSimpleFichierJava}"
+					, VARIABLE_NOMSIMPLEFICHIERJAVA
 						, this.nomSimpleFichierJava);
 			
 			final String ligneIdentifiant 
@@ -1804,7 +1823,7 @@ public abstract class AbstractEcriveur {
 		final List<String> listeLignesSubstitue 
 		= this.substituerVariablesDansLigne(
 				listeLignes
-					, "{$nomSimpleFichierJava}", this.nomSimpleFichierJava);
+					, VARIABLE_NOMSIMPLEFICHIERJAVA, this.nomSimpleFichierJava);
 				
 		this.sepMethodes = listeLignesSubstitue;
 		
@@ -2835,7 +2854,7 @@ public abstract class AbstractEcriveur {
 			
 			final List<String> lignesAAjouter 
 				= this.substituerVariablesDansLigne(
-						listeLignesCorps, "{$nomAttribut}", nomAttribut);
+						listeLignesCorps, VARIABLE_NOMATTRIBUT, nomAttribut);
 			
 			/* Ajout des lignes du corps. */
 			listeMethode.addAll(lignesAAjouter);
@@ -3002,7 +3021,7 @@ public abstract class AbstractEcriveur {
 		final List<String> listeLignesDebutAAjouter 
 			= this.substituerVariablesDansLigne(
 					listeLignesDebut
-						, "{$nomSimpleFichierJava}"
+						, VARIABLE_NOMSIMPLEFICHIERJAVA
 							, this.nomSimpleFichierJava);
 		
 		/* Ajout des lignes du début. */
@@ -3032,7 +3051,7 @@ public abstract class AbstractEcriveur {
 			
 			final List<String> lignesAAjouter 
 				= this.substituerVariablesDansLigne(
-						listeLignesCorps, "{$nomAttribut}", nomAttribut);
+						listeLignesCorps, VARIABLE_NOMATTRIBUT, nomAttribut);
 			
 			/* Ajout des lignes du corps. */
 			pListeMethode.addAll(lignesAAjouter);
@@ -3084,7 +3103,7 @@ public abstract class AbstractEcriveur {
 		final List<String> listeLignesDebutAAjouter 
 			= this.substituerVariablesDansLigne(
 					listeLignesDebut
-						, "{$nomSimpleFichierJava}"
+						, VARIABLE_NOMSIMPLEFICHIERJAVA
 							, this.nomSimpleFichierJava);
 		
 		/* Ajout des lignes du début. */
@@ -3114,7 +3133,7 @@ public abstract class AbstractEcriveur {
 			
 			final List<String> lignesAAjouter 
 				= this.substituerVariablesDansLigne(
-						listeLignesCorps, "{$nomAttribut}", nomAttribut);
+						listeLignesCorps, VARIABLE_NOMATTRIBUT, nomAttribut);
 			
 			/* Ajout des lignes du corps. */
 			pListeMethode.addAll(lignesAAjouter);
