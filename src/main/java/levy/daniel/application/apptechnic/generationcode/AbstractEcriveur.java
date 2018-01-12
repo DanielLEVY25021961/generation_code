@@ -654,6 +654,18 @@ public abstract class AbstractEcriveur {
 	 */
 	protected transient Map<String, String> mapAttributsEquals;
 	
+		
+	/**
+	 * mapRg : Map&lt;String, List&lt;String&gt;&gt; :<br/>
+	 * <ul>
+	 * Map&lt;String, List&lt;String&gt;&gt; ordonnée 
+	 * contenant les listes de RG par attribut avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>List&lt;String&gt; : Liste des RG s'appliquant à l'attribut</li>
+	 * </ul>
+	 */
+	protected transient Map<String, List<String>> mapRg;
+	
 
 	
 	/**
@@ -881,6 +893,8 @@ public abstract class AbstractEcriveur {
 	 * <li>alimente this.generateurMetier.</li>
 	 * <li>alimente this.mapAttributs.</li>
 	 * <li>alimente this.mapAttributsEquals.</li>
+	 * <li>alimente this.mapRg.</li>
+	 * <li>alimente this.nomSimpleInterface.</li>
 	 * <li>alimente this.fichierJava.</li>
 	 * <li>alimente this.nomSimpleFichierJava.</li>
 	 * <li>écrit la ligne de code <b>package</b> (1ère ligne).</li>
@@ -931,7 +945,11 @@ public abstract class AbstractEcriveur {
 		this.mapAttributsEquals 
 			= this.generateurMetier.getMapAttributsEquals();
 		
-		/* alimente */
+		/* alimente this.mapRg. */
+		this.mapRg 
+			= this.generateurMetier.getMapRg();
+		
+		/* alimente this.nomSimpleInterface. */
 		this.nomSimpleInterface 
 			= this.generateurMetier.getNomSimpleInterface();
 
@@ -6640,6 +6658,77 @@ public abstract class AbstractEcriveur {
 		
 	} // Fin de conformeNomAttribut(...).__________________________________
 	
+
+	
+	
+	/**
+	 * method conformeRg(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms des RG
+	 * , à savoir 
+	 * <ul>
+	 * <li>"RG_"</li>
+	 * <li>suivi par des majuscules 
+	 * (éventuellement séparées par des _ ou -), </li>
+	 * <li>puis un séparateur " : "</li>
+	 * <li>puis un ensemble de caractères quelconques.</li>
+	 * </ul>
+	 * <li>Par exemple :<br/> 
+	 * "RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : 
+	 * le profilString du Profil doit respecter 
+	 * un ensemble fini de valeurs (nomenclature)"</li>
+	 * </ul>
+	 * 
+	 * "RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)";
+	 * 
+	 * NOMBRE DE MATCHES : 4
+	 * GROUP(0) : RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)
+	 * GROUP(1) : PROFIL_PROFILSTRING_NOMENCLATURE_02
+	 * GROUP(2) : PROFIL_PROFILSTRING_NOMENCLATURE_
+	 * GROUP(3) : 02
+	 * GROUP(4) : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)
+	 * 
+	 * RESULTAT : true
+	 * 
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	private boolean conformeRg(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par "RG_" (^RG_)
+		 * - poursuit par des majusculres séparées par des _ ou - ([A-Z-_]*).
+		 * - poursuit par des chiffres (\\d+) 
+		 * - séparateur " : ".
+		 * - poursuit par n'importe quels caractères
+		 * */
+		final String patternString = "^RG_(([A-Z_-]*)(\\d+)) : (.+)$";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeRg(...).___________________________________________
+	
+
+
+	
 	
 	
 	/**
@@ -7016,6 +7105,135 @@ public abstract class AbstractEcriveur {
 		
 	} // Fin de fournirEntierCompare(...)._________________________________
 	
+
 	
+	/**
+	 * method fournirTitreRg(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>fournit la partie titre d'une RG.</li>
+	 * <li>par exemple : <br/>
+	 * <code>fournirTitreRg("RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : 
+	 * le profilString du Profil doit respecter un ensemble 
+	 * fini de valeurs (nomenclature)") 
+	 * retourne "RG_PROFIL_PROFILSTRING_NOMENCLATURE_02"</code></li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas conforme 
+	 * aux noms des RG.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : RG.<br/>
+	 * 
+	 * @return : String : partie gauche (titre) de la RG.<br/>
+	 */
+	private String fournirTitreRg(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pString n'est pas 
+		 * conforme aux noms des RG. */
+		if (!conformeRg(pString)) {
+			return null;
+		}
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par "RG_" (^RG_)
+		 * - poursuit par des majusculres séparées par des _ ou - ([A-Z-_]*).
+		 * - poursuit par des chiffres (\\d+) 
+		 * - séparateur " : ".
+		 * - poursuit par n'importe quels caractères
+		 * */
+		final String patternString = "^RG_(([A-Z_-]*)(\\d+)) : (.+)$";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		String resultat = null;
+		
+		if (trouve) {			
+			resultat = matcher.group(1);
+		}
+
+		return resultat;
+		
+	} // Fin de fournirTitreRg(...)._______________________________________
+	
+	
+	
+	/**
+	 * method fournirMessageRg(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>fournit la partie message d'une RG.</li>
+	 * <li>par exemple : <br/>
+	 * <code>fournirTitreRg("RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : 
+	 * le profilString du Profil doit respecter un ensemble 
+	 * fini de valeurs (nomenclature)") 
+	 * retourne "le profilString du Profil doit respecter un ensemble 
+	 * fini de valeurs (nomenclature)"</code></li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas conforme 
+	 * aux noms des RG.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : RG.<br/>
+	 * 
+	 * @return : String : partie droite (message) de la RG.<br/>
+	 */
+	private String fournirMessageRg(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pString n'est pas 
+		 * conforme aux noms des RG. */
+		if (!conformeRg(pString)) {
+			return null;
+		}
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par "RG_" (^RG_)
+		 * - poursuit par des majusculres séparées par des _ ou - ([A-Z-_]*).
+		 * - poursuit par des chiffres (\\d+) 
+		 * - séparateur " : ".
+		 * - poursuit par n'importe quels caractères
+		 * */
+		final String patternString = "^RG_(([A-Z_-]*)(\\d+)) : (.+)$";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		String resultat = null;
+		
+		if (trouve) {			
+			resultat = matcher.group(4);
+		}
+
+		return resultat;
+		
+	} // Fin de fournirMessageRg(...)._____________________________________
+	
+
 	
 } // FIN DE LA CLASSE AbstractEcriveur.--------------------------------------

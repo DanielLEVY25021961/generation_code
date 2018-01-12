@@ -1,7 +1,11 @@
 package levy.daniel.application.apptechnic.generationcode.impl;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Test;
 
 
 /**
@@ -108,6 +112,111 @@ public class EcriveurInterfaceTest {
 //		
 //	}
 
+
 	
+	
+	/**
+	 * method testExpressionReguliere() :<br/>
+	 * .<br/>
+	 * <br/>
+	 * : void :  .<br/>
+	 */
+	@Test
+	public void testExpressionReguliere() {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		final String chaine = "RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)";
+		
+		final boolean resultat = this.conformeRg(chaine);
+		
+		if (AFFICHAGE_GENERAL && affichage) {
+			
+			System.out.println("RESULTAT : " + resultat);
+		}
+		
+	}
+	
+	
+	
+	/**
+	 * method conformeRg(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms des RG
+	 * , à savoir 
+	 * <ul>
+	 * <li>"RG_"</li>
+	 * <li>suivi par des majuscules 
+	 * (éventuellement séparées par des _ ou -), </li>
+	 * <li>puis un séparateur " : "</li>
+	 * <li>puis un ensemble de caractères quelconques.</li>
+	 * </ul>
+	 * <li>Par exemple :<br/> 
+	 * "RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : 
+	 * le profilString du Profil doit respecter 
+	 * un ensemble fini de valeurs (nomenclature)"</li>
+	 * </ul>
+	 * 
+	 * "RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)";
+	 * 
+	 * NOMBRE DE MATCHES : 4
+	 * GROUP(0) : RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)
+	 * GROUP(1) : PROFIL_PROFILSTRING_NOMENCLATURE_02
+	 * GROUP(2) : PROFIL_PROFILSTRING_NOMENCLATURE_
+	 * GROUP(3) : 02
+	 * GROUP(4) : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)
+	 * 
+	 * RESULTAT : true
+	 * 
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	private boolean conformeRg(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par "RG_" (^RG_)
+		 * - poursuit par des majusculres séparées par des _ ou - ([A-Z-_]*).
+		 * - poursuit par des chiffres (\\d+) 
+		 * - séparateur " : ".
+		 * - poursuit par n'importe quels caractères
+		 * */
+		final String patternString = "^RG_(([A-Z_-]*)(\\d+)) : (.+)$";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		if (trouve) {
+
+			final int nbreMatches = matcher.groupCount();
+			
+			System.out.println("NOMBRE DE MATCHES : " + nbreMatches);
+			
+			for (int i = 0; i <= nbreMatches; i++) {
+				
+				System.out.println("GROUP(" + i + ") : " + matcher.group(i));
+			}
+
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeRg(...).___________________________________________
+	
+
 
 } // FIN DE LA CLASSE EcriveurInterfaceTest.---------------------------------

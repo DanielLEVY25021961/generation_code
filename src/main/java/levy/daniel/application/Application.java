@@ -72,10 +72,10 @@ public final class Application {
 	
 	
 	/**
-	 * MAP_RG : Map<String,String> :<br/>
+	 * MAP_RG : Map&lt;String, List&lt;String&gt;&gt; :<br/>
 	 * <ul>
-	 * Map&lt;String,List&lt;String&gt;&gt; ordonnée 
-	 * contenant uniquement les attributs de equals avec :
+	 * Map&lt;String, List&lt;String&gt;&gt; ordonnée 
+	 * contenant les listes de RG par attribut avec :
 	 * <li>String : nom de l'attribut</li>
 	 * <li>List&lt;String&gt; : Liste des RG s'appliquant à l'attribut</li>
 	 * </ul>
@@ -131,13 +131,23 @@ public final class Application {
 		final List<String> listeRGPorteeProfil = new ArrayList<String>();
 		final List<String> listeRGRestrictionProfil = new ArrayList<String>();
 		
+		listeRGProfilString.add("RG_PROFIL_PROFILSTRING_RENSEIGNE_01 : le profilString du Profil doit être renseigné (obligatoire)");
+		listeRGProfilString.add("RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)");
+		
+		listeRGPorteeProfil.add("RG_PROFIL_PORTEEPROFIL_RENSEIGNE_01 : le porteeProfil du Profil doit être renseigné (obligatoire)");
+		
+		MAP_RG.put("profilString", listeRGProfilString);
+		MAP_RG.put("porteeProfil", listeRGPorteeProfil);
+		MAP_RG.put("restrictionProfil", listeRGRestrictionProfil);
+		
 		generateur
 			.genererObjetMetier(
 					"profil"
 						, "IProfil"
 							, "ProfilCerbere"
 								, MAP_ATTRIBUTS
-									, MAP_ATTRIBUTS_EQUALS);
+									, MAP_ATTRIBUTS_EQUALS
+											, MAP_RG);
 		
 		
 	} // Fin de main(...)._________________________________________________

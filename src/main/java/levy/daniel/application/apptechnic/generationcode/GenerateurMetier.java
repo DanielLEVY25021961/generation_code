@@ -149,7 +149,19 @@ public class GenerateurMetier {
 	 */
 	private transient Map<String, String> mapAttributsEquals;
 	
-	
+		
+	/**
+	 * mapRg : Map&lt;String, List&lt;String&gt;&gt; :<br/>
+	 * <ul>
+	 * Map&lt;String, List&lt;String&gt;&gt; ordonnée 
+	 * contenant les listes de RG par attribut avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>List&lt;String&gt; : Liste des RG s'appliquant à l'attribut</li>
+	 * </ul>
+	 */
+	private transient Map<String, List<String>> mapRg;
+
+
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -195,6 +207,7 @@ public class GenerateurMetier {
 	 * <li>alimente la map des attributs de l'objet métier.</li>
 	 * <li>alimente la map des attributs de l'objet métier 
 	 * utilisés dans equals().</li>
+	 * <li>alimente la map des RG this.mapRg.</li>
 	 * <li>Génère le package pNomPackage sous model/metier.</li>
 	 * <li>Génère le package pNomPackage.impl.</li>
 	 * <li>Génère l'Interface vide de l'objet métier.</li>
@@ -217,6 +230,7 @@ public class GenerateurMetier {
 	 * @param pNomObjetMetier
 	 * @param pMapAttributs 
 	 * @param pMapAttributsEquals 
+	 * @param pMapRg 
 	 * 
 	 * @throws IOException
 	 */
@@ -225,7 +239,8 @@ public class GenerateurMetier {
 				, final String pNomInterface
 					, final String pNomObjetMetier
 						, final Map<String, String> pMapAttributs
-							, final Map<String, String> pMapAttributsEquals) 
+							, final Map<String, String> pMapAttributsEquals
+								, final Map<String, List<String>> pMapRg) 
 			throws IOException {
 		
 		/* retourne si pNomPackage est blank. */
@@ -282,8 +297,12 @@ public class GenerateurMetier {
 		/* alimente la map des attributs de l'objet métier. */
 		this.mapAttributs = pMapAttributs;
 		
-		/* alimente la map des attributs de l'objet métier utilisés dans equals(). */
+		/* alimente la map des attributs de l'objet métier 
+		 * utilisés dans equals(). */
 		this.mapAttributsEquals = pMapAttributsEquals;
+		
+		/* alimente la map des RG this.mapRg. */
+		this.mapRg = pMapRg;
 		
 		/* Génère le package pNomPackage devant contenir 
 		 * l'objet métier généré pNomObjetMetier sous model/metier */
@@ -444,6 +463,23 @@ public class GenerateurMetier {
 	public final Map<String, String> getMapAttributsEquals() {
 		return this.mapAttributsEquals;
 	} // Fin de getMapAttributsEquals().___________________________________
+
+
+		
+	/**
+	 * method getMapRg() :<br/>
+	 * <ul>
+	 * Getter de la Map&lt;String, List&lt;String&gt;&gt; ordonnée 
+	 * contenant les listes de RG par attribut avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>List&lt;String&gt; : Liste des RG s'appliquant à l'attribut</li>
+	 * </ul>
+	 *
+	 * @return mapRg : Map<String,List<String>>.<br/>
+	 */
+	public final Map<String, List<String>> getMapRg() {
+		return this.mapRg;
+	} // Fin de getMapRg().________________________________________________
 
 
 

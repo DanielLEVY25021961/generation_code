@@ -360,7 +360,62 @@ public class EcriveurInterface extends AbstractEcriveur {
 		this.javadoc.addAll(listeLignesRgSubst1);
 		
 		/* corps du tableau de RG. */
+		final Set<Entry<String, List<String>>> entrySetAttributs2 
+		= this.mapRg.entrySet();
+	
+		final Iterator<Entry<String, List<String>>> iteAttributs2 
+			= entrySetAttributs2.iterator();
 		
+		while (iteAttributs2.hasNext()) {
+			
+			final Entry<String, List<String>> entryAttributs2 
+				= iteAttributs2.next();
+			
+			final String nomAttribut = entryAttributs2.getKey();
+			final List<String> listeRg = entryAttributs2.getValue();
+			
+			if (listeRg.isEmpty()) {
+				continue;
+			}
+			
+			final int nombreRgs = listeRg.size();
+			int compteur = 0;
+			
+			for (final String rG : listeRg) {
+				
+				compteur++;
+				
+				if (compteur == 1) {
+					
+					final String cheminFichierRgLigne1 
+					= BundleConfigurationProjetManager.getRacineMainResources() 
+					+ "/templates/javadoc_interface_rg_attribut_ligne_1.txt";
+				
+					final File fichierRgLigne1 = new File(cheminFichierRgLigne1);
+					
+					final List<String> listeLignesRgLigne1 
+						= this.lireStringsDansFile(fichierRgLigne1, CHARSET_UTF8);
+					
+					final List<String> listeLignesRgLigne1Subst1 
+						= this.substituerVariablesDansLigne(
+								listeLignesRgLigne1
+									, VARIABLE_NOMATTRIBUT
+										, nomAttribut);
+					
+					final List<String> listeLignesRgLigne1Subst2 
+					= this.substituerVariablesDansLigne(
+							listeLignesRgLigne1Subst1
+								, VARIABLE_NOMBRE_RGS
+									, String.valueOf(nombreRgs));
+					
+				} else {
+					
+				}
+				
+				
+			}
+		}
+
 		
 		return this.javadoc;
 		
