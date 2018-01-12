@@ -1,0 +1,11 @@
+	public int compareTo(
+			final {$nomSimpleInterface} pObject) {
+
+		if (this == pObject) {
+			return 0;
+		}
+
+		if (pObject == null) {
+			return -1;
+		}
+		

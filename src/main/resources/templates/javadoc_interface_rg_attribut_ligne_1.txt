@@ -1,0 +1,9 @@
+ * <tr>
+ * <td rowspan="{$nombreRgs}">
+ * {$nomAttribut}
+ * </td>
+ * <td>
+ * {$titreRg} : 
+ * {$messageRg}
+ * </td>
+ * </tr>

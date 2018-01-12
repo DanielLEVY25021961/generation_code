@@ -1,7 +1,7 @@
 /**
- * INTERFACE <b>{$IObjet}</b> :<br/>
+ * INTERFACE <b>{$nomSimpleInterface}</b> :<br/>
  * <p>
- * <b>{$IObjet}</b> modélise un un <i>concept</i> de <b></b> 
+ * <b>{$nomSimpleInterface}</b> modélise un un <i>concept</i> de <b></b> 
  * , c'est à dire  <b></b>  
  * <i>une ou plusieurs</i> <b></b>.
  * </p>
@@ -27,20 +27,19 @@
  * <ul>
  * <p>
  * <span style="text-decoration: underline;">
- * Garantit que tout {$IObjet} sait :
+ * Garantit que tout {$nomSimpleInterface} sait :
  * </span>
  * </p>
- * <li>se <b>comparer</b> à un autre {$IObjet}.</li>
+ * <li>se <b>comparer</b> à un autre {$nomSimpleInterface}.</li>
  * <li>se <b>cloner</b>.</li>
  * <li>s'exporter sous forme <b>csv</b>.</li>
  * <li>s'exporter sous forme <b>JTable</b>.</li>
  * </ul>
  * 
- * 
  * <ul>
  * <p>
  * <span style="text-decoration: underline;">
- * Garantit que tout {$IObjet} possède à minima :
+ * Garantit que tout {$nomSimpleInterface} possède à minima :
  * </span>
  * </p>
  * <li><b>id</b> pour la mise en base.</li>
@@ -52,7 +51,7 @@
  * <span style="text-decoration: underline;">EGALITE METIER</span>
  * </p>
  * <ul>
- * <li>L'<b>égalité metier</b> d'un {$IObjet} est vérifiée sur :</li>
+ * <li>L'<b>égalité metier</b> d'un {$nomSimpleInterface} est vérifiée sur :</li>
   * <ul>
  * <li><b></b></li>
  * <li><b></b></li>
@@ -64,8 +63,8 @@
  * </p>
  * <ul>
  * <li>
- * <img src="../../../../../../../../../../javadoc/images/classes_implementation_{$IObjet}.png" 
- * alt="classes d'implémentation des {$IObjet}" border="1" align="center" />
+ * <img src="../../../../../../../../../../javadoc/images/classes_implementation_{$nomSimpleInterface}.png" 
+ * alt="classes d'implémentation des {$nomSimpleInterface}" border="1" align="center" />
  * </li>
  * </ul>
  * 
@@ -76,7 +75,7 @@
  * <ul>
  * <li>
  * Les <b>Règles de Gestion (RG)</b> applicables aux attributs 
- * d'un {$IObjet} sont les suivantes :
+ * d'un {$nomSimpleInterface} sont les suivantes :
  * </li>
  * <br/>
  * <table border="1">

@@ -133,8 +133,11 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 			/* écrit la méthode hashcode(). */
 			this.ecrireHashCode(pFile);
 			
-			/* écrit la méthode equals. */
+			/* écrit la méthode equals(). */
 			this.ecrireEquals(pFile);
+			
+			/* écrit la méthode compareTo(). */
+			this.ecrireCompareTo(pFile);
 			
 		} catch (Exception e) {
 					

@@ -1,0 +1,19 @@
+		/* {$nomAttribut}. */
+		if (this.{$getterNomAttribut} == null) {
+			if (pObject.{$getterNomAttribut} != null) {
+				return +1;
+			}
+		} else {
+			if (pObject.{$getterNomAttribut} == null) {
+				return -1;
+			}
+			
+			{$compareNomAttribut} 
+				= this.{$getterNomAttribut}
+					.compareTo(pObject.{$getterNomAttribut});
+		
+			if ({$compareNomAttribut} != 0) {
+				return {$compareNomAttribut};
+			}
+		}
+		

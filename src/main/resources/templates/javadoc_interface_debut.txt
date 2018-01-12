@@ -1,0 +1,45 @@
+/**
+ * INTERFACE <b>{$nomSimpleInterface}</b> :<br/>
+ * <p>
+ * <b>{$nomSimpleInterface}</b> modélise un un <i>concept</i> de <b></b> 
+ * , c'est à dire  <b></b>  
+ * <i>une ou plusieurs</i> <b></b>.
+ * </p>
+ * 
+ * <ul>
+ * <p>
+ * <span style="text-decoration: underline;">
+ * HERITE de :
+ * </span>
+ * </p>
+ * <li><b>IExportateurCsv</b> pour l'export d'un Objet 
+ * métier en csv.</li>
+ * <li><b>IExportateurJTable</b> pour l'affichage dans 
+ * une JTable (Swing).</li>
+ * <li><b>Comparable</b> pour l'affichage des Collections 
+ * sous forme triée.</li>
+ * <li><b>Cloneable</b> pour garantir que tout objet métier 
+ * implémentant cette interface saura se cloner.</li>
+ * <li><b>Serializable</b> pour garantir que tout objet métier 
+ * implémentant cette interface pourra être serialisé.</li>
+ * </ul>
+ * 
+ * <ul>
+ * <p>
+ * <span style="text-decoration: underline;">
+ * Garantit que tout {$nomSimpleInterface} sait :
+ * </span>
+ * </p>
+ * <li>se <b>comparer</b> à un autre {$nomSimpleInterface}.</li>
+ * <li>se <b>cloner</b>.</li>
+ * <li>s'exporter sous forme <b>csv</b>.</li>
+ * <li>s'exporter sous forme <b>JTable</b>.</li>
+ * </ul>
+ * 
+ * <ul>
+ * <p>
+ * <span style="text-decoration: underline;">
+ * Garantit que tout {$nomSimpleInterface} possède à minima :
+ * </span>
+ * </p>
+ * <li><b>id</b> pour la mise en base.</li>

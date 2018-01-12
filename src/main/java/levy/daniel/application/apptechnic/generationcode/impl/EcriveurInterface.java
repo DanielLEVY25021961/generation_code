@@ -1,7 +1,10 @@
 package levy.daniel.application.apptechnic.generationcode.impl;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -240,21 +243,124 @@ public class EcriveurInterface extends AbstractEcriveur {
 	protected final List<String> creerLignesJavaDoc(
 			final File pFile) throws Exception {
 		
-		final String cheminFichier 
+		/* DEBUT. */
+		final String cheminFichierDebut 
 			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/javadoc_interface.txt";
+			+ "/templates/javadoc_interface_debut.txt";
 		
-		final File fichier = new File(cheminFichier);
+		final File fichierDebut = new File(cheminFichierDebut);
 		
-		final List<String> listeLignes 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
 				
-		final List<String> listeLignesSubstitue 
+		final List<String> listeLignesDebutSubstitue 
 		= this.substituerVariablesDansLigne(
-				listeLignes
-				, "{$IObjet}", this.nomSimpleFichierJava); // NOPMD by dan on 08/01/18 08:09
+				listeLignesDebut
+				, VARIABLE_NOMSIMPLEINTERFACE, this.nomSimpleInterface); // NOPMD by dan on 08/01/18 08:09
 		
-		this.javadoc = listeLignesSubstitue;
+		this.javadoc.addAll(listeLignesDebutSubstitue);
+		
+		/* ATTRIBUTS. */
+		final String cheminFichierAttributs 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/javadoc_interface_attributs.txt";
+		
+		final File fichierAttributs = new File(cheminFichierAttributs);
+		
+		final List<String> listeLignesAttributs 
+			= this.lireStringsDansFile(fichierAttributs, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetAttributs 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> iteAttributs 
+			= entrySetAttributs.iterator();
+		
+		while (iteAttributs.hasNext()) {
+			
+			final Entry<String, String> entryAttributs = iteAttributs.next();
+			
+			final String nomAttribut = entryAttributs.getKey();
+			
+			final List<String> listeAttribut 
+				= this.substituerVariablesDansLigne(
+						listeLignesAttributs
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+			
+			this.javadoc.addAll(listeAttribut);
+		}
+
+		/* EGALITE METIER. */
+		final String cheminFichierEgalite 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_egalite.txt";
+	
+		final File fichierEgalite = new File(cheminFichierEgalite);
+		
+		final List<String> listeLignesEgalite 
+			= this.lireStringsDansFile(fichierEgalite, CHARSET_UTF8);
+		
+		final List<String> listeLignesEgaliteSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesEgalite
+						, VARIABLE_NOMSIMPLEINTERFACE
+							, this.nomSimpleInterface);
+		
+		this.javadoc.addAll(listeLignesEgaliteSubst1);
+
+		/* attributs de equals. */
+		final String cheminFichierAttributsEquals 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_attributs.txt";
+	
+		final File fichierAttributsEquals = new File(cheminFichierAttributsEquals);
+		
+		final List<String> listeLignesAttributsEquals 
+			= this.lireStringsDansFile(fichierAttributsEquals, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetAttributsEquals 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteAttributsEquals 
+			= entrySetAttributsEquals.iterator();
+		
+		while (iteAttributsEquals.hasNext()) {
+			
+			final Entry<String, String> entryAttributs = iteAttributs.next();
+			
+			final String nomAttribut = entryAttributs.getKey();
+			
+			final List<String> listeAttribut 
+				= this.substituerVariablesDansLigne(
+						listeLignesAttributsEquals
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+			
+			this.javadoc.addAll(listeAttribut);
+		}
+
+		
+		/* REGLES DE GESTION. */
+		final String cheminFichierRg 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_rg_debut.txt";
+	
+		final File fichierRg = new File(cheminFichierRg);
+		
+		final List<String> listeLignesRg 
+			= this.lireStringsDansFile(fichierRg, CHARSET_UTF8);
+		
+		final List<String> listeLignesRgSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesRg
+						, VARIABLE_NOMSIMPLEINTERFACE
+							, this.nomSimpleInterface);
+		
+		this.javadoc.addAll(listeLignesRgSubst1);
+		
+		/* corps du tableau de RG. */
+		
 		
 		return this.javadoc;
 		

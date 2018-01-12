@@ -191,6 +191,7 @@ public class GenerateurMetier {
 	 * , Map<String, String> pMapAttributsEquals) :<br/>
 	 * <ul>
 	 * <li><b>Génère le code model.metier</b>;</li>
+	 * <li>alimente this.nomSimpleInterface.</li>
 	 * <li>alimente la map des attributs de l'objet métier.</li>
 	 * <li>alimente la map des attributs de l'objet métier 
 	 * utilisés dans equals().</li>
@@ -275,6 +276,9 @@ public class GenerateurMetier {
 			return;
 		}
 
+		/* alimente this.nomSimpleInterface. */
+		this.nomSimpleInterface = pNomInterface;
+		
 		/* alimente la map des attributs de l'objet métier. */
 		this.mapAttributs = pMapAttributs;
 		
@@ -365,7 +369,21 @@ public class GenerateurMetier {
 	} // Fin de getiObjetMetier()._________________________________________
 
 
-	
+		
+	/**
+	 * method getNomSimpleInterface() :<br/>
+	 * Getter du Nom simple de l'interface à générer.<br/>
+	 * Par exemple "IProfil".<br/>
+	 * <br/>
+	 *
+	 * @return nomSimpleInterface : String.<br/>
+	 */
+	public final String getNomSimpleInterface() {
+		return this.nomSimpleInterface;
+	} // Fin de getNomSimpleInterface().___________________________________
+
+
+
 	/**
 	 * method getAbstractObjetMetier() :<br/>
 	 * Getter de la Classe Abstraite de l'objet métier à générer.<br/>

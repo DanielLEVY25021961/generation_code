@@ -1,0 +1,6 @@
+ * <tr>
+ * <td>
+ * {$titreRg} : 
+ * {$messageRg}
+ * </td>
+ * </tr>

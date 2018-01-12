@@ -69,6 +69,19 @@ public final class Application {
 	 */
 	private static final Map<String, String> MAP_ATTRIBUTS_EQUALS  // NOPMD by daniel.levy on 10/01/18 10:15
 	= new LinkedHashMap<String, String>();
+	
+	
+	/**
+	 * MAP_RG : Map<String,String> :<br/>
+	 * <ul>
+	 * Map&lt;String,List&lt;String&gt;&gt; ordonnée 
+	 * contenant uniquement les attributs de equals avec :
+	 * <li>String : nom de l'attribut</li>
+	 * <li>List&lt;String&gt; : Liste des RG s'appliquant à l'attribut</li>
+	 * </ul>
+	 */
+	private static final Map<String, List<String>> MAP_RG  // NOPMD by daniel.levy on 10/01/18 10:15
+	= new LinkedHashMap<String, List<String>>();
 
 	
 	/**
@@ -113,6 +126,10 @@ public final class Application {
 		
 		MAP_ATTRIBUTS_EQUALS.put("profilString", "String");
 		MAP_ATTRIBUTS_EQUALS.put("porteeProfil", "String");
+		
+		final List<String> listeRGProfilString = new ArrayList<String>();
+		final List<String> listeRGPorteeProfil = new ArrayList<String>();
+		final List<String> listeRGRestrictionProfil = new ArrayList<String>();
 		
 		generateur
 			.genererObjetMetier(

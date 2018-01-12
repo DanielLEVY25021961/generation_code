@@ -1,0 +1,28 @@
+ * </ul>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">DIAGRAMME DE CLASSES D'IMPLEMENTATION</span>
+ * </p>
+ * <ul>
+ * <li>
+ * <img src="../../../../../../../../../../javadoc/images/classes_implementation_{$nomSimpleInterface}.png" 
+ * alt="classes d'implémentation des {$nomSimpleInterface}" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 
+ * <br/>
+ * <p>
+ * <span style="text-decoration: underline;">REGLES DE GESTION</span>
+ * </p>
+ * <ul>
+ * <li>
+ * Les <b>Règles de Gestion (RG)</b> applicables aux attributs 
+ * d'un {$nomSimpleInterface} sont les suivantes :
+ * </li>
+ * <br/>
+ * <table border="1">
+ * <tr>
+ * <th>Attribut</th><th>Règle de Gestion</th>
+ * </tr>
+ * 

@@ -186,6 +186,15 @@ public abstract class AbstractEcriveur {
 	 */
 	public static final String VARIABLE_NOMSIMPLEFICHIERJAVA 
 		= "{$nomSimpleFichierJava}";
+
+	
+	/**
+	 * VARIABLE_NOMSIMPLEINTERFACE : String :<br/>
+	 * "{$nomSimpleInterface}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_NOMSIMPLEINTERFACE 
+		= "{$nomSimpleInterface}";
 	
 	
 	/**
@@ -195,6 +204,33 @@ public abstract class AbstractEcriveur {
 	 */
 	public static final String VARIABLE_NOMATTRIBUT 
 		= "{$nomAttribut}";
+	
+	
+	/**
+	 * VARIABLE_NOMBRE_RGS : String :<br/>
+	 * "{$nombreRgs}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_NOMBRE_RGS 
+		= "{$nombreRgs}";
+	
+	
+	/**
+	 * VARIABLE_TITRE_RG : String :<br/>
+	 * "{$titreRg}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_TITRE_RG 
+		= "{$titreRg}";
+	
+	
+	/**
+	 * VARIABLE_MESSAGE_RG : String :<br/>
+	 * "{$messageRg}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_MESSAGE_RG 
+		= "{$messageRg}";
 	
 	
 	/**
@@ -547,6 +583,21 @@ public abstract class AbstractEcriveur {
 	 */
 	public static final String THIS 
 		= "this.";
+
+	
+	/**
+	 * DECALAGE_METHODE : String :<br/>
+	 * "\t".<br/>
+	 */
+	public static final String DECALAGE_METHODE 
+		= "\t";
+
+	
+	/**
+	 * DECLAGE_CODE : String :<br/>
+	 * DECALAGE_METHODE + "\t".<br/>
+	 */
+	public static final String DECLAGE_CODE = DECALAGE_METHODE + "\t";
 	
 	
 	/**
@@ -571,6 +622,14 @@ public abstract class AbstractEcriveur {
 	protected transient String nomSimpleFichierJava;
 		
 	
+	/**
+	 * nomSimpleInterface : String :<br/>
+	 * Nom simple de l'interface à générer.<br/>
+	 * Par exemple "IProfil".<br/>
+	 */
+	protected transient String nomSimpleInterface;
+	
+
 	/**
 	 * mapAttributs : Map&lt;String,String&gt; :<br/>
 	 * <ul>
@@ -865,10 +924,16 @@ public abstract class AbstractEcriveur {
 		this.generateurMetier = pGenerateurMetier;
 		
 		/* alimente this.mapAttributs. */
-		this.mapAttributs = this.generateurMetier.getMapAttributs();
+		this.mapAttributs 
+			= this.generateurMetier.getMapAttributs();
 		
 		/* alimente this.mapAttributsEquals. */
-		this.mapAttributsEquals = this.generateurMetier.getMapAttributsEquals();
+		this.mapAttributsEquals 
+			= this.generateurMetier.getMapAttributsEquals();
+		
+		/* alimente */
+		this.nomSimpleInterface 
+			= this.generateurMetier.getNomSimpleInterface();
 
 		/* alimente this.fichierJava. */
 		this.fichierJava = pFile;
@@ -1892,7 +1957,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	protected final void ecrireJavadocConstructeurNull(
+	private final void ecrireJavadocConstructeurNull(
 			final File pFile) throws Exception {
 		
 		/* ne fait rien si pFile est null. */
@@ -1967,7 +2032,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	protected final void ecrireCodeConstructeurNull(
+	private final void ecrireCodeConstructeurNull(
 			final File pFile) throws Exception {
 				
 		/* ne fait rien si pFile est null. */
@@ -2129,7 +2194,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	protected final void ecrireJavadocConstructeurComplet(
+	private final void ecrireJavadocConstructeurComplet(
 			final File pFile) throws Exception {
 		
 		/* ne fait rien si pFile est null. */
@@ -2289,7 +2354,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	protected final void ecrireCodeConstructeurComplet(
+	private final void ecrireCodeConstructeurComplet(
 			final File pFile) throws Exception {
 				
 		/* ne fait rien si pFile est null. */
@@ -2497,7 +2562,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	protected final void ecrireJavadocConstructeurCompletBase(
+	private final void ecrireJavadocConstructeurCompletBase(
 			final File pFile) throws Exception {
 		
 		/* ne fait rien si pFile est null. */
@@ -2645,7 +2710,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	protected final void ecrireCodeConstructeurCompletBase(
+	private final void ecrireCodeConstructeurCompletBase(
 			final File pFile) throws Exception {
 				
 		/* ne fait rien si pFile est null. */
@@ -2985,7 +3050,7 @@ public abstract class AbstractEcriveur {
 		} catch (Exception e) {
 
 			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer le code du hashcode", e);
+				LOG.fatal("Impossible de créer le code du equals()", e);
 			}
 		}
 				
@@ -3156,6 +3221,290 @@ public abstract class AbstractEcriveur {
 	} // Fin de ecrireCodeEquals(...)._____________________________________
 
 	
+	
+	/**
+	 * method ecrireCompareTo() :<br/>
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la javadoc de compareTo().</li>
+	 * <li>écrit le code de compareTo().</li>
+	 * <li>insère 3 lignes vides ensuite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireCompareTo(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+		return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+		return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+		return;
+		}
+		
+		final List<String> listeMethode = new ArrayList<String>();
+
+		/* écrit la javadoc. */
+		this.ecrireJavadocCompareTo(listeMethode);
+		
+		/* écrit le code. */
+		this.ecrireCodeCompareTo(listeMethode);
+		
+		
+		/* ENREGISTREMENT *********/		
+		final String ligneIdentifiant = "	public int compareTo";
+		
+		try {
+
+			/* Ne fait rien si le code a déjà été écrit. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			for (final String ligne : listeMethode) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
+					
+				} else {
+
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+					
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le code du compareTo", e);
+			}
+		}
+				
+		
+	} // Fin de ecrireCompareTo(...).______________________________________
+	
+
+	
+	/**
+	 * method ecrireJavadocCompareTo(
+	 * List&lt;String&gt; pListeMethode) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de compareTo().</li>
+	 * <li>insère la javadoc générée dans pListeMethode.</li>
+	 * </ul>
+	 *
+	 * @param pListeMethode : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireJavadocCompareTo(
+			final List<String> pListeMethode) throws Exception {
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/compareTo_javadoc.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListeMethode.addAll(listeLignes);
+		
+	} // Fin de ecrireJavadocCompareTo(...)._______________________________
+
+
+	
+	/**
+	 * method ecrireCodeCompareTo(
+	 * List&lt;String&gt; pListeMethode) :<br/>
+	 * <ul>
+	 * <li>génère le code de compareTo().</li>
+	 * <li>insère le code généré dans pListeMethode.</li>
+	 * </ul>
+	 *
+	 * @param pListeMethode : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireCodeCompareTo(
+			final List<String> pListeMethode) throws Exception {
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/debut_compareTo.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		final List<String> listeLignesDebutAAjouter 
+			= this.substituerVariablesDansLigne(
+					listeLignesDebut
+						, VARIABLE_NOMSIMPLEINTERFACE
+							, this.nomSimpleInterface);
+		
+		/* Ajout des lignes du début. */
+		pListeMethode.addAll(listeLignesDebutAAjouter);
+		
+		/* ENTIERS DE COMPARAISON. */
+		final List<String> listeEntiersComp = new ArrayList<String>();
+		final String ligneBase = DECLAGE_CODE + "int ";
+		
+		final Set<Entry<String, String>> entrySetEntiersComp 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteEntiersComp 
+			= entrySetEntiersComp.iterator();
+		
+		while (iteEntiersComp.hasNext()) {
+			
+			final Entry<String, String> entryEntiersComp = iteEntiersComp.next();
+			
+			final String nomAttribut = entryEntiersComp.getKey();
+			
+			final String ligneAAjouter 
+			= ligneBase 
+			+ this.fournirEntierCompare(nomAttribut) 
+			+ POINT_VIRGULE;
+			
+			listeEntiersComp.add(ligneAAjouter);
+
+		}
+
+		listeEntiersComp.add("");
+		
+		/* Ajout des lignes du corps. */
+		pListeMethode.addAll(listeEntiersComp);
+
+		
+		
+		/* CORPS. */
+		final String cheminFichierCorps 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/corps_compareTo.txt";
+	
+		final File fichierCorps = new File(cheminFichierCorps);
+	
+		final List<String> listeLignesCorps 
+			= this.lireStringsDansFile(fichierCorps, CHARSET_UTF8);
+		
+		/* dernier attribut. */
+		final String cheminFichierCorpsFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/corps_fin_compareTo.txt";
+	
+		final File fichierCorpsFin = new File(cheminFichierCorpsFin);
+	
+		final List<String> listeLignesCorpsFin 
+			= this.lireStringsDansFile(fichierCorpsFin, CHARSET_UTF8);
+		
+		
+		final Set<Entry<String, String>> entrySetCorps 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteCorps 
+			= entrySetCorps.iterator();
+		
+		final int tailleMapEquals = this.mapAttributsEquals.size();
+		int compteur = 0;
+		
+		while (iteCorps.hasNext()) {
+			
+			compteur++;
+			
+			final Entry<String, String> entryCorps = iteCorps.next();
+			
+			final String nomAttribut = entryCorps.getKey();
+			
+			if (compteur < tailleMapEquals) {
+				
+				final List<String> lignesAAjouter 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorps
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+				
+				final List<String> lignesAAjouterSubst1 
+				= this.substituerVariablesDansLigne(
+						lignesAAjouter
+							, "{$getterNomAttribut}"
+								, this.fournirGetter(nomAttribut));
+				
+				final List<String> lignesAAjouterSubst2 
+				= this.substituerVariablesDansLigne(
+						lignesAAjouterSubst1
+							, "{$compareNomAttribut}"
+								, this.fournirEntierCompare(nomAttribut));
+			
+				/* Ajout des lignes du corps. */
+				pListeMethode.addAll(lignesAAjouterSubst2);
+				
+			} else {
+				
+				final List<String> lignesAAjouter 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorpsFin
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+				
+				final List<String> lignesAAjouterSubst1 
+				= this.substituerVariablesDansLigne(
+						lignesAAjouter
+							, "{$getterNomAttribut}"
+								, this.fournirGetter(nomAttribut));
+				
+				final List<String> lignesAAjouterSubst2 
+				= this.substituerVariablesDansLigne(
+						lignesAAjouterSubst1
+							, "{$compareNomAttribut}"
+								, this.fournirEntierCompare(nomAttribut));
+			
+				/* Ajout des lignes du corps. */
+				pListeMethode.addAll(lignesAAjouterSubst2);
+				
+			}
+			
+		}
+
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/fin_compareTo.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes du fin. */
+		pListeMethode.addAll(listeLignesFin);
+				
+	} // Fin de ecrireCodeCompareTo(...)._____________________________________
+
+
 	
 	/**
 	 * method fournirPathMetier() :<br/>
@@ -6446,7 +6795,7 @@ public abstract class AbstractEcriveur {
 	 * <li>Conserve les autres lettres de chaque mots séparés 
 	 * par un espace.</li>
 	 * <li>Par exemple : "premier" est transformé en "Premier".</li>
-	 * <li>"PREMIER" est transformé en "Premier".</li>
+	 * <li>"PREMIER" est transformé en "PREMIER".</li>
 	 * <li>WordUtils.capitalize("i am FINE") = "I Am FINE"</li>
 	 * </ul>
 	 * retourne null si pString == null.<br/>
@@ -6530,7 +6879,8 @@ public abstract class AbstractEcriveur {
 			return null;
 		}
 		
-		/* retourne null si pString n'est pas conforme aux noms d'attributs. */
+		/* retourne null si pString n'est pas 
+		 * conforme aux noms d'attributs. */
 		if (!conformeNomAttribut(pString)) {
 			return null;
 		}
@@ -6543,5 +6893,129 @@ public abstract class AbstractEcriveur {
 	} // Fin de fournirParametre(...)._____________________________________
 	
 
+		
+	/**
+	 * method fournirGetter(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>fournit un getter à partir d'un attribut.</li>
+	 * <li>par exemple : <br/>
+	 * <code>fournirGetter(profilString) 
+	 * retourne getProfilString()</code></li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas conforme 
+	 * aux noms d'attributs.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : attribut.<br/>
+	 * 
+	 * @return : String : getter généré à partir de l'attribut.<br/>
+	 */
+	private String fournirGetter(
+			final String pString) {
+				
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pString n'est pas 
+		 * conforme aux noms d'attributs. */
+		if (!conformeNomAttribut(pString)) {
+			return null;
+		}
+		
+		final String resultat 
+		= "get" + mettrePremiereEnMajusculeEtGarder(pString) + "()";
+
+		return resultat;
+		
+	} // Fin de fournirGetter(...).________________________________________
+	
+
+			
+	/**
+	 * method fournirSetter(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>fournit un setter à partir d'un attribut.</li>
+	 * <li>par exemple : <br/>
+	 * <code>fournirSetter(profilString) 
+	 * retourne setProfilString()</code></li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas conforme 
+	 * aux noms d'attributs.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : attribut.<br/>
+	 * 
+	 * @return : String : setter généré à partir de l'attribut.<br/>
+	 */
+	private String fournirSetter(
+			final String pString) {
+				
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pString n'est pas 
+		 * conforme aux noms d'attributs. */
+		if (!conformeNomAttribut(pString)) {
+			return null;
+		}
+		
+		final String resultat 
+		= "set" + mettrePremiereEnMajusculeEtGarder(pString) + "()";
+	
+		return resultat;
+		
+	} // Fin de fournirSetter(...).________________________________________
+	
+
+	
+	/**
+	 * method fournirEntierCompare(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>fournit un entier de comparaison à partir d'un attribut.</li>
+	 * <li>par exemple : <br/>
+	 * <code>fournirEntierCompare(profilString) 
+	 * retourne "compareProfilString"</code></li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas conforme 
+	 * aux noms d'attributs.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : attribut.<br/>
+	 * 
+	 * @return : String : entier de comparaison généré 
+	 * à partir de l'attribut.<br/>
+	 */
+	private String fournirEntierCompare(
+			final String pString) {
+				
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pString n'est pas 
+		 * conforme aux noms d'attributs. */
+		if (!conformeNomAttribut(pString)) {
+			return null;
+		}
+		
+		final String resultat 
+		= "compare" + mettrePremiereEnMajusculeEtGarder(pString);
+	
+		return resultat;
+		
+	} // Fin de fournirEntierCompare(...)._________________________________
+	
+	
 	
 } // FIN DE LA CLASSE AbstractEcriveur.--------------------------------------
