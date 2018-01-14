@@ -1,6 +1,8 @@
 package levy.daniel.application.apptechnic.generationcode.impl;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -205,9 +207,95 @@ public class EcriveurInterface extends AbstractEcriveur {
 		this.insererLignesVidesSousLigneDansFichier(
 				pFile, derniereLigneSetId, 3, CHARSET_UTF8);
 		
+		/* Ecrit la getters-setters. */
+		try {
+			
+			/* écrit les getters-setters. */
+			this.ecrireAccesseurs(pFile);
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer les getters-setters", e);
+			}
+		}
+		
 	} // Fin de ecrireCodeHook(...)._______________________________________
 
+
+		
+	/**
+	 * method creerLignePackage(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>Crée et retourne la première <b>ligne de code</b> PACKAGE 
+	 * d'une classe Java.</li>
+	 * <li>alimente this.lignePackage</li>
+	 * <li>Déduit la package père Java d'un fichier Java.</li>
+	 * <li>Par exemple : creerLignePackage(IProfil.java) retourne :<br/> 
+	 * <code>package 
+	 * levy.daniel.application.model.metier.profil;</code></li>
+	 * </ul>
+	 * retourne null si pClasseJava est null.<br/>
+	 * retourne null si pClasseJava n'existe pas.<br/>
+	 * retourne null si pClasseJava n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : la classe Java dont on veut générer 
+	 * la première ligne package.<br/>
+	 * 
+	 * @return : String : La ligne package à incorporer 
+	 * à la première ligne de la classe Java.<br/>
+	 */
+	@Override
+	protected final String creerLignePackage(
+			final File pFile) {
+		
+		/* retourne null si pFile est null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return null;
+		}
+		
+		/* Récupération du package parent de l'interface. */
+		final File packagePere = pFile.getParentFile();
+		
+		/* Récupération du Path du package parent de l'interface. */
+		final Path pathPackagePere = packagePere.toPath();
+		
+		/* EXTRACTION DU PATH RELATIF DU PACKAGE-PERE PAR RAPPORT 
+		 * A LA RACINE DES SOURCES JAVA avec des antislash. */
+		final Path pathPackageRelatifPere 
+			= this.pathRacineMainJava.relativize(pathPackagePere);
+		
+		/* Transformation du path relatif en String avec des antislash. */
+		final String pathRelatifPereAntiSlash 
+			= pathPackageRelatifPere.toString();
+		
+		/* Transformation en path Java avec des points. */
+		final String pathRelatifPerePoint 
+			= this.remplacerAntiSlashparPoint(pathRelatifPereAntiSlash);
+		
+		/* CONSTRUCTION DE LA LIGNE DE CODE. */
+		final String resultat 
+			= "package " + pathRelatifPerePoint + POINT_VIRGULE;
+		
+		this.lignePackage = resultat;
+		
+		return this.lignePackage;
+		
+	} // Fin de creerLignePackage(...).____________________________________
 	
+
 		
 	/**
 	 * {@inheritDoc}
@@ -242,6 +330,8 @@ public class EcriveurInterface extends AbstractEcriveur {
 	@Override
 	protected final List<String> creerLignesJavaDoc(
 			final File pFile) throws Exception {
+		
+		this.javadoc = new ArrayList<String>();
 		
 		/* DEBUT. */
 		final String cheminFichierDebut 
@@ -327,7 +417,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 		
 		while (iteAttributsEquals.hasNext()) {
 			
-			final Entry<String, String> entryAttributs = iteAttributs.next();
+			final Entry<String, String> entryAttributs = iteAttributsEquals.next();
 			
 			final String nomAttribut = entryAttributs.getKey();
 			
@@ -403,19 +493,81 @@ public class EcriveurInterface extends AbstractEcriveur {
 										, nomAttribut);
 					
 					final List<String> listeLignesRgLigne1Subst2 
-					= this.substituerVariablesDansLigne(
+						= this.substituerVariablesDansLigne(
 							listeLignesRgLigne1Subst1
 								, VARIABLE_NOMBRE_RGS
 									, String.valueOf(nombreRgs));
 					
-				} else {
+					final List<String> listeLignesRgLigne1Subst3 
+						= this.substituerVariablesDansLigne(
+							listeLignesRgLigne1Subst2
+								, VARIABLE_TITRE_RG
+									, this.fournirTitreRg(rG));
 					
-				}
-				
-				
-			}
-		}
+					final List<String> listeLignesRgLigne1Subst4 
+					= this.substituerVariablesDansLigne(
+						listeLignesRgLigne1Subst3
+							, VARIABLE_MESSAGE_RG
+								, this.fournirMessageRg(rG));
+					
+					this.javadoc.addAll(listeLignesRgLigne1Subst4);
+						
+				} else {
 
+					final String cheminFichierRgLigneCourant
+					= BundleConfigurationProjetManager.getRacineMainResources() 
+					+ "/templates/javadoc_interface_rg_attribut_courant.txt";
+				
+					final File fichierRgLigneCourant 
+						= new File(cheminFichierRgLigneCourant);
+					
+					final List<String> listeLignesRgLigneCourant
+						= this.lireStringsDansFile(
+								fichierRgLigneCourant, CHARSET_UTF8);
+										
+					final List<String> listeLignesRgLigneCourantSubst1 
+						= this.substituerVariablesDansLigne(
+								listeLignesRgLigneCourant
+									, VARIABLE_TITRE_RG
+										, this.fournirTitreRg(rG));
+					
+					final List<String> listeLignesRgLigneCourantSubst2 
+						= this.substituerVariablesDansLigne(
+								listeLignesRgLigneCourantSubst1
+									, VARIABLE_MESSAGE_RG
+										, this.fournirMessageRg(rG));
+					
+					this.javadoc.addAll(listeLignesRgLigneCourantSubst2);
+						
+				}
+								
+			} // Fin de l'itération sur les RG d'un attribut.___
+			
+		} // Fin de l'itération sur les attributs._________
+
+		/* FIN DU TABLEAU. */
+		this.javadoc.add(" * </table>");
+		
+		/* FIN DE LA LISTE. */
+		this.javadoc.add(" * </ul>");
+		
+		/* FIN DE LA JAVADOC. */
+		final String cheminFichierFinJavadoc
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_fin.txt";
+	
+		final File fichierFinJavadoc = new File(cheminFichierFinJavadoc);
+		
+		final List<String> listeLignesFinJavadoc 
+			= this.lireStringsDansFile(fichierFinJavadoc, CHARSET_UTF8);
+		
+		final List<String> listeLignesFinJavadocSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesFinJavadoc
+						, VARIABLE_DATEDUJOUR
+							, this.afficherDateDuJour());
+		
+		this.javadoc.addAll(listeLignesFinJavadocSubst1);
 		
 		return this.javadoc;
 		
@@ -1391,6 +1543,12 @@ public class EcriveurInterface extends AbstractEcriveur {
 	
 	/**
 	 * {@inheritDoc}
+	 * <br/>
+	 * <ul>
+	 * <b>fournirDebutDeclaration() pour une INTERFACE</b> :
+	 * <li>"public interface ".</li>
+	 * </ul>
+	 * <br/>
 	 */
 	@Override
 	protected final String fournirDebutDeclaration() {
@@ -1401,11 +1559,197 @@ public class EcriveurInterface extends AbstractEcriveur {
 	
 	/**
 	 * {@inheritDoc}
+	 * <br/>
+	 * <ul>
+	 * <b>fournirDebutJavaDoc() pour une INTERFACE</b> :
+	 * <li>" * INTERFACE".</li>
+	 * </ul>
+	 * <br/>
 	 */
 	@Override
 	protected final String fournirDebutJavaDoc() {
 		return " * INTERFACE";
 	} // Fin de fournirDebutJavaDoc()._____________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocGetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeGetter) throws Exception {
+
+		/* DEBUT. */
+		final String cheminFichierDebut 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/getter/debut_javadoc_getter.txt";
+		
+		final File fichierDebut = new File(cheminFichierDebut);
+		
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+				
+		final List<String> listeLignesDebutSubstitue1 
+			= this.substituerVariablesDansLigne(
+				listeLignesDebut
+					, VARIABLE_GETTER
+						, this.fournirGetter(pNomAttribut));
+		
+		final List<String> listeLignesDebutSubstitue2 
+			= this.substituerVariablesDansLigne(
+				listeLignesDebutSubstitue1
+					, VARIABLE_NOMATTRIBUT
+						, pNomAttribut);
+		
+		final List<String> listeLignesDebutSubstitue3 
+		= this.substituerVariablesDansLigne(
+				listeLignesDebutSubstitue2
+				, VARIABLE_NOMSIMPLEINTERFACE
+					, this.nomSimpleInterface);
+
+		
+		pListeGetter.addAll(listeLignesDebutSubstitue3);
+		
+		/* CORPS. */
+		final List<String> listeRgs = this.mapRg.get(pNomAttribut);
+		
+		/* Ajout des RG. */
+		if (!listeRgs.isEmpty()) {
+			
+			/* ouverture de liste HTML. */
+			pListeGetter.add(UL_OUVRANT_JAVADOC);
+			
+			for (final String rg : listeRgs) {
+				
+				final List<String> elementListe = new ArrayList<String>();
+				elementListe.add("	 * <li>" + this.fournirTitreRg(rg) + SEP_2PTS_AERE);
+				elementListe.add("	 * " + this.fournirMessageRg(rg) + ".</li>");
+				
+				pListeGetter.addAll(elementListe);
+			}
+			
+			/* fermeture de liste HTML. */
+			pListeGetter.add(UL_FERMANT_JAVADOC);
+			
+		}
+		
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getter/fin_javadoc_getter.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+		
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+
+		final List<String> listeLignesFinSubstitue1 
+		= this.substituerVariablesDansLigne(
+			listeLignesFin
+				, VARIABLE_GETTER
+					, this.fournirGetter(pNomAttribut));
+	
+		final List<String> listeLignesFinSubstitue2 
+			= this.substituerVariablesDansLigne(
+					listeLignesFinSubstitue1
+					, VARIABLE_NOMATTRIBUT
+						, pNomAttribut);
+		
+		final List<String> listeLignesFinSubstitue3 
+		= this.substituerVariablesDansLigne(
+				listeLignesFinSubstitue2
+				, VARIABLE_TYPEATTRIBUT
+					, pTypeAttribut);
+	
+		
+		pListeGetter.addAll(listeLignesFinSubstitue3);
+
+		
+	} // Fin de creerJavadocGetter(...).___________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeEntityGetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeGetter) {
+
+		// TODO Auto-generated method stub
+		
+	} // Fin de creerCodeEntityGetter(...).________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeGetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeGetter) throws Exception {
+
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getter/code_getter_interface.txt";
+	
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> listeLignesSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_TYPEATTRIBUT
+							, pTypeAttribut); 
+		
+		final List<String> listeLignesSubst2 
+		= this.substituerVariablesDansLigne(
+				listeLignesSubst1
+					, VARIABLE_GETTER
+						, this.fournirGetter(pNomAttribut)); 
+		
+		pListeGetter.addAll(listeLignesSubst2);
+		
+	} // Fin de creerCodeGetter(...).______________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocSetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeSetter) {
+
+		// TODO Auto-generated method stub
+		
+	} // Fin de creerJavadocSetter(...).___________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeSetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeSetter) {
+
+		// TODO Auto-generated method stub
+		
+	} // Fin de creerCodeSetter(...).______________________________________
 
 
 	

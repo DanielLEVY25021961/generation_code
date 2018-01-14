@@ -1,6 +1,7 @@
 package levy.daniel.application.apptechnic.generationcode.impl;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -150,7 +151,80 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	} // Fin de ecrireCodeHook(...)._______________________________________
 	
 	
+		
+	/**
+	 * method creerLignePackage(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>Crée et retourne la première <b>ligne de code</b> PACKAGE 
+	 * d'une classe Java.</li>
+	 * <li>alimente this.lignePackage</li>
+	 * <li>Déduit la package père Java d'un fichier Java.</li>
+	 * <li>Par exemple : creerLignePackage(IProfil.java) retourne :<br/> 
+	 * <code>package 
+	 * levy.daniel.application.model.metier.profil;</code></li>
+	 * </ul>
+	 * retourne null si pClasseJava est null.<br/>
+	 * retourne null si pClasseJava n'existe pas.<br/>
+	 * retourne null si pClasseJava n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : la classe Java dont on veut générer 
+	 * la première ligne package.<br/>
+	 * 
+	 * @return : String : La ligne package à incorporer 
+	 * à la première ligne de la classe Java.<br/>
+	 */
+	@Override
+	protected final String creerLignePackage(
+			final File pFile) {
+		
+		/* retourne null si pFile est null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return null;
+		}
+		
+		/* Récupération du package parent de l'interface. */
+		final File packagePere = pFile.getParentFile();
+		
+		/* Récupération du Path du package parent de l'interface. */
+		final Path pathPackagePere = packagePere.toPath();
+		
+		/* EXTRACTION DU PATH RELATIF DU PACKAGE-PERE PAR RAPPORT 
+		 * A LA RACINE DES SOURCES JAVA avec des antislash. */
+		final Path pathPackageRelatifPere 
+			= this.pathRacineMainJava.relativize(pathPackagePere);
+		
+		/* Transformation du path relatif en String avec des antislash. */
+		final String pathRelatifPereAntiSlash 
+			= pathPackageRelatifPere.toString();
+		
+		/* Transformation en path Java avec des points. */
+		final String pathRelatifPerePoint 
+			= this.remplacerAntiSlashparPoint(pathRelatifPereAntiSlash);
+		
+		/* CONSTRUCTION DE LA LIGNE DE CODE. */
+		final String resultat 
+			= "package " + pathRelatifPerePoint + POINT_VIRGULE;
+		
+		this.lignePackage = resultat;
+		
+		return this.lignePackage;
+		
+	} // Fin de creerLignePackage(...).____________________________________
+	
 
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -313,6 +387,12 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 
 	/**
 	 * {@inheritDoc}
+	 * <br/>
+	 * <ul>
+	 * <b>fournirDebutDeclaration() pour une ABSTRACTCLASS</b> :
+	 * <li>"public abstract class ".</li>
+	 * </ul>
+	 * <br/>
 	 */
 	@Override
 	protected final String fournirDebutDeclaration() {
@@ -323,11 +403,92 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	
 	/**
 	 * {@inheritDoc}
+	 * <br/>
+	 * <ul>
+	 * <b>fournirDebutJavaDoc() pour une ABSTRACTCLASS</b> :
+	 * <li>" * CLASSE ABSTRAITE".</li>
+	 * </ul>
+	 * <br/>
 	 */
 	@Override
 	protected final String fournirDebutJavaDoc() {
 		return " * CLASSE ABSTRAITE";
 	} // Fin de fournirDebutJavaDoc()._____________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocGetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeGetter) {
+
+		// TODO Auto-generated method stub
+		
+	} // Fin de creerJavadocGetter(...).___________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeEntityGetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeGetter) {
+
+		// TODO Auto-generated method stub
+		
+	} // Fin de creerCodeEntityGetter(...).________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeGetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeGetter) {
+
+		// TODO Auto-generated method stub
+		
+	} // Fin de creerCodeGetter(...).______________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocSetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeSetter) {
+
+		// TODO Auto-generated method stub
+		
+	} // Fin de creerJavadocSetter(...).___________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeSetter(
+			final String pNomAttribut
+				, final String pTypeAttribut
+					, final List<String> pListeSetter) {
+
+		// TODO Auto-generated method stub
+		
+	} // Fin de creerCodeSetter(...).______________________________________
 
 	
 

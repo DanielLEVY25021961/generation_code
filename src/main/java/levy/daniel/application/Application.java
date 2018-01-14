@@ -46,6 +46,14 @@ public final class Application {
 
 
 	/**
+	 * STRING : String :<br/>
+	 * "String".<br/>
+	 */
+	public static final String STRING 
+		= "String";
+	
+	
+	/**
 	 * MAP_ATTRIBUTS : Map&lt;String,String&gt; :<br/>
 	 * <ul>
 	 * Map&lt;String,String&gt; ordonnée 
@@ -120,12 +128,12 @@ public final class Application {
 		
 		final GenerateurMetier generateur = new GenerateurMetier();
 		
-		MAP_ATTRIBUTS.put("profilString", "String");
-		MAP_ATTRIBUTS.put("porteeProfil", "String");
-		MAP_ATTRIBUTS.put("restrictionProfil", "String");
+		MAP_ATTRIBUTS.put("profilString", STRING);
+		MAP_ATTRIBUTS.put("porteeProfil", STRING);
+		MAP_ATTRIBUTS.put("restrictionProfil", STRING);
 		
-		MAP_ATTRIBUTS_EQUALS.put("profilString", "String");
-		MAP_ATTRIBUTS_EQUALS.put("porteeProfil", "String");
+		MAP_ATTRIBUTS_EQUALS.put("profilString", STRING);
+		MAP_ATTRIBUTS_EQUALS.put("porteeProfil", STRING);
 		
 		final List<String> listeRGProfilString = new ArrayList<String>();
 		final List<String> listeRGPorteeProfil = new ArrayList<String>();

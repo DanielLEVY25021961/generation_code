@@ -106,3 +106,20 @@ java.lang.NullPointerException: null
 	at levy.daniel.application.apptechnic.generationcode.GenerateurCode.genererObjetMetier(GenerateurCode.java:186) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:68) [classes/:?]
 2018-janvier-09 14:15:07 [main] FATAL levy.daniel.application.apptechnic.generationcode.GenerateurCode - Nom de classe non conforme : profilSimple
+2018-janvier-12 19:53:20 [main] FATAL levy.daniel.application.apptechnic.generationcode.AbstractEcriveur - Impossible de créer la javadoc
+java.lang.NullPointerException: null
+	at levy.daniel.application.apptechnic.generationcode.impl.EcriveurInterface.creerLignesJavaDoc(EcriveurInterface.java:261) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireJavaDoc(AbstractEcriveur.java:1263) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireCode(AbstractEcriveur.java:982) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.GenerateurMetier.genererObjetMetier(GenerateurMetier.java:326) [classes/:?]
+	at levy.daniel.application.Application.main(Application.java:152) [classes/:?]
+2018-janvier-12 19:57:26 [main] FATAL levy.daniel.application.apptechnic.generationcode.AbstractEcriveur - Impossible de créer la javadoc
+java.util.NoSuchElementException: null
+	at java.util.LinkedHashMap$LinkedHashIterator.nextNode(LinkedHashMap.java:721) ~[?:1.8.0_144]
+	at java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:752) ~[?:1.8.0_144]
+	at java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:750) ~[?:1.8.0_144]
+	at levy.daniel.application.apptechnic.generationcode.impl.EcriveurInterface.creerLignesJavaDoc(EcriveurInterface.java:333) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireJavaDoc(AbstractEcriveur.java:1263) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireCode(AbstractEcriveur.java:982) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.GenerateurMetier.genererObjetMetier(GenerateurMetier.java:326) [classes/:?]
+	at levy.daniel.application.Application.main(Application.java:152) [classes/:?]

@@ -68,6 +68,13 @@ public class GenerateurMetier {
 
 	
 	/**
+	 * conceptModelise : String :<br/>
+	 * concept modélisé par ce générateur.<br/>
+	 */
+	private transient String conceptModelise;
+	
+	
+	/**
 	 * pathPackageMetier : String :<br/>
 	 * path absolu du repertoire model/metier.<br/>
 	 */
@@ -93,15 +100,6 @@ public class GenerateurMetier {
 	
 	
 	/**
-	 * iObjetMetier : File :<br/>
-	 * Interface de l'objet métier à générer.<br/>
-	 * Par exemple : "IProfil.java" pour l'objet métier 
-	 * Profil.java<br/>
-	 */
-	private transient File iObjetMetier;
-	
-	
-	/**
 	 * nomSimpleInterface : String :<br/>
 	 * Nom simple de l'interface à générer.<br/>
 	 * Par exemple "IProfil".<br/>
@@ -110,17 +108,42 @@ public class GenerateurMetier {
 	
 	
 	/**
+	 * iObjetMetier : File :<br/>
+	 * Interface (Fichier Java) de l'objet métier à générer.<br/>
+	 * Par exemple : "IProfil.java" pour l'objet métier 
+	 * Profil.java<br/>
+	 */
+	private transient File iObjetMetier;
+
+	
+	/**
+	 * nomSimpleAbstractClass : String :<br/>
+	 * Nom simple de la Classe Abstraite à générer.<br/>
+	 * Par exemple "AbstractProfil".<br/>
+	 */
+	private transient String nomSimpleAbstractClass;
+	
+	
+	/**
 	 * abstractObjetMetier : File :<br/>
-	 * Classe Abstraite de l'objet métier à générer.<br/>
+	 * Classe Abstraite (Fichier Java) de l'objet métier à générer.<br/>
 	 * Par exemple : "AbstractProfil.java" pour l'objet métier 
 	 * Profil.java<br/>
 	 */
 	private transient File abstractObjetMetier;
 	
+		
+	/**
+	 * nomSimpleObjetMetier : String :<br/>
+	 * Nom simple de l'Objet metier à générer.<br/>
+	 * Par exemple "ProfilSimple".<br/>
+	 */
+	private transient String nomSimpleObjetMetier;
+	
 	
 	/**
 	 * objetMetier : File :<br/>
-	 * Objet métier à générer.<br/>
+	 * Objet métier (Fichier Java) à générer.<br/>
 	 * Par exemple : Profil.java<br/>
 	 */
 	private transient File objetMetier;
@@ -175,6 +198,11 @@ public class GenerateurMetier {
 	 /**
 	 * method CONSTRUCTEUR GenerateurMetier() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 * <ul>
+	 * <li>alimente this.pathPackageMetier en demandant le chemin 
+	 * du package <b>model.metier</b> au 
+	 * <b>BundleConfigurationProjetManager</b>.</li>
+	 * </ul>
 	 * <br/>
 	 */
 	public GenerateurMetier() {
@@ -202,13 +230,16 @@ public class GenerateurMetier {
 	 * , Map<String, String> pMapAttributs
 	 * , Map<String, String> pMapAttributsEquals) :<br/>
 	 * <ul>
-	 * <li><b>Génère le code model.metier</b>;</li>
+	 * <li><b>Génère le code model.metier</b>.</li>
+	 * <li>alimente this.conceptModelise.</li>
 	 * <li>alimente this.nomSimpleInterface.</li>
+	 * <li>alimente this.nomSimpleObjetMetier.</li>
 	 * <li>alimente la map des attributs de l'objet métier.</li>
 	 * <li>alimente la map des attributs de l'objet métier 
 	 * utilisés dans equals().</li>
 	 * <li>alimente la map des RG this.mapRg.</li>
-	 * <li>Génère le package pNomPackage sous model/metier.</li>
+	 * <li>Génère le package pNomPackage sous model/metier 
+	 * et alimente this.packageObjetMetier.</li>
 	 * <li>Génère le package pNomPackage.impl.</li>
 	 * <li>Génère l'Interface vide de l'objet métier.</li>
 	 * <li>Génère la classe abstraite vide de l'objet métier.</li>
@@ -291,8 +322,14 @@ public class GenerateurMetier {
 			return;
 		}
 
+		/* alimente this.conceptModelise. */
+		this.conceptModelise = pNomPackage;
+		
 		/* alimente this.nomSimpleInterface. */
 		this.nomSimpleInterface = pNomInterface;
+		
+		/* alimente this.nomSimpleObjetMetier. */
+		this.nomSimpleObjetMetier = pNomObjetMetier;
 		
 		/* alimente la map des attributs de l'objet métier. */
 		this.mapAttributs = pMapAttributs;
@@ -305,7 +342,8 @@ public class GenerateurMetier {
 		this.mapRg = pMapRg;
 		
 		/* Génère le package pNomPackage devant contenir 
-		 * l'objet métier généré pNomObjetMetier sous model/metier */
+		 * l'objet métier généré pNomObjetMetier sous model/metier. */
+		/* alimente this.packageObjetMetier */
 		this.genererPackageObjetMetier(pNomPackage);
 		
 		/* Génère le package pNomPackage.impl devant contenir 
@@ -332,6 +370,21 @@ public class GenerateurMetier {
 
 
 	
+	
+	
+	/**
+	 * method getConceptModelise() :<br/>
+	 * Getter du concept modélisé par ce générateur.<br/>
+	 * <br/>
+	 *
+	 * @return conceptModelise : String.<br/>
+	 */
+	public final String getConceptModelise() {	
+		return this.conceptModelise;
+	} // Fin de getConceptModelise().______________________________________
+
+
+
 	/**
 	 * method getPathPackageMetier() :<br/>
 	 * Getter du path absolu du repertoire model/metier.<br/>
@@ -373,8 +426,22 @@ public class GenerateurMetier {
 		return this.sousPackageObjetMetierImpl;
 	} // Fin de getSousPackageObjetMetierImpl().___________________________
 
-
 	
+		
+	/**
+	 * method getNomSimpleInterface() :<br/>
+	 * Getter du Nom simple de l'interface à générer.<br/>
+	 * Par exemple "IProfil".<br/>
+	 * <br/>
+	 *
+	 * @return nomSimpleInterface : String.<br/>
+	 */
+	public final String getNomSimpleInterface() {
+		return this.nomSimpleInterface;
+	} // Fin de getNomSimpleInterface().___________________________________
+	
+
+
 	/**
 	 * method getiObjetMetier() :<br/>
 	 * Getter de l'Interface de l'objet métier à générer.<br/>
@@ -390,16 +457,16 @@ public class GenerateurMetier {
 
 		
 	/**
-	 * method getNomSimpleInterface() :<br/>
-	 * Getter du Nom simple de l'interface à générer.<br/>
-	 * Par exemple "IProfil".<br/>
+	 * method getNomSimpleAbstractClass() :<br/>
+	 * Getter du Nom simple de la Classe Abstraite à générer.<br/>
+	 * Par exemple "AbstractProfil".<br/>
 	 * <br/>
 	 *
-	 * @return nomSimpleInterface : String.<br/>
+	 * @return nomSimpleAbstractClass : String.<br/>
 	 */
-	public final String getNomSimpleInterface() {
-		return this.nomSimpleInterface;
-	} // Fin de getNomSimpleInterface().___________________________________
+	public final String getNomSimpleAbstractClass() {	
+		return this.nomSimpleAbstractClass;
+	} // Fin de getNomSimpleAbstractClass()._______________________________
 
 
 
@@ -417,7 +484,21 @@ public class GenerateurMetier {
 	} // Fin de getAbstractObjetMetier().__________________________________
 
 
-	
+		
+	/**
+	 * method getNomSimpleObjetMetier() :<br/>
+	 * Getter du Nom simple de l'Objet metier à générer.<br/>
+	 * Par exemple "ProfilSimple".<br/>
+	 * <br/>
+	 *
+	 * @return nomSimpleObjetMetier : String.<br/>
+	 */
+	public final String getNomSimpleObjetMetier() {	
+		return this.nomSimpleObjetMetier;
+	} // Fin de getNomSimpleObjetMetier()._________________________________
+
+
+
 	/**
 	 * method getObjetMetier() :<br/>
 	 * Getter de l'Objet métier à générer.<br/>
@@ -576,6 +657,7 @@ public class GenerateurMetier {
 	 * <li>Génère le fichier vide abstractObjetMetier.java 
 	 * sous packageObjetMetier.</li>
 	 * <li>alimente this.AbstractObjetMetier.</li>
+	 * <li>alimente this.nomSimpleAbstractClass.</li>
 	 * <li>Ne génère le fichier vide que si il n'existe pas déjà.</li>
 	 * <li>Par exemple : genererAbstractObjetMetier("IProfil") 
 	 * génère model/metier/profil/AbstractProfil.java</li>
@@ -590,8 +672,12 @@ public class GenerateurMetier {
 			final String pNomInterface) 
 					throws IOException {
 		
+		/* alimente this.nomSimpleAbstractClass. */
+		this.nomSimpleAbstractClass 
+			= this.genererNomAbstractClass(pNomInterface);
+		
 		final String nomFichier 
-			= this.genererNomAbstractClass(pNomInterface) + ".java";
+			=  this.nomSimpleAbstractClass + ".java";
 		
 		this.abstractObjetMetier
 			= this.gestionnaire

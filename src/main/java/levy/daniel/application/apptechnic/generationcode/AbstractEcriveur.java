@@ -17,7 +17,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -204,6 +208,51 @@ public abstract class AbstractEcriveur {
 	 */
 	public static final String VARIABLE_NOMATTRIBUT 
 		= "{$nomAttribut}";
+
+	
+	/**
+	 * VARIABLE_TYPEATTRIBUT : String :<br/>
+	 * "{$typeAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_TYPEATTRIBUT 
+		= "{$typeAttribut}";
+
+	
+	/**
+	 * VARIABLE_PARAMATTRIBUT : String :<br/>
+	 * "{$paramAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_PARAMATTRIBUT 
+		= "{$paramAttribut}";
+	
+	
+	/**
+	 * VARIABLE_GETTER : String :<br/>
+	 * "{$getterNomAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_GETTER 
+		= "{$getterNomAttribut}";
+
+	
+	/**
+	 * VARIABLE_SETTER : String :<br/>
+	 * "{$setterNomAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_SETTER 
+		= "{$setterNomAttribut}";
+	
+	
+	/**
+	 * VARIABLE_ENTIER_COMPARE : String :<br/>
+	 * "{$compareNomAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_ENTIER_COMPARE 
+		= "{$compareNomAttribut}";
 	
 	
 	/**
@@ -213,7 +262,7 @@ public abstract class AbstractEcriveur {
 	 */
 	public static final String VARIABLE_NOMBRE_RGS 
 		= "{$nombreRgs}";
-	
+
 	
 	/**
 	 * VARIABLE_TITRE_RG : String :<br/>
@@ -231,6 +280,15 @@ public abstract class AbstractEcriveur {
 	 */
 	public static final String VARIABLE_MESSAGE_RG 
 		= "{$messageRg}";
+	
+	
+	/**
+	 * VARIABLE_DATEDUJOUR : String :<br/>
+	 * "{$date}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_DATEDUJOUR 
+		= "{$date}";
 	
 	
 	/**
@@ -608,6 +666,13 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
+	 * conceptModelise : String :<br/>
+	 * concept modélisé.<br/>
+	 */
+	protected transient String conceptModelise;
+	
+
+	/**
 	 * fichierJava : File :<br/>
 	 * Fichier Java à générer.<br/>
 	 */
@@ -629,7 +694,23 @@ public abstract class AbstractEcriveur {
 	 */
 	protected transient String nomSimpleInterface;
 	
+	
+	/**
+	 * nomSimpleAbstractClass : String :<br/>
+	 * Nom simple de la Classe Abstraite à générer.<br/>
+	 * Par exemple "AbstractProfil".<br/>
+	 */
+	protected transient String nomSimpleAbstractClass;
 
+	
+	/**
+	 * nomSimpleObjetMetier : String :<br/>
+	 * Nom simple de l'Objet metier à générer.<br/>
+	 * Par exemple "ProfilSimple".<br/>
+	 */
+	protected transient String nomSimpleObjetMetier;
+
+	
 	/**
 	 * mapAttributs : Map&lt;String,String&gt; :<br/>
 	 * <ul>
@@ -891,10 +972,13 @@ public abstract class AbstractEcriveur {
 	 * <li><b>Génère le code dans le fichier java pFile</b>.</li>
 	 * <li>Traite le cas des mauvais fichiers.</li>
 	 * <li>alimente this.generateurMetier.</li>
+	 * <li>alimente this.conceptModelise.</li>
 	 * <li>alimente this.mapAttributs.</li>
 	 * <li>alimente this.mapAttributsEquals.</li>
 	 * <li>alimente this.mapRg.</li>
 	 * <li>alimente this.nomSimpleInterface.</li>
+	 * <li>alimente this.nomSimpleAbstractClass.</li>
+	 * <li>alimente this.nomSimpleObjetMetier.</li>
 	 * <li>alimente this.fichierJava.</li>
 	 * <li>alimente this.nomSimpleFichierJava.</li>
 	 * <li>écrit la ligne de code <b>package</b> (1ère ligne).</li>
@@ -937,6 +1021,10 @@ public abstract class AbstractEcriveur {
 		/* alimente this.generateurMetier. */
 		this.generateurMetier = pGenerateurMetier;
 		
+		/* alimente this.conceptModelise. */
+		this.conceptModelise 
+			= this.generateurMetier.getConceptModelise();
+		
 		/* alimente this.mapAttributs. */
 		this.mapAttributs 
 			= this.generateurMetier.getMapAttributs();
@@ -952,6 +1040,14 @@ public abstract class AbstractEcriveur {
 		/* alimente this.nomSimpleInterface. */
 		this.nomSimpleInterface 
 			= this.generateurMetier.getNomSimpleInterface();
+		
+		/* alimente this.nomSimpleAbstractClass. */
+		this.nomSimpleAbstractClass 
+			= this.generateurMetier.getNomSimpleAbstractClass();
+		
+		/* alimente this.nomSimpleObjetMetier. */
+		this.nomSimpleObjetMetier 
+			= this.generateurMetier.getNomSimpleObjetMetier();
 
 		/* alimente this.fichierJava. */
 		this.fichierJava = pFile;
@@ -960,6 +1056,8 @@ public abstract class AbstractEcriveur {
 		this.nomSimpleFichierJava 
 			= this.fournirNomFichierSansExtension(this.fichierJava);
 
+		/* ********** */
+		/* ECRITURES. */
 		/* écrit la ligne de code PACKAGE (1ère ligne). */
 		this.ecrireLignePackage(pFile);
 		
@@ -981,6 +1079,9 @@ public abstract class AbstractEcriveur {
 		/* Ecrit la JAVADOC à la suite. */
 		this.ecrireJavaDoc(pFile);
 		
+		/* Ecrit l'ENTITY à la suite. */
+//		this.ecrireEntity(pFile);
+		
 		/* Ecrit la ligne de DECLARATION à la suite. */
 		this.ecrireLigneDeclaration(pFile);
 
@@ -994,8 +1095,7 @@ public abstract class AbstractEcriveur {
 	} // Fin de ecrireCode(...).___________________________________________
 	
 
-	
-	
+		
 	/**
 	 * method ecrireCodeHook(File pFile) :<br/>
 	 * .<br/>
@@ -1060,7 +1160,7 @@ public abstract class AbstractEcriveur {
 	} // Fin de ecrireLignePackage(...).___________________________________
 	
 
-		
+	
 	/**
 	 * method creerLignePackage(
 	 * File pFile) :<br/>
@@ -1084,54 +1184,9 @@ public abstract class AbstractEcriveur {
 	 * @return : String : La ligne package à incorporer 
 	 * à la première ligne de la classe Java.<br/>
 	 */
-	private String creerLignePackage(
-			final File pFile) {
-		
-		/* retourne null si pFile est null. */
-		if (pFile == null) {
-			return null;
-		}
-		
-		/* retourne null si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return null;
-		}
-		
-		/* retourne null si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return null;
-		}
-		
-		/* Récupération du package parent de l'interface. */
-		final File packagePere = pFile.getParentFile();
-		
-		/* Récupération du Path du package parent de l'interface. */
-		final Path pathPackagePere = packagePere.toPath();
-		
-		/* EXTRACTION DU PATH RELATIF DU PACKAGE-PERE PAR RAPPORT 
-		 * A LA RACINE DES SOURCES JAVA avec des antislash. */
-		final Path pathPackageRelatifPere 
-			= this.pathRacineMainJava.relativize(pathPackagePere);
-		
-		/* Transformation du path relatif en String avec des antislash. */
-		final String pathRelatifPereAntiSlash 
-			= pathPackageRelatifPere.toString();
-		
-		/* Transformation en path Java avec des points. */
-		final String pathRelatifPerePoint 
-			= this.remplacerAntiSlashparPoint(pathRelatifPereAntiSlash);
-		
-		/* CONSTRUCTION DE LA LIGNE DE CODE. */
-		final String resultat 
-			= "package " + pathRelatifPerePoint + POINT_VIRGULE;
-		
-		this.lignePackage = resultat;
-		
-		return this.lignePackage;
-		
-	} // Fin de creerLignePackage(...).____________________________________
+	protected abstract String creerLignePackage(File pFile);
 	
-
+	
 	
 	/**
 	 * method ecrireImports(
@@ -1975,7 +2030,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	private final void ecrireJavadocConstructeurNull(
+	private void ecrireJavadocConstructeurNull(
 			final File pFile) throws Exception {
 		
 		/* ne fait rien si pFile est null. */
@@ -2050,7 +2105,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	private final void ecrireCodeConstructeurNull(
+	private void ecrireCodeConstructeurNull(
 			final File pFile) throws Exception {
 				
 		/* ne fait rien si pFile est null. */
@@ -2212,7 +2267,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	private final void ecrireJavadocConstructeurComplet(
+	private void ecrireJavadocConstructeurComplet(
 			final File pFile) throws Exception {
 		
 		/* ne fait rien si pFile est null. */
@@ -2372,7 +2427,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	private final void ecrireCodeConstructeurComplet(
+	private void ecrireCodeConstructeurComplet(
 			final File pFile) throws Exception {
 				
 		/* ne fait rien si pFile est null. */
@@ -2580,7 +2635,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	private final void ecrireJavadocConstructeurCompletBase(
+	private void ecrireJavadocConstructeurCompletBase(
 			final File pFile) throws Exception {
 		
 		/* ne fait rien si pFile est null. */
@@ -2728,7 +2783,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	private final void ecrireCodeConstructeurCompletBase(
+	private void ecrireCodeConstructeurCompletBase(
 			final File pFile) throws Exception {
 				
 		/* ne fait rien si pFile est null. */
@@ -3468,13 +3523,13 @@ public abstract class AbstractEcriveur {
 				final List<String> lignesAAjouterSubst1 
 				= this.substituerVariablesDansLigne(
 						lignesAAjouter
-							, "{$getterNomAttribut}"
+							, VARIABLE_GETTER
 								, this.fournirGetter(nomAttribut));
 				
 				final List<String> lignesAAjouterSubst2 
 				= this.substituerVariablesDansLigne(
 						lignesAAjouterSubst1
-							, "{$compareNomAttribut}"
+							, VARIABLE_ENTIER_COMPARE
 								, this.fournirEntierCompare(nomAttribut));
 			
 				/* Ajout des lignes du corps. */
@@ -3491,13 +3546,13 @@ public abstract class AbstractEcriveur {
 				final List<String> lignesAAjouterSubst1 
 				= this.substituerVariablesDansLigne(
 						lignesAAjouter
-							, "{$getterNomAttribut}"
+							, VARIABLE_GETTER
 								, this.fournirGetter(nomAttribut));
 				
 				final List<String> lignesAAjouterSubst2 
 				= this.substituerVariablesDansLigne(
 						lignesAAjouterSubst1
-							, "{$compareNomAttribut}"
+							, VARIABLE_ENTIER_COMPARE
 								, this.fournirEntierCompare(nomAttribut));
 			
 				/* Ajout des lignes du corps. */
@@ -3522,6 +3577,219 @@ public abstract class AbstractEcriveur {
 				
 	} // Fin de ecrireCodeCompareTo(...)._____________________________________
 
+
+	
+	
+	protected final void ecrireAccesseurs(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+		return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+		return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+		return;
+		}
+		
+		final Set<Entry<String, String>> entrySet 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			final List<String> listeGetter = new ArrayList<String>();
+			final List<String> listeSetter = new ArrayList<String>();
+			
+			this.creerJavadocGetter(nomAttribut, typeAttribut, listeGetter);
+			this.creerCodeEntityGetter(nomAttribut, typeAttribut, listeGetter);
+			this.creerCodeGetter(nomAttribut, typeAttribut, listeGetter);
+			
+			/* ENREGISTREMENT *********/
+//			final String ligneIdentifiant = "	public int compareTo";
+			
+			try {
+
+//				/* Ne fait rien si le code a déjà été écrit. */
+//				if (this.existLigneCommencant(
+//						pFile, CHARSET_UTF8, ligneIdentifiant)) {
+//					return;
+//				}
+
+				for (final String ligne : listeGetter) {
+
+					if (StringUtils.isBlank(ligne)) {
+
+						this.ecrireStringDansFile(
+								pFile, "", CHARSET_UTF8, NEWLINE);
+						
+					} else {
+
+						this.ecrireStringDansFile(
+								pFile, ligne, CHARSET_UTF8, NEWLINE);
+						
+					}
+				}
+			} catch (Exception e) {
+
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Impossible de créer le code du compareTo", e);
+				}
+			}
+
+			
+			this.creerJavadocSetter(nomAttribut, typeAttribut, listeSetter);
+			this.creerCodeSetter(nomAttribut, typeAttribut, listeSetter);
+			
+			/* ENREGISTREMENT *********/
+			
+		}
+
+		
+	} // Fin de ecrireAccesseurs(...)._____________________________________
+	
+
+	
+	/**
+	 * method creerJavadocGetter(
+	 * String pNomAttribut
+	 * , String pTypeAttribut
+	 * , List&lt;String&gt; pListeGetter) :<br/>
+	 * <ul>
+	 * <li>Crée la liste de lignes pour la javadoc du getter 
+	 * de l'attribut pNomAttribut.</li>
+	 * <li>Injecte la liste de lignes générées dans pListeGetter.</li>
+	 * </ul>
+	 *
+	 * @param pNomAttribut : String : nom de l'attribut
+	 * @param pTypeAttribut : String : type de l'attribut
+	 * @param pListeGetter : List&lt;String&gt; : 
+	 * Liste contenant les lignes de code du Getter.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected abstract void creerJavadocGetter(
+			String pNomAttribut
+				, String pTypeAttribut
+					, List<String> pListeGetter) 
+							throws Exception;
+
+	
+	
+	/**
+	 * method creerCodeEntityGetter(
+	 * String pNomAttribut
+	 * , String pTypeAttribut
+	 * , List&lt;String&gt; pListeGetter) :<br/>
+	 * <ul>
+	 * <li>Crée la liste de lignes pour l'entity du getter 
+	 * de l'attribut pNomAttribut.</li>
+	 * <li>Injecte la liste de lignes générées dans pListeGetter.</li>
+	 * </ul>
+	 *
+	 * @param pNomAttribut : String : nom de l'attribut
+	 * @param pTypeAttribut : String : type de l'attribut
+	 * @param pListeGetter : List&lt;String&gt; : 
+	 * Liste contenant les lignes de code du Getter.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected abstract void creerCodeEntityGetter(
+			String pNomAttribut
+				, String pTypeAttribut
+					, List<String> pListeGetter)
+							throws Exception;
+	
+
+	
+	/**
+	 * method creerCodeGetter(
+	 * String pNomAttribut
+	 * , String pTypeAttribut
+	 * , List&lt;String&gt; pListeGetter) :<br/>
+	 * <ul>
+	 * <li>Crée la liste de lignes de code du getter 
+	 * de l'attribut pNomAttribut.</li>
+	 * <li>Injecte la liste de lignes générées dans pListeGetter.</li>
+	 * </ul>
+	 *
+	 * @param pNomAttribut : String : nom de l'attribut
+	 * @param pTypeAttribut : String : type de l'attribut
+	 * @param pListeGetter : List&lt;String&gt; : 
+	 * Liste contenant les lignes de code du Getter.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected abstract void creerCodeGetter(
+			String pNomAttribut
+				, String pTypeAttribut
+					, List<String> pListeGetter) 
+							throws Exception;
+
+
+	
+	/**
+	 * method creerJavadocSetter(
+	 * String pNomAttribut
+	 * , String pTypeAttribut
+	 * , List&lt;String&gt; pListeSetter) :<br/>
+	 * <ul>
+	 * <li>Crée la liste de lignes pour la javadoc du setter 
+	 * de l'attribut pNomAttribut.</li>
+	 * <li>Injecte la liste de lignes générées dans pListeSetter.</li>
+	 * </ul>
+	 *
+	 * @param pNomAttribut : String : nom de l'attribut
+	 * @param pTypeAttribut : String : type de l'attribut
+	 * @param pListeSetter : List&lt;String&gt; : 
+	 * Liste contenant les lignes de code du Setter.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerJavadocSetter(
+			String pNomAttribut
+				, String pTypeAttribut
+					, List<String> pListeSetter) 
+							throws Exception;
+	
+
+	
+	/**
+	 * method creerCodeSetter(
+	 * String pNomAttribut
+	 * , String pTypeAttribut
+	 * , List&lt;String&gt; pListeSetter) :<br/>
+	 * <ul>
+	 * <li>Crée la liste de lignes pour le code du setter 
+	 * de l'attribut pNomAttribut.</li>
+	 * <li>Injecte la liste de lignes générées dans pListeSetter.</li>
+	 * </ul>
+	 *
+	 * @param pNomAttribut : String : nom de l'attribut
+	 * @param pTypeAttribut : String : type de l'attribut
+	 * @param pListeSetter : List&lt;String&gt; : 
+	 * Liste contenant les lignes de code du Setter.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerCodeSetter(
+			String pNomAttribut
+				, String pTypeAttribut
+					, List<String> pListeSetter) 
+							throws Exception;
+	
 
 	
 	/**
@@ -7001,7 +7269,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @return : String : getter généré à partir de l'attribut.<br/>
 	 */
-	private String fournirGetter(
+	protected final String fournirGetter(
 			final String pString) {
 				
 		/* retourne null si pString est blank. */
@@ -7042,7 +7310,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @return : String : setter généré à partir de l'attribut.<br/>
 	 */
-	private String fournirSetter(
+	protected final String fournirSetter(
 			final String pString) {
 				
 		/* retourne null si pString est blank. */
@@ -7127,7 +7395,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @return : String : partie gauche (titre) de la RG.<br/>
 	 */
-	private String fournirTitreRg(
+	protected final String fournirTitreRg(
 			final String pString) {
 		
 		/* retourne null si pString est blank. */
@@ -7148,7 +7416,7 @@ public abstract class AbstractEcriveur {
 		 * - séparateur " : ".
 		 * - poursuit par n'importe quels caractères
 		 * */
-		final String patternString = "^RG_(([A-Z_-]*)(\\d+)) : (.+)$";
+		final String patternString = "^(RG_(([A-Z_-]*)(\\d+))) : (.+)$";
 		
 		/* Instanciation d'un Pattern. */
 		final Pattern pattern = Pattern.compile(patternString);
@@ -7192,7 +7460,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @return : String : partie droite (message) de la RG.<br/>
 	 */
-	private String fournirMessageRg(
+	protected final String fournirMessageRg(
 			final String pString) {
 		
 		/* retourne null si pString est blank. */
@@ -7213,7 +7481,7 @@ public abstract class AbstractEcriveur {
 		 * - séparateur " : ".
 		 * - poursuit par n'importe quels caractères
 		 * */
-		final String patternString = "^RG_(([A-Z_-]*)(\\d+)) : (.+)$";
+		final String patternString = "^(RG_(([A-Z_-]*)(\\d+))) : (.+)$";
 		
 		/* Instanciation d'un Pattern. */
 		final Pattern pattern = Pattern.compile(patternString);
@@ -7227,13 +7495,103 @@ public abstract class AbstractEcriveur {
 		String resultat = null;
 		
 		if (trouve) {			
-			resultat = matcher.group(4);
+			resultat = matcher.group(5);
 		}
 
 		return resultat;
 		
 	} // Fin de fournirMessageRg(...)._____________________________________
+
+	
+	
+	/**
+	 * method fournirDate(
+	 * String pDateString) :<br/>
+	 * Prend en paramètre une String compatible avec une Date
+	 * au format "dd/MM/yyyy" ('25/02/1961' par exemple) et
+	 * retourne une String.<br/>
+	 * <br/>
+	 *
+	 * @param pDateString : la Date sous forme de String
+	 * au format '25/02/1961'.<br/>
+	 * 
+	 * @return Date.<br/>
+	 * 
+	 * @throws ParseException : lorsque la date rentrée
+	 * sous forme de String ne respecte pas le format
+	 * "dd/MM/yyyy" ou n'est pas compatible avec une date
+	 * (45/122/2012 par exemple).<br/>
+	 */
+	protected final Date fournirDate(
+							final String pDateString) 
+												throws ParseException {
+		
+		final Locale localeFr = new Locale("fr", "FR");
+		
+		final DateFormat dfDateFrancaise 
+		= new SimpleDateFormat("dd/MM/yyyy", localeFr);
+				
+		/* Indispensable pour générer une exception si la chaine
+		 * de caractères ne peut être une date comme 322/47/2011. */
+		dfDateFrancaise.setLenient(false);
+		
+		return dfDateFrancaise.parse(pDateString);
+		
+	} // Fin de fournirDate(
+	 // String pDateString)._______________________________________________
 	
 
+	
+	/**
+	 * method afficherDateEnFrançais(
+	 * Date pDate) :<br/>
+	 * Prend en paramètre une Date et retourne une String
+	 * au format français complet comme 'samedi 25 février 1961'.<br/>
+	 * <br/>
+	 *
+	 * @param pDate : Date : la Date à afficher.<br/>
+	 * 
+	 * @return String : 'samedi 25 février 1961' par exemple.<br/>
+	 */
+	protected final String afficherDateEnFrancais(
+												final Date pDate) {
+		
+		final Locale localeFr = new Locale("fr", "FR");
+		
+		final DateFormat dfDateCompleteFrancaise 
+		= new SimpleDateFormat("EEEE' 'dd' 'MMMM' 'yyyy"
+			, localeFr);
+		
+		return dfDateCompleteFrancaise.format(pDate);
+		
+	} // Fin de afficherDateEnFrançais(
+	 // Date pDate)._______________________________________________________
+	
+	
+
+	/**
+	 * method afficherDateDuJour() :<br/>
+	 * <ul>
+	 * <li>Retourne une String pour l'affichage de la date du jour.</li>
+	 * <li>Par exemple : 12 janvier 2018.</li>
+	 * </ul>
+	 *
+	 * @return : String : Date du jour.<br/>
+	 */
+	protected final String afficherDateDuJour() {
+		
+		final Date dateDuJour = new Date();
+		
+		final Locale localeFr = new Locale("fr", "FR");
+		
+		/* 12 janvier 2018. */
+		final DateFormat dfDateFrancaise 
+		= new SimpleDateFormat("dd MMMM yyyy", localeFr);
+		
+		return dfDateFrancaise.format(dateDuJour);
+		
+	} // Fin de afficherDateDuJour().______________________________________
+	
+	
 	
 } // FIN DE LA CLASSE AbstractEcriveur.--------------------------------------

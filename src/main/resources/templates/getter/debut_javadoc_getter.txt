@@ -1,0 +1,3 @@
+	/**
+	 * method {$getterNomAttribut} :<br/>
+	 * Getter du {$nomAttribut} du {$nomSimpleInterface}.<br/>

@@ -1,0 +1,4 @@
+	{$typeAttribut} {$getterNomAttribut};
+	
+	
+	

@@ -1,5 +1,9 @@
 package levy.daniel.application.apptechnic.generationcode.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -133,8 +137,7 @@ public class EcriveurInterfaceTest {
 		
 		final boolean resultat = this.conformeRg(chaine);
 		
-		if (AFFICHAGE_GENERAL && affichage) {
-			
+		if (AFFICHAGE_GENERAL && affichage) {			
 			System.out.println("RESULTAT : " + resultat);
 		}
 		
@@ -188,7 +191,7 @@ public class EcriveurInterfaceTest {
 		 * - séparateur " : ".
 		 * - poursuit par n'importe quels caractères
 		 * */
-		final String patternString = "^RG_(([A-Z_-]*)(\\d+)) : (.+)$";
+		final String patternString = "^(RG_(([A-Z_-]*)(\\d+))) : (.+)$";
 		
 		/* Instanciation d'un Pattern. */
 		final Pattern pattern = Pattern.compile(patternString);
@@ -216,6 +219,56 @@ public class EcriveurInterfaceTest {
 		return resultat;
 		
 	} // Fin de conformeRg(...).___________________________________________
+	
+
+	
+	/**
+	 * method testDateDuJour() :<br/>
+	 * <ul>
+	 * <li>.</li>
+	 * <li>.</li>
+	 * </ul>
+	 * :  :  .<br/>
+	 */
+	@Test
+	public void testDateDuJour() {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		if (AFFICHAGE_GENERAL && affichage) {			
+			System.out.println("RESULTAT : " + this.afficherDateDuJour());
+		}
+
+		
+	} // Fin de testDateDuJour().__________________________________________
+	
+	
+
+	/**
+	 * method afficherDateDuJour() :<br/>
+	 * <ul>
+	 * <li>Retourne une String pour l'affichage de la date du jour.</li>
+	 * <li>Par exemple : 12 janvier 2018.</li>
+	 * </ul>
+	 *
+	 * @return : String : Date du jour.<br/>
+	 */
+	private String afficherDateDuJour() {
+		
+		final Date dateDuJour = new Date();
+		
+		final Locale localeFr = new Locale("fr", "FR");
+		
+		/* 12 janvier 2018. */
+		final DateFormat dfDateFrancaise 
+		= new SimpleDateFormat("dd MMMM yyyy", localeFr);
+		
+		return dfDateFrancaise.format(dateDuJour);
+		
+	} // Fin de afficherDateDuJour().______________________________________
 	
 
 
