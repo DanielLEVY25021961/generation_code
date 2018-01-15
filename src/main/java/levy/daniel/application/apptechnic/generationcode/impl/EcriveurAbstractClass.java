@@ -87,11 +87,83 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	protected final void ecrireCodeHook(
 			final File pFile) {
 		
+		try {
+			
+			/* crée tout le bloc comprenant les ATTRIBUTS. */
+			this.ecrireBlocAttributs(pFile);
+			
+		} catch (Exception e1) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible d'écrire les attributs", e1);
+			}
+			
+		}
+				
+		/* écrit le séparateur methodes. */
+		this.ecrireLignesSepMethodes(pFile);
+				
+		try {
+			
+			/* crée tout le bloc comprenant les METHODES. */
+			this.ecrireBlocMethodes(pFile);
+			
+		} catch (Exception e) {
+					
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible d'écrire les méthodes", e);
+			}
+		}
+		
+	} // Fin de ecrireCodeHook(...)._______________________________________
+	
+
+	
+	/**
+	 * method ecrireBlocAttributs(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li><b>Crée tout le bloc comprenant les attributs</b>.</li>
+	 * <ul>
+	 * <li>écrit le séparateur attributs.</li>
+	 * <li>écrit la stringClasse.</li>
+	 * <li>écrit attributId.</li>
+	 * <li>écrit tous les attributs.</li>
+	 * </ul>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireBlocAttributs(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
 		/* écrit le séparateur attributs. */
-		this.ecrireSepAttributs(pFile);
+		this.ecrireLignesSepAttributs(pFile);
 		
 		/* écrit la stringClasse. */
-		this.ecrireStringClasse(pFile);
+		this.ecrireLignesStringClasse(pFile);
 		
 		final String derniereLigneStringClasse 
 			= this.fournirDerniereLigneListe(this.stringClasse);
@@ -101,7 +173,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 				pFile, derniereLigneStringClasse, 2, CHARSET_UTF8);
 		
 		/* écrit attributId. */
-		this.ecrireAttributId(pFile);
+		this.ecrireLignesAttributId(pFile);
 		
 		
 		try {
@@ -116,42 +188,75 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 			}
 		}
 		
-		/* écrit le séparateur methodes. */
-		this.ecrireSepMethodes(pFile);
+	} // Fin de creerAttributs(...)._______________________________________
+	
+
+	
+	/**
+	 * method ecrireBlocMethodes(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li><b>Crée tout le bloc comprenant les methodes</b>.</li>
+	 * <ul>
+	 * <li>écrit le constructeur d'arité nulle.</li>
+	 * <li>écrit le constructeur complet.</li>
+	 * <li>écrit le constructeur complet base.</li>
+	 * <li>écrit la méthode hashcode().</li>
+	 * <li>écrit la méthode equals().</li>
+	 * <li>écrit la méthode compareTo().</li>
+	 * </ul>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireBlocMethodes(
+			final File pFile) throws Exception {
 		
-		
-		try {
-			
-			/* écrit le constructeur d'arité nulle. */
-			this.ecrireConstructeurNull(pFile);
-			
-			/* écrit le constructeur complet. */
-			this.ecrireConstructeurComplet(pFile);
-			
-			/* écrit le constructeur complet base. */
-			this.ecrireConstructeurCompletBase(pFile);
-			
-			/* écrit la méthode hashcode(). */
-			this.ecrireHashCode(pFile);
-			
-			/* écrit la méthode equals(). */
-			this.ecrireEquals(pFile);
-			
-			/* écrit la méthode compareTo(). */
-			this.ecrireCompareTo(pFile);
-			
-		} catch (Exception e) {
-					
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer les attributs", e);
-			}
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
 		}
 
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* écrit le constructeur d'arité nulle. */
+		this.ecrireConstructeurNull(pFile);
 		
-	} // Fin de ecrireCodeHook(...)._______________________________________
+		/* écrit le constructeur complet. */
+		this.ecrireConstructeurComplet(pFile);
+		
+		/* écrit le constructeur complet base. */
+		this.ecrireConstructeurCompletBase(pFile);
+		
+		/* écrit la méthode hashcode(). */
+		this.ecrireHashCode(pFile);
+		
+		/* écrit la méthode equals(). */
+		this.ecrireEquals(pFile);
+		
+		/* écrit la méthode compareTo(). */
+		this.ecrireCompareTo(pFile);
+		
+		
+	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
 	
-		
+	
 	/**
 	 * method creerLignePackage(
 	 * File pFile) :<br/>
@@ -286,6 +391,17 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 				
 	} // Fin de creerLignesJavaDoc(...).___________________________________
 	
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final List<String> creerLignesEntity(
+			final File pFile) throws Exception {
+		return null;
+	} // Fin de creerLignesEntity(...).____________________________________
+
 
 	
 	/**
@@ -489,6 +605,36 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		// TODO Auto-generated method stub
 		
 	} // Fin de creerCodeSetter(...).______________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String fournirLigneIdentifianteGetter(
+			final String pNomAttribut
+				, final String pTypeAttribut) {
+		
+		final String ligneIdentifiant 
+		= "\t" + "public " 
+				+ pTypeAttribut + " " + this.fournirGetter(pNomAttribut);
+		
+		return ligneIdentifiant;
+		
+	} // Fin de fournirLigneIdentifianteGetter(...)._______________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String fournirLigneIdentifianteSetter(String pNomAttribut, String pTypeAttribut) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 

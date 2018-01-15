@@ -1,7 +1,8 @@
 /**
  * INTERFACE <b>{$nomSimpleInterface}</b> :<br/>
  * <p>
- * <b>{$nomSimpleInterface}</b> modélise un un <i>concept</i> de <b></b> 
+ * <b>{$nomSimpleInterface}</b> modélise un <i>concept</i> 
+ * de <b>{$conceptModelise}</b> 
  * , c'est à dire  <b></b>  
  * <i>une ou plusieurs</i> <b></b>.
  * </p>
@@ -27,7 +28,8 @@
  * <ul>
  * <p>
  * <span style="text-decoration: underline;">
- * Garantit que tout {$nomSimpleInterface} sait :
+ * Garantit que tout {$conceptModelise} implémentant 
+ * {$nomSimpleInterface} sait :
  * </span>
  * </p>
  * <li>se <b>comparer</b> à un autre {$nomSimpleInterface}.</li>
@@ -39,7 +41,8 @@
  * <ul>
  * <p>
  * <span style="text-decoration: underline;">
- * Garantit que tout {$nomSimpleInterface} possède à minima :
+ * Garantit que tout {$conceptModelise} implémentant 
+ * {$nomSimpleInterface} possède à minima :
  * </span>
  * </p>
  * <li><b>id</b> pour la mise en base.</li>

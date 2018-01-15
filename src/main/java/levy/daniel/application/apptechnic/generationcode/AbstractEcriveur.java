@@ -199,6 +199,14 @@ public abstract class AbstractEcriveur {
 	 */
 	public static final String VARIABLE_NOMSIMPLEINTERFACE 
 		= "{$nomSimpleInterface}";
+
+	
+	/**
+	 * VARIABLE_CONCEPT_MODELISE : String :<br/>
+	 * "{$conceptModelise}".<br/>
+	 */
+	public static final String VARIABLE_CONCEPT_MODELISE 
+		= "{$conceptModelise}";
 	
 	
 	/**
@@ -810,6 +818,13 @@ public abstract class AbstractEcriveur {
 	
 	
 	/**
+	 * entity : List&lt;String&gt; :<br/>
+	 * entity du fichier Java.<br/>
+	 */
+	protected transient List<String> entity;
+	
+	
+	/**
 	 * ligneDeclaration : String :<br/>
 	 * ligne de code pour la déclaration de l'interface.<br/>
 	 * Par exemple : <br/>
@@ -1080,7 +1095,7 @@ public abstract class AbstractEcriveur {
 		this.ecrireJavaDoc(pFile);
 		
 		/* Ecrit l'ENTITY à la suite. */
-//		this.ecrireEntity(pFile);
+		this.ecrireEntity(pFile);
 		
 		/* Ecrit la ligne de DECLARATION à la suite. */
 		this.ecrireLigneDeclaration(pFile);
@@ -1097,25 +1112,16 @@ public abstract class AbstractEcriveur {
 
 		
 	/**
-	 * method ecrireCodeHook(File pFile) :<br/>
-	 * .<br/>
-	 * <br/>
-	 *
-	 * @param pFile : void :  .<br/>
-	 */
-	protected abstract void ecrireCodeHook(File pFile);
-	
-	
-	
-	/**
 	 * method ecrireLignePackage(
 	 * File pFile) :<br/>
 	 * <ul>
-	 * <li>Insère la ligne de code package 
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>Insère la ligne de code <b>package</b> 
 	 * à la première ligne du fichier.</li>
 	 * <li>N'insère la ligne que si elle n'existe pas déjà</li>
-	 * <li>Par exemple : "package levy.daniel.application.
-	 * model.metier.profil;".</li>
+	 * <li>Par exemple : <br/>
+	 * <code>package levy.daniel.application.
+	 * model.metier.profil;</code>.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -1145,7 +1151,15 @@ public abstract class AbstractEcriveur {
 		
 		/* Crée La ligne package. */
 		this.creerLignePackage(pFile);
-			
+		
+		if (StringUtils.isBlank(this.lignePackage)) {
+			return;
+		}
+
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
 		if (!this.existLigneDansFichier(
 				pFile, CHARSET_UTF8, this.lignePackage)) {
 			
@@ -1192,7 +1206,8 @@ public abstract class AbstractEcriveur {
 	 * method ecrireImports(
 	 * File pFile) :<br/>
 	 * <ul>
-	 * <li>Insère les lignes d'import des dépendances 
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>Insère les lignes d'<b>import des dépendances</b> 
 	 * après la ligne package.</li>
 	 * <li>N'insère les lignes que si elles n'existent pas déjà</li>
 	 * <li>Par exemple : <br/>
@@ -1234,6 +1249,13 @@ public abstract class AbstractEcriveur {
 			/* Crée les imports. */
 			this.creerLignesImport();
 			
+			if (this.imports == null) {
+				return;
+			}
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : this.imports) {
 				
 				if (!existLigneDansFichier(pFile, CHARSET_UTF8, ligne)) {
@@ -1282,8 +1304,9 @@ public abstract class AbstractEcriveur {
 	 * method ecrireJavaDoc(
 	 * File pFile) :<br/>
 	 * <ul>
-	 * <li>Insère les lignes de Javadoc
-	 * à la suite.</li>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>Insère les lignes de <b>javadoc</b>
+	 * à la suite des imports.</li>
 	 * <li>N'insère les lignes que si elles n'existent pas déjà</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -1294,7 +1317,7 @@ public abstract class AbstractEcriveur {
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 */
-	protected final void ecrireJavaDoc(
+	private void ecrireJavaDoc(
 			final File pFile) {
 						
 		/* ne fait rien si pFile est null. */
@@ -1317,6 +1340,10 @@ public abstract class AbstractEcriveur {
 			/* Crée la javadoc. */
 			this.creerLignesJavaDoc(pFile);
 			
+			if (this.javadoc == null) {
+				return;
+			}
+			
 			/* Recherche la ligne identifiant la javadoc. */
 			final String ligneJavadoc 
 				= this.fournirDebutJavaDoc();
@@ -1326,8 +1353,11 @@ public abstract class AbstractEcriveur {
 					pFile, CHARSET_UTF8, ligneJavadoc)) {
 				return;
 			}
+
 			
-			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : this.javadoc) {
 				
 				if (StringUtils.isBlank(ligne)) {
@@ -1349,8 +1379,8 @@ public abstract class AbstractEcriveur {
 			}
 		}
 								
-	} // Fin de ecrireJavaDoc(...).________________________________________
-	
+	} // Fin de ecrireJavaDoc(...).________________________________________	
+
 
 	
 	/**
@@ -1361,6 +1391,8 @@ public abstract class AbstractEcriveur {
 	 * <li>alimente this.javadoc</li>
 	 * </ul>
 	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
 	 * @return : List&lt;String&gt; : this.javadoc.<br/>
 	 * 
 	 * @throws Exception
@@ -1368,28 +1400,159 @@ public abstract class AbstractEcriveur {
 	protected abstract List<String> creerLignesJavaDoc(File pFile) 
 			throws Exception;
 
+
+	
+	
+	/**
+	 * method ecrireEntity(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>Insère les lignes de <b>Entity</b> (JPA)
+	 * à la suite de la javadoc.</li>
+	 * <li>N'insère les lignes que si elles n'existent pas déjà</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 * 
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	private void ecrireEntity(
+			final File pFile) {
+						
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		try {
+			
+			/* Crée la javadoc. */
+			this.creerLignesEntity(pFile);
+			
+			if (this.entity == null) {
+				return;
+			}
+			
+			/* Recherche la ligne identifiant Entity. */
+			final String ligneEntity 
+				= "@Entity";
+			
+			/* Ne fait rien si Entity a déjà été écrite. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneEntity)) {
+				return;
+			}
+
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : this.entity) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer Entity", e);
+			}
+		}
+								
+	} // Fin de ecrireEntity(...).________________________________________
+	
+
+	
+	/**
+	 * method creerLignesEntity(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes de l'Entity.</li>
+	 * <li>alimente this.entity</li>
+	 * </ul>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @return : List&lt;String&gt; : this.entity.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract List<String> creerLignesEntity(File pFile) 
+			throws Exception;
+	
 	
 	
 	/**
 	 * method ecrireLigneDeclaration(
 	 * File pFile) :<br/>
 	 * <ul>
-	 * <li>Insère la ligne de déclaration
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>Insère la ligne de <b>déclaration</b>
 	 * à la suite.</li>
 	 * <li>N'insère la ligne que si elle n'existe pas déjà</li>
-	 * <li>Par exemple : <code>public interface IProfil extends 
+	 * <li>Par exemple : <br/>
+	 * <code>public interface IProfil extends 
 	 * IExportateurCsv, IExportateurJTable, 
 	 * Comparable&lt;IProfil&gt;, Cloneable, Serializable {</code>.</li>
 	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 */
-	protected final void ecrireLigneDeclaration(
+	private void ecrireLigneDeclaration(
 			final File pFile) {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
 		
 		/* Crée la ligne de déclaration du fichier Java. */
 		this.creerLigneDeclaration(pFile);
 		
+		if (StringUtils.isBlank(this.ligneDeclaration)) {
+			return;
+		}
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
 		if (!this.existLigneCommencant(
 				pFile, CHARSET_UTF8, this.fournirDebutDeclaration())) {
 			
@@ -1429,27 +1592,69 @@ public abstract class AbstractEcriveur {
 	protected abstract String creerLigneDeclaration(File pFile);
 	
 
-
+		
 	/**
-	 * method ecrireLigneFinale(
-	 * File pFile) :<br/>
+	 * method ecrireCodeHook(File pFile) :<br/>
 	 * <ul>
-	 * <li>Insère la ligne de déclaration
-	 * à la cinquième ligne du fichier.</li>
-	 * <li>N'insère la ligne que si elle n'existe pas déjà</li>
-	 * <li>Par exemple : <code>public interface IProfil extends 
-	 * IExportateurCsv, IExportateurJTable, 
-	 * Comparable&lt;IProfil&gt;, Cloneable, Serializable {</code>.</li>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li><b>délégation aux classes concrètes</b> du corps 
+	 * des fichiers java (attributs et méthodes).</li>
 	 * </ul>
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 */
-	protected final void ecrireLigneFinale(
+	protected abstract void ecrireCodeHook(File pFile);
+	
+
+	
+	/**
+	 * method ecrireLigneFinale(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>Insère la ligne de <b>fin de fichier</b> 
+	 * tout à la fin du fichier java.</li>
+	 * <li>N'insère la ligne que si elle n'existe pas déjà</li>
+	 * <li>Par exemple : <br/>
+	 * <code> // FIN DE L'INTERFACE INommage.-----------
+	 * ---------------------------------</code>.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	private void ecrireLigneFinale(
 			final File pFile) {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
 		
 		/* Crée la ligne finale de l'Interface. */
 		this.creerLigneFinale(pFile);
 		
+		if (StringUtils.isBlank(this.ligneFinale)) {
+			return;
+		}
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
 		if (!this.existLigneDansFichier(
 				pFile, CHARSET_UTF8, this.ligneFinale)) {
 			
@@ -1472,9 +1677,8 @@ public abstract class AbstractEcriveur {
 	 * ligne finale du fichier Java.</li>
 	 * <li>Alimente this.ligneFinale.</li>
 	 * <li>Par exemple : <br/>
-	 * <code>public interface IProfil extends 
-	 * IExportateurCsv, IExportateurJTable, 
-	 * Comparable<IProfil>, Cloneable, Serializable {</code>.</li>
+	 * <code> // FIN DE L'INTERFACE INommage.-----------
+	 * ---------------------------------</code>.</li>
 	 * </ul>
 	 * Retourne null si pFile est null.<br/>
 	 * Retourne null si pFile n'existe pas sur le disque.<br/>
@@ -1490,13 +1694,24 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * method ecrireSepAttributs() :<br/>
-	 * écrit la ligne de séparation des attributs.<br/>
+	 * method ecrireLignesSepAttributs() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit les <b>lignes de séparation des attributs</b>.</li>
+	 * <li>
+	 * Par exemple : <br/>
+	 * <code>************************ATTRIBUTS*********
+	 * ***************************</code>
+	 * </li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 */
-	protected final void ecrireSepAttributs(
+	protected final void ecrireLignesSepAttributs(
 			final File pFile) {
 
 		/* ne fait rien si pFile est null. */
@@ -1518,33 +1733,45 @@ public abstract class AbstractEcriveur {
 
 			/* Crée le Séparateur d'attributs. */
 			this.creerSepAttributs();
-
-			/* Recherche la ligne identifiant sepAttributs. */
-			final String ligneAttributs = this.fournirDebutSepAttributs();
-
-			/* Ne fait rien si sepAttributs a déjà été écrit. */
-			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneAttributs)) {
+			
+			if (this.sepAttributs == null) {
 				return;
 			}
 
+			/* Recherche la ligne identifiant sepAttributs. */
+			final String ligneAttributs 
+				= this.fournirDebutSepAttributs();
+
+			/* Ne fait rien si sepAttributs a déjà été écrit. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneAttributs)) {
+				return;
+			}
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : this.sepAttributs) {
 
 				if (StringUtils.isBlank(ligne)) {
 
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
 				} else {
 
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
 				}
 			}
 		} catch (Exception e) {
 
 			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer le séparateur d'attributs", e);
+				LOG.fatal("Impossible de créer "
+						+ "le séparateur d'attributs", e);
 			}
 		}
 
-	} // Fin de ecrireSepAttributs().______________________________________
+	} // Fin de ecrireLignesSepAttributs().________________________________
 	
 
 	
@@ -1580,13 +1807,26 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * method ecrireStringClasse() :<br/>
-	 * écrit la ligne stringClasse.<br/>
+	 * method ecrireLignesStringClasse(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit les lignes <b>stringClasse</b>.</li>
+	 * <li>ecrit la javadoc et la ligne de code.</li>
+	 * <li>
+	 * par exemple : <br/>
+	 * <code>public static final String CLASSE_ABSTRACT_PROFIL <br/>
+	 * = "Classe AbstractProfil";</code>
+	 * </li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 */
-	protected final void ecrireStringClasse(
+	protected final void ecrireLignesStringClasse(
 			final File pFile) {
 
 		/* ne fait rien si pFile est null. */
@@ -1608,6 +1848,10 @@ public abstract class AbstractEcriveur {
 
 			/* Crée le stringClasse. */
 			this.creerStringClasse();
+			
+			if (this.stringClasse == null) {
+				return;
+			}
 
 			/* Recherche la ligne identifiant stringClasse. */
 			final String ligneIdentifiant = this.fournirDebutStringClasse();
@@ -1617,20 +1861,25 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : this.stringClasse) {
 
 				if (StringUtils.isBlank(ligne)) {
 
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
 				} else {
 
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
 				}
 			}
 		} catch (Exception e) {
 
 			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer le séparateur d'attributs", e);
+				LOG.fatal("Impossible de créer le StringClasse", e);
 			}
 		}
 
@@ -1665,7 +1914,8 @@ public abstract class AbstractEcriveur {
 			= substituerVariablesDansLigne(
 					listeLignes
 					, "{$NOM_CLASSE}"
-					, this.fabriquerNomClasse(this.nomSimpleFichierJava));
+					, this.fabriquerNomClasse(
+							this.nomSimpleFichierJava));
 		
 		final List<String> listeLignesSubst2 
 			= substituerVariablesDansLigne(
@@ -1682,13 +1932,25 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * method ecrireAttributId() :<br/>
-	 * écrit la ligne attributId.<br/>
+	 * method ecrireLignesAttributId(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit les lignes <b>attributId</b>.</li>
+	 * <li>ecrit la javadoc et la ligne de code.</li>
+	 * <li>
+	 * par exemple : <br/>
+	 * <code>protected Long id;</code>
+	 * </li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 */
-	protected final void ecrireAttributId(
+	protected final void ecrireLignesAttributId(
 			final File pFile) {
 
 		/* ne fait rien si pFile est null. */
@@ -1710,23 +1972,34 @@ public abstract class AbstractEcriveur {
 
 			/* Crée le attributId. */
 			this.creerAttributId();
-
-			/* Recherche la ligne identifiant attributId. */
-			final String ligneIdentifiant = this.fournirDebutAttributId();
-
-			/* Ne fait rien si attributId a déjà été écrit. */
-			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			
+			if (this.attributId == null) {
 				return;
 			}
 
+			/* Recherche la ligne identifiant attributId. */
+			final String ligneIdentifiant 
+				= this.fournirDebutAttributId();
+
+			/* Ne fait rien si attributId a déjà été écrit. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : this.attributId) {
 
 				if (StringUtils.isBlank(ligne)) {
 
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
 				} else {
 
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
 				}
 			}
 		} catch (Exception e) {
@@ -1736,7 +2009,7 @@ public abstract class AbstractEcriveur {
 			}
 		}
 
-	} // Fin de ecrireAttributId().________________________________________
+	} // Fin de ecrireLignesAttributId().__________________________________
 	
 
 	
@@ -1774,7 +2047,16 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method ecrireAttributs(
 	 * File pFile) :<br/>
-	 * Ecrit tous les attributs stockés dans la Map this.mapAttributs.<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit tous les <b>attributs</b> stockés dans la 
+	 * Map this.mapAttributs.</li>
+	 * <li>ecrit la javadoc et la ligne de code pour chaque attribut.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * ne fait rien si this.mapAttributs == null.<br/>
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
@@ -1799,11 +2081,18 @@ public abstract class AbstractEcriveur {
 			return;
 		}
 
+		/* ne fait rien si this.mapAttributs == null. */
+		if (this.mapAttributs == null) {
+			return;
+		}
+		
+		
 		final Set<Entry<String, String>> entrySet 
 			= this.mapAttributs.entrySet();
 		
 		final Iterator<Entry<String, String>> ite = entrySet.iterator();
 		
+		/* BOUCLE SUR LES ATTRIBUTS. */
 		while (ite.hasNext()) {
 			
 			final Entry<String, String> entry = ite.next();
@@ -1811,32 +2100,23 @@ public abstract class AbstractEcriveur {
 			final String nomAttribut = entry.getKey();
 			final String typeAttribut = entry.getValue();
 			
-			final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/attribut.txt";
-		
-			final File fichier = new File(cheminFichier);
+			final List<String> attributListe = new ArrayList<String>();
+			final List<String> javadocListe = new ArrayList<String>();
+			final List<String> codeListe = new ArrayList<String>();
 			
-			final List<String> attributListProvisoire 
-				= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+			/* Création de la Javadoc. */
+			this.creerJavadocAttribut(
+					javadocListe, nomAttribut, typeAttribut);
 			
-			final List<String> attributListSubst1 
-				= this.substituerVariablesDansLigne(
-						attributListProvisoire
-						, VARIABLE_NOMATTRIBUT
-							, nomAttribut);
+			/* Création du code. */
+			this.creerCodeAttribut(
+					codeListe, nomAttribut, typeAttribut);
 			
-			final List<String> attributListSubst2 
-			= this.substituerVariablesDansLigne(
-					attributListSubst1
-					, "{$typeAttribut}", typeAttribut);
-			
-			/* Liste des lignes à générer pour l'attribut. */
-			final List<String> attributList 
-			= this.substituerVariablesDansLigne(
-					attributListSubst2
-					, VARIABLE_NOMSIMPLEFICHIERJAVA
-						, this.nomSimpleFichierJava);
+			/* ajout de la javadoc à attributListe. */
+			attributListe.addAll(javadocListe);
+			/* ajout du code à attributListe. */
+			attributListe.addAll(codeListe);
+
 			
 			final String ligneIdentifiant 
 				= "	protected " + typeAttribut + " " + nomAttribut;
@@ -1849,7 +2129,10 @@ public abstract class AbstractEcriveur {
 					return;
 				}
 
-				for (final String ligne : attributList) {
+				/* *************** */
+				/* ENREGISTREMENT. */
+				/* *************** */
+				for (final String ligne : attributListe) {
 
 					if (StringUtils.isBlank(ligne)) {
 
@@ -1877,13 +2160,160 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * method ecrireSepMethodes() :<br/>
-	 * écrit la ligne de séparation des methodes.<br/>
+	 * method creerJavadocAttribut(
+	 * List&lt;String&gt; pListe
+	 * , String pNomAttribut
+	 * , String pTypeAttribut) :<br/>
+	 * <ul>
+	 * <li>injecte la javadoc de l'attribut pNomAttribut 
+	 * dans la liste pListe.</li>
+	 * </ul>
+	 * ne fait rien si pListe == null.<br/>
+	 * ne fait rien si pNomAttribut est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pListe : List&lt;String&gt; : 
+	 * javadoc sous forme de liste de Strings.<br/>
+	 * @param pNomAttribut : String : Nom de l'attribut.<br/>
+	 * @param pTypeAttribut : String : type de l'attribut.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void creerJavadocAttribut(
+			final List<String> pListe
+				, final String pNomAttribut
+					, final String pTypeAttribut) throws Exception {
+		
+		/* ne fait rien si pListe == null. */
+		if (pListe == null) {
+			return;
+		}
+		
+		/* ne fait rien si pNomAttribut est blank. */
+		if (StringUtils.isBlank(pNomAttribut)) {
+			return;
+		}
+		
+		/* DEBUT. */
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/attribut/javadoc_attribut_debut.txt";
+	
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listProv 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> attributListSubst1 
+			= this.substituerVariablesDansLigne(
+					listProv
+					, VARIABLE_NOMATTRIBUT
+						, pNomAttribut);
+		
+		final List<String> attributListSubst2 
+		= this.substituerVariablesDansLigne(
+				attributListSubst1
+					, VARIABLE_TYPEATTRIBUT
+						, pTypeAttribut);
+		
+		/* Liste des lignes à générer. */
+		final List<String> attributList 
+		= this.substituerVariablesDansLigne(
+				attributListSubst2
+					, VARIABLE_CONCEPT_MODELISE
+						, this.conceptModelise);
+		
+		pListe.addAll(attributList);
+		
+		/* CORPS.*/
+		this.ajouterRGsAJavadoc(pListe, pNomAttribut);
+		
+		/* FIN. */
+		pListe.add(FIN_JAVADOC);
+		
+	} // Fin de creerJavadocAttribut(...)._________________________________
+	
+	
+	
+	/**
+	 * method creerCodeAttribut(
+	 * List&lt;String&gt; pListe 
+	 * , String pNomAttribut
+	 * , String pTypeAttribut) :<br/>
+	 * <ul>
+	 * <li>injecte le code de l'attribut pNomAttribut 
+	 * dans la liste pListe.</li>
+	 * </ul>
+	 * ne fait rien si pListe == null.<br/>
+	 * ne fait rien si pNomAttribut est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pListe : List&lt;String&gt; : 
+	 * code sous forme de liste de Strings.<br/>
+	 * @param pNomAttribut : String : Nom de l'attribut.<br/>
+	 * @param pTypeAttribut : String : type de l'attribut.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void creerCodeAttribut(
+			final List<String> pListe
+				, final String pNomAttribut
+					, final String pTypeAttribut) throws Exception {
+		
+		/* ne fait rien si pListe == null. */
+		if (pListe == null) {
+			return;
+		}
+		
+		/* ne fait rien si pNomAttribut est blank. */
+		if (StringUtils.isBlank(pNomAttribut)) {
+			return;
+		}
+		
+
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/attribut/code_attribut.txt";
+	
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listProv 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> attributListSubst1 
+			= this.substituerVariablesDansLigne(
+					listProv
+					, VARIABLE_NOMATTRIBUT
+						, pNomAttribut);
+		
+		final List<String> attributListSubst2 
+		= this.substituerVariablesDansLigne(
+				attributListSubst1
+					, VARIABLE_TYPEATTRIBUT
+						, pTypeAttribut);
+		
+		pListe.addAll(attributListSubst2);
+		
+	} // Fin de creerCodeAttribut(...).____________________________________
+	
+	
+	
+	/**
+	 * method ecrireLignesSepMethodes(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la ligne de séparation des methodes.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * ne fait rien si this.mapAttributs == null.<br/>
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 */
-	protected final void ecrireSepMethodes(
+	protected final void ecrireLignesSepMethodes(
 			final File pFile) {
 
 		/* ne fait rien si pFile est null. */
@@ -1905,33 +2335,45 @@ public abstract class AbstractEcriveur {
 
 			/* Crée le Séparateur d'attributs. */
 			this.creerSepMethodes();
+			
+			if (this.sepMethodes == null) {
+				return;
+			}
 
 			/* Recherche la ligne identifiant sepMethodes. */
 			final String ligneMethodes = this.fournirDebutSepMethodes();
 
 			/* Ne fait rien si sepMethodes a déjà été écrit. */
-			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneMethodes)) {
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneMethodes)) {
 				return;
 			}
 
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : this.sepMethodes) {
 
 				if (StringUtils.isBlank(ligne)) {
 
-					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
 				} else {
 
-					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
 				}
 			}
 		} catch (Exception e) {
 
 			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer le séparateur de méthodes", e);
+				LOG.fatal(
+						"Impossible de créer le séparateur de méthodes"
+							, e);
 			}
 		}
 
-	} // Fin de ecrireSepMethodes().______________________________________
+	} // Fin de ecrireLignesSepMethodes()._________________________________
 	
 
 	
@@ -1976,6 +2418,7 @@ public abstract class AbstractEcriveur {
 	 * method ecrireConstructeurNull(
 	 * File pFile) :<br/>
 	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li>écrit la javadoc du constructeur d'arite nulle.</li>
 	 * <li>écrit le code du constructeur d'arite nulle.</li>
 	 * </ul>
@@ -2019,6 +2462,7 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method ecrireJavadocConstructeurNull(
 	 * File pFile) :<br/>
+	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * Génère la javadoc du constructeur d'arite nulle.<br/>
 	 * <br/>
 	 * ne fait rien si pFile est null.<br/>
@@ -2067,6 +2511,9 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 	
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : listJavadoc) {
 	
 				if (StringUtils.isBlank(ligne)) {
@@ -2094,8 +2541,10 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method ecrireCodeConstructeurNull(
 	 * File pFile) :<br/>
-	 * génère le code du constructeur d'arite nulle.<br/>
-	 * <br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>génère le code du constructeur d'arite nulle.</li>
+	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
 	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
@@ -2183,6 +2632,9 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 	
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : listCode) {
 	
 				if (StringUtils.isBlank(ligne)) {
@@ -2388,6 +2840,9 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : listJavadoc) {
 
 				if (StringUtils.isBlank(ligne)) {
@@ -2556,6 +3011,9 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : listCode) {
 
 				if (StringUtils.isBlank(ligne)) {
@@ -2744,6 +3202,9 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : listJavadoc) {
 
 				if (StringUtils.isBlank(ligne)) {
@@ -2893,6 +3354,9 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : listCode) {
 
 				if (StringUtils.isBlank(ligne)) {
@@ -3024,7 +3488,10 @@ public abstract class AbstractEcriveur {
 					pFile, CHARSET_UTF8, ligneIdentifiant)) {
 				return;
 			}
-
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : listeMethode) {
 
 				if (StringUtils.isBlank(ligne)) {
@@ -3088,10 +3555,10 @@ public abstract class AbstractEcriveur {
 		final List<String> listeMethode = new ArrayList<String>();
 
 		/* écrit la javadoc. */
-		this.ecrireJavadocEquals(listeMethode);
+		this.creerJavadocEquals(listeMethode);
 		
 		/* écrit le code. */
-		this.ecrireCodeEquals(listeMethode);
+		this.creerCodeEquals(listeMethode);
 		
 		
 		/* ENREGISTREMENT *********/
@@ -3106,6 +3573,9 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : listeMethode) {
 
 				if (StringUtils.isBlank(ligne)) {
@@ -3132,7 +3602,7 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * method ecrireJavadocEquals(
+	 * method creerJavadocEquals(
 	 * List&lt;String&gt; pListeMethode) :<br/>
 	 * <ul>
 	 * <li>génère la javadoc de equals().</li>
@@ -3143,7 +3613,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception
 	 */
-	private void ecrireJavadocEquals(
+	private void creerJavadocEquals(
 			final List<String> pListeMethode) throws Exception {
 		
 		/* DEBUT. */
@@ -3209,12 +3679,12 @@ public abstract class AbstractEcriveur {
 		/* Ajout des lignes du fin. */
 		pListeMethode.addAll(listeLignesFin);
 		
-	} // Fin de ecrireJavadocEquals(...).__________________________________
+	} // Fin de creerJavadocEquals(...).___________________________________
 
 
 	
 	/**
-	 * method ecrireCodeEquals(
+	 * method creerCodeEquals(
 	 * List&lt;String&gt; pListeMethode) :<br/>
 	 * <ul>
 	 * <li>génère le code de equals().</li>
@@ -3225,7 +3695,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception
 	 */
-	private void ecrireCodeEquals(
+	private void creerCodeEquals(
 			final List<String> pListeMethode) throws Exception {
 		
 		/* DEBUT. */
@@ -3291,7 +3761,7 @@ public abstract class AbstractEcriveur {
 		/* Ajout des lignes du fin. */
 		pListeMethode.addAll(listeLignesFin);
 				
-	} // Fin de ecrireCodeEquals(...)._____________________________________
+	} // Fin de creerCodeEquals(...).______________________________________
 
 	
 	
@@ -3333,10 +3803,10 @@ public abstract class AbstractEcriveur {
 		final List<String> listeMethode = new ArrayList<String>();
 
 		/* écrit la javadoc. */
-		this.ecrireJavadocCompareTo(listeMethode);
+		this.creerJavadocCompareTo(listeMethode);
 		
 		/* écrit le code. */
-		this.ecrireCodeCompareTo(listeMethode);
+		this.creerCodeCompareTo(listeMethode);
 		
 		
 		/* ENREGISTREMENT *********/		
@@ -3350,6 +3820,9 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : listeMethode) {
 
 				if (StringUtils.isBlank(ligne)) {
@@ -3377,7 +3850,7 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * method ecrireJavadocCompareTo(
+	 * method creerJavadocCompareTo(
 	 * List&lt;String&gt; pListeMethode) :<br/>
 	 * <ul>
 	 * <li>génère la javadoc de compareTo().</li>
@@ -3388,7 +3861,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception
 	 */
-	private void ecrireJavadocCompareTo(
+	private void creerJavadocCompareTo(
 			final List<String> pListeMethode) throws Exception {
 		
 		/* Création des lignes. */
@@ -3404,12 +3877,12 @@ public abstract class AbstractEcriveur {
 		/* Ajout des lignes. */
 		pListeMethode.addAll(listeLignes);
 		
-	} // Fin de ecrireJavadocCompareTo(...)._______________________________
+	} // Fin de creerJavadocCompareTo(...).________________________________
 
 
 	
 	/**
-	 * method ecrireCodeCompareTo(
+	 * method creerCodeCompareTo(
 	 * List&lt;String&gt; pListeMethode) :<br/>
 	 * <ul>
 	 * <li>génère le code de compareTo().</li>
@@ -3420,7 +3893,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception
 	 */
-	private void ecrireCodeCompareTo(
+	private void creerCodeCompareTo(
 			final List<String> pListeMethode) throws Exception {
 		
 		/* DEBUT. */
@@ -3575,7 +4048,7 @@ public abstract class AbstractEcriveur {
 		/* Ajout des lignes du fin. */
 		pListeMethode.addAll(listeLignesFin);
 				
-	} // Fin de ecrireCodeCompareTo(...)._____________________________________
+	} // Fin de creerCodeCompareTo(...).___________________________________
 
 
 	
@@ -3613,21 +4086,29 @@ public abstract class AbstractEcriveur {
 			final List<String> listeGetter = new ArrayList<String>();
 			final List<String> listeSetter = new ArrayList<String>();
 			
-			this.creerJavadocGetter(nomAttribut, typeAttribut, listeGetter);
-			this.creerCodeEntityGetter(nomAttribut, typeAttribut, listeGetter);
-			this.creerCodeGetter(nomAttribut, typeAttribut, listeGetter);
+			this.creerJavadocGetter(
+					nomAttribut, typeAttribut, listeGetter);
+			this.creerCodeEntityGetter(
+					nomAttribut, typeAttribut, listeGetter);
+			this.creerCodeGetter(
+					nomAttribut, typeAttribut, listeGetter);
 			
 			/* ENREGISTREMENT *********/
-//			final String ligneIdentifiant = "	public int compareTo";
+			final String ligneIdentifiantGetter 
+				= this.fournirLigneIdentifianteGetter(
+						nomAttribut, typeAttribut);
 			
 			try {
 
-//				/* Ne fait rien si le code a déjà été écrit. */
-//				if (this.existLigneCommencant(
-//						pFile, CHARSET_UTF8, ligneIdentifiant)) {
-//					return;
-//				}
+				/* Ne fait rien si le code a déjà été écrit. */
+				if (this.existLigneCommencant(
+						pFile, CHARSET_UTF8, ligneIdentifiantGetter)) {
+					return;
+				}
 
+				/* *************** */
+				/* ENREGISTREMENT. */
+				/* *************** */
 				for (final String ligne : listeGetter) {
 
 					if (StringUtils.isBlank(ligne)) {
@@ -3645,15 +4126,52 @@ public abstract class AbstractEcriveur {
 			} catch (Exception e) {
 
 				if (LOG.isFatalEnabled()) {
-					LOG.fatal("Impossible de créer le code du compareTo", e);
+					LOG.fatal("Impossible de créer le code du getter", e);
 				}
 			}
 
 			
-			this.creerJavadocSetter(nomAttribut, typeAttribut, listeSetter);
-			this.creerCodeSetter(nomAttribut, typeAttribut, listeSetter);
+			this.creerJavadocSetter(
+					nomAttribut, typeAttribut, listeSetter);
+			this.creerCodeSetter(
+					nomAttribut, typeAttribut, listeSetter);
 			
 			/* ENREGISTREMENT *********/
+			final String ligneIdentifiantSetter 
+				= this.fournirLigneIdentifianteSetter(
+						nomAttribut, typeAttribut);
+			
+			try {
+
+				/* Ne fait rien si le code a déjà été écrit. */
+				if (this.existLigneCommencant(
+						pFile, CHARSET_UTF8, ligneIdentifiantSetter)) {
+					return;
+				}
+
+				/* *************** */
+				/* ENREGISTREMENT. */
+				/* *************** */
+				for (final String ligne : listeSetter) {
+
+					if (StringUtils.isBlank(ligne)) {
+
+						this.ecrireStringDansFile(
+								pFile, "", CHARSET_UTF8, NEWLINE);
+						
+					} else {
+
+						this.ecrireStringDansFile(
+								pFile, ligne, CHARSET_UTF8, NEWLINE);
+						
+					}
+				}
+			} catch (Exception e) {
+
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Impossible de créer le code du setter", e);
+				}
+			}
 			
 		}
 
@@ -3725,8 +4243,8 @@ public abstract class AbstractEcriveur {
 	 * <li>Injecte la liste de lignes générées dans pListeGetter.</li>
 	 * </ul>
 	 *
-	 * @param pNomAttribut : String : nom de l'attribut
-	 * @param pTypeAttribut : String : type de l'attribut
+	 * @param pNomAttribut : String : nom de l'attribut.<br/>
+	 * @param pTypeAttribut : String : type de l'attribut.<br/>
 	 * @param pListeGetter : List&lt;String&gt; : 
 	 * Liste contenant les lignes de code du Getter.<br/>
 	 * 
@@ -3739,6 +4257,27 @@ public abstract class AbstractEcriveur {
 							throws Exception;
 
 
+	
+	/**
+	 * method fournirLigneIdentifianteGetter(
+	 * String pNomAttribut
+	 * , String pTypeAttribut) :<br/>
+	 * <ul>
+	 * <li>fournit un début de ligne permettant d'identifier 
+	 * le Getter d'un attribut.</li>
+	 * </ul>
+	 *
+	 * @param pNomAttribut : String : nom de l'attribut.<br/>
+	 * @param pTypeAttribut : String : type de l'attribut.<br/>
+	 * 
+	 * @return : String : début de ligne permettant d'identifier 
+	 * le Getter d'un attribut.<br/>
+	 */
+	protected abstract String fournirLigneIdentifianteGetter(
+			String pNomAttribut
+				, String pTypeAttribut);
+	
+	
 	
 	/**
 	 * method creerJavadocSetter(
@@ -3789,6 +4328,90 @@ public abstract class AbstractEcriveur {
 				, String pTypeAttribut
 					, List<String> pListeSetter) 
 							throws Exception;
+	
+
+	
+	/**
+	 * method fournirLigneIdentifianteSetter(
+	 * String pNomAttribut
+	 * , String pTypeAttribut) :<br/>
+	 * <ul>
+	 * <li>fournit un début de ligne permettant d'identifier 
+	 * le Setter d'un attribut.</li>
+	 * </ul>
+	 *
+	 * @param pNomAttribut : String : nom de l'attribut.<br/>
+	 * @param pTypeAttribut : String : type de l'attribut.<br/>
+	 * 
+	 * @return : String : début de ligne permettant d'identifier 
+	 * le Setter d'un attribut.<br/>
+	 */
+	protected abstract String fournirLigneIdentifianteSetter(
+			String pNomAttribut
+				, String pTypeAttribut);
+	
+	
+	
+	/**
+	 * method ajouterRGsAJavadoc(
+	 * List&lt;String&gt; pListe
+	 * , String pNomAttribut) :<br/>
+	 * <ul>
+	 * <li><b>ajoute les RG</b> à la Javadoc pLIste 
+	 * d'un attribut pNomAttribut.</li>
+	 * </ul>
+	 * ne fait rien si pListe == null.<br/>
+	 * ne fait rien si pNomAttribut est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pListe : List&lt;String&gt; : 
+	 * javadoc dans laquelle il faut insèrer les RGS 
+	 * sous forme de liste de Strings.<br/>
+	 * @param pNomAttribut : String : Nom de l'attribut.<br/>
+	 */
+	protected final void ajouterRGsAJavadoc(
+			final List<String> pListe
+				, final String pNomAttribut) {
+		
+		/* ne fait rien si pListe == null. */
+		if (pListe == null) {
+			return;
+		}
+		
+		/* ne fait rien si pNomAttribut est blank. */
+		if (StringUtils.isBlank(pNomAttribut)) {
+			return;
+		}
+		
+		/* Récupère la liste des RG de l'attribut. */
+		final List<String> listeRgs = this.mapRg.get(pNomAttribut);
+		
+		/* Ajout des RG. */
+		if (!listeRgs.isEmpty()) {
+			
+			/* ouverture de liste HTML. */
+			pListe.add(UL_OUVRANT_JAVADOC);
+			
+			for (final String rg : listeRgs) {
+				
+				final List<String> elementListe 
+					= new ArrayList<String>();
+				elementListe.add("	 * <li>" 
+					+ this.fournirTitreRg(rg) 
+						+ SEP_2PTS_AERE);
+				elementListe.add("	 * " 
+						+ this.fournirMessageRg(rg) 
+							+ ".</li>");
+				
+				pListe.addAll(elementListe);
+			}
+			
+			/* fermeture de liste HTML. */
+			pListe.add(UL_FERMANT_JAVADOC);
+			
+		}
+		
+	} // Fin de ajouterRGsAJavadoc(...).___________________________________
 	
 
 	
@@ -6698,7 +7321,7 @@ public abstract class AbstractEcriveur {
 	 * <li>fabrique le stringClasse.</li>
 	 * <li>Par exemple : <br/>
 	 * <code>fabriquerNomClasse("AbstractProfilSimple") 
-	 * retourne ABSTRACT_PROFIL_SIMPLE.</code>.</li>
+	 * retourne ABSTRACT_PROFIL_SIMPLE</code>.</li>
 	 * </ul>
 	 * retourne null si pString est blank.<br/>
 	 * retourne null si pString n'est pas CamelCase.<br/>
@@ -7299,7 +7922,7 @@ public abstract class AbstractEcriveur {
 	 * <li>fournit un setter à partir d'un attribut.</li>
 	 * <li>par exemple : <br/>
 	 * <code>fournirSetter(profilString) 
-	 * retourne setProfilString()</code></li>
+	 * retourne setProfilString</code></li>
 	 * </ul>
 	 * retourne null si pString est blank.<br/>
 	 * retourne null si pString n'est pas conforme 
@@ -7325,7 +7948,7 @@ public abstract class AbstractEcriveur {
 		}
 		
 		final String resultat 
-		= "set" + mettrePremiereEnMajusculeEtGarder(pString) + "()";
+		= "set" + mettrePremiereEnMajusculeEtGarder(pString);
 	
 		return resultat;
 		

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,6 +71,7 @@ public class GenerateurMetier {
 	/**
 	 * conceptModelise : String :<br/>
 	 * concept modélisé par ce générateur.<br/>
+	 * nom du package avec une majuscule en première position.<br/>
 	 */
 	private transient String conceptModelise;
 	
@@ -323,7 +325,8 @@ public class GenerateurMetier {
 		}
 
 		/* alimente this.conceptModelise. */
-		this.conceptModelise = pNomPackage;
+		this.conceptModelise 
+			= this.mettrePremiereEnMajusculeEtGarder(pNomPackage);
 		
 		/* alimente this.nomSimpleInterface. */
 		this.nomSimpleInterface = pNomInterface;
@@ -375,6 +378,7 @@ public class GenerateurMetier {
 	/**
 	 * method getConceptModelise() :<br/>
 	 * Getter du concept modélisé par ce générateur.<br/>
+	 * nom du package avec une majuscule en première position.<br/>
 	 * <br/>
 	 *
 	 * @return conceptModelise : String.<br/>
@@ -991,6 +995,40 @@ public class GenerateurMetier {
 	
 	} // Fin de trouverCamel(...)._________________________________________
 	
-
+	
+	
+	/**
+	 * method mettrePremiereEnMajusculeEtGarder(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Met la première lettre de chaque mots séparés 
+	 * par des espaces en majuscule.</li>
+	 * <li>Conserve les autres lettres de chaque mots séparés 
+	 * par un espace.</li>
+	 * <li>Par exemple : "premier" est transformé en "Premier".</li>
+	 * <li>"PREMIER" est transformé en "PREMIER".</li>
+	 * <li>WordUtils.capitalize("i am FINE") = "I Am FINE"</li>
+	 * </ul>
+	 * retourne null si pString == null.<br/>
+	 * <br/>
+	 * 
+	 *
+	 * @param pString : String. <br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	private String mettrePremiereEnMajusculeEtGarder(
+			final String pString) {
+		
+		/* retourne null si pString == null. */
+		if (pString == null) {
+			return null;
+		}
+		
+		return WordUtils.capitalize(pString);
+		
+	} // Fin de mettrePremiereEnMajusculeEtGarder(...).____________________
+	
+	
 	
 } // FIN DE LA CLASSE GenerateurCode.----------------------------------------

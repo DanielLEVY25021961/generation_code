@@ -97,11 +97,45 @@ public class EcriveurInterface extends AbstractEcriveur {
 	
 	
 	/**
-	 * method ecrireCodeHook(
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void ecrireCodeHook(
+			final File pFile) {
+		
+		try {
+			
+			/* crée tout le bloc comprenant les METHODES. */
+			this.ecrireBlocMethodes(pFile);
+			
+		} catch (Exception e) {
+					
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible d'écrire les méthodes", e);
+			}
+		}		
+		
+	} // Fin de ecrireCodeHook(...)._______________________________________
+
+
+	
+	/**
+	 * method ecrireBlocMethodes(
 	 * File pFile) :<br/>
 	 * <ul>
-	 * <li>.</li>
-	 * <li>.</li>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li><b>Crée tout le bloc comprenant les methodes</b>.</li>
+	 * <ul>
+	 * <li>Ecrit la méthode compareTo().</li>
+	 * <li>Ecrit la méthode clone().</li>
+	 * <li>Ecrit la méthode getEnTeteCsv().</li>
+	 * <li>Ecrit la méthode toStringCsv().</li>
+	 * <li>Ecrit la méthode getEnTeteColonne().</li>
+	 * <li>Ecrit la méthode getValeurColonne().</li>
+	 * <li>Ecrit la méthode getId().</li>
+	 * <li>Ecrit la méthode setId().</li>
+	 * <li>écrit les getters-setters.</li>
+	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -109,11 +143,27 @@ public class EcriveurInterface extends AbstractEcriveur {
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception
 	 */
-	@Override
-	protected final void ecrireCodeHook(
-			final File pFile) {
-				
+	private void ecrireBlocMethodes(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
 		/* Insère 3 lignes vides sous la ligne 
 		 * de déclaration.*/
 		this.insererLignesVidesSousLigneDansFichier(
@@ -207,21 +257,11 @@ public class EcriveurInterface extends AbstractEcriveur {
 		this.insererLignesVidesSousLigneDansFichier(
 				pFile, derniereLigneSetId, 3, CHARSET_UTF8);
 		
-		/* Ecrit la getters-setters. */
-		try {
-			
-			/* écrit les getters-setters. */
-			this.ecrireAccesseurs(pFile);
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer les getters-setters", e);
-			}
-		}
-		
-	} // Fin de ecrireCodeHook(...)._______________________________________
-
+		/* écrit les getters-setters. */
+		this.ecrireAccesseurs(pFile);
+						
+	} // Fin de ecrireBlocMethodes(...).___________________________________
+	
 
 		
 	/**
@@ -343,12 +383,17 @@ public class EcriveurInterface extends AbstractEcriveur {
 		final List<String> listeLignesDebut 
 			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
 				
-		final List<String> listeLignesDebutSubstitue 
+		final List<String> listeLignesDebutSubst1 
 		= this.substituerVariablesDansLigne(
 				listeLignesDebut
-				, VARIABLE_NOMSIMPLEINTERFACE, this.nomSimpleInterface); // NOPMD by dan on 08/01/18 08:09
+				, VARIABLE_NOMSIMPLEINTERFACE, this.nomSimpleInterface);
 		
-		this.javadoc.addAll(listeLignesDebutSubstitue);
+		final List<String> listeLignesDebutSubst2 
+		= this.substituerVariablesDansLigne(
+				listeLignesDebutSubst1
+				, VARIABLE_CONCEPT_MODELISE, this.conceptModelise);
+		
+		this.javadoc.addAll(listeLignesDebutSubst2);
 		
 		/* ATTRIBUTS. */
 		final String cheminFichierAttributs 
@@ -574,6 +619,18 @@ public class EcriveurInterface extends AbstractEcriveur {
 	} // Fin de creerLignesJavaDoc(...).___________________________________
 	
 	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final List<String> creerLignesEntity(
+			final File pFile) 
+			throws Exception {
+		return null;
+	} // Fin de creerLignesEntity(...).____________________________________
+
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -621,7 +678,8 @@ public class EcriveurInterface extends AbstractEcriveur {
 	 * method ecrireMethodCompareTo(
 	 * File pFile) :<br/>
 	 * <ul>
-	 * <li>Insère les lignes de la méthode compareTo()
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>Insère les lignes de la méthode <b>compareTo()</b>
 	 * après la ligne de déclaration.</li>
 	 * <li>N'insère les lignes que si elles n'existent pas déjà</li>
 	 * </ul>
@@ -655,9 +713,13 @@ public class EcriveurInterface extends AbstractEcriveur {
 			/* Crée la methode compareTo(). */
 			this.creerLignesMethodCompareTo();
 			
+			if (this.methodCompareTo == null) {
+				return;
+			}
+			
 			/* Recherche la ligne contenant la signature de la methode. */
 			final String dernierLigne 
-				= this.methodCompareTo.get(this.methodCompareTo.size() - 1);
+				= this.fournirDerniereLigneListe(this.methodCompareTo);
 			
 			/* Ne fait rien si la méthode a déjà été déclarée. */
 			if (this.existLigneDansFichier(
@@ -665,6 +727,9 @@ public class EcriveurInterface extends AbstractEcriveur {
 				return;
 			}
 			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
 			for (final String ligne : this.methodCompareTo) {
 				
 				if (StringUtils.isBlank(ligne)) {
@@ -1310,8 +1375,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 			
 			/* Recherche la ligne contenant la signature de la methode. */
 			final String dernierLigne 
-				= this.methodGetId
-					.get(this.methodGetId.size() - 1);
+				= this.fournirDerniereLigneListe(this.methodGetId);
 			
 			/* Ne fait rien si la méthode a déjà été déclarée. */
 			if (this.existLigneDansFichier(
@@ -1607,34 +1671,15 @@ public class EcriveurInterface extends AbstractEcriveur {
 		final List<String> listeLignesDebutSubstitue3 
 		= this.substituerVariablesDansLigne(
 				listeLignesDebutSubstitue2
-				, VARIABLE_NOMSIMPLEINTERFACE
-					, this.nomSimpleInterface);
+				, VARIABLE_CONCEPT_MODELISE
+					, this.conceptModelise);
 
 		
 		pListeGetter.addAll(listeLignesDebutSubstitue3);
 		
 		/* CORPS. */
-		final List<String> listeRgs = this.mapRg.get(pNomAttribut);
+		this.ajouterRGsAJavadoc(pListeGetter, pNomAttribut);
 		
-		/* Ajout des RG. */
-		if (!listeRgs.isEmpty()) {
-			
-			/* ouverture de liste HTML. */
-			pListeGetter.add(UL_OUVRANT_JAVADOC);
-			
-			for (final String rg : listeRgs) {
-				
-				final List<String> elementListe = new ArrayList<String>();
-				elementListe.add("	 * <li>" + this.fournirTitreRg(rg) + SEP_2PTS_AERE);
-				elementListe.add("	 * " + this.fournirMessageRg(rg) + ".</li>");
-				
-				pListeGetter.addAll(elementListe);
-			}
-			
-			/* fermeture de liste HTML. */
-			pListeGetter.add(UL_FERMANT_JAVADOC);
-			
-		}
 		
 		/* FIN. */
 		final String cheminFichierFin 
@@ -1663,14 +1708,13 @@ public class EcriveurInterface extends AbstractEcriveur {
 				listeLignesFinSubstitue2
 				, VARIABLE_TYPEATTRIBUT
 					, pTypeAttribut);
-	
-		
+			
 		pListeGetter.addAll(listeLignesFinSubstitue3);
-
 		
 	} // Fin de creerJavadocGetter(...).___________________________________
 
 
+	
 
 	/**
 	 * {@inheritDoc}
@@ -1750,6 +1794,34 @@ public class EcriveurInterface extends AbstractEcriveur {
 		// TODO Auto-generated method stub
 		
 	} // Fin de creerCodeSetter(...).______________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirLigneIdentifianteGetter(
+			final String pNomAttribut
+				, final String pTypeAttribut) {
+		
+		final String ligneIdentifiant 
+		= "\t" + pTypeAttribut + " " + this.fournirGetter(pNomAttribut);
+		
+		return ligneIdentifiant;
+		
+	} // Fin de fournirLigneIdentifianteGetter(...)._______________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String fournirLigneIdentifianteSetter(String pNomAttribut, String pTypeAttribut) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 	

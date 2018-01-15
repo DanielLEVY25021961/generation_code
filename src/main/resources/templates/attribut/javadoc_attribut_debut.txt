@@ -1,0 +1,5 @@
+
+
+	/**
+	 * {$nomAttribut} : {$typeAttribut} :<br/>
+	 * {$nomAttribut} du {$conceptModelise}.<br/>
