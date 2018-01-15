@@ -2,8 +2,13 @@ package levy.daniel.application.apptechnic.generationcode.impl;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -13,7 +18,8 @@ import levy.daniel.application.apptechnic.generationcode.AbstractEcriveur;
 /**
  * class EcriveurAbstractClass :<br/>
  * .<br/>
- * <br/>
+ * 
+ *  <br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
@@ -532,7 +538,334 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	} // Fin de fournirDebutJavaDoc()._____________________________________
 
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void ecrireCodeConstructeurCompletBase(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
 
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		final List<String> listCode = new ArrayList<String>();
+		
+		listCode.add(PUBLIC + this.nomSimpleFichierJava + "(");
+
+		final String decalageDebut = "\t" + "\t" + "\t";
+		final String idString = decalageDebut + FINAL + "Long pId";
+		
+		listCode.add(idString);
+		
+		final int tailleMap = this.mapAttributs.size();
+		
+		final Set<Entry<String, String>> entrySet 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		int compteur = 0;
+		String decalage = decalageDebut;
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			decalage = decalage +"\t"; // NOPMD by daniel.levy on 10/01/18 14:43
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			final String ligneACreerBase 
+				= decalage + ", " + FINAL
+				+ typeAttribut 
+				+ SEP_ESPACE + this.fournirParametre(nomAttribut);
+			
+			String ligneACreer = null;
+			
+			if (compteur < tailleMap) {
+				ligneACreer = ligneACreerBase;
+			} else {
+				ligneACreer = ligneACreerBase + ") {";
+			}
+			
+			listCode.add(ligneACreer);
+		}
+
+		final String decalageCode = "\t" + "\t";
+		
+		listCode.add("");
+		listCode.add(decalageCode + SUPER);
+		listCode.add("");
+		listCode.add(decalageCode + "this.id = pId;");
+		
+		
+		final Set<Entry<String, String>> entrySet2 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
+		
+		while (ite2.hasNext()) {
+			
+			final Entry<String, String> entry2 = ite2.next();
+			
+			final String nomAttribut = entry2.getKey();
+
+			final String ligneACreer 
+				= decalageCode 
+				+ THIS + nomAttribut + EGAL 
+				+ this.fournirParametre(nomAttribut) + SEP_PV;
+						
+			listCode.add(ligneACreer);
+		}
+		
+		listCode.add("");
+		
+		final String ligneIdentifiant 
+			= "\t" 
+			+ LIGNE_FIN_CONSTR_COMPLET_BASE;
+		
+		listCode.add(ligneIdentifiant);
+		
+		/* ajoute 3 lignes vides. */
+		this.ajouterLignesVides(3, listCode);
+		
+		try {
+
+			/* Ne fait rien si le code a déjà été écrit. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : listCode) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);
+					
+				} else {
+
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+					
+				}
+			}
+		} catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le code du constructeur", e);
+			}
+		}
+		
+	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocCompareTo(
+			final List<String> pListeMethode) throws Exception {
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListeMethode.addAll(listeLignes);
+		
+	} // Fin de creerJavadocCompareTo(...).________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeCompareTo(
+			final List<String> pListeMethode) throws Exception {
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/debut_compareTo.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		final List<String> listeLignesDebutAAjouter 
+			= this.substituerVariablesDansLigne(
+					listeLignesDebut
+						, VARIABLE_NOMSIMPLEINTERFACE
+							, this.nomSimpleInterface);
+		
+		/* Ajout des lignes du début. */
+		pListeMethode.addAll(listeLignesDebutAAjouter);
+		
+		/* ENTIERS DE COMPARAISON. */
+		final List<String> listeEntiersComp = new ArrayList<String>();
+		final String ligneBase = DECLAGE_CODE + "int ";
+		
+		final Set<Entry<String, String>> entrySetEntiersComp 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteEntiersComp 
+			= entrySetEntiersComp.iterator();
+		
+		while (iteEntiersComp.hasNext()) {
+			
+			final Entry<String, String> entryEntiersComp = iteEntiersComp.next();
+			
+			final String nomAttribut = entryEntiersComp.getKey();
+			
+			final String ligneAAjouter 
+			= ligneBase 
+			+ this.fournirEntierCompare(nomAttribut) 
+			+ POINT_VIRGULE;
+			
+			listeEntiersComp.add(ligneAAjouter);
+
+		}
+
+		listeEntiersComp.add("");
+		
+		/* Ajout des lignes du corps. */
+		pListeMethode.addAll(listeEntiersComp);
+
+		
+		
+		/* CORPS. */
+		final String cheminFichierCorps 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/corps_compareTo.txt";
+	
+		final File fichierCorps = new File(cheminFichierCorps);
+	
+		final List<String> listeLignesCorps 
+			= this.lireStringsDansFile(fichierCorps, CHARSET_UTF8);
+		
+		/* dernier attribut. */
+		final String cheminFichierCorpsFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/corps_fin_compareTo.txt";
+	
+		final File fichierCorpsFin = new File(cheminFichierCorpsFin);
+	
+		final List<String> listeLignesCorpsFin 
+			= this.lireStringsDansFile(fichierCorpsFin, CHARSET_UTF8);
+		
+		
+		final Set<Entry<String, String>> entrySetCorps 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteCorps 
+			= entrySetCorps.iterator();
+		
+		final int tailleMapEquals = this.mapAttributsEquals.size();
+		int compteur = 0;
+		
+		while (iteCorps.hasNext()) {
+			
+			compteur++;
+			
+			final Entry<String, String> entryCorps = iteCorps.next();
+			
+			final String nomAttribut = entryCorps.getKey();
+			
+			if (compteur < tailleMapEquals) {
+				
+				final List<String> lignesAAjouter 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorps
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+				
+				final List<String> lignesAAjouterSubst1 
+				= this.substituerVariablesDansLigne(
+						lignesAAjouter
+							, VARIABLE_GETTER
+								, this.fournirGetter(nomAttribut));
+				
+				final List<String> lignesAAjouterSubst2 
+				= this.substituerVariablesDansLigne(
+						lignesAAjouterSubst1
+							, VARIABLE_ENTIER_COMPARE
+								, this.fournirEntierCompare(nomAttribut));
+			
+				/* Ajout des lignes du corps. */
+				pListeMethode.addAll(lignesAAjouterSubst2);
+				
+			} else {
+				
+				final List<String> lignesAAjouter 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorpsFin
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+				
+				final List<String> lignesAAjouterSubst1 
+				= this.substituerVariablesDansLigne(
+						lignesAAjouter
+							, VARIABLE_GETTER
+								, this.fournirGetter(nomAttribut));
+				
+				final List<String> lignesAAjouterSubst2 
+				= this.substituerVariablesDansLigne(
+						lignesAAjouterSubst1
+							, VARIABLE_ENTIER_COMPARE
+								, this.fournirEntierCompare(nomAttribut));
+			
+				/* Ajout des lignes du corps. */
+				pListeMethode.addAll(lignesAAjouterSubst2);
+				
+			}
+			
+		}
+
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/fin_compareTo.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes du fin. */
+		pListeMethode.addAll(listeLignesFin);
+				
+	} // Fin de creerCodeCompareTo(...).___________________________________
+
+	
 	/**
 	 * {@inheritDoc}
 	 */

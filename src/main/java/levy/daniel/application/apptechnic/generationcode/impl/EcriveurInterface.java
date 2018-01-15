@@ -170,7 +170,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 				pFile, this.ligneDeclaration, 3, CHARSET_UTF8);
 		
 		/* Ecrit la méthode compareTo(). */
-		this.ecrireMethodCompareTo(pFile);
+		this.ecrireCompareTo(pFile);
 		
 		final String derniereLigneCompareTo 
 			= this.fournirDerniereLigneListe(this.methodCompareTo);
@@ -675,119 +675,94 @@ public class EcriveurInterface extends AbstractEcriveur {
 
 	
 	/**
-	 * method ecrireMethodCompareTo(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li><b>écriture</b> dans le fichier java.</li>
-	 * <li>Insère les lignes de la méthode <b>compareTo()</b>
-	 * après la ligne de déclaration.</li>
-	 * <li>N'insère les lignes que si elles n'existent pas déjà</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : fichier java.<br/>
+	 * {@inheritDoc}
 	 */
-	private void ecrireMethodCompareTo(
-			final File pFile) {
-				
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
+	@Override
+	protected final void creerJavadocCompareTo(
+			final List<String> pListeMethode) throws Exception {
 		
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/debut_javadoc_interface_compareTo.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
 		
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
-
-		try {
-			
-			/* Crée la methode compareTo(). */
-			this.creerLignesMethodCompareTo();
-			
-			if (this.methodCompareTo == null) {
-				return;
-			}
-			
-			/* Recherche la ligne contenant la signature de la methode. */
-			final String dernierLigne 
-				= this.fournirDerniereLigneListe(this.methodCompareTo);
-			
-			/* Ne fait rien si la méthode a déjà été déclarée. */
-			if (this.existLigneDansFichier(
-					pFile, CHARSET_UTF8, dernierLigne)) {
-				return;
-			}
-			
-			/* *************** */
-			/* ENREGISTREMENT. */
-			/* *************** */
-			for (final String ligne : this.methodCompareTo) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer la méthode compareTo()", e);
-			}
-		}
-				
-	} // Fin de ecrireMethodCompareTo(...).________________________________
+		final List<String> listeLignesDebut	
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		final List<String> listeLignesSubstDebut1 
+			= this.substituerVariablesDansLigne(
+					listeLignesDebut
+						, VARIABLE_NOMSIMPLEINTERFACE
+							, this.nomSimpleInterface);
+		
+		pListeMethode.addAll(listeLignesSubstDebut1);
+		
+		/* CORPS. */
+		pListeMethode.add(OL_OUVRANT_JAVADOC);
+		
+		final String ligneComparaison 
+			= "	 * Comparaison de 2 " 
+					+ this.nomSimpleInterface 
+						+ " par rapport à :";
+		
+		pListeMethode.add(ligneComparaison);
+		
+		/* ajout des attributs utilisés dans le compareTo(...). */
+		this.ajouterAttributsEqualsAJavadoc(pListeMethode);
+		
+		pListeMethode.add(OL_FERMANT_JAVADOC);
+		
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/fin_javadoc_interface_compareTo.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+		
+		final List<String> listeLignesFin	
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		final List<String> listeLignesSubstFin1 
+			= this.substituerVariablesDansLigne(
+					listeLignesFin
+						, VARIABLE_NOMSIMPLEINTERFACE
+							, this.nomSimpleInterface);
+		
+		pListeMethode.addAll(listeLignesSubstFin1);
+		
+	} // Fin de creerJavadocCompareTo(...).________________________________
 	
 
-
+	
 	/**
-	 * method creerLignesMethodCompareTo() :
-	 * <ul>
-	 * <li>Crée la liste des lignes de la méthode compareTo().</li>
-	 * <li>alimente this.methodCompareTo</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.methodCompareTo.<br/>
-	 * 
-	 * @throws Exception
+	 * {@inheritDoc}
 	 */
-	private List<String> creerLignesMethodCompareTo() throws Exception {
-		
+	@Override
+	protected final void creerCodeCompareTo(
+			final List<String> pListeMethode) throws Exception {
+				
 		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/methodCompareTo_interface.txt";
-		
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/compareTo/corps_compareTo_interface.txt";
+	
 		final File fichier = new File(cheminFichier);
 		
-		final List<String> listeLignes 
+		final List<String> listeLignes	
 			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
 		
-		final List<String> listeLignesSubstitue 
-		= this.substituerVariablesDansLigne(
-				listeLignes, "{$IObjet}", this.nomSimpleFichierJava); // NOPMD by dan on 08/01/18 08:09
+		final List<String> listeLignesSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOMSIMPLEINTERFACE
+							, this.nomSimpleInterface);
 		
-		this.methodCompareTo = listeLignesSubstitue;
+		pListeMethode.addAll(listeLignesSubst1);
 		
-		return this.methodCompareTo;
-				
-	} // Fin de creerLignesMethodCompareTo().______________________________
+	} // Fin de creerCodeCompareTo(...).___________________________________
 	
-
+	
 		
 	/**
 	 * method ecrireMethodClone(
@@ -1818,10 +1793,24 @@ public class EcriveurInterface extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String fournirLigneIdentifianteSetter(String pNomAttribut, String pTypeAttribut) {
+	protected final String fournirLigneIdentifianteSetter(
+			final String pNomAttribut
+				, final String pTypeAttribut) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void ecrireCodeConstructeurCompletBase(
+			final File pFile) throws Exception {
+		return;
+		
+	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
 
 
 	

@@ -508,6 +508,14 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
+	 * OL_OUVRANT_JAVADOC : String :<br/>
+	 * "	 * <ol>".<br/>
+	 */
+	public static final String OL_OUVRANT_JAVADOC 
+		= "	 * <ol>";
+	
+	
+	/**
 	 * LIGNE_CONSTR_NULL_JAVADOC : String :<br/>
 	 * "	 * CONSTRUCTEUR D'ARITE NULLE.<br/>".<br/>
 	 */
@@ -578,6 +586,14 @@ public abstract class AbstractEcriveur {
 	public static final String UL_FERMANT_JAVADOC 
 		= "	 * </ul>";
 
+	
+	/**
+	 * OL_FERMANT_JAVADOC : String :<br/>
+	 * "	 * </ol>".<br/>
+	 */
+	public static final String OL_FERMANT_JAVADOC 
+		= "	 * </ol>";
+	
 	
 	/**
 	 * LIGNE_VIDE_JAVADOC : String :<br/>
@@ -2333,7 +2349,7 @@ public abstract class AbstractEcriveur {
 
 		try {
 
-			/* Crée le Séparateur d'attributs. */
+			/* Crée le Séparateur de méthodes. */
 			this.creerSepMethodes();
 			
 			if (this.sepMethodes == null) {
@@ -2419,6 +2435,7 @@ public abstract class AbstractEcriveur {
 	 * File pFile) :<br/>
 	 * <ul>
 	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité du <b>constructeur d'arite nulle</b></li>
 	 * <li>écrit la javadoc du constructeur d'arite nulle.</li>
 	 * <li>écrit le code du constructeur d'arite nulle.</li>
 	 * </ul>
@@ -2462,9 +2479,10 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method ecrireJavadocConstructeurNull(
 	 * File pFile) :<br/>
+	 * <ul>
 	 * <li><b>écriture</b> dans le fichier java.</li>
-	 * Génère la javadoc du constructeur d'arite nulle.<br/>
-	 * <br/>
+	 * <li>Génère la <b>javadoc du constructeur d'arite nulle</b>.</li>
+	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
 	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
@@ -2543,7 +2561,7 @@ public abstract class AbstractEcriveur {
 	 * File pFile) :<br/>
 	 * <ul>
 	 * <li><b>écriture</b> dans le fichier java.</li>
-	 * <li>génère le code du constructeur d'arite nulle.</li>
+	 * <li>génère le <b>code du constructeur d'arite nulle</b>.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -2665,6 +2683,8 @@ public abstract class AbstractEcriveur {
 	 * method ecrireConstructeurComplet(
 	 * File pFile) :<br/>
 	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité du <b>constructeur complet</b>.</li>
 	 * <li>écrit la javadoc du constructeur complet.</li>
 	 * <li>écrit le code du constructeur complet.</li>
 	 * </ul>
@@ -2708,7 +2728,9 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method ecrireJavadocConstructeurComplet(
 	 * File pFile) :<br/>
-	 * Génère la javadoc du constructeur complet.<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>Génère la <b>javadoc du constructeur complet</b>.</li>
 	 * <br/>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -2810,18 +2832,23 @@ public abstract class AbstractEcriveur {
 			final String nomAttribut = entry2.getKey();
 			final String typeAttribut = entry2.getValue();
 			
-			final String ligneACreer 
+			final String ligneACreer1 
 				= LIGNE_PARAM_JAVADOC 
 				+ fournirParametre(nomAttribut) 
 				+ SEP_2PTS_AERE 
 				+ typeAttribut 
-				+ SEP_2PTS_AERE 
+				+ SEP_2PTS_AERE;
+			
+			final String ligneACreer2 
+				= "	 *" 
+				+ SEP_ESPACE
 				+ nomAttribut 
 				+ " du " 
 				+ this.nomSimpleFichierJava 
 				+ POINT_BR;
-						
-			listJavadoc.add(ligneACreer);
+			
+			listJavadoc.add(ligneACreer1);
+			listJavadoc.add(ligneACreer2);
 		}
 
 		
@@ -2871,8 +2898,10 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method ecrireCodeConstructeurComplet(
 	 * File pFile) :<br/>
-	 * génère le code du constructeur complet.<br/>
-	 * <br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>génère le <b>code du constructeur complet</b>.</li>
+	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
 	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
@@ -3039,6 +3068,8 @@ public abstract class AbstractEcriveur {
 	 * method ecrireConstructeurCompletBase(
 	 * File pFile) :<br/>
 	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité du <b>constructeur complet base</b>.</li>
 	 * <li>écrit la javadoc du constructeur complet base.</li>
 	 * <li>écrit le code du constructeur complet base.</li>
 	 * </ul>
@@ -3082,8 +3113,10 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method ecrireJavadocConstructeurCompletBase(
 	 * File pFile) :<br/>
-	 * Génère la javadoc du constructeur complet base.<br/>
-	 * <br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>Génère la <b>javadoc du constructeur complet base</b>.</li>
+	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
 	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
@@ -3171,18 +3204,23 @@ public abstract class AbstractEcriveur {
 			final String nomAttribut = entry2.getKey();
 			final String typeAttribut = entry2.getValue();
 			
-			final String ligneACreer 
+			final String ligneACreer1 
 				= LIGNE_PARAM_JAVADOC 
 				+ fournirParametre(nomAttribut) 
 				+ SEP_2PTS_AERE 
 				+ typeAttribut 
-				+ SEP_2PTS_AERE 
+				+ SEP_2PTS_AERE;
+			
+			final String ligneACreer2 
+				= "	 *"
+				+ SEP_ESPACE
 				+ nomAttribut 
 				+ " du " 
 				+ this.nomSimpleFichierJava 
 				+ POINT_BR;
 						
-			listJavadoc.add(ligneACreer);
+			listJavadoc.add(ligneACreer1);
+			listJavadoc.add(ligneACreer2);
 		}
 
 		
@@ -3233,8 +3271,10 @@ public abstract class AbstractEcriveur {
 	/**
 	 * method ecrireCodeConstructeurCompletBase(
 	 * File pFile) :<br/>
-	 * génère le code du constructeur complet base.<br/>
-	 * <br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>génère le <b>code du constructeur complet base</b>.</li>
+	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
 	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
@@ -3244,141 +3284,8 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	private void ecrireCodeConstructeurCompletBase(
-			final File pFile) throws Exception {
-				
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
-
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
-
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
-
-		final List<String> listCode = new ArrayList<String>();
-		
-		listCode.add(PUBLIC + this.nomSimpleFichierJava + "(");
-
-		final String decalageDebut = "\t" + "\t" + "\t";
-		final String idString = decalageDebut + FINAL + "Long pId";
-		
-		listCode.add(idString);
-		
-		final int tailleMap = this.mapAttributs.size();
-		
-		final Set<Entry<String, String>> entrySet 
-		= this.mapAttributs.entrySet();
-	
-		final Iterator<Entry<String, String>> ite = entrySet.iterator();
-		
-		int compteur = 0;
-		String decalage = decalageDebut;
-		
-		while (ite.hasNext()) {
-			
-			compteur++;
-			decalage = decalage +"\t"; // NOPMD by daniel.levy on 10/01/18 14:43
-			
-			final Entry<String, String> entry = ite.next();
-			
-			final String nomAttribut = entry.getKey();
-			final String typeAttribut = entry.getValue();
-			
-			final String ligneACreerBase 
-				= decalage + ", " + FINAL
-				+ typeAttribut 
-				+ SEP_ESPACE + this.fournirParametre(nomAttribut);
-			
-			String ligneACreer = null;
-			
-			if (compteur < tailleMap) {
-				ligneACreer = ligneACreerBase;
-			} else {
-				ligneACreer = ligneACreerBase + ") {";
-			}
-			
-			listCode.add(ligneACreer);
-		}
-
-		final String decalageCode = "\t" + "\t";
-		
-		listCode.add("");
-		listCode.add(decalageCode + SUPER);
-		listCode.add("");
-		listCode.add(decalageCode + "this.id = pId;");
-		
-		
-		final Set<Entry<String, String>> entrySet2 
-		= this.mapAttributs.entrySet();
-	
-		final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
-		
-		while (ite2.hasNext()) {
-			
-			final Entry<String, String> entry2 = ite2.next();
-			
-			final String nomAttribut = entry2.getKey();
-
-			final String ligneACreer 
-				= decalageCode 
-				+ THIS + nomAttribut + EGAL 
-				+ this.fournirParametre(nomAttribut) + SEP_PV;
-						
-			listCode.add(ligneACreer);
-		}
-		
-		listCode.add("");
-		
-		final String ligneIdentifiant 
-			= "\t" 
-			+ LIGNE_FIN_CONSTR_COMPLET_BASE;
-		
-		listCode.add(ligneIdentifiant);
-		
-		listCode.add("");
-		listCode.add("");
-		listCode.add("");
-		
-		try {
-
-			/* Ne fait rien si le code a déjà été écrit. */
-			if (this.existLigneCommencant(
-					pFile, CHARSET_UTF8, ligneIdentifiant)) {
-				return;
-			}
-
-			/* *************** */
-			/* ENREGISTREMENT. */
-			/* *************** */
-			for (final String ligne : listCode) {
-
-				if (StringUtils.isBlank(ligne)) {
-
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);
-					
-				} else {
-
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-					
-				}
-			}
-		} catch (Exception e) {
-
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer le code du constructeur", e);
-			}
-		}
-		
-	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
+	protected abstract void ecrireCodeConstructeurCompletBase(
+			File pFile) throws Exception;
 	
 	
 	
@@ -3386,6 +3293,8 @@ public abstract class AbstractEcriveur {
 	 * method ecrireHashCode(
 	 * File pFile) :<br/>
 	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>compareTo(...)</b></li>
 	 * <li>écrit la javadoc de hashCode().</li>
 	 * <li>écrit le code de hashCode().</li>
 	 * <li>insère 3 lignes vides ensuite.</li>
@@ -3521,6 +3430,8 @@ public abstract class AbstractEcriveur {
 	 * method ecrireEquals(
 	 * File pFile) :<br/>
 	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>equals(...)</b></li>
 	 * <li>écrit la javadoc de equals().</li>
 	 * <li>écrit le code de equals().</li>
 	 * <li>insère 3 lignes vides ensuite.</li>
@@ -3659,7 +3570,8 @@ public abstract class AbstractEcriveur {
 			
 			final List<String> lignesAAjouter 
 				= this.substituerVariablesDansLigne(
-						listeLignesCorps, VARIABLE_NOMATTRIBUT, nomAttribut);
+						listeLignesCorps
+						, VARIABLE_NOMATTRIBUT, nomAttribut);
 			
 			/* Ajout des lignes du corps. */
 			pListeMethode.addAll(lignesAAjouter);
@@ -3769,6 +3681,8 @@ public abstract class AbstractEcriveur {
 	 * method ecrireCompareTo() :<br/>
 	 * File pFile) :<br/>
 	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>compareTo(...)</b></li>
 	 * <li>écrit la javadoc de compareTo().</li>
 	 * <li>écrit le code de compareTo().</li>
 	 * <li>insère 3 lignes vides ensuite.</li>
@@ -3800,13 +3714,16 @@ public abstract class AbstractEcriveur {
 		return;
 		}
 		
-		final List<String> listeMethode = new ArrayList<String>();
+		this.methodCompareTo = new ArrayList<String>();
 
 		/* écrit la javadoc. */
-		this.creerJavadocCompareTo(listeMethode);
+		this.creerJavadocCompareTo(this.methodCompareTo);
 		
 		/* écrit le code. */
-		this.creerCodeCompareTo(listeMethode);
+		this.creerCodeCompareTo(this.methodCompareTo);
+		
+		/* ajoute 3 lignes. */
+		this.ajouterLignesVides(3, this.methodCompareTo);
 		
 		
 		/* ENREGISTREMENT *********/		
@@ -3823,7 +3740,7 @@ public abstract class AbstractEcriveur {
 			/* *************** */
 			/* ENREGISTREMENT. */
 			/* *************** */
-			for (final String ligne : listeMethode) {
+			for (final String ligne : this.methodCompareTo) {
 
 				if (StringUtils.isBlank(ligne)) {
 
@@ -3861,23 +3778,8 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception
 	 */
-	private void creerJavadocCompareTo(
-			final List<String> pListeMethode) throws Exception {
-		
-		/* Création des lignes. */
-		final String cheminFichierDebut 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/compareTo/compareTo_javadoc.txt";
-	
-		final File fichierDebut = new File(cheminFichierDebut);
-	
-		final List<String> listeLignes 
-			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
-		
-		/* Ajout des lignes. */
-		pListeMethode.addAll(listeLignes);
-		
-	} // Fin de creerJavadocCompareTo(...).________________________________
+	protected abstract void creerJavadocCompareTo(
+			List<String> pListeMethode) throws Exception;
 
 
 	
@@ -3893,166 +3795,22 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception
 	 */
-	private void creerCodeCompareTo(
-			final List<String> pListeMethode) throws Exception {
-		
-		/* DEBUT. */
-		final String cheminFichierDebut 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/compareTo/debut_compareTo.txt";
-	
-		final File fichierDebut = new File(cheminFichierDebut);
-	
-		final List<String> listeLignesDebut 
-			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
-		
-		final List<String> listeLignesDebutAAjouter 
-			= this.substituerVariablesDansLigne(
-					listeLignesDebut
-						, VARIABLE_NOMSIMPLEINTERFACE
-							, this.nomSimpleInterface);
-		
-		/* Ajout des lignes du début. */
-		pListeMethode.addAll(listeLignesDebutAAjouter);
-		
-		/* ENTIERS DE COMPARAISON. */
-		final List<String> listeEntiersComp = new ArrayList<String>();
-		final String ligneBase = DECLAGE_CODE + "int ";
-		
-		final Set<Entry<String, String>> entrySetEntiersComp 
-		= this.mapAttributsEquals.entrySet();
-	
-		final Iterator<Entry<String, String>> iteEntiersComp 
-			= entrySetEntiersComp.iterator();
-		
-		while (iteEntiersComp.hasNext()) {
-			
-			final Entry<String, String> entryEntiersComp = iteEntiersComp.next();
-			
-			final String nomAttribut = entryEntiersComp.getKey();
-			
-			final String ligneAAjouter 
-			= ligneBase 
-			+ this.fournirEntierCompare(nomAttribut) 
-			+ POINT_VIRGULE;
-			
-			listeEntiersComp.add(ligneAAjouter);
-
-		}
-
-		listeEntiersComp.add("");
-		
-		/* Ajout des lignes du corps. */
-		pListeMethode.addAll(listeEntiersComp);
-
-		
-		
-		/* CORPS. */
-		final String cheminFichierCorps 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/compareTo/corps_compareTo.txt";
-	
-		final File fichierCorps = new File(cheminFichierCorps);
-	
-		final List<String> listeLignesCorps 
-			= this.lireStringsDansFile(fichierCorps, CHARSET_UTF8);
-		
-		/* dernier attribut. */
-		final String cheminFichierCorpsFin 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/compareTo/corps_fin_compareTo.txt";
-	
-		final File fichierCorpsFin = new File(cheminFichierCorpsFin);
-	
-		final List<String> listeLignesCorpsFin 
-			= this.lireStringsDansFile(fichierCorpsFin, CHARSET_UTF8);
-		
-		
-		final Set<Entry<String, String>> entrySetCorps 
-		= this.mapAttributsEquals.entrySet();
-	
-		final Iterator<Entry<String, String>> iteCorps 
-			= entrySetCorps.iterator();
-		
-		final int tailleMapEquals = this.mapAttributsEquals.size();
-		int compteur = 0;
-		
-		while (iteCorps.hasNext()) {
-			
-			compteur++;
-			
-			final Entry<String, String> entryCorps = iteCorps.next();
-			
-			final String nomAttribut = entryCorps.getKey();
-			
-			if (compteur < tailleMapEquals) {
-				
-				final List<String> lignesAAjouter 
-				= this.substituerVariablesDansLigne(
-						listeLignesCorps
-							, VARIABLE_NOMATTRIBUT
-								, nomAttribut);
-				
-				final List<String> lignesAAjouterSubst1 
-				= this.substituerVariablesDansLigne(
-						lignesAAjouter
-							, VARIABLE_GETTER
-								, this.fournirGetter(nomAttribut));
-				
-				final List<String> lignesAAjouterSubst2 
-				= this.substituerVariablesDansLigne(
-						lignesAAjouterSubst1
-							, VARIABLE_ENTIER_COMPARE
-								, this.fournirEntierCompare(nomAttribut));
-			
-				/* Ajout des lignes du corps. */
-				pListeMethode.addAll(lignesAAjouterSubst2);
-				
-			} else {
-				
-				final List<String> lignesAAjouter 
-				= this.substituerVariablesDansLigne(
-						listeLignesCorpsFin
-							, VARIABLE_NOMATTRIBUT
-								, nomAttribut);
-				
-				final List<String> lignesAAjouterSubst1 
-				= this.substituerVariablesDansLigne(
-						lignesAAjouter
-							, VARIABLE_GETTER
-								, this.fournirGetter(nomAttribut));
-				
-				final List<String> lignesAAjouterSubst2 
-				= this.substituerVariablesDansLigne(
-						lignesAAjouterSubst1
-							, VARIABLE_ENTIER_COMPARE
-								, this.fournirEntierCompare(nomAttribut));
-			
-				/* Ajout des lignes du corps. */
-				pListeMethode.addAll(lignesAAjouterSubst2);
-				
-			}
-			
-		}
-
-		/* FIN. */
-		final String cheminFichierFin 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/compareTo/fin_compareTo.txt";
-	
-		final File fichierFin = new File(cheminFichierFin);
-	
-		final List<String> listeLignesFin 
-			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
-		
-		/* Ajout des lignes du fin. */
-		pListeMethode.addAll(listeLignesFin);
-				
-	} // Fin de creerCodeCompareTo(...).___________________________________
+	protected abstract void creerCodeCompareTo(
+			List<String> pListeMethode) throws Exception;
 
 
-	
-	
+		
+	/**
+	 * method ecrireAccesseurs(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>.</li>
+	 * <li>.</li>
+	 * </ul>
+	 *
+	 * @param pFile
+	 * @throws Exception :  :  .<br/>
+	 */
 	protected final void ecrireAccesseurs(
 			final File pFile) throws Exception {
 		
@@ -4414,6 +4172,56 @@ public abstract class AbstractEcriveur {
 	} // Fin de ajouterRGsAJavadoc(...).___________________________________
 	
 
+	
+	/**
+	 * method ajouterAttributsEqualsAJavadoc(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>Ajoute à pListe sous forme d'éléments de liste 
+	 * (numérotée ou à puce) les attributs utilisés 
+	 * dans equals(...).</li>
+	 * <li>.</li>
+	 * </ul>
+	 * ne fait rien si pListe == null.<br/>
+	 * ne fait rien si this.mapAttributsEquals == null.<br/>
+	 * <br/>
+	 *
+	 * @param pListe : List&lt;String&gt; : 
+	 * Liste contenant une Javadoc.<br/>
+	 */
+	protected final void ajouterAttributsEqualsAJavadoc(
+			final List<String> pListe) {
+		
+		/* ne fait rien si pListe == null. */
+		if (pListe == null) {
+			return;
+		}
+		
+		/* ne fait rien si this.mapAttributsEquals == null. */
+		if (this.mapAttributsEquals == null) {
+			return;
+		}
+		
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributsEquals.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			
+			final String aAjouter 
+				= "	 * <li>" + nomAttribut + ".</li>";
+			
+			pListe.add(aAjouter);
+		}
+		
+	} // Fin de ajouterAttributsEqualsAJavadoc(...)._______________________
+	
+	
 	
 	/**
 	 * method fournirPathMetier() :<br/>
@@ -6602,6 +6410,42 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
+	 * method ajouterLignesVides(
+	 * int pNombre
+	 * , List&lt;String&gt; pList) :<br/>
+	 * <ul>
+	 * <li>Ajoute pNombre lignes vides à la fin de la liste pList.</li>
+	 * </ul>
+	 * ne fait rien si pNombre < 1.<br/>
+	 * ne fait rien si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pNombre : int :  .<br/>
+	 * @param pList : List&lt;String&gt; :  .<br/>
+	 */
+	protected final void ajouterLignesVides(
+			final int pNombre
+				, final List<String> pList) {
+		
+		/* ne fait rien si pNombre < 1. */
+		if (pNombre < 1) {
+			return;
+		}
+		
+		/* ne fait rien si pList == null. */
+		if (pList == null) {
+			return;
+		}
+		
+		for (int i = 0; i < pNombre; i++) {
+			pList.add("");
+		}
+		
+	} // Fin de ajouterLignesVides(...).___________________________________
+
+	
+	
+	/**
 	 * method substituerSautLignePlateforme(
 	 * String pString) :<br/>
 	 * <ul>
@@ -7851,7 +7695,7 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @return : String : paramètre généré à partir de l'attribut.<br/>
 	 */
-	private String fournirParametre(
+	protected final String fournirParametre(
 			final String pString) {
 		
 		/* retourne null si pString est blank. */
@@ -7975,7 +7819,7 @@ public abstract class AbstractEcriveur {
 	 * @return : String : entier de comparaison généré 
 	 * à partir de l'attribut.<br/>
 	 */
-	private String fournirEntierCompare(
+	protected final String fournirEntierCompare(
 			final String pString) {
 				
 		/* retourne null si pString est blank. */

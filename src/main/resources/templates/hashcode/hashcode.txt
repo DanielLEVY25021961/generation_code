@@ -1,2 +1,3 @@
 		result = prime * result 
-				+ ((this.{$nomAttribut} == null) ? 0 : this.{$nomAttribut}.hashCode());
+				+ ((this.{$nomAttribut} == null) 
+					? 0 : this.{$nomAttribut}.hashCode());

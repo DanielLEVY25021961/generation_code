@@ -1,0 +1,7 @@
+	 *
+	 * @param pObject : {$nomSimpleInterface}.<br/>
+	 * 
+	 * @return : int : négatif si la présente instance 
+	 * est "avant" pObject.<br/>
+	 */
+	@Override
