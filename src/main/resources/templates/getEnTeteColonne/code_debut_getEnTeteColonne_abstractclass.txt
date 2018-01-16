@@ -1,0 +1,12 @@
+	@Transient
+	public String getEnTeteColonne(
+			final int pI) {
+		
+		String entete = null;
+
+		switch (pI) {
+
+		case 0:
+			entete = "id";
+			break;
+			

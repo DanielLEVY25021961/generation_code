@@ -258,6 +258,23 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* écrit la méthode compareTo(). */
 		this.ecrireCompareTo(pFile);
 		
+		/* écrit la méthode clone(). */
+		this.ecrireClone(pFile);
+		
+		/* écrit la méthode toString(). */
+		this.ecrireToString(pFile);
+		
+		/* écrit la méthode getEnTeteCsv(). */
+		this.ecrireGetEnTeteCsv(pFile);
+		
+		/* écrit la méthode toStringCsv(). */
+		this.ecrireToStringCsv(pFile);
+		
+		/* écrit la méthode getEnTeteColonne(). */
+		this.ecrireGetEnTeteColonne(pFile);
+		
+		/* écrit la méthode getValeurColonne(). */
+		this.ecrireGetValeurColonne(pFile);
 		
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
@@ -351,11 +368,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		final List<String> listeLignes 
 			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
 		
-		final List<String> listeLignesSubstitue 
-		= this.substituerVariablesDansLigne(
-				listeLignes, "{$pathmetier}", this.pathMetier);
-		
-		this.imports = listeLignesSubstitue;
+		this.imports = listeLignes;
 		
 		return this.imports;
 		
@@ -685,7 +698,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	 */
 	@Override
 	protected final void creerJavadocCompareTo(
-			final List<String> pListeMethode) throws Exception {
+			final List<String> pListe) throws Exception {
 		
 		/* Création des lignes. */
 		final String cheminFichierDebut 
@@ -698,7 +711,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
 		
 		/* Ajout des lignes. */
-		pListeMethode.addAll(listeLignes);
+		pListe.addAll(listeLignes);
 		
 	} // Fin de creerJavadocCompareTo(...).________________________________
 
@@ -709,7 +722,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	 */
 	@Override
 	protected final void creerCodeCompareTo(
-			final List<String> pListeMethode) throws Exception {
+			final List<String> pListe) throws Exception {
 		
 		/* DEBUT. */
 		final String cheminFichierDebut 
@@ -728,11 +741,11 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 							, this.nomSimpleInterface);
 		
 		/* Ajout des lignes du début. */
-		pListeMethode.addAll(listeLignesDebutAAjouter);
+		pListe.addAll(listeLignesDebutAAjouter);
 		
 		/* ENTIERS DE COMPARAISON. */
 		final List<String> listeEntiersComp = new ArrayList<String>();
-		final String ligneBase = DECLAGE_CODE + "int ";
+		final String ligneBase = DECALAGE_CODE + "int ";
 		
 		final Set<Entry<String, String>> entrySetEntiersComp 
 		= this.mapAttributsEquals.entrySet();
@@ -758,7 +771,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		listeEntiersComp.add("");
 		
 		/* Ajout des lignes du corps. */
-		pListeMethode.addAll(listeEntiersComp);
+		pListe.addAll(listeEntiersComp);
 
 		
 		
@@ -821,7 +834,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 								, this.fournirEntierCompare(nomAttribut));
 			
 				/* Ajout des lignes du corps. */
-				pListeMethode.addAll(lignesAAjouterSubst2);
+				pListe.addAll(lignesAAjouterSubst2);
 				
 			} else {
 				
@@ -844,7 +857,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 								, this.fournirEntierCompare(nomAttribut));
 			
 				/* Ajout des lignes du corps. */
-				pListeMethode.addAll(lignesAAjouterSubst2);
+				pListe.addAll(lignesAAjouterSubst2);
 				
 			}
 			
@@ -861,10 +874,629 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
 		
 		/* Ajout des lignes du fin. */
-		pListeMethode.addAll(listeLignesFin);
+		pListe.addAll(listeLignesFin);
 				
 	} // Fin de creerCodeCompareTo(...).___________________________________
 
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String fournirLigneIdentifiantCompareTo() {
+		return "	public int compareTo";
+	} // Fin de fournirLigneIdentifiantCompareTo().________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocClone(
+			final List<String> pListe) throws Exception {
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+		
+	} // Fin de creerJavadocClone(...).____________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeClone(
+			final List<String> pListe) throws Exception {
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/clone/code_corps_debut_clone_abstractclass.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		final List<String> listeLignesDebutAAjouter 
+			= this.substituerVariablesDansLigne(
+					listeLignesDebut
+						, VARIABLE_NOMSIMPLEFICHIERJAVA
+							, this.nomSimpleFichierJava);
+		
+		/* Ajout des lignes du début. */
+		pListe.addAll(listeLignesDebutAAjouter);
+		
+		/* CORPS. */
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributs.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			
+			final String aAjouter 
+				= DECALAGE_CODE + "clone." 
+						+ this.fournirSetter(nomAttribut) 
+						+ "(this." + nomAttribut + ");";
+			
+			pListe.add(aAjouter);
+		}
+		
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/clone/code_corps_fin_clone_abstractclass.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes du fin. */
+		pListe.addAll(listeLignesFin);
+		
+	} // Fin de creerCodeClone(...)._______________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocToString(
+			final List<String> pListe) throws Exception {
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+		
+	} // Fin de creerJavadocToString(...)._________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeToString(
+			final List<String> pListe) throws Exception {
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/toString/code_debut_toString_abstractclass.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		final List<String> listeLignesDebutAAjouter 
+			= this.substituerVariablesDansLigne(
+					listeLignesDebut
+						, VARIABLE_NOMSIMPLEFICHIERJAVA
+							, this.nomSimpleFichierJava);
+		
+		/* Ajout des lignes du début. */
+		pListe.addAll(listeLignesDebutAAjouter);
+
+		
+		/* CORPS. */
+		final String cheminFichierCourant 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/toString/code_corps_courant_toString_abstractclass.txt";
+		
+		final File fichierCourant = new File(cheminFichierCourant);
+		
+		final List<String> listeLignesCourant 
+		= this.lireStringsDansFile(fichierCourant, CHARSET_UTF8);
+		
+		final String cheminFichierDernier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/toString/code_corps_dernier_toString_abstractclass.txt";
+		
+		final File fichierDernier = new File(cheminFichierDernier);
+		
+		final List<String> listeLignesDernier 
+		= this.lireStringsDansFile(fichierDernier, CHARSET_UTF8);
+		
+		List<String> listeAAjouter = null;
+		final int nbreAttributs = this.mapAttributs.size();
+		int compteur = 0;
+		
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributs.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			
+			if (compteur < nbreAttributs) {
+				
+				listeAAjouter 
+				= this.substituerVariablesDansLigne(
+						listeLignesCourant
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+				
+				pListe.addAll(listeAAjouter);
+				
+			} else {
+				
+				listeAAjouter
+				= this.substituerVariablesDansLigne(
+						listeLignesDernier
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+				
+				pListe.addAll(listeAAjouter);
+				
+			}
+			
+		}
+				
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/toString/code_fin_toString_abstractclass.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes du fin. */
+		pListe.addAll(listeLignesFin);
+		
+	} // Fin de creerCodeToString(...).____________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocGetEnTeteCsv(
+			final List<String> pListe) throws Exception {
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+
+	} // Fin de creerJavadocGetEnTeteCsv(...)._____________________________
+
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeGetEnTeteCsv(
+			final List<String> pListe) throws Exception {
+				
+		/* Création des lignes. */
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getEnTeteCsv/code_getEnTeteCsv_abstractclass.txt";
+	
+		final File fichier = new File(cheminFichier);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> listeLignesSubst1 
+		= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_LIGNECSV
+						, this.fournirCsv());
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignesSubst1);
+		
+	} // Fin de creerCodeGetEnTeteCsv(...).________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocToStringCsv(
+			final List<String> pListe) throws Exception {
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+
+	} // Fin de creerJavadocToStringCsv(...).______________________________
+
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeToStringCsv(
+			final List<String> pListe) throws Exception {
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/toStringCsv/code_debut_toStringCsv_abstractclass.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignesDebut);
+		
+		
+		/* CORPS. */
+		final String cheminFichierCorps 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/toStringCsv/code_corps_toStringCsv_abstractclass.txt";
+		
+		final File fichierCorps = new File(cheminFichierCorps);
+		
+		final List<String> listeLignesCorps 
+		= this.lireStringsDansFile(fichierCorps, CHARSET_UTF8);
+				
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributs.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			
+			final List<String> listSubst1 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorps
+						, VARIABLE_NOMATTRIBUT
+							, nomAttribut);
+			
+			final List<String> listSubst2 
+			= this.substituerVariablesDansLigne(
+					listSubst1
+					, VARIABLE_GETTER
+						, this.fournirGetter(nomAttribut));
+			
+			/* Ajout des lignes. */
+			pListe.addAll(listSubst2);
+			
+		}
+		
+
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/toStringCsv/code_fin_toStringCsv_abstractclass.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignesFin);
+		
+	} // Fin de creerCodeToStringCsv(...)._________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocGetEnTeteColonne(
+			final List<String> pListe) throws Exception {
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+
+	} // Fin de creerJavadocGetEnTeteColonne(...)._________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeGetEnTeteColonne(
+			final List<String> pListe) throws Exception {
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getEnTeteColonne/code_debut_getEnTeteColonne_abstractclass.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignesDebut);
+		
+		
+		/* CORPS. {$iteration}*/
+		final String cheminFichierCorps 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getEnTeteColonne/code_corps_getEnTeteColonne_abstractclass.txt";
+		
+		final File fichierCorps = new File(cheminFichierCorps);
+		
+		final List<String> listeLignesCorps 
+		= this.lireStringsDansFile(fichierCorps, CHARSET_UTF8);
+				
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributs.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		int compteur = 0;
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			
+			final List<String> listSubst1 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorps
+						, VARIABLE_NOMATTRIBUT
+							, nomAttribut);
+			
+			final List<String> listSubst2 
+			= this.substituerVariablesDansLigne(
+					listSubst1
+					, "{$iteration}"
+						, String.valueOf(compteur));
+			
+			/* Ajout des lignes. */
+			pListe.addAll(listSubst2);
+			
+		}
+
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getEnTeteColonne/code_fin_getEnTeteColonne_abstractclass.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignesFin);
+		
+	} // Fin de creerCodeGetEnTeteColonne(...).____________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocGetValeurColonne(
+			final List<String> pListe) throws Exception {
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+
+	} // Fin de creerJavadocGetValeurColonne(...)._________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeGetValeurColonne(
+			final List<String> pListe) throws Exception {
+		
+		/* DEBUT. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getValeurColonne/code_debut_getValeurColonne_abstractclass.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignesDebut);
+		
+		
+		/* CORPS. {$iteration}*/
+		final String cheminFichierCorpsString 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getValeurColonne/code_corpsString_getValeurColonne_abstractclass.txt";
+		
+		final File fichierCorpsString = new File(cheminFichierCorpsString);
+		
+		final List<String> listeLignesCorpsString 
+		= this.lireStringsDansFile(fichierCorpsString, CHARSET_UTF8);
+		
+		final String cheminFichierCorpsSansString 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getValeurColonne/code_corpsPasString_getValeurColonne_abstractclass.txt";
+		
+		final File fichierCorpsSansString = new File(cheminFichierCorpsSansString);
+		
+		final List<String> listeLignesCorpsSansString 
+		= this.lireStringsDansFile(fichierCorpsSansString, CHARSET_UTF8);
+				
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributs.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		int compteur = 0;
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			if (StringUtils.equalsIgnoreCase(typeAttribut, "String")) {
+				
+				final List<String> listSubst1 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorpsString
+						, VARIABLE_GETTER
+							, this.fournirGetter(nomAttribut));
+			
+				final List<String> listSubst2 
+				= this.substituerVariablesDansLigne(
+						listSubst1
+						, "{$iteration}"
+							, String.valueOf(compteur));
+				
+				/* Ajout des lignes. */
+				pListe.addAll(listSubst2);
+			
+			} else {
+								
+				final List<String> listSubst1 
+				= this.substituerVariablesDansLigne(
+						listeLignesCorpsSansString
+						, VARIABLE_GETTER
+							, this.fournirGetter(nomAttribut));
+			
+				final List<String> listSubst2 
+				= this.substituerVariablesDansLigne(
+						listSubst1
+						, "{$iteration}"
+							, String.valueOf(compteur));
+				
+				/* Ajout des lignes. */
+				pListe.addAll(listSubst2);				
+			}			
+		}
+
+		
+		/* FIN. */
+		final String cheminFichierFin 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getValeurColonne/code_fin_getValeurColonne_abstractclass.txt";
+	
+		final File fichierFin = new File(cheminFichierFin);
+	
+		final List<String> listeLignesFin 
+			= this.lireStringsDansFile(fichierFin, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignesFin);
+
+	} // Fin de creerCodeGetValeurColonne(...).____________________________
+
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -963,7 +1595,9 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String fournirLigneIdentifianteSetter(String pNomAttribut, String pTypeAttribut) {
+	protected String fournirLigneIdentifianteSetter(
+			final String pNomAttribut
+				, final String pTypeAttribut) {
 		// TODO Auto-generated method stub
 		return null;
 	}

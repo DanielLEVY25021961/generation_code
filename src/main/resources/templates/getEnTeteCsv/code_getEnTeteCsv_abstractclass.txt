@@ -1,0 +1,4 @@
+	@Transient
+	public String getEnTeteCsv() {
+		return "{$ligneCsv}";
+	} // Fin de getEnTeteCsv().____________________________________________

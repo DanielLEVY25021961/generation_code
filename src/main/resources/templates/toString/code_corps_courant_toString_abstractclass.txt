@@ -1,0 +1,9 @@
+		builder.append("{$nomAttribut}=");
+		if (this.{$nomAttribut} != null) {			
+			builder.append(this.{$nomAttribut});
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		

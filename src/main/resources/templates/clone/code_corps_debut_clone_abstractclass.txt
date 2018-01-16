@@ -1,0 +1,6 @@
+	public {$nomSimpleFichierJava} clone() throws CloneNotSupportedException {
+
+		final {$nomSimpleFichierJava} clone 
+				= ({$nomSimpleFichierJava}) super.clone();
+	
+		clone.setId(this.id);	

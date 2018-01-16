@@ -133,3 +133,13 @@ java.lang.NullPointerException: null
 	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireCode(AbstractEcriveur.java:1121) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.GenerateurMetier.genererObjetMetier(GenerateurMetier.java:370) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:152) [classes/:?]
+2018-janvier-16 11:59:03 [main] FATAL levy.daniel.application.apptechnic.generationcode.AbstractEcriveur - Impossible de créer la méthode clone()
+java.lang.NullPointerException: null
+	at java.util.ArrayList.addAll(ArrayList.java:577) ~[?:1.8.0_144]
+	at levy.daniel.application.apptechnic.generationcode.impl.EcriveurInterface.creerCodeClone(EcriveurInterface.java:801) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireMethodClone(AbstractEcriveur.java:3863) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.impl.EcriveurInterface.ecrireBlocMethodes(EcriveurInterface.java:176) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.impl.EcriveurInterface.ecrireCodeHook(EcriveurInterface.java:109) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireCode(AbstractEcriveur.java:1121) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.GenerateurMetier.genererObjetMetier(GenerateurMetier.java:367) [classes/:?]
+	at levy.daniel.application.Application.main(Application.java:152) [classes/:?]

@@ -1,9 +1,0 @@
-	/**
-	 * {@inheritDoc}
-	 * <br/>
-	 * <b>ligne csv pour un {$IObjet}</b> :<br/>
-	 * ";".<br/>
-	 * <br/>
-	 */
-	@Override
-	String toStringCsv();

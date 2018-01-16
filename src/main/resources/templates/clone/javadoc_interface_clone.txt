@@ -1,0 +1,9 @@
+	/**
+	 * method clone() :<br/>
+	 * Clone un {$nomSimpleInterface}.<br/>
+	 * <br/>
+	 *
+	 * @return {$nomSimpleInterface} : clone.<br/>
+	 * 
+	 * @throws CloneNotSupportedException
+	 */

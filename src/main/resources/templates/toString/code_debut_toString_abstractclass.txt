@@ -1,0 +1,15 @@
+	public String toString() {
+
+		final StringBuilder builder = new StringBuilder();
+		
+		builder.append("{$nomSimpleFichierJava} [");
+		
+		builder.append("id=");
+		if (this.id != null) {			
+			builder.append(this.id);			
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		

@@ -1,0 +1,9 @@
+		default:
+			valeur = "invalide";
+			break;
+
+		} // Fin du Switch._________________________________
+
+		return valeur;
+			
+	} // Fin de getValeurColonne(...)._____________________________________

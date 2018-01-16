@@ -1,0 +1,9 @@
+		default:
+			entete = "invalide";
+			break;
+
+		} // Fin du Switch._________________________________
+
+		return entete;
+
+	} // Fin de getEnTeteColonne(...)._____________________________________

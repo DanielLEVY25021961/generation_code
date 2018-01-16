@@ -300,11 +300,19 @@ public abstract class AbstractEcriveur {
 	
 	
 	/**
+	 * VARIABLE_LIGNECSV : String :<br/>
+	 * "{$ligneCsv}".<br/>
+	 */
+	public static final String VARIABLE_LIGNECSV 
+		= "{$ligneCsv}";
+	
+
+	/**
 	 * CROCHET_OUVRANT : char :<br/>
 	 * '{'.<br/>
 	 */
 	public static final char CROCHET_OUVRANT = '{';
-	
+
 	
 	/**
 	 * CROCHET_FERMANT : char :<br/>
@@ -676,10 +684,10 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * DECLAGE_CODE : String :<br/>
+	 * DECALAGE_CODE : String :<br/>
 	 * DECALAGE_METHODE + "\t".<br/>
 	 */
-	public static final String DECLAGE_CODE = DECALAGE_METHODE + "\t";
+	public static final String DECALAGE_CODE = DECALAGE_METHODE + "\t";
 	
 	
 	/**
@@ -891,6 +899,13 @@ public abstract class AbstractEcriveur {
 	 * Lignes de la méthode clone().<br/>
 	 */
 	protected transient List<String> methodClone;
+
+	
+	/**
+	 * methodToString : List<String> :<br/>
+	 * Lignes de la méthode toString().<br/>
+	 */
+	protected transient List<String> methodToString;
 	
 	
 	/**
@@ -1269,12 +1284,28 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 			
+			/* ENREGISTREMENT *********/
+			/* Recherche la ligne identifiant les imports. */
+			final String dernierLigne 
+				= this.fournirDerniereLigneListe(this.imports);
+			
+			/* Ne fait rien si les imports ont été déclarés. */
+			if (this.existLigneDansFichier(
+					pFile, CHARSET_UTF8, dernierLigne)) {
+				return;
+			}
+			
 			/* *************** */
 			/* ENREGISTREMENT. */
 			/* *************** */
 			for (final String ligne : this.imports) {
-				
-				if (!existLigneDansFichier(pFile, CHARSET_UTF8, ligne)) {
+								
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
 					
 					this.ecrireStringDansFile(
 							pFile, ligne, CHARSET_UTF8, NEWLINE);
@@ -1714,6 +1745,7 @@ public abstract class AbstractEcriveur {
 	 * <ul>
 	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li>écrit les <b>lignes de séparation des attributs</b>.</li>
+	 * <li>Ne fait rien si les lignes existent déjà.</li>
 	 * <li>
 	 * Par exemple : <br/>
 	 * <code>************************ATTRIBUTS*********
@@ -1829,6 +1861,7 @@ public abstract class AbstractEcriveur {
 	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li>écrit les lignes <b>stringClasse</b>.</li>
 	 * <li>ecrit la javadoc et la ligne de code.</li>
+	 * <li>Ne fait rien si les ligne existent déjà.</li>
 	 * <li>
 	 * par exemple : <br/>
 	 * <code>public static final String CLASSE_ABSTRACT_PROFIL <br/>
@@ -1954,6 +1987,7 @@ public abstract class AbstractEcriveur {
 	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li>écrit les lignes <b>attributId</b>.</li>
 	 * <li>ecrit la javadoc et la ligne de code.</li>
+	 * <li>Ne fait rien si les lignes existent déjà.</li>
 	 * <li>
 	 * par exemple : <br/>
 	 * <code>protected Long id;</code>
@@ -2068,6 +2102,7 @@ public abstract class AbstractEcriveur {
 	 * <li>écrit tous les <b>attributs</b> stockés dans la 
 	 * Map this.mapAttributs.</li>
 	 * <li>ecrit la javadoc et la ligne de code pour chaque attribut.</li>
+	 * <li>Ne fait rien si les lignes existent déjà.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -2320,6 +2355,7 @@ public abstract class AbstractEcriveur {
 	 * <ul>
 	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li>écrit la ligne de séparation des methodes.</li>
+	 * <li>Ne fait rien si les lignes existent déjà.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -2438,6 +2474,8 @@ public abstract class AbstractEcriveur {
 	 * <li>écrit la totalité du <b>constructeur d'arite nulle</b></li>
 	 * <li>écrit la javadoc du constructeur d'arite nulle.</li>
 	 * <li>écrit le code du constructeur d'arite nulle.</li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -2638,9 +2676,8 @@ public abstract class AbstractEcriveur {
 		
 		listCode.add(ligneIdentifiant);
 		
-		listCode.add("");
-		listCode.add("");
-		listCode.add("");
+		/* ajoute 3 lignes vides. */
+		this.ajouterLignesVides(3, listCode);
 		
 		try {
 	
@@ -2687,6 +2724,8 @@ public abstract class AbstractEcriveur {
 	 * <li>écrit la totalité du <b>constructeur complet</b>.</li>
 	 * <li>écrit la javadoc du constructeur complet.</li>
 	 * <li>écrit le code du constructeur complet.</li>
+	 * <li>ajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -3029,9 +3068,9 @@ public abstract class AbstractEcriveur {
 		
 		listCode.add(ligneIdentifiant);
 		
-		listCode.add("");
-		listCode.add("");
-		listCode.add("");
+		/* ajoute 3 lignes vides. */
+		this.ajouterLignesVides(3, listCode);
+
 		
 		try {
 
@@ -3072,6 +3111,8 @@ public abstract class AbstractEcriveur {
 	 * <li>écrit la totalité du <b>constructeur complet base</b>.</li>
 	 * <li>écrit la javadoc du constructeur complet base.</li>
 	 * <li>écrit le code du constructeur complet base.</li>
+	 * <li>ajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -3297,7 +3338,8 @@ public abstract class AbstractEcriveur {
 	 * <li>écrit la totalité de la méthode <b>compareTo(...)</b></li>
 	 * <li>écrit la javadoc de hashCode().</li>
 	 * <li>écrit le code de hashCode().</li>
-	 * <li>insère 3 lignes vides ensuite.</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -3434,7 +3476,8 @@ public abstract class AbstractEcriveur {
 	 * <li>écrit la totalité de la méthode <b>equals(...)</b></li>
 	 * <li>écrit la javadoc de equals().</li>
 	 * <li>écrit le code de equals().</li>
-	 * <li>insère 3 lignes vides ensuite.</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -3685,7 +3728,8 @@ public abstract class AbstractEcriveur {
 	 * <li>écrit la totalité de la méthode <b>compareTo(...)</b></li>
 	 * <li>écrit la javadoc de compareTo().</li>
 	 * <li>écrit le code de compareTo().</li>
-	 * <li>insère 3 lignes vides ensuite.</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
@@ -3727,15 +3771,18 @@ public abstract class AbstractEcriveur {
 		
 		
 		/* ENREGISTREMENT *********/		
-		final String ligneIdentifiant = "	public int compareTo";
+		final String ligneIdentifiant 
+			= this.fournirLigneIdentifiantCompareTo();
+		
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
 		
 		try {
 
-			/* Ne fait rien si le code a déjà été écrit. */
-			if (this.existLigneCommencant(
-					pFile, CHARSET_UTF8, ligneIdentifiant)) {
-				return;
-			}
 
 			/* *************** */
 			/* ENREGISTREMENT. */
@@ -3768,38 +3815,794 @@ public abstract class AbstractEcriveur {
 	
 	/**
 	 * method creerJavadocCompareTo(
-	 * List&lt;String&gt; pListeMethode) :<br/>
+	 * List&lt;String&gt; pListe) :<br/>
 	 * <ul>
 	 * <li>génère la javadoc de compareTo().</li>
-	 * <li>insère la javadoc générée dans pListeMethode.</li>
+	 * <li>insère la javadoc générée dans pListe.</li>
 	 * </ul>
 	 *
-	 * @param pListeMethode : List&lt;String&gt; .<br/>
+	 * @param pListe : List&lt;String&gt; .<br/>
 	 * 
 	 * @throws Exception
 	 */
 	protected abstract void creerJavadocCompareTo(
-			List<String> pListeMethode) throws Exception;
+			List<String> pListe) throws Exception;
 
 
 	
 	/**
 	 * method creerCodeCompareTo(
-	 * List&lt;String&gt; pListeMethode) :<br/>
+	 * List&lt;String&gt; pListe) :<br/>
 	 * <ul>
 	 * <li>génère le code de compareTo().</li>
-	 * <li>insère le code généré dans pListeMethode.</li>
+	 * <li>insère le code généré dans pListe.</li>
 	 * </ul>
 	 *
-	 * @param pListeMethode : List&lt;String&gt; .<br/>
+	 * @param pListe : List&lt;String&gt; .<br/>
 	 * 
 	 * @throws Exception
 	 */
 	protected abstract void creerCodeCompareTo(
-			List<String> pListeMethode) throws Exception;
+			List<String> pListe) throws Exception;
 
 
+	/**
+	 * method fournirLigneIdentifiantCompareTo() :<br/>
+	 * <ul>
+	 * <li>fournit un début de ligne permettant d'identifier 
+	 * la méthode compareTo.</li>
+	 * </ul>
+	 *
+	 * @return : String : début de ligne identifiant.<br/>
+	 */
+	protected abstract String fournirLigneIdentifiantCompareTo();
+	
+	
+	
+	/**
+	 * method ecrireClone(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>clone()</b></li>
+	 * <li>écrit la javadoc de clone().</li>
+	 * <li>écrit le code de clone().</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireClone(
+			final File pFile) {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
 		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+			
+		try {
+			
+			this.methodClone = new ArrayList<String>();
+			
+			/* Crée la javadoc. */
+			this.creerJavadocClone(this.methodClone);
+			
+			/* Crée le code. */
+			this.creerCodeClone(this.methodClone);
+			
+			
+			/* ENREGISTREMENT *********/
+			/* Recherche la ligne contenant la signature de la methode. */
+			final String dernierLigne 
+				= this.fournirDerniereLigneListe(this.methodClone);
+			
+			/* Ne fait rien si la méthode a déjà été déclarée. */
+			if (this.existLigneDansFichier(
+					pFile, CHARSET_UTF8, dernierLigne)) {
+				return;
+			}
+
+			/* ajoute 3 lignes. */
+			this.ajouterLignesVides(3, this.methodClone);
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : this.methodClone) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la méthode clone()", e);
+			}
+		}
+				
+	} // Fin de ecrireClone(...).__________________________________________
+	
+
+
+	/**
+	 * method creerJavadocClone(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de clone().</li>
+	 * <li>insère la javadoc générée dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerJavadocClone(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method creerCodeClone(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère le code de clone().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerCodeClone(
+			List<String> pListe) throws Exception;
+	
+	
+	
+	/**
+	 * method ecrireToString(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>toString()</b></li>
+	 * <li>écrit la javadoc de toString().</li>
+	 * <li>écrit le code de toString().</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireToString(
+			final File pFile) {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+			
+		try {
+			
+			this.methodToString = new ArrayList<String>();
+			
+			/* Crée la javadoc. */
+			this.creerJavadocToString(this.methodToString);
+			
+			/* Crée le code. */
+			this.creerCodeToString(this.methodToString);
+			
+			
+			/* ENREGISTREMENT *********/
+			/* Recherche la ligne contenant la signature de la methode. */
+			final String dernierLigne 
+				= this.fournirDerniereLigneListe(this.methodToString);
+			
+			/* Ne fait rien si la méthode a déjà été déclarée. */
+			if (this.existLigneDansFichier(
+					pFile, CHARSET_UTF8, dernierLigne)) {
+				return;
+			}
+
+			/* ajoute 3 lignes. */
+			this.ajouterLignesVides(3, this.methodToString);
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : this.methodToString) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la méthode toString()", e);
+			}
+		}
+				
+	} // Fin de ecrireToString(...).__________________________________________
+	
+
+
+	/**
+	 * method creerJavadocToString(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de toString().</li>
+	 * <li>insère la javadoc générée dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerJavadocToString(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method creerCodeToString(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère le code de toString().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerCodeToString(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method ecrireGetEnTeteCsv(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>getEnTeteCsv()</b></li>
+	 * <li>écrit la javadoc de getEnTeteCsv().</li>
+	 * <li>écrit le code de getEnTeteCsv().</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireGetEnTeteCsv(
+			final File pFile) {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+			
+		try {
+			
+			this.methodGetEnTeteCsv = new ArrayList<String>();
+			
+			/* Crée la javadoc. */
+			this.creerJavadocGetEnTeteCsv(this.methodGetEnTeteCsv);
+			
+			/* Crée le code. */
+			this.creerCodeGetEnTeteCsv(this.methodGetEnTeteCsv);
+			
+			
+			/* ENREGISTREMENT *********/
+			/* Recherche la ligne contenant la signature de la methode. */
+			final String dernierLigne 
+				= this.fournirDerniereLigneListe(this.methodGetEnTeteCsv);
+			
+			/* Ne fait rien si la méthode a déjà été déclarée. */
+			if (this.existLigneDansFichier(
+					pFile, CHARSET_UTF8, dernierLigne)) {
+				return;
+			}
+
+			/* ajoute 3 lignes. */
+			this.ajouterLignesVides(3, this.methodGetEnTeteCsv);
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : this.methodGetEnTeteCsv) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la méthode getEnTeteCsv()", e);
+			}
+		}
+				
+	} // Fin de ecrireGetEnTeteCsv(...).__________________________________________
+	
+
+
+	/**
+	 * method creerJavadocGetEnTeteCsv(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de getEnTeteCsv().</li>
+	 * <li>insère la javadoc générée dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerJavadocGetEnTeteCsv(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method creerCodeGetEnTeteCsv(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère le code de getEnTeteCsv().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerCodeGetEnTeteCsv(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method ecrireToStringCsv(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>toStringCsv()</b></li>
+	 * <li>écrit la javadoc de toStringCsv().</li>
+	 * <li>écrit le code de toStringCsv().</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireToStringCsv(
+			final File pFile) {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+			
+		try {
+			
+			this.methodToStringCsv = new ArrayList<String>();
+			
+			/* Crée la javadoc. */
+			this.creerJavadocToStringCsv(this.methodToStringCsv);
+			
+			/* Crée le code. */
+			this.creerCodeToStringCsv(this.methodToStringCsv);
+			
+			
+			/* ENREGISTREMENT *********/
+			/* Recherche la ligne contenant la signature de la methode. */
+			final String dernierLigne 
+				= this.fournirDerniereLigneListe(this.methodToStringCsv);
+			
+			/* Ne fait rien si la méthode a déjà été déclarée. */
+			if (this.existLigneDansFichier(
+					pFile, CHARSET_UTF8, dernierLigne)) {
+				return;
+			}
+
+			/* ajoute 3 lignes. */
+			this.ajouterLignesVides(3, this.methodToStringCsv);
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : this.methodToStringCsv) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la méthode toStringCsv()", e);
+			}
+		}
+				
+	} // Fin de ecrireToStringCsv(...).__________________________________________
+	
+
+
+	/**
+	 * method creerJavadocToStringCsv(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de toStringCsv().</li>
+	 * <li>insère la javadoc générée dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerJavadocToStringCsv(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method creerCodeToStringCsv(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère le code de toStringCsv().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerCodeToStringCsv(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method ecrireGetEnTeteColonne(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>getEnTeteColonne()</b></li>
+	 * <li>écrit la javadoc de getEnTeteColonne().</li>
+	 * <li>écrit le code de getEnTeteColonne().</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireGetEnTeteColonne(
+			final File pFile) {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+			
+		try {
+			
+			this.methodGetEnTeteColonne = new ArrayList<String>();
+			
+			/* Crée la javadoc. */
+			this.creerJavadocGetEnTeteColonne(this.methodGetEnTeteColonne);
+			
+			/* Crée le code. */
+			this.creerCodeGetEnTeteColonne(this.methodGetEnTeteColonne);
+			
+			
+			/* ENREGISTREMENT *********/
+			/* Recherche la ligne contenant la signature de la methode. */
+			final String dernierLigne 
+				= this.fournirDerniereLigneListe(this.methodGetEnTeteColonne);
+			
+			/* Ne fait rien si la méthode a déjà été déclarée. */
+			if (this.existLigneDansFichier(
+					pFile, CHARSET_UTF8, dernierLigne)) {
+				return;
+			}
+
+			/* ajoute 3 lignes. */
+			this.ajouterLignesVides(3, this.methodGetEnTeteColonne);
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : this.methodGetEnTeteColonne) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la méthode getEnTeteColonne()", e);
+			}
+		}
+				
+	} // Fin de ecrireGetEnTeteColonne(...).__________________________________________
+	
+
+
+	/**
+	 * method creerJavadocGetEnTeteColonne(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de getEnTeteColonne().</li>
+	 * <li>insère la javadoc générée dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerJavadocGetEnTeteColonne(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method creerCodeGetEnTeteColonne(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère le code de getEnTeteColonne().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerCodeGetEnTeteColonne(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method ecrireGetValeurColonne(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>getValeurColonne()</b></li>
+	 * <li>écrit la javadoc de getValeurColonne().</li>
+	 * <li>écrit le code de getValeurColonne().</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireGetValeurColonne(
+			final File pFile) {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+			
+		try {
+			
+			this.methodGetValeurColonne = new ArrayList<String>();
+			
+			/* Crée la javadoc. */
+			this.creerJavadocGetValeurColonne(this.methodGetValeurColonne);
+			
+			/* Crée le code. */
+			this.creerCodeGetValeurColonne(this.methodGetValeurColonne);
+			
+			
+			/* ENREGISTREMENT *********/
+			/* Recherche la ligne contenant la signature de la methode. */
+			final String dernierLigne 
+				= this.fournirDerniereLigneListe(this.methodGetValeurColonne);
+			
+			/* Ne fait rien si la méthode a déjà été déclarée. */
+			if (this.existLigneDansFichier(
+					pFile, CHARSET_UTF8, dernierLigne)) {
+				return;
+			}
+
+			/* ajoute 3 lignes. */
+			this.ajouterLignesVides(3, this.methodGetValeurColonne);
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : this.methodGetValeurColonne) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la méthode getValeurColonne()", e);
+			}
+		}
+				
+	} // Fin de ecrireGetValeurColonne(...).__________________________________________
+	
+
+
+	/**
+	 * method creerJavadocGetValeurColonne(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de getValeurColonne().</li>
+	 * <li>insère la javadoc générée dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerJavadocGetValeurColonne(
+			List<String> pListe) throws Exception;
+	
+
+	
+	/**
+	 * method creerCodeGetValeurColonne(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>génère le code de getValeurColonne().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerCodeGetValeurColonne(
+			List<String> pListe) throws Exception;
+	
+
+	
 	/**
 	 * method ecrireAccesseurs(
 	 * File pFile) :<br/>
@@ -7799,6 +8602,43 @@ public abstract class AbstractEcriveur {
 	} // Fin de fournirSetter(...).________________________________________
 	
 
+	
+	/**
+	 * method fournirCsv() :<br/>
+	 * <ul>
+	 * <li>retourne la ligne d'en-tête csv d'un objet Java.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>id;profil;</code></li>
+	 * </ul>
+	 *
+	 * @return : String : ligne d'en-tête csv d'un objet Java.<br/>
+	 */
+	protected final String fournirCsv() {
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append("id;");
+		
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributs.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			
+			stb.append(nomAttribut);
+			stb.append(POINT_VIRGULE);
+		}
+		
+		return stb.toString();
+		
+	} // Fin de fournirCsv().______________________________________________
+	
+	
 	
 	/**
 	 * method fournirEntierCompare(

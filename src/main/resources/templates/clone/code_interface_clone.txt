@@ -1,0 +1,1 @@
+	{$nomSimpleInterface} clone() throws CloneNotSupportedException;

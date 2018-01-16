@@ -1,0 +1,14 @@
+	@Transient
+	public Object getValeurColonne(
+			final int pI) {
+		
+		Object valeur = null;
+
+		switch (pI) {
+
+		case 0:
+			if (this.getId() != null) {
+				valeur = String.valueOf(this.getId());
+			}
+			break;
+

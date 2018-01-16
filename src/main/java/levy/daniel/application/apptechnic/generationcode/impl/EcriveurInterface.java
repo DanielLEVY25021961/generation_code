@@ -172,68 +172,20 @@ public class EcriveurInterface extends AbstractEcriveur {
 		/* Ecrit la méthode compareTo(). */
 		this.ecrireCompareTo(pFile);
 		
-		final String derniereLigneCompareTo 
-			= this.fournirDerniereLigneListe(this.methodCompareTo);
-					
-		/* Insère 3 lignes vides sous la dernière ligne de compareTo(). */
-		this.insererLignesVidesSousLigneDansFichier(
-				pFile, derniereLigneCompareTo, 3, CHARSET_UTF8);
-		
 		/* Ecrit la méthode clone(). */
-		this.ecrireMethodClone(pFile);
-		
-		final String derniereLigneClone 
-			= this.fournirDerniereLigneListe(this.methodClone);
-			
-		
-		/* Insère 3 lignes vides sous la dernière ligne
-		 *  de clone(). */
-		this.insererLignesVidesSousLigneDansFichier(
-				pFile, derniereLigneClone, 3, CHARSET_UTF8);
-		
-		/* Ecrit la méthode getEnTeteCsv(). */
-		this.ecrireMethodGetEnTeteCsv(pFile);
-		
-		final String derniereLigneGetEnTeteCsv 
-			= this.fournirDerniereLigneListe(this.methodGetEnTeteCsv);
+		this.ecrireClone(pFile);
 					
-		/* Insère 3 lignes vides sous la dernière ligne 
-		 * de getEnTeteCsv(). */
-		this.insererLignesVidesSousLigneDansFichier(
-				pFile, derniereLigneGetEnTeteCsv, 3, CHARSET_UTF8);
+		/* Ecrit la méthode getEnTeteCsv(). */
+		this.ecrireGetEnTeteCsv(pFile);
 
 		/* Ecrit la méthode toStringCsv(). */
-		this.ecrireMethodToStringCsv(pFile);
-		
-		final String derniereLigneToStringCsv 
-			= this.fournirDerniereLigneListe(this.methodToStringCsv);			
-		
-		/* Insère 3 lignes vides sous la dernière ligne
-		 *  de toStringCsv(). */
-		this.insererLignesVidesSousLigneDansFichier(
-				pFile, derniereLigneToStringCsv, 3, CHARSET_UTF8);
-		
+		this.ecrireToStringCsv(pFile);
+				
 		/* Ecrit la méthode getEnTeteColonne(). */
-		this.ecrireMethodGetEnTeteColonne(pFile);
+		this.ecrireGetEnTeteColonne(pFile);
 		
-		final String derniereLigneGetEnTeteColonne 
-			= this.fournirDerniereLigneListe(this.methodGetEnTeteColonne);
-		
-		/* Insère 3 lignes vides sous la dernière 
-		 * ligne de getEnTeteColonne(). */
-		this.insererLignesVidesSousLigneDansFichier(
-				pFile, derniereLigneGetEnTeteColonne, 3, CHARSET_UTF8);
-
 		/* Ecrit la méthode getValeurColonne(). */
-		this.ecrireMethodGetValeurColonne(pFile);
-		
-		final String derniereLigneGetValeurColonne 
-			= this.fournirDerniereLigneListe(this.methodGetValeurColonne);
-		
-		/* Insère 3 lignes vides sous la dernière 
-		 * ligne de getValeurColonne(). */
-		this.insererLignesVidesSousLigneDansFichier(
-				pFile, derniereLigneGetValeurColonne, 3, CHARSET_UTF8);
+		this.ecrireGetValeurColonne(pFile);
 		
 		/* Ecrit la méthode getId(). */
 		this.ecrireMethodGetId(pFile);
@@ -763,98 +715,28 @@ public class EcriveurInterface extends AbstractEcriveur {
 	} // Fin de creerCodeCompareTo(...).___________________________________
 	
 	
-		
-	/**
-	 * method ecrireMethodClone(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Insère les lignes de la méthode clone()
-	 * après la méthode compareTo().</li>
-	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : fichier java.<br/>
-	 */
-	private void ecrireMethodClone(
-			final File pFile) {
-				
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
 
-		try {
-			
-			/* Crée la methode clone(). */
-			this.creerLignesMethodClone();
-			
-			/* Recherche la ligne contenant la signature de la methode. */
-			final String dernierLigne 
-				= this.methodClone.get(this.methodClone.size() - 1);
-			
-			/* Ne fait rien si la méthode a déjà été déclarée. */
-			if (this.existLigneDansFichier(
-					pFile, CHARSET_UTF8, dernierLigne)) {
-				return;
-			}
-			
-			
-			for (final String ligne : this.methodClone) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer la méthode clone()", e);
-			}
-		}
-				
-	} // Fin de ecrireMethodClone(...).____________________________________
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String fournirLigneIdentifiantCompareTo() {
+		return "	int compareTo";
+	} // Fin de fournirLigneIdentifiantCompareTo().________________________
+
+
 	
-
-
 	/**
-	 * method creerLignesMethodClone() :
-	 * <ul>
-	 * <li>Crée la liste des lignes de la méthode clone().</li>
-	 * <li>alimente this.methodClone.</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.methodClone.<br/>
-	 * 
-	 * @throws Exception
+	 * {@inheritDoc}
 	 */
-	private List<String> creerLignesMethodClone() throws Exception {
+	@Override
+	protected final void creerJavadocClone(
+			final List<String> pListe) throws Exception {
 		
 		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/methodClone_interface.txt";
-		
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/clone/javadoc_interface_clone.txt";
+	
 		final File fichier = new File(cheminFichier);
 		
 		final List<String> listeLignes 
@@ -862,107 +744,27 @@ public class EcriveurInterface extends AbstractEcriveur {
 		
 		final List<String> listeLignesSubstitue 
 		= this.substituerVariablesDansLigne(
-				listeLignes, "{$IObjet}", this.nomSimpleFichierJava);
+				listeLignes
+					, VARIABLE_NOMSIMPLEINTERFACE
+						, this.nomSimpleInterface);
 		
-		this.methodClone = listeLignesSubstitue;
+		pListe.addAll(listeLignesSubstitue);
 		
-		return this.methodClone;
-				
-	} // Fin de creerLignesMethodClone().__________________________________
-	
+	} // Fin de creerJavadocClone(...).____________________________________
 
-		
+
+
 	/**
-	 * method ecrireMethodGetEnTeteCsv(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Insère les lignes de la méthode getEnTeteCsv()
-	 * après la méthode clone().</li>
-	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : fichier java.<br/>
+	 * {@inheritDoc}
 	 */
-	private void ecrireMethodGetEnTeteCsv(
-			final File pFile) {
-				
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
-	
-		try {
-			
-			/* Crée la methode getEnTeteCsv(). */
-			this.creerLignesMethodGetEnTeteCsv();
-			
-			/* Recherche la ligne contenant la signature de la methode. */
-			final String dernierLigne 
-				= this.methodGetEnTeteCsv.get(this.methodGetEnTeteCsv.size() - 1);
-			
-			/* Ne fait rien si la méthode a déjà été déclarée. */
-			if (this.existLigneDansFichier(
-					pFile, CHARSET_UTF8, dernierLigne)) {
-				return;
-			}
-			
-			
-			for (final String ligne : this.methodGetEnTeteCsv) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer la méthode getEnTeteCsv()", e);
-			}
-		}
-				
-	} // Fin de ecrireMethodGetEnTeteCsv(...).____________________________________
-	
-	
-	
-	/**
-	 * method creerLignesMethodGetEnTeteCsv() :
-	 * <ul>
-	 * <li>Crée la liste des lignes de la méthode getEnTeteCsv().</li>
-	 * <li>alimente this.methodGetEnTeteCsv.</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.methodGetEnTeteCsv.<br/>
-	 * 
-	 * @throws Exception
-	 */
-	private List<String> creerLignesMethodGetEnTeteCsv() throws Exception {
+	@Override
+	protected final void creerCodeClone(
+			final List<String> pListe) throws Exception {
 		
 		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/methodGetEnTeteCsv_interface.txt";
-		
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/clone/code_interface_clone.txt";
+	
 		final File fichier = new File(cheminFichier);
 		
 		final List<String> listeLignes 
@@ -970,346 +772,235 @@ public class EcriveurInterface extends AbstractEcriveur {
 		
 		final List<String> listeLignesSubstitue 
 		= this.substituerVariablesDansLigne(
-				listeLignes, "{$IObjet}", this.nomSimpleFichierJava);
+				listeLignes
+					, VARIABLE_NOMSIMPLEINTERFACE
+						, this.nomSimpleInterface);
 		
-		this.methodGetEnTeteCsv = listeLignesSubstitue;
+		pListe.addAll(listeLignesSubstitue);
 		
-		return this.methodGetEnTeteCsv;
-				
-	} // Fin de creerLignesMethodGetEnTeteCsv().__________________________________
+	} // Fin de creerCodeClone(...)._______________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocToString(
+			final List<String> pListe) throws Exception {
+		return; // NOPMD by daniel.levy on 16/01/18 14:32
+	} // Fin de creerJavadocToString(...)._________________________________
 	
 
-		
-	/**
-	 * method ecrireMethodToStringCsv(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Insère les lignes de la méthode toStringCsv()
-	 * après la méthode getEnTeteCsv().</li>
-	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : fichier java.<br/>
-	 */
-	private void ecrireMethodToStringCsv(
-			final File pFile) {
-				
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
-	
-		try {
-			
-			/* Crée la methode toStringCsv(). */
-			this.creerLignesMethodToStringCsv();
-			
-			/* Recherche la ligne contenant la signature de la methode. */
-			final String dernierLigne 
-				= this.methodToStringCsv.get(this.methodToStringCsv.size() - 1);
-			
-			/* Ne fait rien si la méthode a déjà été déclarée. */
-			if (this.existLigneDansFichier(
-					pFile, CHARSET_UTF8, dernierLigne)) {
-				return;
-			}
-			
-			
-			for (final String ligne : this.methodToStringCsv) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer la méthode toStringCsv()", e);
-			}
-		}
-				
-	} // Fin de ecrireMethodToStringCsv(...).______________________________
-	
-	
 	
 	/**
-	 * method creerLignesMethodToStringCsv() :
-	 * <ul>
-	 * <li>Crée la liste des lignes de la méthode toStringCsv().</li>
-	 * <li>alimente this.methodToStringCsv.</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.methodToStringCsv.<br/>
-	 * 
-	 * @throws Exception
+	 * {@inheritDoc}
 	 */
-	private List<String> creerLignesMethodToStringCsv() throws Exception {
+	@Override
+	protected final void creerCodeToString(
+			final List<String> pListe) throws Exception {
+		return; // NOPMD by daniel.levy on 16/01/18 14:32
+	} // Fin de creerCodeToString(...).____________________________________
+	
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocGetEnTeteCsv(
+			final List<String> pListe) throws Exception {
 		
 		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/methodToStringCsv_interface.txt";
-		
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getEnTeteCsv/javadoc_getEnTeteCsv_interface.txt";
+	
 		final File fichier = new File(cheminFichier);
 		
 		final List<String> listeLignes 
 			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
 		
-		final List<String> listeLignesSubstitue 
+		final List<String> listeLignesSubstitue1 
 		= this.substituerVariablesDansLigne(
-				listeLignes, "{$IObjet}", this.nomSimpleFichierJava);
+				listeLignes
+					, VARIABLE_NOMSIMPLEINTERFACE
+						, this.nomSimpleInterface);
 		
-		this.methodToStringCsv = listeLignesSubstitue;
+		final List<String> listeLignesSubstitue2 
+		= this.substituerVariablesDansLigne(
+				listeLignesSubstitue1
+					, VARIABLE_LIGNECSV
+						, this.fournirCsv());
 		
-		return this.methodToStringCsv;
-				
-	} // Fin de creerLignesMethodToStringCsv().____________________________
-	
-	
+		pListe.addAll(listeLignesSubstitue2);
 		
-	/**
-	 * method ecrireMethodGetEnTeteColonne(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Insère les lignes de la méthode getEnTeteColonne()
-	 * après la méthode toStringCsv().</li>
-	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : fichier java.<br/>
-	 */
-	private void ecrireMethodGetEnTeteColonne(
-			final File pFile) {
-				
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
-	
-		try {
-			
-			/* Crée la methode getEnTeteColonne(). */
-			this.creerLignesMethodGetEnTeteColonne();
-			
-			/* Recherche la ligne contenant la signature de la methode. */
-			final String dernierLigne 
-				= this.methodGetEnTeteColonne
-					.get(this.methodGetEnTeteColonne.size() - 1);
-			
-			/* Ne fait rien si la méthode a déjà été déclarée. */
-			if (this.existLigneDansFichier(
-					pFile, CHARSET_UTF8, dernierLigne)) {
-				return;
-			}
-			
-			
-			for (final String ligne : this.methodGetEnTeteColonne) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer la" // NOPMD by dan on 08/01/18 08:09
-						+ " méthode getEnTeteColonne()", e);
-			}
-		}
-				
-	} // Fin de ecrireMethodGetEnTeteColonne(...)._________________________
-	
+	} // Fin de creerJavadocGetEnTeteCsv(...)._____________________________
+
 	
 	
 	/**
-	 * method creerLignesMethodGetEnTeteColonne() :
-	 * <ul>
-	 * <li>Crée la liste des lignes de la méthode getEnTeteColonne().</li>
-	 * <li>alimente this.methodGetEnTeteColonne.</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.methodGetEnTeteColonne.<br/>
-	 * 
-	 * @throws Exception
+	 * {@inheritDoc}
 	 */
-	private List<String> creerLignesMethodGetEnTeteColonne() 
-			throws Exception {
+	@Override
+	protected final void creerCodeGetEnTeteCsv(
+			final List<String> pListe) throws Exception {
+		
+		final String aAjouter = "	String getEnTeteCsv();";
+		
+		pListe.add(aAjouter);
+		
+	} // Fin de creerCodeGetEnTeteCsv(...).________________________________
+
+		
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocToStringCsv(
+			final List<String> pListe) throws Exception {
 		
 		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/methodGetEnTeteColonne_interface.txt";
-		
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/toStringCsv/javadoc_toStringCsv_interface.txt";
+	
 		final File fichier = new File(cheminFichier);
 		
 		final List<String> listeLignes 
 			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
 		
-		final List<String> listeLignesSubstitue 
+		final List<String> listeLignesSubstitue1 
 		= this.substituerVariablesDansLigne(
-				listeLignes, "{$IObjet}", this.nomSimpleFichierJava);
+				listeLignes
+					, VARIABLE_NOMSIMPLEINTERFACE
+						, this.nomSimpleInterface);
 		
-		this.methodGetEnTeteColonne = listeLignesSubstitue;
+		final List<String> listeLignesSubstitue2 
+		= this.substituerVariablesDansLigne(
+				listeLignesSubstitue1
+					, VARIABLE_LIGNECSV
+						, this.fournirCsv());
 		
-		return this.methodGetEnTeteColonne;
-				
-	} // Fin de creerLignesMethodGetEnTeteColonne()._______________________
-	
+		pListe.addAll(listeLignesSubstitue2);
+		
+	} // Fin de creerJavadocToStringCsv(...).______________________________
 
-		
-	/**
-	 * method ecrireMethodGetValeurColonne(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Insère les lignes de la méthode getValeurColonne()
-	 * après la méthode getEnTeteColonne().</li>
-	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : fichier java.<br/>
-	 */
-	private void ecrireMethodGetValeurColonne(
-			final File pFile) {
-				
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
 	
-		try {
-			
-			/* Crée la methode getValeurColonne(). */
-			this.creerLignesMethodGetValeurColonne();
-			
-			/* Recherche la ligne contenant la signature de la methode. */
-			final String dernierLigne 
-				= this.methodGetValeurColonne
-					.get(this.methodGetValeurColonne.size() - 1);
-			
-			/* Ne fait rien si la méthode a déjà été déclarée. */
-			if (this.existLigneDansFichier(
-					pFile, CHARSET_UTF8, dernierLigne)) {
-				return;
-			}
-			
-			
-			for (final String ligne : this.methodGetValeurColonne) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer la"
-						+ " méthode getValeurColonne()", e);
-			}
-		}
-				
-	} // Fin de ecrireMethodGetValeurColonne(...)._________________________
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeToStringCsv(
+			final List<String> pListe) throws Exception {
+		
+		final String aAjouter = "	String toStringCsv();";
+		
+		pListe.add(aAjouter);
+
+	} // Fin de creerCodeToStringCsv(...)._________________________________
 	
 	
 	
 	/**
-	 * method creerLignesMethodGetValeurColonne() :
-	 * <ul>
-	 * <li>Crée la liste des lignes de la méthode getValeurColonne().</li>
-	 * <li>alimente this.methodGetValeurColonne.</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.methodGetValeurColonne.<br/>
-	 * 
-	 * @throws Exception
+	 * {@inheritDoc}
 	 */
-	private List<String> creerLignesMethodGetValeurColonne() 
-			throws Exception {
+	@Override
+	protected final void creerJavadocGetEnTeteColonne(
+			final List<String> pListe) throws Exception {
 		
 		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/methodGetValeurColonne_interface.txt";
-		
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getEnTeteColonne/javadoc_getEnTeteColonne_interface.txt";
+	
 		final File fichier = new File(cheminFichier);
 		
 		final List<String> listeLignes 
 			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
 		
-		final List<String> listeLignesSubstitue 
+		final List<String> listeLignesSubstitue1 
 		= this.substituerVariablesDansLigne(
-				listeLignes, "{$IObjet}", this.nomSimpleFichierJava);
+				listeLignes
+					, VARIABLE_NOMSIMPLEINTERFACE
+						, this.nomSimpleInterface);
 		
-		this.methodGetValeurColonne = listeLignesSubstitue;
+		final List<String> listeLignesSubstitue2 
+		= this.substituerVariablesDansLigne(
+				listeLignesSubstitue1
+					, VARIABLE_LIGNECSV
+						, this.fournirCsv());
 		
-		return this.methodGetValeurColonne;
-				
-	} // Fin de creerLignesMethodGetValeurColonne()._______________________
+		pListe.addAll(listeLignesSubstitue2);
+		
+	} // Fin de creerJavadocGetEnTeteColonne(...)._________________________
 	
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeGetEnTeteColonne(
+			final List<String> pListe) throws Exception {
 		
+		final String aAjouter = "	String getEnTeteColonne(int pI);";
+		
+		pListe.add(aAjouter);
+
+	} // Fin de creerCodeGetEnTeteColonne(...).____________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocGetValeurColonne(
+			final List<String> pListe) throws Exception {
+		
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/getValeurColonne/javadoc_getValeurColonne_interface.txt";
+	
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> listeLignesSubstitue1 
+		= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOMSIMPLEINTERFACE
+						, this.nomSimpleInterface);
+		
+		final List<String> listeLignesSubstitue2 
+		= this.substituerVariablesDansLigne(
+				listeLignesSubstitue1
+					, VARIABLE_LIGNECSV
+						, this.fournirCsv());
+		
+		pListe.addAll(listeLignesSubstitue2);
+
+	} // Fin de creerJavadocGetValeurColonne(...)._________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeGetValeurColonne(
+			final List<String> pListe) throws Exception {
+		
+		final String aAjouter = "	Object getValeurColonne(int pI);";
+		
+		pListe.add(aAjouter);
+
+	} // Fin de creerCodeGetValeurColonne(...).____________________________
+
+	
+	
 	/**
 	 * method ecrireMethodGetId(
 	 * File pFile) :<br/>
@@ -1808,7 +1499,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 	@Override
 	protected final void ecrireCodeConstructeurCompletBase(
 			final File pFile) throws Exception {
-		return;
+		return; // NOPMD by daniel.levy on 16/01/18 11:42
 		
 	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
 

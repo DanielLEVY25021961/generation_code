@@ -1,0 +1,4 @@
+		/* {$nomAttribut}. */
+		stb.append(this.{$getterNomAttribut});
+		stb.append(POINT_VIRGULE);
+		

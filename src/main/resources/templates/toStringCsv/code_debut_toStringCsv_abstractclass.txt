@@ -1,0 +1,8 @@
+	public String toStringCsv() {
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		/* id. */
+		stb.append(this.getId());
+		stb.append(POINT_VIRGULE);
+		

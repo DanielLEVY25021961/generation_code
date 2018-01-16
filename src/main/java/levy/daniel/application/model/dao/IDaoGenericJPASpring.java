@@ -7,8 +7,26 @@ import levy.daniel.application.model.dao.daoexceptions.AbstractDaoException;
 
 /**
  * class IDaoGeneric :<br/>
- * .<br/>
+ * <ul>
+ * <li>INTERFACE <b>GENERIQUE</b> pour les <b>DAO</b> sous SPRING.</li>
+ * <li>
+ * Comporte les définitions des méthodes <b>CRUD</b> valables 
+ * pour <b>tous les objets métier</b>.
+ * </li>
+ * <li>Les transactions sont gérées par le conteneur SPRING.</li>
+ * <li>
+ * Certaines méthodes (getOne(ID), ...) sont 
+ * <b>compatibles SPRING DATA</b>.
+ * </li>
  * <br/>
+ * <li>
+ * <img src="../../../../../../../../javadoc/images/implementation_dao_usersimple.png" 
+ * alt="implémentation des DAOs" border="1" align="center" />
+ * </li>
+ * </ul>
+ * <br/>
+ * 
+ * 
  * - Exemple d'utilisation :<br/>
  * <br/>
  * - Mots-clé :<br/>
@@ -24,7 +42,7 @@ import levy.daniel.application.model.dao.daoexceptions.AbstractDaoException;
  * 
  * @since 8 sept. 2017
  */
-public interface IDaoGenericJPA<T, ID extends Serializable> {
+public interface IDaoGenericJPASpring<T, ID extends Serializable> {
 	
 	
 
@@ -41,6 +59,8 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * <li>Nécessite un cast si on veut récupérer la visibilité 
 	 * de la sous-classe S.</li>
 	 * <li>retourne l'Objet métier de type paramétré T créé en base.</li>
+	 * <li>retourne <b>null si pObject est un doublon</b> sans lever 
+	 * d'Exception (test de l'existence avant la mise en base).</li>
 	 * </ul>
 	 * retourne null si pObject == null.<br/>
 	 * jette une AbstractDaoException si l'objet n'a pu être créé 
@@ -70,6 +90,8 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * <li>Utile par rapport à create() pour éviter de caster. 
 	 * create() retourne en effet toujours un T</li>
 	 * <li>Retourne l'instance sauvegardée en base.</li>
+	 * <li>retourne <b>null si pObject est un doublon</b> sans lever 
+	 * d'Exception (test de l'existence avant la mise en base).</li>
 	 * </ul>
 	 * retourne null si pObject == null.<br/>
 	 * jette une AbstractDaoException si l'objet n'a pu être créé 
@@ -97,6 +119,8 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * sous-classe de T pObject en base 
 	 * (strategy=InheritanceType.JOINED).</li>
 	 * <li>Ne retourne rien.</li>
+	 * <li>ne fait <b>rien si pObject est un doublon</b> sans lever 
+	 * d'Exception (test de l'existence avant la mise en base).</li>
 	 * </ul>
 	 * ne fait rien si pObject == null.<br/>
 	 * jette une AbstractDaoException si l'objet n'a pu être créé 
@@ -118,6 +142,8 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * (S pouvant être un T ou n'importe quelle sous-classe de T) 
 	 * en base.</li>
 	 * <li>Ne retourne rien.</li>
+	 * <li>ne fait <b>rien si pObject est un doublon</b> sans lever 
+	 * d'Exception (test de l'existence avant la mise en base).</li>
 	 * </ul>
 	 * ne fait rien si pObject == null.<br/>
 	 * jette une AbstractDaoException si l'objet n'a pu être créé 
@@ -143,6 +169,8 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * sous-classe de T pObject en base 
 	 * (strategy=InheritanceType.JOINED).</li>
 	 * <li>retourne l'ID de l'Objet métier de type paramétré T créé.</li>
+	 * <li>retourne <b>null si pObject est un doublon</b> sans lever 
+	 * d'Exception (test de l'existence avant la mise en base).</li>
 	 * </ul>
 	 * retourne null si pObject == null.<br/>
 	 * jette une AbstractDaoException si pObject n'est pas créé en base 
@@ -170,6 +198,11 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * <li>Retourne la Collection itérable (List&lt;S&gt;) 
 	 * d'objets de type S 
 	 * (sous-classes de T) sauvegardés en base.</li>
+	 * <li>ne <b>sauvegarde pas et n'ajoute pas à la Collection 
+	 * retournée un doublon</b> présent dans le lot pObjects sans lever 
+	 * d'Exception (test de l'existence avant la mise en base).</li>
+	 * <li>Ne fait rien et continue si un objet est null 
+	 * dans le lot pObjects.</li>
 	 * </ul>
 	 * retourne null si pObjects == null.<br/>
 	 * jette une AbstractDaoException si pObjects n'a pu être enregistrée 
@@ -236,7 +269,10 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * avec la visibilité (Typé) T.</li>
 	 * <li>ID est de type paramétré ID (Long, Integer, String, ...).</li>
 	 * </ul>
+	 * retourne null si pId == null.<br/>
 	 * retourne null si pId n'existe pas en base.<br/>
+	 * ATTENTION : DOIT ETRE REDEFINI DANS LES CLASSES CONCRETES 
+	 * SI T EST UNE INTERFACE (et donc pas une Entity).<br/>
 	 * <br/>
 	 *
 	 * @param pId : ID : ID en base de l'Objet métier.<br/>
@@ -299,16 +335,50 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	
 	
 	/**
+	 * method findAllSousClasse() :<br/>
+	 * <ul>
+	 * <li>Retourne la liste de tous les objets métier 
+	 * de type SOUS-CLASSE du type paramétré T présents en base.</li>
+	 * <li>A DEFINIR DANS CHAQUE DAO CONCRET.</li>
+	 * </ul>
+	 * 
+	 * <ul>
+	 * Par exemple :
+	 * <li>
+	 * findAllSousClasse() = findAllCiviliteComplete() pour 
+	 * les <b>CiviliteComplete</b> implémentant <b>ICivilite</b> 
+	 * dans le <b>DaoCiviliteComplete</b>.
+	 * </li>
+	 * <li>
+	 * findAllSousClasse() = findAllCiviliteAbregee() pour 
+	 * les <b>CiviliteAbregee</b> implémentant <b>ICivilite</b> 
+	 * dans le <b>DaoCiviliteAbregee</b>.
+	 * </li>
+	 * </ul>
+	 *
+	 * @return : List&lt;T&gt; : 
+	 * liste de tous les objets métier de type SOUS-CLASSE 
+	 * du type paramétré T présents en base.<br/>
+	 * 
+	 * @throws AbstractDaoException 
+	 */
+	List<T> findAllSousClasse() throws AbstractDaoException;
+	
+	
+	
+	/**
 	 * method findAll(
 	 * Long pMax) :<br/>
 	 * <ul>
 	 * <li>Retourne la liste des pMax premiers Objets métier 
 	 * de Type paramétré T présents en base 
-	 * et retournés par listAll().</li>
+	 * et retournés par findAll().</li>
+	 * <li>Le champ de tri des Objets métier semble être l'ID.</li>
 	 * <li>Inclut dans la liste les sous-classes S de T 
 	 * (strategy=InheritanceType.JOINED) avec la visibilité (Typé) T.</li>
 	 * </ul>
 	 * retourne null si pMax == null.<br/>
+	 * retourne null si pMax < 1L.<br/>
 	 * <br/>
 	 * 
 	 * @param pMax : Long : Nombre maximal d'objets métier 
@@ -321,6 +391,34 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * @throws AbstractDaoException 
 	 */
 	List<T> findAllMax(Long pMax) throws AbstractDaoException;
+	
+	
+	
+	/**
+	 * method findAllMaxSousClasse(
+	 * Long pMax) :<br/>
+	 * <ul>
+	 * <li>Retourne la liste des pMax premiers Objets métier 
+	 * de type SOUS-CLASSE du type paramétré T présents en base 
+	 * et retournés par findAllSousClasse().</li>
+	 * <li>Le champ de tri des Objets métier semble être l'ID.</li>
+	 * </ul>
+	 * retourne null si pMax == null.<br/>
+	 * retourne null si pMax < 1L.<br/>
+	 * <br/>
+	 * 
+	 * @param pMax : Long : Nombre maximal d'objets métier 
+	 * à remonter de la base.<br/>
+	 *
+	 * @return : List&lt;T&gt; : 
+	 * liste des pMax premiers objets métier 
+	 * de Type SOUS-CLASSE du type paramétré T présents en base.<br/>
+	 * 
+	 * @throws AbstractDaoException 
+	 */
+	List<T> findAllMaxSousClasse(Long pMax) throws AbstractDaoException;
+	
+
 	
 	
 
@@ -357,12 +455,25 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * method update(
 	 * T pObject) :<br/>
 	 * <ul>
-	 * <li>Modifie un objet métier de Type paramétré T pObject 
+	 * <li><b>Modifie</b> un objet métier <b>persistant</b> 
+	 * de Type paramétré T pObject 
 	 * (ou un sous-type S de T) existant en base.</li>
 	 * <li>Retourne l'objet métier de Type paramétré T 
 	 * pObject modifié en base avec la visibilité (Typé) T.</li>
 	 * </ul>
 	 * retourne null si pObject == null.<br/>
+	 * ne fait rien et retourne l'instance détachée 
+	 * si pObject n'est pas déjà persistant en base.<br/>
+	 * <br/>
+	 * <code>Exemple de code : </code><br/>
+	 * <code>// Récupération de l'objet persistant à modifier.</code><br/>
+	 * <code>objet1Persistant = this.daoUserSimple.retrieve(objet1);</code><br/>
+	 * <code>// Modifications.</code><br/>
+	 * <code>objet1Persistant.setPrenom("Jean-Frédéric modifié");</code><br/>
+	 * <code>objet1Persistant.setNom("Bôrne modifié");</code><br/>
+	 * <code>// Application des modifications en base.</code><br/>
+	 * <code>objet1ModifiePersistant = 
+	 * this.daoUserSimple.<b>update(objet1Persistant)</b>;</code><br/>
 	 * <br/>
 	 *
 	 * @param pObject : T : objet métier de Type paramétré T.<br/>
@@ -390,6 +501,7 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * <li>Détruit un Objet métier de Type paramétré S 
 	 * sous-classe de T existant en base 
 	 * (strategy=InheritanceType.JOINED).</li>
+	 * <li>Vérifie que pObject est déjà persistant en base.</li>
 	 * <li>Retourne un boolean (true si OK) précisant 
 	 * si l'opération de destruction a eu lieu.</li>
 	 * </ul>
@@ -475,6 +587,19 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 */
 	void deleteAll() throws AbstractDaoException;
 	
+
+	
+	/**
+	 * method deleteAllSousClasse() :<br/>
+	 * <ul>
+	 * <li>Détruit en base toutes les instances 
+	 * d'Objets métier de Type SOUS-CLASSE du type paramétré T.</li>
+	 * </ul>
+	 * 
+	 * @throws AbstractDaoException 
+	 */
+	void deleteAllSousClasse() throws AbstractDaoException;
+	
 	
 	
 	/**
@@ -494,7 +619,23 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 */
 	boolean deleteAllBoolean() throws AbstractDaoException;
 	
+
 	
+	/**
+	 * method deleteAllBooleanSousClasse() :<br/>
+	 * <ul>
+	 * <li>Détruit en base tous les enregistrements 
+	 * d'Objets métier de Type SOUS-CLASSE du type paramétré T.</li>
+	 * <li>Retourne true si la destruction a bien été effectuée.</li>
+	 * </ul>
+	 * @return boolean : true si tous les enregistrements 
+	 * ont été détruits en base.<br/>
+	 * 
+	 * @throws AbstractDaoException 
+	 */
+	boolean deleteAllBooleanSousClasse() throws AbstractDaoException;
+
+
 	
 	/**
 	 * method delete(
@@ -589,6 +730,39 @@ public interface IDaoGenericJPA<T, ID extends Serializable> {
 	 * @throws AbstractDaoException 
 	 */
 	Long count() throws AbstractDaoException;
+
+	
+	
+	/**
+	 * method countSousClasse() :<br/>
+	 * <ul>
+	 * <li>Retourne le nombre d'Objets metier 
+	 * de type SOUS-CLASSE du type paramétré T présents en base.</li>
+	 * <li>A DEFINIR DANS CHAQUE DAO CONCRET.</li>
+	 * </ul>
+	 * 
+	 * <ul>
+	 * Par exemple :
+	 * <li>
+	 * countSousClasse() = countCiviliteComplete() pour 
+	 * les <b>CiviliteComplete</b> implémentant <b>ICivilite</b> 
+	 * dans le <b>DaoCiviliteComplete</b>.
+	 * </li>
+	 * <li>
+	 * countSousClasse() = countCiviliteAbregee() pour 
+	 * les <b>CiviliteAbregee</b> implémentant <b>ICivilite</b> 
+	 * dans le <b>DaoCiviliteAbregee</b>.
+	 * </li>
+	 * </ul>
+	 * 
+	 *
+	 * @return : Long : 
+	 * le nombre d'Objets metier de type SOUS-CLASSE du type 
+	 * paramétré T présents en base.<br/>
+	 * 
+	 * @throws AbstractDaoException 
+	 */
+	Long countSousClasse() throws AbstractDaoException;
 	
 
 	 
