@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 
-import levy.daniel.application.apptechnic.generationcode.GenerateurMetier;
+import levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier;
 
 /**
  * class IEcriveur :<br/>

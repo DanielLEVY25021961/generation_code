@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.apptechnic.generationcode.GenerateurMetier;
+import levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier;
 
 /**
  * class Application :<br/>
@@ -149,7 +149,7 @@ public final class Application {
 		MAP_RG.put("restrictionProfil", listeRGRestrictionProfil);
 		
 		generateur
-			.genererObjetMetier(
+			.generer(
 					"profil"
 						, "IProfil"
 							, "ProfilCerbere"
