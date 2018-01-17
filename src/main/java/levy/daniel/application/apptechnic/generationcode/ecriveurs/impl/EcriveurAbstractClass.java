@@ -840,7 +840,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1037,7 +1037,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1124,7 +1124,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1252,7 +1252,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1306,7 +1306,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1407,7 +1407,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1511,7 +1511,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1645,7 +1645,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1704,7 +1704,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1754,7 +1754,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	
@@ -1849,7 +1849,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* Création des lignes. */
 		final String cheminFichierDebut 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_inherit_override.txt";
+		+ TEMPLATE_INHERITS_OVERRIDE;
 	
 		final File fichierDebut = new File(cheminFichierDebut);
 	

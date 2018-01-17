@@ -19,8 +19,10 @@ import levy.daniel.application.apptechnic.exceptions.technical.impl.CleNullRunTi
 import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierInexistantRunTimeException;
 
 /**
- * class BundleConfigurationProjetManager :<br/>
- * .<br/>
+ * CLASSE <b>BundleConfigurationProjetManager</b> :<br/>
+ * Classe <b>utilitaire (méthodes static)</b> chargée de gérer 
+ * les données de configuration du code à générer 
+ * (chemin du Workspace, nom du projet, path des sources java, ...).<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.apptechnic.generationcode.IGenerateur;
+import levy.daniel.application.apptechnic.generationcode.model.dao.GenerateurDao;
 import levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier;
 
 /**
@@ -126,7 +128,8 @@ public final class Application {
 	public static void main(
 			final String[] pArgs) throws Exception {
 		
-		final GenerateurMetier generateur = new GenerateurMetier();
+		final IGenerateur generateurMetier = new GenerateurMetier();
+		final IGenerateur generateurDao = new GenerateurDao();
 		
 		MAP_ATTRIBUTS.put("profilString", STRING);
 		MAP_ATTRIBUTS.put("porteeProfil", STRING);
@@ -148,7 +151,7 @@ public final class Application {
 		MAP_RG.put("porteeProfil", listeRGPorteeProfil);
 		MAP_RG.put("restrictionProfil", listeRGRestrictionProfil);
 		
-		generateur
+		generateurMetier
 			.generer(
 					"profil"
 						, "IProfil"
@@ -157,6 +160,13 @@ public final class Application {
 									, MAP_ATTRIBUTS_EQUALS
 											, MAP_RG);
 		
+		generateurDao.generer(
+					"profil"
+						, "IProfil"
+							, "ProfilCerbere"
+								, MAP_ATTRIBUTS
+									, MAP_ATTRIBUTS_EQUALS
+											, MAP_RG);
 		
 	} // Fin de main(...)._________________________________________________
 	

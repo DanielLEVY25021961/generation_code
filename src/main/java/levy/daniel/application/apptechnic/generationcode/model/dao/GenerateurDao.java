@@ -73,5 +73,30 @@ public class GenerateurDao extends AbstractGenerateur {
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void genererHook() throws Exception {
+						
+		/**/
+		
+	} // Fin de genererObjetMetier(...).___________________________________
+
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void alimenterNomSimpleInterface(
+			final String pNomInterface) {
+		
+		this.nomSimpleInterface = "IDao" + this.nomSimpleObjetMetier;
+		
+	} // Fin de alimenterNomSimpleInterface(...).__________________________
+
+
 	
 } // FIN DE LA CLASSE GenerateurDao.-----------------------------------------
