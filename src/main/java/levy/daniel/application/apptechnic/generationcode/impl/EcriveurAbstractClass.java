@@ -276,6 +276,15 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		/* écrit la méthode getValeurColonne(). */
 		this.ecrireGetValeurColonne(pFile);
 		
+		/* écrit la méthode getId(). */
+		this.ecrireGetId(pFile);
+		
+		/* écrit la méthode setId(). */
+		this.ecrireSetId(pFile);
+		
+		/* écrit les getters-setters. */
+		this.ecrireAccesseurs(pFile);
+		
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
 	
@@ -429,39 +438,167 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	@Override
 	protected final String creerLigneDeclaration(
 			final File pFile) {
-			
-			/* Retourne null si pFile est null. */
-			if (pFile == null) {
-				return null;
-			}
-			
-			/* Retourne null si pFile n'existe pas sur le disque. */
-			if (!pFile.exists()) {
-				return null;
-			}
-			
-			/* Retourne null si pFile est un répertoire. */
-			if (pFile.isDirectory()) {
-				return null;
-			}
 
-			
-			final StringBuilder stb = new StringBuilder();
-			
-			stb.append(ABSTRACT_CLASS);
-			stb.append(this.nomSimpleFichierJava);
-			stb.append(IMPLEMENTS);
-			stb.append(this.genererNomInterface(this.nomSimpleFichierJava));
-			stb.append(' ');
-			stb.append(CROCHET_OUVRANT);
-			
-			this.ligneDeclaration = stb.toString();
-			
-			return this.ligneDeclaration;
-			
-		} // Fin de creerLigneDeclaration(...).________________________________
+		/* Retourne null si pFile est null. */
+		if (pFile == null) {
+			return null;
+		}
+
+		/* Retourne null si pFile n'existe pas sur le disque. */
+		if (!pFile.exists()) {
+			return null;
+		}
+
+		/* Retourne null si pFile est un répertoire. */
+		if (pFile.isDirectory()) {
+			return null;
+		}
+
+		final StringBuilder stb = new StringBuilder();
+
+		stb.append(ABSTRACT_CLASS);
+		stb.append(this.nomSimpleFichierJava);
+		stb.append(IMPLEMENTS);
+		stb.append(this.genererNomInterface(this.nomSimpleFichierJava));
+		stb.append(' ');
+		stb.append(CROCHET_OUVRANT);
+
+		this.ligneDeclaration = stb.toString();
+
+		return this.ligneDeclaration;
+
+	} // Fin de creerLigneDeclaration(...).________________________________
+
 
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerAttributId(
+			final List<String> pListe) throws Exception {
+		
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/attributId.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+					
+		pListe.addAll(listeLignes);
+				
+	} // Fin de creerAttributId(...).______________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocAttribut(
+			final List<String> pListe
+				, final String pNomAttribut
+					, final String pTypeAttribut) throws Exception {
+		
+		/* ne fait rien si pListe == null. */
+		if (pListe == null) {
+			return;
+		}
+		
+		/* ne fait rien si pNomAttribut est blank. */
+		if (StringUtils.isBlank(pNomAttribut)) {
+			return;
+		}
+		
+		/* DEBUT. */
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/attribut/javadoc_attribut_debut.txt";
+	
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listProv 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> attributListSubst1 
+			= this.substituerVariablesDansLigne(
+					listProv
+					, VARIABLE_NOMATTRIBUT
+						, pNomAttribut);
+		
+		final List<String> attributListSubst2 
+		= this.substituerVariablesDansLigne(
+				attributListSubst1
+					, VARIABLE_TYPEATTRIBUT
+						, pTypeAttribut);
+		
+		/* Liste des lignes à générer. */
+		final List<String> attributList 
+		= this.substituerVariablesDansLigne(
+				attributListSubst2
+					, VARIABLE_CONCEPT_MODELISE
+						, this.conceptModelise);
+		
+		pListe.addAll(attributList);
+		
+		/* CORPS.*/
+		this.ajouterRGsAJavadoc(pListe, pNomAttribut);
+		
+		/* FIN. */
+		pListe.add(FIN_JAVADOC);
+		
+	} // Fin de creerJavadocAttribut(...)._________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeAttribut(
+			final List<String> pListe
+				, final String pNomAttribut
+					, final String pTypeAttribut) throws Exception {
+		
+		/* ne fait rien si pListe == null. */
+		if (pListe == null) {
+			return;
+		}
+		
+		/* ne fait rien si pNomAttribut est blank. */
+		if (StringUtils.isBlank(pNomAttribut)) {
+			return;
+		}
+		
+
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/attribut/code_attribut.txt";
+	
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listProv 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> attributListSubst1 
+			= this.substituerVariablesDansLigne(
+					listProv
+					, VARIABLE_NOMATTRIBUT
+						, pNomAttribut);
+		
+		final List<String> attributListSubst2 
+		= this.substituerVariablesDansLigne(
+				attributListSubst1
+					, VARIABLE_TYPEATTRIBUT
+						, pTypeAttribut);
+		
+		pListe.addAll(attributListSubst2);
+		
+	} // Fin de creerCodeAttribut(...).____________________________________
+	
+
 	
 	/**
 	 * {@inheritDoc}
@@ -1496,6 +1633,113 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 
 	} // Fin de creerCodeGetValeurColonne(...).____________________________
 
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocGetId(
+			final List<String> pListe) throws Exception	{
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+
+	} // Fin de creerJavadocGetId(...).____________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerEntityGetId(
+			final List<String> pListe) throws Exception {
+		return; // NOPMD by daniel.levy on 17/01/18 12:28
+	} // Fin de creerEntityGetId(...)._____________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeGetId(
+			final List<String> pListe) throws Exception {
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/methodGetId_code_abstractclass.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+
+	} // Fin de creerCodeGetId(...)._______________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocSetId(
+			final List<String> pListe) throws Exception	{
+
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+
+	} // Fin de creerJavadocSetId(...).____________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeSetId(
+			final List<String> pListe) throws Exception {
+
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/methodSetId_code_abstractclass.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+		
+	} // Fin de creerCodeSetId(...)._______________________________________
+
 	
 	
 	/**
@@ -1505,10 +1749,21 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	protected final void creerJavadocGetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeGetter) {
-
-		// TODO Auto-generated method stub
+					, final List<String> pListe) throws Exception {
 		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
+
 	} // Fin de creerJavadocGetter(...).___________________________________
 
 
@@ -1520,7 +1775,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	protected final void creerCodeEntityGetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeGetter) {
+					, final List<String> pListe) throws Exception {
 
 		// TODO Auto-generated method stub
 		
@@ -1535,9 +1790,48 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	protected final void creerCodeGetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeGetter) {
+					, final List<String> pListe) throws Exception {
 
-		// TODO Auto-generated method stub
+		/* signature. */
+		final String signature 
+		= PUBLIC 
+		+ pTypeAttribut 
+		+ SEP_ESPACE 
+		+ this.fournirGetter(pNomAttribut) + " {";
+	
+		pListe.add(signature);
+		
+		/* code. */
+		final String code 
+			= DECALAGE_CODE 
+			+ "return this." + pNomAttribut + POINT_VIRGULE;
+		
+		pListe.add(code);
+		
+		/* ligne de fin. */
+		String ligneFin = null;
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append(DECALAGE_METHODE);
+		stb.append(CROCHET_FERMANT);
+		stb.append(" // Fin de ");
+		stb.append(this.fournirGetter(pNomAttribut));
+		stb.append(POINT);
+		
+		final String provisoire = stb.toString();
+		final int longueurProvisoire = provisoire.length();
+		
+		final int nombreTirets 
+			= 74 - longueurProvisoire - DECALAGE_CODE.length();
+		
+		for (int i=0; i < nombreTirets; i++) {
+			stb.append('_');
+		}
+
+		ligneFin = stb.toString();
+		
+		pListe.add(ligneFin);
 		
 	} // Fin de creerCodeGetter(...).______________________________________
 
@@ -1550,9 +1844,20 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	protected final void creerJavadocSetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeSetter) {
+					, final List<String> pListe) throws Exception {
 
-		// TODO Auto-generated method stub
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_inherit_override.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeLignes);
 		
 	} // Fin de creerJavadocSetter(...).___________________________________
 
@@ -1565,9 +1870,56 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	protected final void creerCodeSetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeSetter) {
+					, final List<String> pListe) throws Exception {
 
-		// TODO Auto-generated method stub
+		/* signature. */
+		final String signature1 
+			= PUBLIC + "void " 
+						+ this.fournirSetter(pNomAttribut) + "(";
+		
+		final String signature2 
+			= DECALAGE_CODE + "\t" 
+					+ FINAL + pTypeAttribut 
+					+ SEP_ESPACE 
+					+ this.fournirParametre(pNomAttribut) + ") {";
+		
+		pListe.add(signature1);
+		pListe.add(signature2);
+		
+		/* code. */
+		final String code 
+			= DECALAGE_CODE 
+			+ "this." + pNomAttribut 
+			+ EGAL 
+			+ this.fournirParametre(pNomAttribut) + POINT_VIRGULE;
+		
+		pListe.add(code);
+		
+		/* ligne de fin. */
+		String ligneFin = null;
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append(DECALAGE_METHODE);
+		stb.append(CROCHET_FERMANT);
+		stb.append(" // Fin de ");
+		stb.append(this.fournirSetter(pNomAttribut));
+		stb.append("()");
+		stb.append(POINT);
+		
+		final String provisoire = stb.toString();
+		final int longueurProvisoire = provisoire.length();
+		
+		final int nombreTirets 
+			= 74 - longueurProvisoire - DECALAGE_CODE.length();
+		
+		for (int i=0; i < nombreTirets; i++) {
+			stb.append('_');
+		}
+
+		ligneFin = stb.toString();
+		
+		pListe.add(ligneFin);
 		
 	} // Fin de creerCodeSetter(...).______________________________________
 
@@ -1582,8 +1934,10 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 				, final String pTypeAttribut) {
 		
 		final String ligneIdentifiant 
-		= "\t" + "public " 
-				+ pTypeAttribut + " " + this.fournirGetter(pNomAttribut);
+		= PUBLIC
+				+ pTypeAttribut 
+				+ SEP_ESPACE 
+				+ this.fournirGetter(pNomAttribut);
 		
 		return ligneIdentifiant;
 		

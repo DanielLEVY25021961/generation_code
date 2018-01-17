@@ -1986,7 +1986,9 @@ public abstract class AbstractEcriveur {
 	 * <ul>
 	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li>écrit les lignes <b>attributId</b>.</li>
+	 * <li>alimente this.attributId</li>
 	 * <li>ecrit la javadoc et la ligne de code.</li>
+	 * <li>ajoute 2 lignes vides ensuite.</li>
 	 * <li>Ne fait rien si les lignes existent déjà.</li>
 	 * <li>
 	 * par exemple : <br/>
@@ -2020,13 +2022,11 @@ public abstract class AbstractEcriveur {
 
 		try {
 
-			/* Crée le attributId. */
-			this.creerAttributId();
+			this.attributId = new ArrayList<String>();
 			
-			if (this.attributId == null) {
-				return;
-			}
-
+			/* Crée le attributId. */
+			this.creerAttributId(this.attributId);
+			
 			/* Recherche la ligne identifiant attributId. */
 			final String ligneIdentifiant 
 				= this.fournirDebutAttributId();
@@ -2037,6 +2037,9 @@ public abstract class AbstractEcriveur {
 				return;
 			}
 
+			/* ajoute 2 lignes vides. */
+			this.ajouterLignesVides(2, this.attributId);
+			
 			/* *************** */
 			/* ENREGISTREMENT. */
 			/* *************** */
@@ -2064,33 +2067,18 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * method creerAttributId() :<br/>
+	 * method creerAttributId(
+	 * List&lt;String&gt; pListe) :<br/>
 	 * <ul>
 	 * <li>Crée la liste des lignes attributId.</li>
-	 * <li>alimente this.attributId</li>
 	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.attributId.<br/>
+	 * 
+	 * @param pListe : List&lt;String&gt;.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	private List<String> creerAttributId() 
-					throws Exception {
-				
-		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/attributId.txt";
-		
-		final File fichier = new File(cheminFichier);
-		
-		final List<String> listeLignes 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
-						
-		this.attributId = listeLignes;
-		
-		return this.attributId;
-					
-	} // Fin de creerAttributId(...).______________________________________
+	protected abstract void creerAttributId(List<String> pListe) 
+					throws Exception;
 	
 
 	
@@ -2102,6 +2090,7 @@ public abstract class AbstractEcriveur {
 	 * <li>écrit tous les <b>attributs</b> stockés dans la 
 	 * Map this.mapAttributs.</li>
 	 * <li>ecrit la javadoc et la ligne de code pour chaque attribut.</li>
+	 * <li>ajoute 2 lignes vides ensuite.</li>
 	 * <li>Ne fait rien si les lignes existent déjà.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -2180,6 +2169,9 @@ public abstract class AbstractEcriveur {
 					return;
 				}
 
+				/* ajoute 2 lignes vides. */
+				this.ajouterLignesVides(2, attributListe);
+				
 				/* *************** */
 				/* ENREGISTREMENT. */
 				/* *************** */
@@ -2230,61 +2222,12 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	private void creerJavadocAttribut(
-			final List<String> pListe
-				, final String pNomAttribut
-					, final String pTypeAttribut) throws Exception {
-		
-		/* ne fait rien si pListe == null. */
-		if (pListe == null) {
-			return;
-		}
-		
-		/* ne fait rien si pNomAttribut est blank. */
-		if (StringUtils.isBlank(pNomAttribut)) {
-			return;
-		}
-		
-		/* DEBUT. */
-		final String cheminFichier 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/attribut/javadoc_attribut_debut.txt";
+	protected abstract void creerJavadocAttribut(
+			List<String> pListe
+				, String pNomAttribut
+					, String pTypeAttribut) throws Exception;
 	
-		final File fichier = new File(cheminFichier);
-		
-		final List<String> listProv 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
-		
-		final List<String> attributListSubst1 
-			= this.substituerVariablesDansLigne(
-					listProv
-					, VARIABLE_NOMATTRIBUT
-						, pNomAttribut);
-		
-		final List<String> attributListSubst2 
-		= this.substituerVariablesDansLigne(
-				attributListSubst1
-					, VARIABLE_TYPEATTRIBUT
-						, pTypeAttribut);
-		
-		/* Liste des lignes à générer. */
-		final List<String> attributList 
-		= this.substituerVariablesDansLigne(
-				attributListSubst2
-					, VARIABLE_CONCEPT_MODELISE
-						, this.conceptModelise);
-		
-		pListe.addAll(attributList);
-		
-		/* CORPS.*/
-		this.ajouterRGsAJavadoc(pListe, pNomAttribut);
-		
-		/* FIN. */
-		pListe.add(FIN_JAVADOC);
-		
-	} // Fin de creerJavadocAttribut(...)._________________________________
-	
-	
+
 	
 	/**
 	 * method creerCodeAttribut(
@@ -2306,48 +2249,12 @@ public abstract class AbstractEcriveur {
 	 * 
 	 * @throws Exception
 	 */
-	private void creerCodeAttribut(
-			final List<String> pListe
-				, final String pNomAttribut
-					, final String pTypeAttribut) throws Exception {
-		
-		/* ne fait rien si pListe == null. */
-		if (pListe == null) {
-			return;
-		}
-		
-		/* ne fait rien si pNomAttribut est blank. */
-		if (StringUtils.isBlank(pNomAttribut)) {
-			return;
-		}
-		
+	protected abstract void creerCodeAttribut(
+			List<String> pListe
+				, String pNomAttribut
+					, String pTypeAttribut) throws Exception;
+	
 
-		final String cheminFichier 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/attribut/code_attribut.txt";
-	
-		final File fichier = new File(cheminFichier);
-		
-		final List<String> listProv 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
-		
-		final List<String> attributListSubst1 
-			= this.substituerVariablesDansLigne(
-					listProv
-					, VARIABLE_NOMATTRIBUT
-						, pNomAttribut);
-		
-		final List<String> attributListSubst2 
-		= this.substituerVariablesDansLigne(
-				attributListSubst1
-					, VARIABLE_TYPEATTRIBUT
-						, pTypeAttribut);
-		
-		pListe.addAll(attributListSubst2);
-		
-	} // Fin de creerCodeAttribut(...).____________________________________
-	
-	
 	
 	/**
 	 * method ecrireLignesSepMethodes(
@@ -4604,15 +4511,294 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
+	 * method ecrireGetId(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>getId()</b></li>
+	 * <li>alimente this.methodGetId</li>
+	 * <li>écrit la javadoc de getId().</li>
+	 * <li>écrit l'Entity de getId().</li>
+	 * <li>écrit le code de getId().</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireGetId(
+			final File pFile) {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		try {
+			
+			this.methodGetId = new ArrayList<String>();
+			
+			/* Crée la methode getId(). */
+			this.creerJavadocGetId(
+					this.methodGetId);
+			this.creerEntityGetId(
+					this.methodGetId);
+			this.creerCodeGetId(
+					this.methodGetId);
+			
+			/* Recherche la ligne contenant la signature de la methode. */
+			final String dernierLigne 
+				= this.fournirDerniereLigneListe(this.methodGetId);
+			
+			/* Ne fait rien si la méthode a déjà été déclarée. */
+			if (this.existLigneDansFichier(
+					pFile, CHARSET_UTF8, dernierLigne)) {
+				return;
+			}
+			
+			/* ajoute 3 lignes vide. */
+			this.ajouterLignesVides(3, this.methodGetId);
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : this.methodGetId) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la"
+						+ " méthode getId()", e);
+			}
+		}
+				
+	} // Fin de ecrireGetId(...).__________________________________________
+	
+	
+	
+	/**
+	 * method creerJavadocGetId(
+	 * List&lt;String&gt pListe) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de getId().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerJavadocGetId(List<String> pListe) 
+			throws Exception;
+
+	
+	
+	/**
+	 * method creerEntityGetId(
+	 * List&lt;String&gt pListe) :<br/>
+	 * <ul>
+	 * <li>génère l'Entity de getId().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerEntityGetId(List<String> pListe) 
+			throws Exception;
+
+	
+	
+	/**
+	 * method creerCodeGetId(
+	 * List&lt;String&gt pListe) :<br/>
+	 * <ul>
+	 * <li>génère le code de getId().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerCodeGetId(List<String> pListe) 
+			throws Exception;
+	
+	
+		
+	/**
+	 * method ecrireSetId(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité de la méthode <b>setId()</b></li>
+	 * <li>alimente this.methodSetId</li>
+	 * <li>écrit la javadoc de setId().</li>
+	 * <li>écrit le code de setId().</li>
+	 * <li>ajoute 3 lignes vides ensuite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireSetId(
+			final File pFile) {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		try {
+			
+			this.methodSetId = new ArrayList<String>();
+			
+			/* Crée la methode setId(). */
+			this.creerJavadocSetId(
+					this.methodSetId);
+			
+			this.creerCodeSetId(
+					this.methodSetId);
+			
+			/* Recherche la ligne contenant la signature de la methode. */
+			final String dernierLigne 
+				= this.fournirDerniereLigneListe(this.methodSetId);
+			
+			/* Ne fait rien si la méthode a déjà été déclarée. */
+			if (this.existLigneDansFichier(
+					pFile, CHARSET_UTF8, dernierLigne)) {
+				return;
+			}
+			
+			/* ajoute 3 lignes vide. */
+			this.ajouterLignesVides(3, this.methodSetId);
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : this.methodSetId) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					this.ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					this.ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la"
+						+ " méthode setId()", e);
+			}
+		}
+				
+	} // Fin de ecrireSetId(...).__________________________________________
+	
+	
+	
+	/**
+	 * method creerJavadocSetId(
+	 * List&lt;String&gt pListe) :<br/>
+	 * <ul>
+	 * <li>génère la javadoc de setId().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerJavadocSetId(List<String> pListe) 
+			throws Exception;
+
+
+	
+	/**
+	 * method creerCodeSetId(
+	 * List&lt;String&gt pListe) :<br/>
+	 * <ul>
+	 * <li>génère le code de setId().</li>
+	 * <li>insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void creerCodeSetId(List<String> pListe) 
+			throws Exception;
+	
+
+	
+	/**
 	 * method ecrireAccesseurs(
 	 * File pFile) :<br/>
 	 * <ul>
-	 * <li>.</li>
-	 * <li>.</li>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la totalité des <b>getters</b> 
+	 * et des <b>setters</b>.</li>
+	 * <li>écrit la javadoc des <b>getters</b> 
+	 * et des <b>setters</b>.</li>
+	 * <li>écrit les Entity des <b>getters</b>.</li>
+	 * <li>écrit le code des <b>getters</b> 
+	 * et des <b>setters</b>.</li>
+	 * <li>ajoute 3 lignes vides à la suite 
+	 * de chaque méthode.</li>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
 	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
 	 *
-	 * @param pFile
-	 * @throws Exception :  :  .<br/>
+	 * @param pFile : File : fichier java.<br/>
 	 */
 	protected final void ecrireAccesseurs(
 			final File pFile) throws Exception {
@@ -4667,6 +4853,10 @@ public abstract class AbstractEcriveur {
 					return;
 				}
 
+				/* ajoute 3 lignes vides*/
+				this.ajouterLignesVides(3, listeGetter);
+				
+				
 				/* *************** */
 				/* ENREGISTREMENT. */
 				/* *************** */
@@ -4710,6 +4900,9 @@ public abstract class AbstractEcriveur {
 					return;
 				}
 
+				/* ajoute 3 lignes vides*/
+				this.ajouterLignesVides(3, listeSetter);
+				
 				/* *************** */
 				/* ENREGISTREMENT. */
 				/* *************** */
@@ -4745,16 +4938,16 @@ public abstract class AbstractEcriveur {
 	 * method creerJavadocGetter(
 	 * String pNomAttribut
 	 * , String pTypeAttribut
-	 * , List&lt;String&gt; pListeGetter) :<br/>
+	 * , List&lt;String&gt; pListe) :<br/>
 	 * <ul>
 	 * <li>Crée la liste de lignes pour la javadoc du getter 
 	 * de l'attribut pNomAttribut.</li>
-	 * <li>Injecte la liste de lignes générées dans pListeGetter.</li>
+	 * <li>Injecte la liste de lignes générées dans pListe.</li>
 	 * </ul>
 	 *
 	 * @param pNomAttribut : String : nom de l'attribut
 	 * @param pTypeAttribut : String : type de l'attribut
-	 * @param pListeGetter : List&lt;String&gt; : 
+	 * @param pListe : List&lt;String&gt; : 
 	 * Liste contenant les lignes de code du Getter.<br/>
 	 * 
 	 * @throws Exception 
@@ -4762,7 +4955,7 @@ public abstract class AbstractEcriveur {
 	protected abstract void creerJavadocGetter(
 			String pNomAttribut
 				, String pTypeAttribut
-					, List<String> pListeGetter) 
+					, List<String> pListe) 
 							throws Exception;
 
 	

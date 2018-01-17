@@ -6,4 +6,3 @@
 	*
 	* @param pId : Long : valeur à passer à id.<br/>
 	*/
-	void setId(Long pId);

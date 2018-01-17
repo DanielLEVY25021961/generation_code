@@ -1,0 +1,4 @@
+	public void setId(
+			final Long pId) {
+		this.id = pId;
+	} // Fin de setId(...).________________________________________________

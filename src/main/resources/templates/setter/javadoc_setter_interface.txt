@@ -1,0 +1,9 @@
+	/**
+	* method {$setterNomAttribut}(
+	* {$typeAttribut} {$paramAttribut}) :<br/>
+	* Setter du {$nomAttribut} du {$conceptModelise}.<br/>
+	* <br/>
+	*
+	* @param {$paramAttribut} : {$typeAttribut} : 
+	* valeur à passer à {$nomAttribut}.<br/>
+	*/

@@ -5,10 +5,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -188,27 +187,11 @@ public class EcriveurInterface extends AbstractEcriveur {
 		this.ecrireGetValeurColonne(pFile);
 		
 		/* Ecrit la méthode getId(). */
-		this.ecrireMethodGetId(pFile);
+		this.ecrireGetId(pFile);
 		
-		final String derniereLigneGetId 
-			= this.fournirDerniereLigneListe(this.methodGetId);
-					
-		/* Insère 3 lignes vides sous la dernière 
-		 * ligne de getId(). */
-		this.insererLignesVidesSousLigneDansFichier(
-				pFile, derniereLigneGetId, 3, CHARSET_UTF8);
-
 		/* Ecrit la méthode setId(). */
-		this.ecrireMethodSetId(pFile);
-		
-		final String derniereLigneSetId 
-			= this.fournirDerniereLigneListe(this.methodSetId);
-					
-		/* Insère 3 lignes vides sous la dernière 
-		 * ligne de setId(). */
-		this.insererLignesVidesSousLigneDansFichier(
-				pFile, derniereLigneSetId, 3, CHARSET_UTF8);
-		
+		this.ecrireSetId(pFile);
+				
 		/* écrit les getters-setters. */
 		this.ecrireAccesseurs(pFile);
 						
@@ -630,6 +613,43 @@ public class EcriveurInterface extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
+	protected final void creerAttributId(
+			final List<String> pListe) throws Exception {		
+		return; // NOPMD by daniel.levy on 17/01/18 11:18				
+	} // Fin de creerAttributId(...).______________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocAttribut(
+			final List<String> pListe
+				, final String pNomAttribut
+					, final String pTypeAttribut) throws Exception {		
+		return;		 // NOPMD by daniel.levy on 17/01/18 11:28
+	} // Fin de creerJavadocAttribut(...)._________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeAttribut(
+			final List<String> pListe
+				, final String pNomAttribut
+					, final String pTypeAttribut) throws Exception {
+		return; // NOPMD by daniel.levy on 17/01/18 11:28
+	} // Fin de creerCodeAttribut(...).____________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	protected final void creerJavadocCompareTo(
 			final List<String> pListeMethode) throws Exception {
 		
@@ -999,218 +1019,90 @@ public class EcriveurInterface extends AbstractEcriveur {
 
 	} // Fin de creerCodeGetValeurColonne(...).____________________________
 
-	
-	
-	/**
-	 * method ecrireMethodGetId(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Insère les lignes de la méthode getId()
-	 * après la méthode getValeurColonne().</li>
-	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : fichier java.<br/>
-	 */
-	private void ecrireMethodGetId(
-			final File pFile) {
-				
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
-	
-		try {
-			
-			/* Crée la methode getId(). */
-			this.creerLignesMethodGetId();
-			
-			/* Recherche la ligne contenant la signature de la methode. */
-			final String dernierLigne 
-				= this.fournirDerniereLigneListe(this.methodGetId);
-			
-			/* Ne fait rien si la méthode a déjà été déclarée. */
-			if (this.existLigneDansFichier(
-					pFile, CHARSET_UTF8, dernierLigne)) {
-				return;
-			}
-			
-			
-			for (final String ligne : this.methodGetId) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer la"
-						+ " méthode getId()", e);
-			}
-		}
-				
-	} // Fin de ecrireMethodGetId(...)._________________________
-	
-	
-	
-	/**
-	 * method creerLignesMethodGetId() :
-	 * <ul>
-	 * <li>Crée la liste des lignes de la méthode getId().</li>
-	 * <li>alimente this.methodGetId.</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.methodGetId.<br/>
-	 * 
-	 * @throws Exception
-	 */
-	private List<String> creerLignesMethodGetId() 
-			throws Exception {
-		
-		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/methodGetId_interface.txt";
-		
-		final File fichier = new File(cheminFichier);
-		
-		final List<String> listeLignes 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
-		
-		this.methodGetId = listeLignes;
-		
-		return this.methodGetId;
-				
-	} // Fin de creerLignesMethodGetId()._______________________
 
 	
-		
 	/**
-	 * method ecrireMethodSetId(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Insère les lignes de la méthode setId()
-	 * après la méthode getId().</li>
-	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : fichier java.<br/>
+	 * {@inheritDoc}
 	 */
-	private void ecrireMethodSetId(
-			final File pFile) {
-				
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
-	
-		try {
-			
-			/* Crée la methode setId(). */
-			this.creerLignesMethodSetId();
-			
-			/* Recherche la ligne contenant la signature de la methode. */
-			final String dernierLigne 
-				= this.methodSetId
-					.get(this.methodSetId.size() - 1);
-			
-			/* Ne fait rien si la méthode a déjà été déclarée. */
-			if (this.existLigneDansFichier(
-					pFile, CHARSET_UTF8, dernierLigne)) {
-				return;
-			}
-			
-			
-			for (final String ligne : this.methodSetId) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer la"
-						+ " méthode setId()", e);
-			}
-		}
-				
-	} // Fin de ecrireMethodSetId(...)._________________________
-	
-	
-	
-	/**
-	 * method creerLignesMethodSetId() :
-	 * <ul>
-	 * <li>Crée la liste des lignes de la méthode setId().</li>
-	 * <li>alimente this.methodSetId.</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;String&gt; : this.methodSetId.<br/>
-	 * 
-	 * @throws Exception
-	 */
-	private List<String> creerLignesMethodSetId() 
-			throws Exception {
+	@Override
+	protected final void creerJavadocGetId(
+			final List<String> pListe) throws Exception	{
 		
 		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/methodSetId_interface.txt";
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/methodGetId_javadoc_interface.txt";
+	
+		final File fichier = new File(cheminFichier);
 		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		pListe.addAll(listeLignes);
+
+	} // Fin de creerJavadocGetId(...).____________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerEntityGetId(
+			final List<String> pListe) throws Exception {
+		return; // NOPMD by daniel.levy on 17/01/18 12:28
+	} // Fin de creerEntityGetId(...)._____________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeGetId(
+			final List<String> pListe) throws Exception {
+		
+		final String code = "	Long getId();";
+		
+		pListe.add(code);
+		
+	} // Fin de creerCodeGetId(...)._______________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerJavadocSetId(
+			final List<String> pListe) throws Exception	{
+		
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/methodSetId_javadoc_interface.txt";
+	
 		final File fichier = new File(cheminFichier);
 		
 		final List<String> listeLignes 
 			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
 				
-		this.methodSetId = listeLignes;
+		pListe.addAll(listeLignes);
 		
-		return this.methodSetId;
-				
-	} // Fin de creerLignesMethodSetId()._______________________
+	} // Fin de creerJavadocSetId(...).____________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void creerCodeSetId(
+			final List<String> pListe) throws Exception {
+		
+		final String code = "	void setId(Long pId);";
+		
+		pListe.add(code);
+		
+	} // Fin de creerCodeSetId(...)._______________________________________
 	
 	
 	
@@ -1310,7 +1202,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 	protected final void creerJavadocGetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeGetter) throws Exception {
+					, final List<String> pListe) throws Exception {
 
 		/* DEBUT. */
 		final String cheminFichierDebut 
@@ -1341,10 +1233,10 @@ public class EcriveurInterface extends AbstractEcriveur {
 					, this.conceptModelise);
 
 		
-		pListeGetter.addAll(listeLignesDebutSubstitue3);
+		pListe.addAll(listeLignesDebutSubstitue3);
 		
 		/* CORPS. */
-		this.ajouterRGsAJavadoc(pListeGetter, pNomAttribut);
+		this.ajouterRGsAJavadoc(pListe, pNomAttribut);
 		
 		
 		/* FIN. */
@@ -1375,7 +1267,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 				, VARIABLE_TYPEATTRIBUT
 					, pTypeAttribut);
 			
-		pListeGetter.addAll(listeLignesFinSubstitue3);
+		pListe.addAll(listeLignesFinSubstitue3);
 		
 	} // Fin de creerJavadocGetter(...).___________________________________
 
@@ -1389,7 +1281,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 	protected final void creerCodeEntityGetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeGetter) {
+					, final List<String> pListe) throws Exception {
 
 		// TODO Auto-generated method stub
 		
@@ -1404,7 +1296,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 	protected final void creerCodeGetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeGetter) throws Exception {
+					, final List<String> pListe) throws Exception {
 
 		final String cheminFichier 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
@@ -1427,7 +1319,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 					, VARIABLE_GETTER
 						, this.fournirGetter(pNomAttribut)); 
 		
-		pListeGetter.addAll(listeLignesSubst2);
+		pListe.addAll(listeLignesSubst2);
 		
 	} // Fin de creerCodeGetter(...).______________________________________
 
@@ -1440,9 +1332,48 @@ public class EcriveurInterface extends AbstractEcriveur {
 	protected final void creerJavadocSetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeSetter) {
+					, final List<String> pListe) throws Exception {
 
-		// TODO Auto-generated method stub
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/setter/javadoc_setter_interface.txt";
+	
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> listeLignesSubst1 
+		= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_TYPEATTRIBUT
+						, pTypeAttribut);
+		
+		final List<String> listeLignesSubst2 
+		= this.substituerVariablesDansLigne(
+				listeLignesSubst1
+					, VARIABLE_SETTER
+						, this.fournirSetter(pNomAttribut));
+		
+		final List<String> listeLignesSubst3 
+		= this.substituerVariablesDansLigne(
+				listeLignesSubst2
+					, VARIABLE_PARAMATTRIBUT
+						, this.fournirParametre(pNomAttribut));
+		
+		final List<String> listeLignesSubst4 
+		= this.substituerVariablesDansLigne(
+				listeLignesSubst3
+					, VARIABLE_NOMATTRIBUT
+						, pNomAttribut);
+		
+		final List<String> listeLignesSubst5 
+		= this.substituerVariablesDansLigne(
+				listeLignesSubst4
+					, VARIABLE_CONCEPT_MODELISE
+						, this.conceptModelise);
+		
+		pListe.addAll(listeLignesSubst5);
 		
 	} // Fin de creerJavadocSetter(...).___________________________________
 
@@ -1455,9 +1386,15 @@ public class EcriveurInterface extends AbstractEcriveur {
 	protected final void creerCodeSetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeSetter) {
+					, final List<String> pListe) throws Exception {
 
-		// TODO Auto-generated method stub
+		final String code 
+		= DECALAGE_METHODE + "void " 
+		+ this.fournirSetter(pNomAttribut) 
+		+ "(" + pTypeAttribut 
+		+ SEP_ESPACE + this.fournirParametre(pNomAttribut) + ");";
+		
+		pListe.add(code);
 		
 	} // Fin de creerCodeSetter(...).______________________________________
 
@@ -1472,7 +1409,8 @@ public class EcriveurInterface extends AbstractEcriveur {
 				, final String pTypeAttribut) {
 		
 		final String ligneIdentifiant 
-		= "\t" + pTypeAttribut + " " + this.fournirGetter(pNomAttribut);
+		= DECALAGE_METHODE 
+			+ pTypeAttribut + SEP_ESPACE + this.fournirGetter(pNomAttribut);
 		
 		return ligneIdentifiant;
 		
