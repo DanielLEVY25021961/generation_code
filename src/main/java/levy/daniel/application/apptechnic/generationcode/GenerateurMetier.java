@@ -14,8 +14,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
-import levy.daniel.application.apptechnic.generationcode.impl.EcriveurAbstractClass;
-import levy.daniel.application.apptechnic.generationcode.impl.EcriveurInterface;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.impl.EcriveurAbstractClass;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.impl.EcriveurInterface;
 import levy.daniel.application.apptechnic.generationcode.impl.GestionnaireFiles;
 
 /**
@@ -49,14 +50,14 @@ public class GenerateurMetier {
 	 * gestionnaire : GestionnaireFiles :<br/>
 	 * GestionnaireFiles.<br/>
 	 */
-	private final transient GestionnaireFiles gestionnaire 
+	private final transient IGestionnaireFiles gestionnaire 
 		= new GestionnaireFiles();
 
 	/**
 	 * ecriveurInterface : EcriveurInterface :<br/>
 	 * EcriveurInterface.<br/>
 	 */
-	private final transient EcriveurInterface ecriveurInterface 
+	private final transient IEcriveur ecriveurInterface 
 		= new EcriveurInterface();
 	
 	
@@ -64,7 +65,7 @@ public class GenerateurMetier {
 	 * ecriveurAbstractClass : EcriveurAbstractClass :<br/>
 	 * EcriveurAbstractClass.<br/>
 	 */
-	private final transient EcriveurAbstractClass ecriveurAbstractClass 
+	private final transient IEcriveur ecriveurAbstractClass 
 		= new EcriveurAbstractClass();
 
 	
@@ -149,6 +150,24 @@ public class GenerateurMetier {
 	 * Par exemple : Profil.java<br/>
 	 */
 	private transient File objetMetier;
+	
+	
+		
+	/**
+	 * nomSimpleObjetMetierForm : String :<br/>
+	 * Nom simple de l'Objet metier "Formulaire" à générer.<br/>
+	 * Par exemple "ProfilSimpleForm".<br/>
+	 */
+	private transient String nomSimpleObjetMetierForm;
+	
+	
+	/**
+	 * objetMetierForm : File :<br/>
+	 * Objet métier "Formulaire" (Fichier Java) à générer.<br/>
+	 * Par exemple : ProfilForm.java<br/>
+	 */
+	private transient File objetMetierForm;
+
 
 	
 	/**

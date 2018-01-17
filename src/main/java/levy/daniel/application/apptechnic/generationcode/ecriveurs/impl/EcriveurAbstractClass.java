@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.generationcode.impl;
+package levy.daniel.application.apptechnic.generationcode.ecriveurs.impl;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
-import levy.daniel.application.apptechnic.generationcode.AbstractEcriveur;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveur;
 
 /**
  * class EcriveurAbstractClass :<br/>
@@ -547,7 +547,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		this.ajouterRGsAJavadoc(pListe, pNomAttribut);
 		
 		/* FIN. */
-		pListe.add(FIN_JAVADOC);
+		pListe.add(FIN_JAVADOC_MEMBRE);
 		
 	} // Fin de creerJavadocAttribut(...)._________________________________
 	

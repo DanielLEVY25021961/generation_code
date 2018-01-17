@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.generationcode;
+package levy.daniel.application.apptechnic.generationcode.ecriveurs;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,6 +37,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
+import levy.daniel.application.apptechnic.generationcode.GenerateurMetier;
 
 /**
  * class AbstractEcriveur :<br/>
@@ -58,7 +59,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurat
  * @since 8 janv. 2018
  *
  */
-public abstract class AbstractEcriveur {
+public abstract class AbstractEcriveur implements IEcriveur {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -69,626 +70,6 @@ public abstract class AbstractEcriveur {
 	public static final String CLASSE_ABSTRACT_ECRIVEUR 
 		= "Classe AbstractEcriveur";
 
-
-	/**
-	 * METHODE_ECRIRESTRINGDANSFILE : String :<br/>
-	 * "méthode ecrireStringDansFile(
-	 * File pFile, String pString, Charset pCharset)".<br/>
-	 */
-	public static final String METHODE_ECRIRESTRINGDANSFILE 
-		= "méthode ecrireStringDansFile(File pFile, ....)";
-
-	
-	/**
-	 * METHODE_INSERER_LIGNE : String :<br/>
-	 * "méthode insererLigneDansFichier(File pFile, ...)".<br/>
-	 */
-	public static final String METHODE_INSERER_LIGNE 
-		= "méthode insererLigneDansFichier("
-				+ "File pFile, Charset pCharsetLecture, int pNumLigne"
-				+ ", Charset pCharsetEcriture, String pLigneAInserer";
-
-	
-	/**
-	 * METHODE_LIRE_LIGNE_N_DANS_FICHIER : String :<br/>
-	 * "méthode lireLigneDansFichier(
-	 * File pFile, Charset pCharsetLecture, int pNumLigne)".<br/>
-	 */
-	public static final String METHODE_LIRE_LIGNE_N_DANS_FICHIER 
-		= "méthode lireLigneDansFichier("
-				+ "File pFile, Charset pCharsetLecture, int pNumLigne)";
-
-	
-	/**
-	 * METHODE_TROUVERNUMEROLIGNE : String :<br/>
-	 * "méthode trouverNumeroLigne(...)".<br/>
-	 */
-	public static final String METHODE_TROUVERNUMEROLIGNE 
-		= "méthode trouverNumeroLigne(...)";
-	
-	
-	/**
-	 * METHODE_EXISTLIGNEDANSFICHIER : String :<br/>
-	 * "méthode existLigneDansFichier(...)".<br/>
-	 */
-	public static final String METHODE_EXISTLIGNEDANSFICHIER 
-		= "méthode existLigneDansFichier(...)";
-
-	
-	/**
-	 * METHODE_EXISTLIGNECOMMENCANT : String :<br/>
-	 * "méthode existLigneCommencant(...)".<br/>
-	 */
-	public static final String METHODE_EXISTLIGNECOMMENCANT 
-		= "méthode existLigneCommencant(...)";
-
-	
-	/**
-	 * METHODE_LIRE_STRINGS_DANS_FILE : String :<br/>
-	 * "méthode lireStringsDansFile(File pFile, Charset pCharset)".<br/>
-	 */
-	public static final String METHODE_LIRE_STRINGS_DANS_FILE 
-		= "méthode lireStringsDansFile(File pFile, Charset pCharset)";
-	
-	
-	/**
-	 * METHODE_COMPTER_LIGNES : String :<br/>
-	 * "méthode compterLignes(File pFile)".<br/>
-	 */
-	public static final String METHODE_COMPTER_LIGNES 
-		= "méthode compterLignes(File pFile)";
-	
-	
-	/**
-	 * MESSAGE_FICHIER_NULL : String :<br/>
-	 * Message retourné par la METHODE_ECRIRESTRINGDANSFILE 
-	 * si le fichier est null.<br/>
-	 * "Le fichier passé en paramètre est null".<br/>
-	 */
-	public static final String MESSAGE_FICHIER_NULL 
-		= "Le fichier passé en paramètre est null";
-		
-	/**
-	 * MESSAGE_FICHIER_INEXISTANT : String :<br/>
-	 * Message retourné par la METHODE_ECRIRESTRINGDANSFILE 
-	 * si le fichier est inexistant.<br/>
-	 * "Le fichier passé en paramètre est inexistant : "
-	 */
-	public static final String MESSAGE_FICHIER_INEXISTANT 
-		= "Le fichier passé en paramètre est inexistant : ";
-	
-	/**
-	 * MESSAGE_FICHIER_REPERTOIRE : String :<br/>
-	 * Message retourné par la METHODE_ECRIRESTRINGDANSFILE 
-	 * si le fichier est un répertoire.<br/>
-	 * "Le fichier passé en paramètre est un répertoire : ".<br/>
-	 */
-	public static final String MESSAGE_FICHIER_REPERTOIRE 
-		= "Le fichier passé en paramètre est un répertoire : ";
-
-	/**
-	 * MESSAGE_STRING_BLANK : String :<br/>
-	 * Message retourné par la METHODE_ECRIRESTRINGDANSFILE 
-	 * si la String passée en paramètre est blank.<br/>
-	 * "La chaine de caractères passée en paramètre est blank (null ou vide) : "
-	 */
-	public static final String MESSAGE_STRING_BLANK 
-	= "La chaine de caractères passée en paramètre est blank (null ou vide) : ";
-	
-	
-	/**
-	 * MESSAGE_EXCEPTION : String :<br/>
-	 * "Exception GRAVE : ".<br/>
-	 */
-	public static final String MESSAGE_EXCEPTION = "Exception GRAVE : ";
-
-	
-	/**
-	 * VARIABLE_NOMSIMPLEFICHIERJAVA : String :<br/>
-	 * "{$nomSimpleFichierJava}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_NOMSIMPLEFICHIERJAVA 
-		= "{$nomSimpleFichierJava}";
-
-	
-	/**
-	 * VARIABLE_NOMSIMPLEINTERFACE : String :<br/>
-	 * "{$nomSimpleInterface}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_NOMSIMPLEINTERFACE 
-		= "{$nomSimpleInterface}";
-
-	
-	/**
-	 * VARIABLE_CONCEPT_MODELISE : String :<br/>
-	 * "{$conceptModelise}".<br/>
-	 */
-	public static final String VARIABLE_CONCEPT_MODELISE 
-		= "{$conceptModelise}";
-	
-	
-	/**
-	 * VARIABLE_NOMATTRIBUT : String :<br/>
-	 * "{$nomAttribut}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_NOMATTRIBUT 
-		= "{$nomAttribut}";
-
-	
-	/**
-	 * VARIABLE_TYPEATTRIBUT : String :<br/>
-	 * "{$typeAttribut}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_TYPEATTRIBUT 
-		= "{$typeAttribut}";
-
-	
-	/**
-	 * VARIABLE_PARAMATTRIBUT : String :<br/>
-	 * "{$paramAttribut}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_PARAMATTRIBUT 
-		= "{$paramAttribut}";
-	
-	
-	/**
-	 * VARIABLE_GETTER : String :<br/>
-	 * "{$getterNomAttribut}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_GETTER 
-		= "{$getterNomAttribut}";
-
-	
-	/**
-	 * VARIABLE_SETTER : String :<br/>
-	 * "{$setterNomAttribut}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_SETTER 
-		= "{$setterNomAttribut}";
-	
-	
-	/**
-	 * VARIABLE_ENTIER_COMPARE : String :<br/>
-	 * "{$compareNomAttribut}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_ENTIER_COMPARE 
-		= "{$compareNomAttribut}";
-	
-	
-	/**
-	 * VARIABLE_NOMBRE_RGS : String :<br/>
-	 * "{$nombreRgs}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_NOMBRE_RGS 
-		= "{$nombreRgs}";
-
-	
-	/**
-	 * VARIABLE_TITRE_RG : String :<br/>
-	 * "{$titreRg}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_TITRE_RG 
-		= "{$titreRg}";
-	
-	
-	/**
-	 * VARIABLE_MESSAGE_RG : String :<br/>
-	 * "{$messageRg}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_MESSAGE_RG 
-		= "{$messageRg}";
-	
-	
-	/**
-	 * VARIABLE_DATEDUJOUR : String :<br/>
-	 * "{$date}".<br/>
-	 * Variable à utiliser dans les templates.<br/>
-	 */
-	public static final String VARIABLE_DATEDUJOUR 
-		= "{$date}";
-	
-	
-	/**
-	 * VARIABLE_LIGNECSV : String :<br/>
-	 * "{$ligneCsv}".<br/>
-	 */
-	public static final String VARIABLE_LIGNECSV 
-		= "{$ligneCsv}";
-	
-
-	/**
-	 * CROCHET_OUVRANT : char :<br/>
-	 * '{'.<br/>
-	 */
-	public static final char CROCHET_OUVRANT = '{';
-
-	
-	/**
-	 * CROCHET_FERMANT : char :<br/>
-	 * '}'.<br/>
-	 */
-	public static final char CROCHET_FERMANT = '}';
-	
-	
-	//*****************************************************************/
-	//**************************** BOM_UTF-8 **************************/
-	//*****************************************************************/
-	/**
-	 * BOM_UTF : char :<br/>
-	 * BOM UTF-8 pour forcer Excel 2010 à lire en UTF-8.<br/>
-	 */
-	public static final char BOM_UTF_8 = '\uFEFF';
-
-	
-	//*****************************************************************/
-	//********************* SAUTS DE LIGNE ****************************/
-	//*****************************************************************/
-
-	/**
-	 * SAUTDELIGNE_UNIX : String :<br/>
-	 * Saut de ligne généré par les éditeurs Unix.<br/>
-	 * "\n" (Retour Ligne = LINE FEED (LF)).
-	 */
-	public static final String SAUTDELIGNE_UNIX = "\n";
-
-	
-	/**
-	 * SAUTDELIGNE_MAC : String :<br/>
-	 * Saut de ligne généré par les éditeurs Mac.<br/>
-	 * "\r" (Retour Chariot RC = CARRIAGE RETURN (CR))
-	 */
-	public static final String SAUTDELIGNE_MAC = "\r";
-
-	
-	/**
-	 * SAUTDELIGNE_DOS_WINDOWS : String :<br/>
-	 * Saut de ligne généré par les éditeurs DOS/Windows.<br/>
-	 * "\r\n" (Retour Chariot RC + Retour Ligne LF).
-	 */
-	public static final String SAUTDELIGNE_DOS_WINDOWS = "\r\n";
-
-	
-	/**
-	 * NEWLINE : String :<br/>
-	 * Saut de ligne spécifique de la plateforme.<br/>
-	 * System.getProperty("line.separator").<br/>
-	 */
-	public static final String NEWLINE = System.getProperty("line.separator");
-
-
-	
-	//*****************************************************************/
-	//**************************** SEPARATEURS ************************/
-	//*****************************************************************/
-	
-	/**
-	 * PREVENIR_CS : String :<br/>
-	 * "veuillez prévenir le centre-serveur svp.".<br/>
-	 */
-	public static final String PREVENIR_CS 
-		= "veuillez prévenir le centre-serveur svp.";
-	
-
-	/**
-	 * SEP_ESPACE : String :<br/>
-	 * " ".<br/>
-	 */
-	public static final String SEP_ESPACE = " ";
-	
-	
-	/**
-	 * SEP_PV : String :<br/>
-	 * Séparateur pour les CSV ";".<br/>
-	 */
-	public static final String SEP_PV = ";";
-
-	
-    /**
-     * SEP_2PTS_AERE : String :<br/>
-     * " : ".<br/>
-     */
-    public static final String SEP_2PTS_AERE = " : ";
-    
-    
-	/**
-	 * SEPARATEUR_MOINS_AERE : String :<br/>
-	 * " - ".<br/>
-	 */
-	public static final String SEPARATEUR_MOINS_AERE = " - ";
-
-		
-	/**
-	 * EGAL : String :<br/>
-	 * " = ".<br/>
-	 */
-	public static final String EGAL 
-		= " = ";
-	
-	
-	/**
-	 * UNDERSCORE : String :<br/>
-	 * "_".<br/>
-	 */
-	public static final String UNDERSCORE = "_";
-
-	
-	/**
-	 * SLASH : char :<br/>
-	 * '/'.<br/>
-	 */
-	public static final char SLASH = '/';
-	
-	
-	/**
-	 * ANTISLASH : char :<br/>
-	 * '\'.<br/>
-	 * ATTENTION : antislash est un caractère spécial 
-	 * qui doit être échappé en Java ('\\')<br/>
-	 */
-	public static final char ANTISLASH = '\\';
-	
-	
-	/**
-	 * POINT : char :<br/>
-	 * '.'.<br/>
-	 */
-	public static final char POINT = '.';
-
-	
-	/**
-	 * POINT_VIRGULE : char :<br/>
-	 * ';'.<br/>
-	 */
-	public static final char POINT_VIRGULE = ';';
-
-	
-	//*****************************************************************/
-	//**************************** LOCALE *****************************/
-	//*****************************************************************/
-	/**
-	 * LOCALE_FR : Locale : <br/>
-	 * Locale France.<br/>
-	 */
-	public static final Locale LOCALE_FR = new Locale("fr", "FR");
-
-	//*****************************************************************/
-	//**************************** CHARSETS ***************************/
-	//*****************************************************************/
-
-	/**
-	 * CHARSET_UTF8 : Charset :<br/>
-	 * Charset.forName("UTF-8").<br/>
-	 * Eight-bit Unicode (or UCS) Transformation Format.<br/> 
-	 */
-	public static final Charset CHARSET_UTF8 
-		= Charset.forName("UTF-8");
-
-	
-	/**
-	 * DEBUT_JAVADOC : String :<br/>
-	 * .<br/>
-	 */
-	public static final String DEBUT_JAVADOC 
-		= "	 /**";
-
-	
-	/**
-	 * CONSTR_JAVADOC : String :<br/>
-	 * "	 * method CONSTRUCTEUR ".<br/>
-	 */
-	public static final String CONSTR_JAVADOC 
-		= "	 * method CONSTRUCTEUR ";
-
-	
-	/**
-	 * ID_JAVADOC : String :<br/>
-	 * "	 * Long pId".<br/>
-	 */
-	public static final String ID_JAVADOC 
-		= "	 * Long pId";
-
-	
-	/**
-	 * VIRGULE_JAVADOC : String :<br/>
-	 * "	 * , ".<br/>
-	 */
-	public static final String VIRGULE_JAVADOC 
-		= "	 * , ";
-
-	
-	/**
-	 * UL_OUVRANT_JAVADOC : String :<br/>
-	 * "	 * <ul>".<br/>
-	 */
-	public static final String UL_OUVRANT_JAVADOC 
-		= "	 * <ul>";
-
-	
-	/**
-	 * OL_OUVRANT_JAVADOC : String :<br/>
-	 * "	 * <ol>".<br/>
-	 */
-	public static final String OL_OUVRANT_JAVADOC 
-		= "	 * <ol>";
-	
-	
-	/**
-	 * LIGNE_CONSTR_NULL_JAVADOC : String :<br/>
-	 * "	 * CONSTRUCTEUR D'ARITE NULLE.<br/>".<br/>
-	 */
-	public static final String LIGNE_CONSTR_NULL_JAVADOC 
-		= "	 * CONSTRUCTEUR D'ARITE NULLE.<br/>";
-
-	
-	/**
-	 * LIGNE_FIN_CONSTR_NULL : String :<br/>
-	 * "} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________".<br/>
-	 */
-	public static final String LIGNE_FIN_CONSTR_NULL 
-		= "} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________";
-	
-	
-	/**
-	 * LIGNE_CONSTR_COMPLET_JAVADOC : String :<br/>
-	 * "	 * <li>CONSTRUCTEUR COMPLET.</li>".<br/>
-	 */
-	public static final String LIGNE_CONSTR_COMPLET_JAVADOC 
-		= "	 * <li>CONSTRUCTEUR COMPLET.</li>";
-	
-	
-	/**
-	 * LIGNE_FIN_CONSTR_COMPLET : String :<br/>
-	 * "} // Fin de CONSTRUCTEUR COMPLET.______________________________________".<br/>
-	 */
-	public static final String LIGNE_FIN_CONSTR_COMPLET 
-		= "} // Fin de CONSTRUCTEUR COMPLET.______________________________________";
-	
-	
-	/**
-	 * LIGNE_CONSTR_COMPLET_BASE_JAVADOC : String :<br/>
-	 * "	 * <li>CONSTRUCTEUR COMPLET BASE.</li>".<br/>
-	 */
-	public static final String LIGNE_CONSTR_COMPLET_BASE_JAVADOC 
-		= "	 * <li>CONSTRUCTEUR COMPLET BASE.</li>";
-
-	
-	/**
-	 * LIGNE_FIN_CONSTR_COMPLET_BASE : String :<br/>
-	 * "} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________".<br/>
-	 */
-	public static final String LIGNE_FIN_CONSTR_COMPLET_BASE 
-		= "} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________";
-	
-	
-	/**
-	 * SANS_ID_JAVADOC : String :<br/>
-	 * "	 * <li>SANS ID en base.</li>".<br/>
-	 */
-	public static final String SANS_ID_JAVADOC 
-		= "	 * <li>SANS ID en base.</li>";
-	
-	
-	/**
-	 * AVEC_ID_JAVADOC : String :<br/>
-	 * "	 * <li>AVEC ID en base.</li>".<br/>
-	 */
-	public static final String AVEC_ID_JAVADOC 
-		= "	 * <li>AVEC ID en base.</li>";
-
-	
-	/**
-	 * UL_FERMANT_JAVADOC : String :<br/>
-	 * .<br/>
-	 */
-	public static final String UL_FERMANT_JAVADOC 
-		= "	 * </ul>";
-
-	
-	/**
-	 * OL_FERMANT_JAVADOC : String :<br/>
-	 * "	 * </ol>".<br/>
-	 */
-	public static final String OL_FERMANT_JAVADOC 
-		= "	 * </ol>";
-	
-	
-	/**
-	 * LIGNE_VIDE_JAVADOC : String :<br/>
-	 * "	 *".<br/>
-	 */
-	public static final String LIGNE_VIDE_JAVADOC 
-		= "	 *";
-
-	
-	/**
-	 * PARAM_ID_JAVADOC : String :<br/>
-	 * "	 * @param pId : Long : ID en base.<br/>".<br/>
-	 */
-	public static final String PARAM_ID_JAVADOC 
-		= "	 * @param pId : Long : ID en base.<br/>";
-
-	
-	/**
-	 * LIGNE_PARAM_JAVADOC : String :<br/>
-	 * "	 * @param ".<br/>
-	 */
-	public static final String LIGNE_PARAM_JAVADOC 
-		= "	 * @param ";
-
-	
-	/**
-	 * POINT_BR : String :<br/>
-	 * ".<br/>".<br/>
-	 */
-	public static final String POINT_BR 
-		= ".<br/>";
-
-	
-	/**
-	 * FIN_JAVADOC : String :<br/>
-	 * 
-	 */
-	public static final String FIN_JAVADOC 
-		= "	 */";
-
-	
-	/**
-	 * PUBLIC : String :<br/>
-	 * "	public ".<br/>
-	 */
-	public static final String PUBLIC 
-		= "	public ";
-
-	
-	/**
-	 * FINAL : String :<br/>
-	 * "final ".<br/>
-	 */
-	public static final String FINAL 
-		= "final ";
-
-	
-	/**
-	 * SUPER : String :<br/>
-	 * "super();".<br/>
-	 */
-	public static final String SUPER 
-		= "super();";
-
-	
-	/**
-	 * THIS : String :<br/>
-	 * "this.".<br/>
-	 */
-	public static final String THIS 
-		= "this.";
-
-	
-	/**
-	 * DECALAGE_METHODE : String :<br/>
-	 * "\t".<br/>
-	 */
-	public static final String DECALAGE_METHODE 
-		= "\t";
-
-	
-	/**
-	 * DECALAGE_CODE : String :<br/>
-	 * DECALAGE_METHODE + "\t".<br/>
-	 */
-	public static final String DECALAGE_CODE = DECALAGE_METHODE + "\t";
-	
 	
 	/**
 	 * generateurMetier : GenerateurMetier :<br/>
@@ -1012,39 +393,9 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * method ecrireCode(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li><b>Génère le code dans le fichier java pFile</b>.</li>
-	 * <li>Traite le cas des mauvais fichiers.</li>
-	 * <li>alimente this.generateurMetier.</li>
-	 * <li>alimente this.conceptModelise.</li>
-	 * <li>alimente this.mapAttributs.</li>
-	 * <li>alimente this.mapAttributsEquals.</li>
-	 * <li>alimente this.mapRg.</li>
-	 * <li>alimente this.nomSimpleInterface.</li>
-	 * <li>alimente this.nomSimpleAbstractClass.</li>
-	 * <li>alimente this.nomSimpleObjetMetier.</li>
-	 * <li>alimente this.fichierJava.</li>
-	 * <li>alimente this.nomSimpleFichierJava.</li>
-	 * <li>écrit la ligne de code <b>package</b> (1ère ligne).</li>
-	 * <li>Insère 1 ligne vide sous la ligne de code package.</li>
-	 * <li>Ecrit les <b>imports</b> à partir de la 3ème ligne.</li>
-	 * <li>Insère 3 lignes vides sous la dernière ligne d'imports.</li>
-	 * <li>écrit les lignes de <b>javadoc</b>.</li>
-	 * <li>écrit la ligne de <b>DECLARATION</b> à la suite.
-	 * <li><b>Appelle un HOOK</b> pour terminer la génération du code 
-	 * dans un Ecriveur concret.</li> 
-	 * <li>écrit la ligne <b>finale</b>.</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : fichier java.<br/>
-	 * @param pGenerateurMetier : GenerateurMetier.<br/>
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void ecrireCode(
 			final File pFile
 				, final GenerateurMetier pGenerateurMetier) {
@@ -2456,10 +1807,10 @@ public abstract class AbstractEcriveur {
 		}
 	
 		final List<String> listJavadoc = new ArrayList<String>();
-		listJavadoc.add(DEBUT_JAVADOC);
+		listJavadoc.add(DEBUT_JAVADOC_MEMBRE);
 		listJavadoc.add(CONSTR_JAVADOC + this.nomSimpleFichierJava + "() :<br/>");
 		listJavadoc.add(LIGNE_CONSTR_NULL_JAVADOC);			
-		listJavadoc.add(FIN_JAVADOC);
+		listJavadoc.add(FIN_JAVADOC_MEMBRE);
 		
 		
 		
@@ -2706,7 +2057,7 @@ public abstract class AbstractEcriveur {
 		}
 
 		final List<String> listJavadoc = new ArrayList<String>();
-		listJavadoc.add(DEBUT_JAVADOC);
+		listJavadoc.add(DEBUT_JAVADOC_MEMBRE);
 		listJavadoc.add(CONSTR_JAVADOC + this.nomSimpleFichierJava + "(");
 		
 		final int tailleMap = this.mapAttributs.size();
@@ -2732,7 +2083,7 @@ public abstract class AbstractEcriveur {
 			if (compteur == 1) {
 				
 				ligneACreerBase 
-				= LIGNE_VIDE_JAVADOC
+				= LIGNE_VIDE_JAVADOC_MEMBRE
 				+ SEP_ESPACE
 				+ typeAttribut 
 				+ SEP_ESPACE 
@@ -2741,7 +2092,7 @@ public abstract class AbstractEcriveur {
 			else {
 				
 				ligneACreerBase 
-				= VIRGULE_JAVADOC 
+				= VIRGULE_JAVADOC_MEMBRE 
 				+ typeAttribut 
 				+ SEP_ESPACE 
 				+ this.fournirParametre(nomAttribut);
@@ -2759,11 +2110,11 @@ public abstract class AbstractEcriveur {
 			listJavadoc.add(ligneACreer);
 		}
 		
-		listJavadoc.add(UL_OUVRANT_JAVADOC);
+		listJavadoc.add(UL_OUVRANT_JAVADOC_MEMBRE);
 		listJavadoc.add(LIGNE_CONSTR_COMPLET_JAVADOC);
 		listJavadoc.add(SANS_ID_JAVADOC);
-		listJavadoc.add(UL_FERMANT_JAVADOC);
-		listJavadoc.add(LIGNE_VIDE_JAVADOC);
+		listJavadoc.add(UL_FERMANT_JAVADOC_MEMBRE);
+		listJavadoc.add(LIGNE_VIDE_JAVADOC_MEMBRE);
 
 		
 		final Set<Entry<String, String>> entrySet2 
@@ -2798,7 +2149,7 @@ public abstract class AbstractEcriveur {
 		}
 
 		
-		listJavadoc.add(FIN_JAVADOC);
+		listJavadoc.add(FIN_JAVADOC_MEMBRE);
 		
 		
 		
@@ -3093,9 +2444,9 @@ public abstract class AbstractEcriveur {
 		}
 
 		final List<String> listJavadoc = new ArrayList<String>();
-		listJavadoc.add(DEBUT_JAVADOC);
+		listJavadoc.add(DEBUT_JAVADOC_MEMBRE);
 		listJavadoc.add(CONSTR_JAVADOC + this.nomSimpleFichierJava + "(");
-		listJavadoc.add(ID_JAVADOC);
+		listJavadoc.add(ID_JAVADOC_MEMBRE);
 		
 		final int tailleMap = this.mapAttributs.size();
 		
@@ -3116,7 +2467,7 @@ public abstract class AbstractEcriveur {
 			final String typeAttribut = entry.getValue();
 			
 			final String ligneACreerBase 
-				= VIRGULE_JAVADOC 
+				= VIRGULE_JAVADOC_MEMBRE 
 				+ typeAttribut 
 				+ SEP_ESPACE 
 				+ this.fournirParametre(nomAttribut);
@@ -3132,11 +2483,11 @@ public abstract class AbstractEcriveur {
 			listJavadoc.add(ligneACreer);
 		}
 		
-		listJavadoc.add(UL_OUVRANT_JAVADOC);
+		listJavadoc.add(UL_OUVRANT_JAVADOC_MEMBRE);
 		listJavadoc.add(LIGNE_CONSTR_COMPLET_BASE_JAVADOC);
 		listJavadoc.add(AVEC_ID_JAVADOC);
-		listJavadoc.add(UL_FERMANT_JAVADOC);
-		listJavadoc.add(LIGNE_VIDE_JAVADOC);
+		listJavadoc.add(UL_FERMANT_JAVADOC_MEMBRE);
+		listJavadoc.add(LIGNE_VIDE_JAVADOC_MEMBRE);
 		listJavadoc.add(PARAM_ID_JAVADOC);
 
 		
@@ -3172,7 +2523,7 @@ public abstract class AbstractEcriveur {
 		}
 
 		
-		listJavadoc.add(FIN_JAVADOC);
+		listJavadoc.add(FIN_JAVADOC_MEMBRE);
 		
 		
 		
@@ -5144,7 +4495,7 @@ public abstract class AbstractEcriveur {
 		if (!listeRgs.isEmpty()) {
 			
 			/* ouverture de liste HTML. */
-			pListe.add(UL_OUVRANT_JAVADOC);
+			pListe.add(UL_OUVRANT_JAVADOC_MEMBRE);
 			
 			for (final String rg : listeRgs) {
 				
@@ -5161,7 +4512,7 @@ public abstract class AbstractEcriveur {
 			}
 			
 			/* fermeture de liste HTML. */
-			pListe.add(UL_FERMANT_JAVADOC);
+			pListe.add(UL_FERMANT_JAVADOC_MEMBRE);
 			
 		}
 		
@@ -7914,17 +7265,9 @@ public abstract class AbstractEcriveur {
 
 	
 	/**
-	 * method afficherListeString(
-	 * List&lt;String&gt; pListe) :<br/>
-	 * Fabrique une String à partir d'une List&lt;String&gt;.<br/>
-	 * <br/>
-	 * - Retourne null si pListe est null.<br/>
-	 * <br/>
-	 *
-	 * @param pListe : List&lt;String&gt; : liste de lignes.
-	 * 
-	 * @return : String : Pour affichage à la console.<br/>
+	 * {@inheritDoc}
 	 */
+	@Override
 	public final String afficherListeString(
 			final List<String> pListe) {
 					

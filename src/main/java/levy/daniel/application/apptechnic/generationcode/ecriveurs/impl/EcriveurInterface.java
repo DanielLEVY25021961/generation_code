@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.generationcode.impl;
+package levy.daniel.application.apptechnic.generationcode.ecriveurs.impl;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -12,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
-import levy.daniel.application.apptechnic.generationcode.AbstractEcriveur;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveur;
 
 /**
  * class EcriveurInterface :<br/>
@@ -672,7 +672,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 		pListeMethode.addAll(listeLignesSubstDebut1);
 		
 		/* CORPS. */
-		pListeMethode.add(OL_OUVRANT_JAVADOC);
+		pListeMethode.add(OL_OUVRANT_JAVADOC_MEMBRE);
 		
 		final String ligneComparaison 
 			= "	 * Comparaison de 2 " 
@@ -684,7 +684,7 @@ public class EcriveurInterface extends AbstractEcriveur {
 		/* ajout des attributs utilisés dans le compareTo(...). */
 		this.ajouterAttributsEqualsAJavadoc(pListeMethode);
 		
-		pListeMethode.add(OL_FERMANT_JAVADOC);
+		pListeMethode.add(OL_FERMANT_JAVADOC_MEMBRE);
 		
 		/* FIN. */
 		final String cheminFichierFin 
