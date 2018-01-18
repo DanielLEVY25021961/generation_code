@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.generationcode.ecriveurs.impl;
+package levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveur;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier;
 
 /**
  * class EcriveurAbstractClass :<br/>
@@ -35,7 +35,7 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriv
  * @since 8 janv. 2018
  *
  */
-public class EcriveurAbstractClass extends AbstractEcriveur {
+public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -317,7 +317,7 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	@Override
 	protected final List<String> creerLignesJavaDoc(
 			final File pFile) throws Exception {
-		
+
 		/* DEBUT. */
 		final String cheminFichierDebut 
 			= BundleConfigurationProjetManager
@@ -341,13 +341,13 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 				, VARIABLE_CONCEPT_MODELISE
 					, this.conceptModelise);
 		
-		final List<String> listeLignesSubst3 
+		final List<String> listeLignesDebutSubst3 
 		= this.substituerVariablesDansLigne(
 				listeLignesDebutSubst2
 				, VARIABLE_NOMSIMPLEABSTRACTCLASS
-					, this.nomSimpleAbstractClass); // NOPMD by dan on 08/01/18 08:09
+					, this.nomSimpleAbstractClass); 
 		
-		this.javadoc.addAll(listeLignesSubst3);
+		this.javadoc.addAll(listeLignesDebutSubst3);
 		
 		/* ATTRIBUTS. */
 		final String cheminFichierAttributs 
@@ -454,6 +454,27 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 		this.javadoc.addAll(listeLignesRgSubst2);
 		
 		/* REGLES DE GESTION. */
+		
+		
+		
+		/* FIN DE LA JAVADOC. */
+		final String cheminFichierFinJavadoc
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_fin.txt";
+	
+		final File fichierFinJavadoc = new File(cheminFichierFinJavadoc);
+		
+		final List<String> listeLignesFinJavadoc 
+			= this.lireStringsDansFile(fichierFinJavadoc, CHARSET_UTF8);
+		
+		final List<String> listeLignesFinJavadocSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesFinJavadoc
+						, VARIABLE_DATEDUJOUR
+							, this.afficherDateDuJour());
+		
+		this.javadoc.addAll(listeLignesFinJavadocSubst1);
+
 		
 		return this.javadoc;
 				

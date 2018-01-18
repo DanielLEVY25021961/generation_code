@@ -8,9 +8,9 @@ import org.apache.commons.logging.LogFactory;
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.impl.EcriveurAbstractClass;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.impl.EcriveurConcreteClass;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.impl.EcriveurInterface;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurAbstractClass;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurConcreteClass;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurInterface;
 
 
 /**

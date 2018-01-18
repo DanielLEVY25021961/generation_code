@@ -1,4 +1,6 @@
- * 
+ * </ul>
+ * </ul>
+ *
  * <p>
  * <span style="text-decoration: underline;">DIAGRAMME DE CLASSES D'IMPLEMENTATION</span>
  * </p>

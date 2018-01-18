@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.generationcode.ecriveurs;
+package levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -38,10 +38,12 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
+import levy.daniel.application.apptechnic.generationcode.IGenerateur;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
 import levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier;
 
 /**
- * class AbstractEcriveur :<br/>
+ * CLASSE ABSTRAITE <b>AbstractEcriveurMetier</b> :<br/>
  * .<br/>
  * <br/>
  *
@@ -60,23 +62,23 @@ import levy.daniel.application.apptechnic.generationcode.model.metier.Generateur
  * @since 8 janv. 2018
  *
  */
-public abstract class AbstractEcriveur implements IEcriveur {
+public abstract class AbstractEcriveurMetier implements IEcriveur {
 
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * CLASSE_ABSTRACT_ECRIVEUR : String :<br/>
-	 * "Classe AbstractEcriveur".<br/>
+	 * CLASSE_ABSTRACT_ECRIVEUR_METIER : String :<br/>
+	 * "Classe AbstractEcriveurMetier".<br/>
 	 */
-	public static final String CLASSE_ABSTRACT_ECRIVEUR 
-		= "Classe AbstractEcriveur";
+	public static final String CLASSE_ABSTRACT_ECRIVEUR_METIER 
+		= "Classe AbstractEcriveurMetier";
 
 	
 	/**
-	 * generateurMetier : GenerateurMetier :<br/>
+	 * generateurMetier : IGenerateur :<br/>
 	 * GenerateurMetier.<br/>
 	 */
-	protected transient GenerateurMetier generateurMetier;
+	protected transient IGenerateur generateurMetier;
 
 	
 	/**
@@ -346,18 +348,18 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-			= LogFactory.getLog(AbstractEcriveur.class);
+			= LogFactory.getLog(AbstractEcriveurMetier.class);
 	
 
 	// *************************METHODES************************************/
 	
 	
 	 /**
-	 * method CONSTRUCTEUR AbstractEcriveur() :<br/>
+	 * method CONSTRUCTEUR AbstractEcriveurMetier() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <br/>
 	 */
-	public AbstractEcriveur() {
+	public AbstractEcriveurMetier() {
 		
 		super();
 		
@@ -418,6 +420,10 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		
 		/* alimente this.generateurMetier. */
 		this.generateurMetier = pGenerateurMetier;
+		
+		/* alimente this.conceptModelise. */
+		this.conceptModelise 
+			= AbstractGenerateur.getConceptModelise();
 		
 		/* alimente this.mapAttributs. */
 		this.mapAttributs 
@@ -776,6 +782,8 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		}
 		
 		try {
+			
+			this.javadoc = new ArrayList<String>();
 			
 			/* Crée la javadoc. */
 			this.creerLignesJavaDoc(pFile);
@@ -8486,4 +8494,4 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	
 	
 	
-} // FIN DE LA CLASSE AbstractEcriveur.--------------------------------------
+} // FIN DE LA CLASSE AbstractEcriveurMetier.--------------------------------------

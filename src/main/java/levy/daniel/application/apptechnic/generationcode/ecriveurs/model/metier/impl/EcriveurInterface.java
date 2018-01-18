@@ -1,7 +1,6 @@
-package levy.daniel.application.apptechnic.generationcode.ecriveurs.impl;
+package levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -11,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveur;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier;
 
 /**
  * class EcriveurInterface :<br/>
@@ -34,7 +33,7 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriv
  * @since 5 janv. 2018
  *
  */
-public class EcriveurInterface extends AbstractEcriveur {
+public class EcriveurInterface extends AbstractEcriveurMetier {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -233,8 +232,6 @@ public class EcriveurInterface extends AbstractEcriveur {
 	@Override
 	protected final List<String> creerLignesJavaDoc(
 			final File pFile) throws Exception {
-		
-		this.javadoc = new ArrayList<String>();
 		
 		/* DEBUT. */
 		final String cheminFichierDebut 

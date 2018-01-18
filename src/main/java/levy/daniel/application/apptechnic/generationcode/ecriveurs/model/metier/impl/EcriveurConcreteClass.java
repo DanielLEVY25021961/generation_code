@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.generationcode.ecriveurs.impl;
+package levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl;
 
 import java.io.File;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveur;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier;
 
 /**
  * class EcriveurConcreteClass :<br/>
@@ -29,7 +29,7 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriv
  * @since 18 janv. 2018
  *
  */
-public class EcriveurConcreteClass extends AbstractEcriveur {
+public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 
 	// ************************ATTRIBUTS************************************/
 	/**
