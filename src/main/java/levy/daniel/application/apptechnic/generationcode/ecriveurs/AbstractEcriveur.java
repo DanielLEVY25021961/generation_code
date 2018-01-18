@@ -37,6 +37,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
+import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier;
 
 /**
@@ -117,7 +118,7 @@ public abstract class AbstractEcriveur implements IEcriveur {
 
 	
 	/**
-	 * nomSimpleObjetMetier : String :<br/>
+	 * nomSimpleConcreteClass : String :<br/>
 	 * Nom simple de l'Objet metier à générer.<br/>
 	 * Par exemple "ProfilSimple".<br/>
 	 */
@@ -418,21 +419,17 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		/* alimente this.generateurMetier. */
 		this.generateurMetier = pGenerateurMetier;
 		
-		/* alimente this.conceptModelise. */
-		this.conceptModelise 
-			= this.generateurMetier.getConceptModelise();
-		
 		/* alimente this.mapAttributs. */
 		this.mapAttributs 
-			= this.generateurMetier.getMapAttributs();
+			= AbstractGenerateur.getMapAttributs();
 		
 		/* alimente this.mapAttributsEquals. */
 		this.mapAttributsEquals 
-			= this.generateurMetier.getMapAttributsEquals();
+			= AbstractGenerateur.getMapAttributsEquals();
 		
 		/* alimente this.mapRg. */
 		this.mapRg 
-			= this.generateurMetier.getMapRg();
+			= AbstractGenerateur.getMapRg();
 		
 		/* alimente this.nomSimpleInterface. */
 		this.nomSimpleInterface 
@@ -444,7 +441,7 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		
 		/* alimente this.nomSimpleObjetMetier. */
 		this.nomSimpleObjetMetier 
-			= this.generateurMetier.getNomSimpleObjetMetier();
+			= this.generateurMetier.getNomSimpleConcreteClass();
 
 		/* alimente this.fichierJava. */
 		this.fichierJava = pFile;

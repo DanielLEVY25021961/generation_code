@@ -91,12 +91,25 @@ public class GenerateurDao extends AbstractGenerateur {
 	 */
 	@Override
 	protected final void alimenterNomSimpleInterface(
-			final String pNomInterface) {
+			final String pConceptModelise) {
 		
-		this.nomSimpleInterface = "IDao" + this.nomSimpleObjetMetier;
+		this.nomSimpleInterface = "IDao" + pConceptModelise;
 		
 	} // Fin de alimenterNomSimpleInterface(...).__________________________
 
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void alimenterNomSimpleConcreteClass(
+			final String pNomObjetMetier) {
+		
+		this.nomSimpleConcreteClass = "Dao" + pNomObjetMetier;
+		
+	} // Fin de alimenterNomSimpleConcreteClass(...).______________________
+
+	
 	
 } // FIN DE LA CLASSE GenerateurDao.-----------------------------------------

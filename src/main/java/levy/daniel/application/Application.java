@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.IGenerateur;
 import levy.daniel.application.apptechnic.generationcode.model.dao.GenerateurDao;
 import levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier;
@@ -151,22 +152,19 @@ public final class Application {
 		MAP_RG.put("porteeProfil", listeRGPorteeProfil);
 		MAP_RG.put("restrictionProfil", listeRGRestrictionProfil);
 		
-		generateurMetier
-			.generer(
-					"profil"
+		/* CONFIGURATION des générateurs. */
+		AbstractGenerateur.configurer("profil"
 						, "IProfil"
 							, "ProfilCerbere"
 								, MAP_ATTRIBUTS
 									, MAP_ATTRIBUTS_EQUALS
-											, MAP_RG);
+
+									, MAP_RG);
 		
-		generateurDao.generer(
-					"profil"
-						, "IProfil"
-							, "ProfilCerbere"
-								, MAP_ATTRIBUTS
-									, MAP_ATTRIBUTS_EQUALS
-											, MAP_RG);
+		/* GENERATION DU CODE. */
+		generateurMetier.generer();
+		
+		generateurDao.generer();
 		
 	} // Fin de main(...)._________________________________________________
 	

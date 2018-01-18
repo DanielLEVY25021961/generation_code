@@ -1,11 +1,7 @@
 package levy.daniel.application.apptechnic.generationcode.model.metier;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.IOException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -111,107 +107,69 @@ public class GenerateurMetier extends AbstractGenerateur {
 	@Override
 	protected final void genererHook() throws Exception {
 						
-		/* Génère le code de l'interface dans this.iObjetMetier. */
+		/* Génère le code de l'interface dans this.interfaceJava. */
 		this.ecriveurInterface.ecrireCode(this.interfaceJava, this);
 		
-		/* génère le code de la classe abstraite dans this.abstractObjetMetier. */
+		/* génère le code de la classe abstraite dans this.abstractClass. */
 		this.ecriveurAbstractClass.ecrireCode(this.abstractClass, this);
+		
+		/* génère le fichier vide classMetierForm. */
+		this.genererClassMetierForm();
 		
 	} // Fin de genererObjetMetier(...).___________________________________
 
+	
+	
+	/**
+	 * method genererClassMetierForm() :<br/>
+	 * <ul>
+	 * <li>Génère le fichier vide nomClassMetierForm.java 
+	 * sous packageSousCouche.impl.</li>
+	 * <li>alimente classMetierForm.</li>
+	 * <li>Ne génère le fichier vide que si il n'existe pas déjà.</li>
+	 * <li>Par exemple : genererClassMetierForm() 
+	 * génère model/metier/profil/impl/ProfilSimpleForm.java</li>
+	 * </ul>
+	 *
+	 * @throws IOException
+	 */
+	private void genererClassMetierForm() throws IOException {
+		
+		final String nomFichier = nomClassMetierForm + ".java";
+		
+		classMetierForm 
+			= this.gestionnaire
+			.creerFichierDansPackage(
+					nomFichier, this.sousPackageImpl);
+		
+	} // Fin de genererClassMetierForm(...)._______________________________
 
+	
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected final void alimenterNomSimpleInterface(
-			final String pNomInterface) {
+			final String pConceptModelise) {
 		
-		this.nomSimpleInterface = pNomInterface;
+		this.nomSimpleInterface = nomInterfaceMetier;
 		
 	} // Fin de alimenterNomSimpleInterface(...).__________________________
-	
+
 	
 	
 	/**
-	 * method trouverCamel(
-	 * String pString) :<br/>
-	 * <ul>
-	 * <li><b>Décompose un mot camelCase</b> et retourne une liste 
-	 * des sous-mots le composant</li>
-	 * <ul>
-	 * <li>trouverCamel("abel") retourne "abel".</li>
-	 * <li>trouverCamel("Abel") retourne "Abel".</li>
-	 * <li>trouverCamel("abel7Medard") retourne "abel7" 
-	 * et "Medard".</li>
-	 * <li>trouverCamel("AbelMedardGoro") retourne "Abel"
-	 * , "Medard", "Goro".</li>
-	 * <li>trouverCamel("AbstractProfilSimple") retourne "Abstract"
-	 * , "Profil", "Simple".</li>
-	 * </ul>
-	 * </ul>
-	 *
-	 * @param pString : String.<br/>
-	 * 
-	 * @return : List&lt;String&gt; : Liste des "bosses" du chameau.<br/>
+	 * {@inheritDoc}
 	 */
-	private List<String> trouverCamel(
-			final String pString) {
+	@Override
+	protected final void alimenterNomSimpleConcreteClass(
+			final String pNomObjetMetier) {
 		
-		final List<String> resultat = new ArrayList<String>();
+		this.nomSimpleConcreteClass = pNomObjetMetier;
 		
-		/* Pattern sous forme de String. */
-		/* - Commence par une Majuscule ou une minuscule
-		 * - poursuit par des minuscules. */
-		final String patternStringDebut = "^([A-Z][a-z0-9]*|[a-z0-9]*)";
-		
-		/* Instanciation d'un Pattern. */
-		final Pattern patternDebut = Pattern.compile(patternStringDebut);
-		
-		/* Instanciation d'un moteur de recherche Matcher. */
-		final Matcher matcherDebut = patternDebut.matcher(pString);
-		
-		String suite = null;
-		
-		/* Recherche des ocurrences du Pattern. */
-		while (matcherDebut.find()) {
-			
-			final String lu = matcherDebut.group();
-			resultat.add(lu);
-			suite = StringUtils.removeStart(pString, lu);
-			
-		}
-		
-		if (!StringUtils.isBlank(suite)) {
-			
-			/* Pattern sous forme de String. */
-			/* - Commence par I
-			 * - poursuit par une Majuscule
-			 * - poursuit CamelCase. */
-			final String patternString = "([A-Z][a-z0-9]*)";
-			
-			/* Instanciation d'un Pattern. */
-			final Pattern pattern = Pattern.compile(patternString);
-			
-			/* Instanciation d'un moteur de recherche Matcher. */
-			final Matcher matcher = pattern.matcher(suite);
-			
-			/* Recherche des ocurrences du Pattern. */
-			while (matcher.find()) {
-				
-				final String lu = matcher.group();
-				resultat.add(lu);		
-				
-			}
-			
-		}
-				
-		return resultat;
+	} // Fin de alimenterNomSimpleConcreteClass(...).______________________
 	
-	} // Fin de trouverCamel(...)._________________________________________
-	
-	
-	
+
 	
 } // FIN DE LA CLASSE GenerateurCode.----------------------------------------
