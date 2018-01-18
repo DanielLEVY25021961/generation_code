@@ -149,6 +149,16 @@ public interface IEcriveur {
 	// ****************************************************/
 	// VARIABLES DE TEMPLATES.
 	// ****************************************************/
+	
+	/**
+	 * VARIABLE_PATHMETIER : String :<br/>
+	 * "{$pathMetier}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_PATHMETIER 
+		= "{$pathMetier}";
+	
+	
 	/**
 	 * VARIABLE_NOMSIMPLEFICHIERJAVA : String :<br/>
 	 * "{$nomSimpleFichierJava}".<br/>
@@ -166,6 +176,15 @@ public interface IEcriveur {
 	String VARIABLE_NOMSIMPLEINTERFACE 
 		= "{$nomSimpleInterface}";
 
+	
+	/**
+	 * VARIABLE_NOMSIMPLEABSTRACTCLASS : String :<br/>
+	 * "{$nomSimpleAbstractClass}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOMSIMPLEABSTRACTCLASS 
+		= "{$nomSimpleAbstractClass}";
+	
 	
 	/**
 	 * VARIABLE_CONCEPT_MODELISE : String :<br/>
@@ -772,7 +791,46 @@ public interface IEcriveur {
 	
 	//*****************************************************************/
 	//*************************** COMMUNS *****************************/
-	//*****************************************************************/				
+	//*****************************************************************/
+	
+
+	/**
+	 * INTERFACE : String :<br/>
+	 * "public interface ".<br/>
+	 */
+	String INTERFACE = "public interface ";
+	
+	
+	/**
+	 * ABSTRACT_CLASS : String :<br/>
+	 * "public abstract class ".<br/>
+	 */
+	String ABSTRACT_CLASS 
+		= "public abstract class ";
+	
+	
+	/**
+	 * CLASS : String :<br/>
+	 * "public class ".<br/>
+	 */
+	String CLASS 
+		= "public class ";
+
+	
+	/**
+	 * IMPLEMENTS : String :<br/>
+	 * " implements ".<br/>
+	 */
+	String IMPLEMENTS = " implements ";
+	
+	
+	/**
+	 * EXTENDS : String :<br/>
+	 * " extends ".<br/>
+	 */
+	String EXTENDS = " extends ";
+	
+
 	/**
 	 * POINT_BR : String :<br/>
 	 * ".<br/>".<br/>

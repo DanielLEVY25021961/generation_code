@@ -6,8 +6,8 @@
  * </p>
  * <ul>
  * <li>
- * <img src="../../../../../../../../../../javadoc/images/classes_implementation_{$nomSimpleInterface}.png" 
- * alt="classes d'implémentation des {$nomSimpleInterface}" border="1" align="center" />
+ * <img src="../../../../../../../../../../javadoc/images/classes_implementation_{$conceptModelise}.png" 
+ * alt="classes d'implémentation des {$conceptModelise}" border="1" align="center" />
  * </li>
  * </ul>
  * 

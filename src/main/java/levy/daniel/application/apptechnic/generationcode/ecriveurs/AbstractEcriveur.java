@@ -577,7 +577,52 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	 * @return : String : La ligne package à incorporer 
 	 * à la première ligne de la classe Java.<br/>
 	 */
-	protected abstract String creerLignePackage(File pFile);
+	protected final String creerLignePackage(
+			final File pFile) {
+		
+		/* retourne null si pFile est null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return null;
+		}
+		
+		/* Récupération du package parent de l'interface. */
+		final File packagePere = pFile.getParentFile();
+		
+		/* Récupération du Path du package parent de l'interface. */
+		final Path pathPackagePere = packagePere.toPath();
+		
+		/* EXTRACTION DU PATH RELATIF DU PACKAGE-PERE PAR RAPPORT 
+		 * A LA RACINE DES SOURCES JAVA avec des antislash. */
+		final Path pathPackageRelatifPere 
+			= this.pathRacineMainJava.relativize(pathPackagePere);
+		
+		/* Transformation du path relatif en String avec des antislash. */
+		final String pathRelatifPereAntiSlash 
+			= pathPackageRelatifPere.toString();
+		
+		/* Transformation en path Java avec des points. */
+		final String pathRelatifPerePoint 
+			= this.remplacerAntiSlashparPoint(pathRelatifPereAntiSlash);
+		
+		/* CONSTRUCTION DE LA LIGNE DE CODE. */
+		final String resultat 
+			= "package " + pathRelatifPerePoint + POINT_VIRGULE;
+		
+		this.lignePackage = resultat;
+		
+		return this.lignePackage;
+		
+	} // Fin de creerLignePackage(...).____________________________________
 	
 	
 	
@@ -7194,6 +7239,7 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	 * <li>Fournit la dernière entrée d'une List&lt;String&gt;.</li>
 	 * </ul>
 	 * retourne null si pList == null.<br/>
+	 * retourne null si pList est vide.<br/>
 	 * <br/>
 	 *
 	 * @param pList : List&lt;String&gt;
@@ -7207,6 +7253,12 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		if (pList == null) {
 			return null;
 		}
+		
+		/* retourne null si pList est vide. */
+		if (pList.isEmpty()) {
+			return null;
+		}
+		
 		
 		final String derniereLigne 
 			= pList.get(pList.size() - 1);

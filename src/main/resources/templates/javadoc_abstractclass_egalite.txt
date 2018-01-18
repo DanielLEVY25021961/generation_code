@@ -4,5 +4,5 @@
  * <span style="text-decoration: underline;">EGALITE METIER</span>
  * </p>
  * <ul>
- * <li>L'<b>égalité metier</b> d'un {$nomSimpleInterface} est vérifiée sur :</li>
+ * <li>L'<b>égalité metier</b> d'un {$nomSimpleAbstractClass} est vérifiée sur :</li>
  * <ul>

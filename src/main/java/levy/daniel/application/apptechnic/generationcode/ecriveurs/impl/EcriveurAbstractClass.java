@@ -1,12 +1,11 @@
 package levy.daniel.application.apptechnic.generationcode.ecriveurs.impl;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -290,79 +289,6 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	
 	
 	/**
-	 * method creerLignePackage(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Crée et retourne la première <b>ligne de code</b> PACKAGE 
-	 * d'une classe Java.</li>
-	 * <li>alimente this.lignePackage</li>
-	 * <li>Déduit la package père Java d'un fichier Java.</li>
-	 * <li>Par exemple : creerLignePackage(IProfil.java) retourne :<br/> 
-	 * <code>package 
-	 * levy.daniel.application.model.metier.profil;</code></li>
-	 * </ul>
-	 * retourne null si pClasseJava est null.<br/>
-	 * retourne null si pClasseJava n'existe pas.<br/>
-	 * retourne null si pClasseJava n'est pas un fichier simple.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : File : la classe Java dont on veut générer 
-	 * la première ligne package.<br/>
-	 * 
-	 * @return : String : La ligne package à incorporer 
-	 * à la première ligne de la classe Java.<br/>
-	 */
-	@Override
-	protected final String creerLignePackage(
-			final File pFile) {
-		
-		/* retourne null si pFile est null. */
-		if (pFile == null) {
-			return null;
-		}
-		
-		/* retourne null si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return null;
-		}
-		
-		/* retourne null si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return null;
-		}
-		
-		/* Récupération du package parent de l'interface. */
-		final File packagePere = pFile.getParentFile();
-		
-		/* Récupération du Path du package parent de l'interface. */
-		final Path pathPackagePere = packagePere.toPath();
-		
-		/* EXTRACTION DU PATH RELATIF DU PACKAGE-PERE PAR RAPPORT 
-		 * A LA RACINE DES SOURCES JAVA avec des antislash. */
-		final Path pathPackageRelatifPere 
-			= this.pathRacineMainJava.relativize(pathPackagePere);
-		
-		/* Transformation du path relatif en String avec des antislash. */
-		final String pathRelatifPereAntiSlash 
-			= pathPackageRelatifPere.toString();
-		
-		/* Transformation en path Java avec des points. */
-		final String pathRelatifPerePoint 
-			= this.remplacerAntiSlashparPoint(pathRelatifPereAntiSlash);
-		
-		/* CONSTRUCTION DE LA LIGNE DE CODE. */
-		final String resultat 
-			= "package " + pathRelatifPerePoint + POINT_VIRGULE;
-		
-		this.lignePackage = resultat;
-		
-		return this.lignePackage;
-		
-	} // Fin de creerLignePackage(...).____________________________________
-	
-
-	
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -392,28 +318,142 @@ public class EcriveurAbstractClass extends AbstractEcriveur {
 	protected final List<String> creerLignesJavaDoc(
 			final File pFile) throws Exception {
 		
-		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/javadoc_abstractclass.txt";
+		/* DEBUT. */
+		final String cheminFichierDebut 
+			= BundleConfigurationProjetManager
+				.getRacineMainResources() 
+				+ "/templates/javadoc_abstractclass_debut.txt";
 		
-		final File fichier = new File(cheminFichier);
+		final File fichierDebut = new File(cheminFichierDebut);
 		
-		final List<String> listeLignes 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
 		
-		final String subst 
-			= this.genererNomInterface(this.nomSimpleFichierJava);
-		
-		final List<String> listeLignesProvisoire 
-			= this.substituerVariablesDansLigne(
-					listeLignes, "{$IObjet}", subst);
-		
-		final List<String> listeLignesSubstitue 
+		final List<String> listeLignesDebutSubst1 
 		= this.substituerVariablesDansLigne(
-				listeLignesProvisoire
-				, "{$AbstractObjet}", this.nomSimpleFichierJava); // NOPMD by dan on 08/01/18 08:09
+				listeLignesDebut
+				, VARIABLE_NOMSIMPLEINTERFACE
+					, this.nomSimpleInterface);
 		
-		this.javadoc = listeLignesSubstitue;
+		final List<String> listeLignesDebutSubst2 
+		= this.substituerVariablesDansLigne(
+				listeLignesDebutSubst1
+				, VARIABLE_CONCEPT_MODELISE
+					, this.conceptModelise);
+		
+		final List<String> listeLignesSubst3 
+		= this.substituerVariablesDansLigne(
+				listeLignesDebutSubst2
+				, VARIABLE_NOMSIMPLEABSTRACTCLASS
+					, this.nomSimpleAbstractClass); // NOPMD by dan on 08/01/18 08:09
+		
+		this.javadoc.addAll(listeLignesSubst3);
+		
+		/* ATTRIBUTS. */
+		final String cheminFichierAttributs 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/javadoc_interface_attributs.txt";
+		
+		final File fichierAttributs = new File(cheminFichierAttributs);
+		
+		final List<String> listeLignesAttributs 
+			= this.lireStringsDansFile(fichierAttributs, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetAttributs 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> iteAttributs 
+			= entrySetAttributs.iterator();
+		
+		while (iteAttributs.hasNext()) {
+			
+			final Entry<String, String> entryAttributs = iteAttributs.next();
+			
+			final String nomAttribut = entryAttributs.getKey();
+			
+			final List<String> listeAttribut 
+				= this.substituerVariablesDansLigne(
+						listeLignesAttributs
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+			
+			this.javadoc.addAll(listeAttribut);
+		}
+
+		/* EGALITE METIER. */
+		final String cheminFichierEgalite 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_abstractclass_egalite.txt";
+	
+		final File fichierEgalite = new File(cheminFichierEgalite);
+		
+		final List<String> listeLignesEgalite 
+			= this.lireStringsDansFile(fichierEgalite, CHARSET_UTF8);
+		
+		final List<String> listeLignesEgaliteSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesEgalite
+						, VARIABLE_NOMSIMPLEABSTRACTCLASS
+							, this.nomSimpleAbstractClass);
+		
+		this.javadoc.addAll(listeLignesEgaliteSubst1);
+		
+		/* attributs de equals. */
+		final String cheminFichierAttributsEquals 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_attributs.txt";
+	
+		final File fichierAttributsEquals = new File(cheminFichierAttributsEquals);
+		
+		final List<String> listeLignesAttributsEquals 
+			= this.lireStringsDansFile(fichierAttributsEquals, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetAttributsEquals 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteAttributsEquals 
+			= entrySetAttributsEquals.iterator();
+		
+		while (iteAttributsEquals.hasNext()) {
+			
+			final Entry<String, String> entryAttributs = iteAttributsEquals.next();
+			
+			final String nomAttribut = entryAttributs.getKey();
+			
+			final List<String> listeAttribut 
+				= this.substituerVariablesDansLigne(
+						listeLignesAttributsEquals
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+			
+			this.javadoc.addAll(listeAttribut);
+		}
+
+		/* DIAGRAMMES. */
+		final String cheminFichierDiagramme
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_abstractclass_diagrammes.txt";
+	
+		final File fichierDiagramme= new File(cheminFichierDiagramme);
+		
+		final List<String> listeLignesDiagramme
+			= this.lireStringsDansFile(fichierDiagramme, CHARSET_UTF8);
+		
+		final List<String> listeLignesRgSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesDiagramme
+						, VARIABLE_CONCEPT_MODELISE
+							, this.conceptModelise);
+		
+		final List<String> listeLignesRgSubst2 
+		= this.substituerVariablesDansLigne(
+				listeLignesRgSubst1
+					, VARIABLE_NOMSIMPLEABSTRACTCLASS
+						, this.nomSimpleAbstractClass);
+		
+		this.javadoc.addAll(listeLignesRgSubst2);
+		
+		/* REGLES DE GESTION. */
 		
 		return this.javadoc;
 				

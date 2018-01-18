@@ -9,6 +9,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurat
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.impl.EcriveurAbstractClass;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.impl.EcriveurConcreteClass;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.impl.EcriveurInterface;
 
 
@@ -63,7 +64,14 @@ public class GenerateurMetier extends AbstractGenerateur {
 		= new EcriveurAbstractClass();
 
 
+	/**
+	 * ecriveurConcreteClass : IEcriveur :<br/>
+	 * EcriveurConcreteClass.<br/>
+	 */
+	private final transient IEcriveur ecriveurConcreteClass 
+		= new EcriveurConcreteClass();
 
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -112,6 +120,9 @@ public class GenerateurMetier extends AbstractGenerateur {
 		
 		/* génère le code de la classe abstraite dans this.abstractClass. */
 		this.ecriveurAbstractClass.ecrireCode(this.abstractClass, this);
+		
+		/* génère le code de la classe concrète dans this.concreteClass. */
+		this.ecriveurConcreteClass.ecrireCode(this.concreteClass, this);
 		
 		/* génère le fichier vide classMetierForm. */
 		this.genererClassMetierForm();
