@@ -1,16 +1,3 @@
- * </ul>
- * </ul>
- * 
- * <p>
- * <span style="text-decoration: underline;">DIAGRAMME DE CLASSES D'IMPLEMENTATION</span>
- * </p>
- * <ul>
- * <li>
- * <img src="../../../../../../../../../../javadoc/images/classes_implementation_{$conceptModelise}.png" 
- * alt="classes d'implémentation des {$conceptModelise}" border="1" align="center" />
- * </li>
- * </ul>
- * 
  * <br/>
  * <p>
  * <span style="text-decoration: underline;">REGLES DE GESTION</span>

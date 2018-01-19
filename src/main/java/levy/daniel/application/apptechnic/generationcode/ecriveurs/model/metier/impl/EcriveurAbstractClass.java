@@ -327,100 +327,27 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 		
 		
 		/* EGALITE METIER. */
-		final String cheminFichierEgalite 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_abstractclass_egalite.txt";
-	
-		final File fichierEgalite = new File(cheminFichierEgalite);
-		
-		final List<String> listeLignesEgalite 
-			= this.lireStringsDansFile(fichierEgalite, CHARSET_UTF8);
-		
-		final List<String> listeLignesEgaliteSubst1 
-			= this.substituerVariablesDansLigne(
-					listeLignesEgalite
-						, VARIABLE_NOMSIMPLEABSTRACTCLASS
-							, this.nomSimpleAbstractClass);
-		
-		this.javadoc.addAll(listeLignesEgaliteSubst1);
+		/* en-tête. */
+		this.creerLignesJavaDocEnTeteEgaliteMetier();
 		
 		/* attributs de equals. */
-		final String cheminFichierAttributsEquals 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_interface_attributs.txt";
-	
-		final File fichierAttributsEquals = new File(cheminFichierAttributsEquals);
+		this.creerLignesJavaDocAttributsEgaliteMetier();
 		
-		final List<String> listeLignesAttributsEquals 
-			= this.lireStringsDansFile(fichierAttributsEquals, CHARSET_UTF8);
-		
-		final Set<Entry<String, String>> entrySetAttributsEquals 
-		= this.mapAttributsEquals.entrySet();
-	
-		final Iterator<Entry<String, String>> iteAttributsEquals 
-			= entrySetAttributsEquals.iterator();
-		
-		while (iteAttributsEquals.hasNext()) {
-			
-			final Entry<String, String> entryAttributs = iteAttributsEquals.next();
-			
-			final String nomAttribut = entryAttributs.getKey();
-			
-			final List<String> listeAttribut 
-				= this.substituerVariablesDansLigne(
-						listeLignesAttributsEquals
-							, VARIABLE_NOMATTRIBUT
-								, nomAttribut);
-			
-			this.javadoc.addAll(listeAttribut);
-		}
 
 		/* DIAGRAMMES. */
-		final String cheminFichierDiagramme
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_abstractclass_diagrammes.txt";
-	
-		final File fichierDiagramme= new File(cheminFichierDiagramme);
-		
-		final List<String> listeLignesDiagramme
-			= this.lireStringsDansFile(fichierDiagramme, CHARSET_UTF8);
-		
-		final List<String> listeLignesRgSubst1 
-			= this.substituerVariablesDansLigne(
-					listeLignesDiagramme
-						, VARIABLE_CONCEPT_MODELISE
-							, this.conceptModelise);
-		
-		final List<String> listeLignesRgSubst2 
-		= this.substituerVariablesDansLigne(
-				listeLignesRgSubst1
-					, VARIABLE_NOMSIMPLEABSTRACTCLASS
-						, this.nomSimpleAbstractClass);
-		
-		this.javadoc.addAll(listeLignesRgSubst2);
+		this.creerLignesJavaDocDiagrammes();
+
 		
 		/* REGLES DE GESTION. */
-		
+		/* en-tête. */
+		this.creerLignesJavaDocEnTeteRg();
+
+		/* corps du tableau de RG. */
+		this.creerLignesJavaDocTableauRg();
 		
 		
 		/* FIN DE LA JAVADOC. */
-		final String cheminFichierFinJavadoc
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_interface_fin.txt";
-	
-		final File fichierFinJavadoc = new File(cheminFichierFinJavadoc);
-		
-		final List<String> listeLignesFinJavadoc 
-			= this.lireStringsDansFile(fichierFinJavadoc, CHARSET_UTF8);
-		
-		final List<String> listeLignesFinJavadocSubst1 
-			= this.substituerVariablesDansLigne(
-					listeLignesFinJavadoc
-						, VARIABLE_DATEDUJOUR
-							, this.afficherDateDuJour());
-		
-		this.javadoc.addAll(listeLignesFinJavadocSubst1);
-
+		this.creerLignesJavaDocFin();
 		
 		return this.javadoc;
 				
@@ -519,6 +446,183 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 		}
 
 	} // Fin de creerLignesJavaDocAttributs()._____________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocEnTeteEgaliteMetier() :<br/>
+	 * <ul>
+	 * <li>EGALITE METIER (en-tête).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocEnTeteEgaliteMetier() 
+			throws Exception {
+		
+		final String cheminFichierEgalite 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_abstractclass_egalite.txt";
+	
+		final File fichierEgalite = new File(cheminFichierEgalite);
+		
+		final List<String> listeLignesEgalite 
+			= this.lireStringsDansFile(fichierEgalite, CHARSET_UTF8);
+		
+		final List<String> listeLignesEgaliteSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesEgalite
+						, VARIABLE_NOMSIMPLEABSTRACTCLASS
+							, this.nomSimpleAbstractClass);
+		
+		this.javadoc.addAll(listeLignesEgaliteSubst1);
+		
+	} // Fin de creerLignesJavaDocEnTeteEgaliteMetier().___________________
+	
+	
+	
+	/**
+	 * method creerLignesJavaDocAttributsEgaliteMetier() :<br/>
+	 * <ul>
+	 * <li>EGALITE METIER (attributs).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocAttributsEgaliteMetier() 
+			throws Exception {
+		
+		final String cheminFichierAttributsEquals 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_attributs.txt";
+	
+		final File fichierAttributsEquals = new File(cheminFichierAttributsEquals);
+		
+		final List<String> listeLignesAttributsEquals 
+			= this.lireStringsDansFile(fichierAttributsEquals, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetAttributsEquals 
+		= this.mapAttributsEquals.entrySet();
+	
+		final Iterator<Entry<String, String>> iteAttributsEquals 
+			= entrySetAttributsEquals.iterator();
+		
+		while (iteAttributsEquals.hasNext()) {
+			
+			final Entry<String, String> entryAttributs = iteAttributsEquals.next();
+			
+			final String nomAttribut = entryAttributs.getKey();
+			
+			final List<String> listeAttribut 
+				= this.substituerVariablesDansLigne(
+						listeLignesAttributsEquals
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+			
+			this.javadoc.addAll(listeAttribut);
+		}
+
+	} // Fin de creerLignesJavaDocAttributsEgaliteMetier().________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocDiagrammes() :<br/>
+	 * <ul>
+	 * <li>DIAGRAMMES.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocDiagrammes() 
+			throws Exception {
+		
+		final String cheminFichierDiagramme
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_abstractclass_diagrammes.txt";
+	
+		final File fichierDiagramme= new File(cheminFichierDiagramme);
+		
+		final List<String> listeLignesDiagramme
+			= this.lireStringsDansFile(fichierDiagramme, CHARSET_UTF8);
+		
+		final List<String> listeLignesRgSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesDiagramme
+						, VARIABLE_CONCEPT_MODELISE
+							, this.conceptModelise);
+		
+		final List<String> listeLignesRgSubst2 
+		= this.substituerVariablesDansLigne(
+				listeLignesRgSubst1
+					, VARIABLE_NOMSIMPLEABSTRACTCLASS
+						, this.nomSimpleAbstractClass);
+		
+		this.javadoc.addAll(listeLignesRgSubst2);
+
+	} // Fin de creerLignesJavaDocDiagrammes().____________________________
+	
+	
+	
+	/**
+	 * method creerLignesJavaDocEnTeteRg() :<br/>
+	 * <ul>
+	 * <li>REGLES DE GESTION (en-tête).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocEnTeteRg() 
+			throws Exception {
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
+	} // Fin de creerLignesJavaDocEnTeteRg().______________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocTableauRg() :<br/>
+	 * <ul>
+	 * <li>REGLES DE GESTION (tableau).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocTableauRg() 
+			throws Exception {
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
+	} // Fin de creerLignesJavaDocTableauRg()._____________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocFin() :<br/>
+	 * <ul>
+	 * <li>FIN DE LA JAVADOC DE NIVEAU FICHIER.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocFin() 
+			throws Exception {
+		
+		final String cheminFichierFinJavadoc
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_fin.txt";
+	
+		final File fichierFinJavadoc = new File(cheminFichierFinJavadoc);
+		
+		final List<String> listeLignesFinJavadoc 
+			= this.lireStringsDansFile(fichierFinJavadoc, CHARSET_UTF8);
+		
+		final List<String> listeLignesFinJavadocSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesFinJavadoc
+						, VARIABLE_DATEDUJOUR
+							, this.afficherDateDuJour());
+		
+		this.javadoc.addAll(listeLignesFinJavadocSubst1);
+
+	} // Fin de creerLignesJavaDocFin().___________________________________
 	
 
 	

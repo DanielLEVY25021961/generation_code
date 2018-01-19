@@ -234,6 +234,132 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 		
 
 		/* EGALITE METIER. */
+		/* en-tête. */
+		this.creerLignesJavaDocEnTeteEgaliteMetier();
+		
+		/* attributs de equals. */
+		this.creerLignesJavaDocAttributsEgaliteMetier();
+
+		
+		/* DIAGRAMMES. */
+		this.creerLignesJavaDocDiagrammes();
+		
+		
+		/* REGLES DE GESTION. */
+		/* en-tête. */
+		this.creerLignesJavaDocEnTeteRg();
+		
+		/* corps du tableau de RG. */
+		this.creerLignesJavaDocTableauRg();
+		
+		
+		/* FIN DE LA JAVADOC. */
+		this.creerLignesJavaDocFin();
+				
+		return this.javadoc;
+		
+	} // Fin de creerLignesJavaDoc(...).___________________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocDebut() :<br/>
+	 * <ul>
+	 * Crée le début de la Javadoc du fichier :
+	 * <li>CONCEPT MODELISE.</li>
+	 * <li>HERITAGE.</li>
+	 * <li>RESPONSABILITES (SAVOIR-FAIRE).</li>
+	 * <li>ATTRIBUTS (SAVOIR).</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private void creerLignesJavaDocDebut() throws Exception {
+		
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager
+			.getRacineMainResources() 
+				+ "/templates/javadoc_interface_debut.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+		
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+				
+		final List<String> listeLignesDebutSubst1 
+		= this.substituerVariablesDansLigne(
+				listeLignesDebut
+				, VARIABLE_NOMSIMPLEINTERFACE, this.nomSimpleInterface);
+		
+		final List<String> listeLignesDebutSubst2 
+		= this.substituerVariablesDansLigne(
+				listeLignesDebutSubst1
+				, VARIABLE_CONCEPT_MODELISE, this.conceptModelise);
+		
+		this.javadoc.addAll(listeLignesDebutSubst2);
+
+	} // Fin de creerLignesJavaDocDebut()._________________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocAttributs() :<br/>
+	 * <ul>
+	 * Crée les lignes ATTRIBUT (SAVOIR) de la Javadoc du fichier :
+	 * <li>se colle sous le début de la javadoc du fichier java.</li>
+	 * <li>insère une ligne de liste HTML par attribut 
+	 * de la map this.mapAttributs.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocAttributs() throws Exception {
+		
+		final String cheminFichierAttributs 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_attributs.txt";
+	
+		final File fichierAttributs = new File(cheminFichierAttributs);
+		
+		final List<String> listeLignesAttributs 
+			= this.lireStringsDansFile(fichierAttributs, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetAttributs 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> iteAttributs 
+			= entrySetAttributs.iterator();
+		
+		while (iteAttributs.hasNext()) {
+			
+			final Entry<String, String> entryAttributs = iteAttributs.next();
+			
+			final String nomAttribut = entryAttributs.getKey();
+			
+			final List<String> listeAttribut 
+				= this.substituerVariablesDansLigne(
+						listeLignesAttributs
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+			
+			this.javadoc.addAll(listeAttribut);
+		}
+
+	} // Fin de creerLignesJavaDocAttributs()._____________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocEnTeteEgaliteMetier() :<br/>
+	 * <ul>
+	 * <li>EGALITE METIER (en-tête).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocEnTeteEgaliteMetier() 
+			throws Exception {
+		
 		final String cheminFichierEgalite 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
 		+ "/templates/javadoc_interface_egalite.txt";
@@ -251,7 +377,21 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 		
 		this.javadoc.addAll(listeLignesEgaliteSubst1);
 
-		/* attributs de equals. */
+	} // Fin de creerLignesJavaDocEnTeteEgaliteMetier().___________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocAttributsEgaliteMetier() :<br/>
+	 * <ul>
+	 * <li>EGALITE METIER (attributs).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocAttributsEgaliteMetier() 
+			throws Exception {
+		
 		final String cheminFichierAttributsEquals 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
 		+ "/templates/javadoc_interface_attributs.txt";
@@ -282,8 +422,53 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 			this.javadoc.addAll(listeAttribut);
 		}
 
+	} // Fin de creerLignesJavaDocAttributsEgaliteMetier().________________
+	
+	
+	
+	/**
+	 * method creerLignesJavaDocDiagrammes() :<br/>
+	 * <ul>
+	 * <li>DIAGRAMMES.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocDiagrammes() 
+			throws Exception {
 		
-		/* REGLES DE GESTION. */
+		final String cheminFichierDiagramme
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_diagrammes.txt";
+	
+		final File fichierDiagramme= new File(cheminFichierDiagramme);
+		
+		final List<String> listeLignesDiagramme
+			= this.lireStringsDansFile(fichierDiagramme, CHARSET_UTF8);
+		
+		final List<String> listeLignesRgSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesDiagramme
+						, VARIABLE_CONCEPT_MODELISE
+							, this.conceptModelise);
+				
+		this.javadoc.addAll(listeLignesRgSubst1);
+
+	} // Fin de creerLignesJavaDocDiagrammes().____________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocEnTeteRg() :<br/>
+	 * ul>
+	 * <li>REGLES DE GESTION (en-tête).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocEnTeteRg() 
+			throws Exception {
+		
 		final String cheminFichierRg 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
 		+ "/templates/javadoc_interface_rg_debut.txt";
@@ -306,8 +491,22 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 						, this.conceptModelise);
 		
 		this.javadoc.addAll(listeLignesRgSubst2);
+
+	} // Fin de creerLignesJavaDocEnTeteRg().______________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocTableauRg() :<br/>
+	 * <ul>
+	 * <li>REGLES DE GESTION (tableau).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocTableauRg() 
+			throws Exception {
 		
-		/* corps du tableau de RG. */
 		final Set<Entry<String, List<String>>> entrySetAttributs2 
 		= this.mapRg.entrySet();
 	
@@ -409,7 +608,21 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 		/* FIN DE LA LISTE. */
 		this.javadoc.add(" * </ul>");
 		
-		/* FIN DE LA JAVADOC. */
+	} // Fin de creerLignesJavaDocTableauRg()._____________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocFin() :<br/>
+	 * <ul>
+	 * <li>FIN DE LA JAVADOC DE NIVEAU FICHIER.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocFin() 
+			throws Exception {
+		
 		final String cheminFichierFinJavadoc
 		= BundleConfigurationProjetManager.getRacineMainResources() 
 		+ "/templates/javadoc_interface_fin.txt";
@@ -426,97 +639,8 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 							, this.afficherDateDuJour());
 		
 		this.javadoc.addAll(listeLignesFinJavadocSubst1);
-		
-		return this.javadoc;
-		
-	} // Fin de creerLignesJavaDoc(...).___________________________________
-	
 
-	
-	/**
-	 * method creerLignesJavaDocDebut() :<br/>
-	 * <ul>
-	 * Crée le début de la Javadoc du fichier :
-	 * <li>CONCEPT MODELISE.</li>
-	 * <li>HERITAGE.</li>
-	 * <li>RESPONSABILITES (SAVOIR-FAIRE).</li>
-	 * <li>ATTRIBUTS (SAVOIR).</li>
-	 * </ul>
-	 * 
-	 * @throws Exception 
-	 */
-	private void creerLignesJavaDocDebut() throws Exception {
-		
-		final String cheminFichierDebut 
-		= BundleConfigurationProjetManager
-			.getRacineMainResources() 
-				+ "/templates/javadoc_interface_debut.txt";
-	
-		final File fichierDebut = new File(cheminFichierDebut);
-		
-		final List<String> listeLignesDebut 
-			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
-				
-		final List<String> listeLignesDebutSubst1 
-		= this.substituerVariablesDansLigne(
-				listeLignesDebut
-				, VARIABLE_NOMSIMPLEINTERFACE, this.nomSimpleInterface);
-		
-		final List<String> listeLignesDebutSubst2 
-		= this.substituerVariablesDansLigne(
-				listeLignesDebutSubst1
-				, VARIABLE_CONCEPT_MODELISE, this.conceptModelise);
-		
-		this.javadoc.addAll(listeLignesDebutSubst2);
-
-	} // Fin de creerLignesJavaDocDebut()._________________________________
-	
-
-	
-	/**
-	 * method creerLignesJavaDocAttributs() :<br/>
-	 * <ul>
-	 * Crée les lignes ATTRIBUT (SAVOIR) de la Javadoc du fichier :
-	 * <li>se colle sous le début de la javadoc du fichier java.</li>
-	 * <li>insère une ligne de liste HTML par attribut 
-	 * de la map this.mapAttributs.</li>
-	 * </ul>
-	 *
-	 * @throws Exception
-	 */
-	private void creerLignesJavaDocAttributs() throws Exception {
-		
-		final String cheminFichierAttributs 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_interface_attributs.txt";
-	
-		final File fichierAttributs = new File(cheminFichierAttributs);
-		
-		final List<String> listeLignesAttributs 
-			= this.lireStringsDansFile(fichierAttributs, CHARSET_UTF8);
-		
-		final Set<Entry<String, String>> entrySetAttributs 
-		= this.mapAttributs.entrySet();
-	
-		final Iterator<Entry<String, String>> iteAttributs 
-			= entrySetAttributs.iterator();
-		
-		while (iteAttributs.hasNext()) {
-			
-			final Entry<String, String> entryAttributs = iteAttributs.next();
-			
-			final String nomAttribut = entryAttributs.getKey();
-			
-			final List<String> listeAttribut 
-				= this.substituerVariablesDansLigne(
-						listeLignesAttributs
-							, VARIABLE_NOMATTRIBUT
-								, nomAttribut);
-			
-			this.javadoc.addAll(listeAttribut);
-		}
-
-	} // Fin de creerLignesJavaDocAttributs()._____________________________
+	} // Fin de creerLignesJavaDocFin().___________________________________
 	
 	
 	

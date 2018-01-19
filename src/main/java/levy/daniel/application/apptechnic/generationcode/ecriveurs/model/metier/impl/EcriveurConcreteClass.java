@@ -320,8 +320,32 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 		/* ATTRIBUTS. */
 		this.creerLignesJavaDocAttributs();
 		
-		return this.javadoc;
 
+		/* EGALITE METIER. */
+		/* en-tête. */
+		this.creerLignesJavaDocEnTeteEgaliteMetier();
+		
+		/* attributs de equals. */
+		this.creerLignesJavaDocAttributsEgaliteMetier();
+
+		
+		/* DIAGRAMMES. */
+		this.creerLignesJavaDocDiagrammes();
+
+		
+		/* REGLES DE GESTION. */
+		/* en-tête. */
+		this.creerLignesJavaDocEnTeteRg();
+
+		/* corps du tableau de RG. */
+		this.creerLignesJavaDocTableauRg();
+		
+		
+		/* FIN DE LA JAVADOC. */
+		this.creerLignesJavaDocFin();
+				
+		return this.javadoc;
+		
 	} // Fin de creerLignesJavaDoc(...).___________________________________
 
 	
@@ -337,7 +361,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 * </ul>
 	 */
 	private void creerLignesJavaDocDebut() {
-		
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
 	} // Fin de creerLignesJavaDocDebut()._________________________________
 	
 	
@@ -354,8 +378,98 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 * @throws Exception
 	 */
 	private void creerLignesJavaDocAttributs() throws Exception {
-		
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
 	} // Fin de creerLignesJavaDocAttributs()._____________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocEnTeteEgaliteMetier() :<br/>
+	 * <ul>
+	 * <li>EGALITE METIER (en-tête).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocEnTeteEgaliteMetier() 
+			throws Exception {
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
+	} // Fin de creerLignesJavaDocEnTeteEgaliteMetier().___________________
+	
+	
+	
+	/**
+	 * method creerLignesJavaDocAttributsEgaliteMetier() :<br/>
+	 * <ul>
+	 * <li>EGALITE METIER (attributs).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocAttributsEgaliteMetier() 
+			throws Exception {
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
+	} // Fin de creerLignesJavaDocAttributsEgaliteMetier().________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocDiagrammes() :<br/>
+	 * <ul>
+	 * <li>DIAGRAMMES.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocDiagrammes() 
+			throws Exception {
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
+	} // Fin de creerLignesJavaDocDiagrammes().____________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocEnTeteRg() :<br/>
+	 * <ul>
+	 * <li>REGLES DE GESTION (en-tête).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocEnTeteRg() 
+			throws Exception {
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
+	} // Fin de creerLignesJavaDocEnTeteRg().______________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocTableauRg() :<br/>
+	 * <ul>
+	 * <li>REGLES DE GESTION (tableau).</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocTableauRg() 
+			throws Exception {
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
+	} // Fin de creerLignesJavaDocTableauRg()._____________________________
+	
+
+	
+	/**
+	 * method creerLignesJavaDocFin() :<br/>
+	 * <ul>
+	 * <li>FIN DE LA JAVADOC DE NIVEAU FICHIER.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocFin() 
+			throws Exception {
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
+	} // Fin de creerLignesJavaDocFin().___________________________________
 	
 
 	
