@@ -44,14 +44,6 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 	public static final String CLASSE_ECRIVEUR_INTERFACE
 		= "Classe EcriveurInterface";
 	
-
-
-	/**
-	 * INTERFACE : String :<br/>
-	 * "public interface ".<br/>
-	 */
-	public static final String INTERFACE = "public interface ";
-	
 	
 	/**
 	 * EXTENDS : String :<br/>
@@ -234,58 +226,12 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 			final File pFile) throws Exception {
 		
 		/* DEBUT. */
-		final String cheminFichierDebut 
-			= BundleConfigurationProjetManager
-			.getRacineMainResources() 
-			+ "/templates/javadoc_interface_debut.txt";
+		this.creerLignesJavaDocDebut();
 		
-		final File fichierDebut = new File(cheminFichierDebut);
-		
-		final List<String> listeLignesDebut 
-			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
-				
-		final List<String> listeLignesDebutSubst1 
-		= this.substituerVariablesDansLigne(
-				listeLignesDebut
-				, VARIABLE_NOMSIMPLEINTERFACE, this.nomSimpleInterface);
-		
-		final List<String> listeLignesDebutSubst2 
-		= this.substituerVariablesDansLigne(
-				listeLignesDebutSubst1
-				, VARIABLE_CONCEPT_MODELISE, this.conceptModelise);
-		
-		this.javadoc.addAll(listeLignesDebutSubst2);
 		
 		/* ATTRIBUTS. */
-		final String cheminFichierAttributs 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/javadoc_interface_attributs.txt";
+		this.creerLignesJavaDocAttributs();
 		
-		final File fichierAttributs = new File(cheminFichierAttributs);
-		
-		final List<String> listeLignesAttributs 
-			= this.lireStringsDansFile(fichierAttributs, CHARSET_UTF8);
-		
-		final Set<Entry<String, String>> entrySetAttributs 
-		= this.mapAttributs.entrySet();
-	
-		final Iterator<Entry<String, String>> iteAttributs 
-			= entrySetAttributs.iterator();
-		
-		while (iteAttributs.hasNext()) {
-			
-			final Entry<String, String> entryAttributs = iteAttributs.next();
-			
-			final String nomAttribut = entryAttributs.getKey();
-			
-			final List<String> listeAttribut 
-				= this.substituerVariablesDansLigne(
-						listeLignesAttributs
-							, VARIABLE_NOMATTRIBUT
-								, nomAttribut);
-			
-			this.javadoc.addAll(listeAttribut);
-		}
 
 		/* EGALITE METIER. */
 		final String cheminFichierEgalite 
@@ -485,8 +431,95 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 		
 	} // Fin de creerLignesJavaDoc(...).___________________________________
 	
+
+	
+	/**
+	 * method creerLignesJavaDocDebut() :<br/>
+	 * <ul>
+	 * Crée le début de la Javadoc du fichier :
+	 * <li>CONCEPT MODELISE.</li>
+	 * <li>HERITAGE.</li>
+	 * <li>RESPONSABILITES (SAVOIR-FAIRE).</li>
+	 * <li>ATTRIBUTS (SAVOIR).</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private void creerLignesJavaDocDebut() throws Exception {
+		
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager
+			.getRacineMainResources() 
+				+ "/templates/javadoc_interface_debut.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+		
+		final List<String> listeLignesDebut 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+				
+		final List<String> listeLignesDebutSubst1 
+		= this.substituerVariablesDansLigne(
+				listeLignesDebut
+				, VARIABLE_NOMSIMPLEINTERFACE, this.nomSimpleInterface);
+		
+		final List<String> listeLignesDebutSubst2 
+		= this.substituerVariablesDansLigne(
+				listeLignesDebutSubst1
+				, VARIABLE_CONCEPT_MODELISE, this.conceptModelise);
+		
+		this.javadoc.addAll(listeLignesDebutSubst2);
+
+	} // Fin de creerLignesJavaDocDebut()._________________________________
 	
 
+	
+	/**
+	 * method creerLignesJavaDocAttributs() :<br/>
+	 * <ul>
+	 * Crée les lignes ATTRIBUT (SAVOIR) de la Javadoc du fichier :
+	 * <li>se colle sous le début de la javadoc du fichier java.</li>
+	 * <li>insère une ligne de liste HTML par attribut 
+	 * de la map this.mapAttributs.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocAttributs() throws Exception {
+		
+		final String cheminFichierAttributs 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_attributs.txt";
+	
+		final File fichierAttributs = new File(cheminFichierAttributs);
+		
+		final List<String> listeLignesAttributs 
+			= this.lireStringsDansFile(fichierAttributs, CHARSET_UTF8);
+		
+		final Set<Entry<String, String>> entrySetAttributs 
+		= this.mapAttributs.entrySet();
+	
+		final Iterator<Entry<String, String>> iteAttributs 
+			= entrySetAttributs.iterator();
+		
+		while (iteAttributs.hasNext()) {
+			
+			final Entry<String, String> entryAttributs = iteAttributs.next();
+			
+			final String nomAttribut = entryAttributs.getKey();
+			
+			final List<String> listeAttribut 
+				= this.substituerVariablesDansLigne(
+						listeLignesAttributs
+							, VARIABLE_NOMATTRIBUT
+								, nomAttribut);
+			
+			this.javadoc.addAll(listeAttribut);
+		}
+
+	} // Fin de creerLignesJavaDocAttributs()._____________________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */

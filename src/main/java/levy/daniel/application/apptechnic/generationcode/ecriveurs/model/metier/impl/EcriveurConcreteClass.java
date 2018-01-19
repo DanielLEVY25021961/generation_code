@@ -39,28 +39,6 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	public static final String CLASSE_ECRIVEUR_CONCRETECLASS 
 		= "Classe EcriveurConcreteClass";
 
-	
-	/**
-	 * CLASS : String :<br/>
-	 * "public class ".<br/>
-	 */
-	public static final String CLASS 
-		= "public class ";
-
-	
-	/**
-	 * IMPLEMENTS : String :<br/>
-	 * " implements ".<br/>
-	 */
-	public static final String IMPLEMENTS = " implements ";
-	
-	
-	/**
-	 * EXTENDS : String :<br/>
-	 * " extends ".<br/>
-	 */
-	public static final String EXTENDS = " extends ";
-	
 
 	/**
 	 * LOG : Log : 
@@ -334,10 +312,53 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	@Override
 	protected final List<String> creerLignesJavaDoc(
 			final File pFile) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
+		/* DEBUT. */
+		this.creerLignesJavaDocDebut();
+		
+		
+		/* ATTRIBUTS. */
+		this.creerLignesJavaDocAttributs();
+		
+		return this.javadoc;
+
+	} // Fin de creerLignesJavaDoc(...).___________________________________
+
+	
+	
+	/**
+	 * method creerLignesJavaDocDebut() :<br/>
+	 * <ul>
+	 * Crée le début de la Javadoc du fichier :
+	 * <li>CONCEPT MODELISE.</li>
+	 * <li>HERITAGE.</li>
+	 * <li>RESPONSABILITES (SAVOIR-FAIRE).</li>
+	 * <li>ATTRIBUTS (SAVOIR).</li>
+	 * </ul>
+	 */
+	private void creerLignesJavaDocDebut() {
+		
+	} // Fin de creerLignesJavaDocDebut()._________________________________
+	
+	
+	
+	/**
+	 * method creerLignesJavaDocAttributs() :<br/>
+	 * <ul>
+	 * Crée les lignes ATTRIBUT (SAVOIR) de la Javadoc du fichier :
+	 * <li>se colle sous le début de la javadoc du fichier java.</li>
+	 * <li>insère une ligne de liste HTML par attribut 
+	 * de la map this.mapAttributs.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private void creerLignesJavaDocAttributs() throws Exception {
+		
+	} // Fin de creerLignesJavaDocAttributs()._____________________________
+	
+
+	
 	/**
 	 * {@inheritDoc}
 	 */
