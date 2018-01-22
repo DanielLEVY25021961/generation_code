@@ -22,9 +22,9 @@ package levy.daniel.application.model.metier;
  *
  */
 public interface IExportateurCsv {
+	
 
-
-
+	
 	/**
 	 * method getEnTeteCsv() :<br/>
 	 * <ul>
@@ -48,8 +48,8 @@ public interface IExportateurCsv {
 	 */
 	String getEnTeteCsv();
 
-
-
+	
+	
 	/**
 	 * method toStringCsv() :<br/>
 	 * <ul>

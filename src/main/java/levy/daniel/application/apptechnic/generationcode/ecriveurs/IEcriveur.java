@@ -96,8 +96,11 @@ public interface IEcriveur {
 	 */
 	String METHODE_COMPTER_LIGNES 
 		= "méthode compterLignes(File pFile)";
+
 	
-	
+	// ****************************************************/
+	// MESSAGES.
+	// ****************************************************/
 	/**
 	 * MESSAGE_FICHIER_NULL : String :<br/>
 	 * Message retourné par la METHODE_ECRIRESTRINGDANSFILE 
@@ -157,6 +160,14 @@ public interface IEcriveur {
 	 */
 	String VARIABLE_PATHMETIER 
 		= "{$pathMetier}";
+
+	
+	/**
+	 * VARIABLE_NOMPACKAGE : String :<br/>
+	 * "{$nomPackage}".<br/>
+	 */
+	String VARIABLE_NOMPACKAGE 
+		= "{$nomPackage}";
 	
 	
 	/**
@@ -861,6 +872,11 @@ public interface IEcriveur {
 	 */
 	String THIS = "this.";
 
+	/**
+	 * STRING : String :<br/>
+	 * "String".<br/>
+	 */
+	String STRING = "String";
 	
 	
 	/**
@@ -870,6 +886,7 @@ public interface IEcriveur {
 	 * <li><b>Génère le code dans le fichier java pFile</b>.</li>
 	 * <li>Traite le cas des mauvais fichiers.</li>
 	 * <li>alimente this.generateurMetier.</li>
+	 * <li>alimente this.nomPackage.</li>
 	 * <li>alimente this.conceptModelise.</li>
 	 * <li>alimente this.mapAttributs.</li>
 	 * <li>alimente this.mapAttributsEquals.</li>

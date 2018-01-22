@@ -82,6 +82,15 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 
 	
 	/**
+	 * nomPackage : String :<br/>
+	 * <b>nom du package à créer dans chaque couche</b>.<br/>
+	 * passé en paramètre au générateur.<br/>
+	 * par exemple : "profil".<br/>
+	 */
+	protected transient String nomPackage;
+	
+	
+	/**
 	 * conceptModelise : String :<br/>
 	 * concept modélisé.<br/>
 	 */
@@ -420,6 +429,9 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 		
 		/* alimente this.generateurMetier. */
 		this.generateurMetier = pGenerateurMetier;
+		
+		/* alimente this.nomPackage. */
+		this.nomPackage = AbstractGenerateur.getNomPackage();
 		
 		/* alimente this.conceptModelise. */
 		this.conceptModelise 
@@ -850,6 +862,16 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 
 
 	
+	/**
+	 * method fournirDebutJavaDoc() :<br/>
+	 * Fournit le début de la javadoc de la classe Java.<br/>
+	 * Par exemple : "* CLASSE ABSTRAITE"<br/>
+	 *
+	 * @return : String : début de la javadoc.<br/>
+	 */
+	protected abstract String fournirDebutJavaDoc();
+
+	
 	
 	/**
 	 * method ecrireEntity(
@@ -1040,6 +1062,17 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 	protected abstract String creerLigneDeclaration(File pFile);
 	
 
+	
+	/**
+	 * method fournirDebutDeclaration() :<br/>
+	 * Fournit le début de la ligne de déclaration de la classe Java.<br/>
+	 * Par exemple : "public interface"<br/>
+	 *
+	 * @return : String : début de la ligne de déclaration.<br/>
+	 */
+	protected abstract String fournirDebutDeclaration();
+	
+	
 		
 	/**
 	 * method ecrireCodeHook(File pFile) :<br/>
@@ -1137,9 +1170,63 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 	 * 
 	 * @return : String : Ligne de code pour la ligne finale.<br/>
 	 */
-	protected abstract String creerLigneFinale(File pFile);
+	protected final String creerLigneFinale(
+			final File pFile) {
+		
+		/* Retourne null si pFile est null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* Retourne null si pFile n'existe pas sur le disque. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* Retourne null si pFile est un répertoire. */
+		if (pFile.isDirectory()) {
+			return null;
+		}
+
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append(CROCHET_FERMANT);
+		stb.append(" // FIN DE ");
+		stb.append(this.fournirTypeFichierJava());
+		stb.append(this.nomSimpleFichierJava);
+		stb.append(POINT);
+		
+		final String provisoire = stb.toString();
+		final int longueurProvisoire = provisoire.length();
+		
+		final int nombreTirets = 77 - longueurProvisoire;
+		
+		for (int i=0; i < nombreTirets; i++) {
+			stb.append('-');
+		}
+		
+		this.ligneFinale = stb.toString();
+		
+		return this.ligneFinale;
+		
+	} // Fin de creerLigneFinale(...)._____________________________________
 	
 
+	
+	/**
+	 * method fournirTypeFichierJava() :<br/>
+	 * <ul>
+	 * <li>Fournit le type de fichier Java pour la ligne finale.</li>
+	 * <li>Par exemple "L'INTERFACE " pour une interface java.</li>
+	 * <li>Par exemple "LA CLASSE " pour une classe java.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	protected abstract String fournirTypeFichierJava();
+
+	
 	
 	/**
 	 * method ecrireLignesSepAttributs() :<br/>
@@ -1560,7 +1647,7 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 
 			
 			final String ligneIdentifiant 
-				= "	protected " + typeAttribut + " " + nomAttribut;
+				= "	protected " + typeAttribut + SEP_ESPACE + nomAttribut;
 			
 			try {
 				
@@ -1772,8 +1859,7 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 	} // Fin de creerSepMethodes(...)._____________________________________
 	
 
-	
-		
+			
 	/**
 	 * method ecrireConstructeurNull(
 	 * File pFile) :<br/>
@@ -1794,7 +1880,7 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	protected final void ecrireConstructeurNull(
+	protected void ecrireConstructeurNull(
 			final File pFile) throws Exception {
 		
 		/* ne fait rien si pFile est null. */
@@ -1937,12 +2023,13 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 		}
 	
 		final List<String> listCode = new ArrayList<String>();
-		final String decalageCode = "\t" + "\t";
 		
+		/* DECLARATION du constructeur. */
 		listCode.add(PUBLIC + this.nomSimpleFichierJava + "() {");
 			
 		listCode.add("");
 	
+		/* CODE du Constructeur. */
 		final StringBuilder stb = new StringBuilder();
 		
 		stb.append("this(null");
@@ -1974,7 +2061,7 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 			stb.append(aAjouter);
 		}
 		
-		listCode.add(decalageCode + stb.toString());
+		listCode.add(DECALAGE_CODE + stb.toString());
 		
 		listCode.add("");
 		
@@ -2044,7 +2131,7 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 	 * 
 	 * @throws Exception 
 	 */
-	protected final void ecrireConstructeurComplet(
+	protected void ecrireConstructeurComplet(
 			final File pFile) throws Exception {
 		
 		/* ne fait rien si pFile est null. */
@@ -2278,9 +2365,11 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 
 		final List<String> listCode = new ArrayList<String>();
 		
+		/* DECLARATION du constructeur. */
 		listCode.add(PUBLIC + this.nomSimpleFichierJava + "(");
 
-		final String decalageDebut = "\t" + "\t" + "\t";
+		/* PARAMETRES du constructeur. */
+		final String decalageDebut = TAB + TAB + TAB;
 		
 		final int tailleMap = this.mapAttributs.size();
 		
@@ -2313,7 +2402,12 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 								
 			} else {
 				
-				decalage = decalage +"\t"; // NOPMD by daniel.levy on 10/01/18 14:43
+				final StringBuffer stb = new StringBuffer();
+				
+				stb.append(decalage);
+				stb.append(TAB);
+				
+				decalage = stb.toString();
 				
 				ligneACreerBase 
 					= decalage + ", " + FINAL
@@ -2332,8 +2426,8 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 			listCode.add(ligneACreer);
 		}
 
-		final String decalageCode = "\t" + "\t";
-		
+
+		/* CODE du Constructeur. */
 		listCode.add("");
 
 		final StringBuilder stb = new StringBuilder();
@@ -2366,7 +2460,7 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 			stb.append(aAjouter);
 		}
 		
-		listCode.add(decalageCode + stb.toString());
+		listCode.add(DECALAGE_CODE + stb.toString());
 		
 		listCode.add("");
 		
@@ -7479,28 +7573,6 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 	protected abstract String fournirNomClasse();
 	
 
-	
-	/**
-	 * method fournirDebutDeclaration() :<br/>
-	 * Fournit le début de la ligne de déclaration de la classe Java.<br/>
-	 * Par exemple : "public interface"<br/>
-	 *
-	 * @return : String : début de la ligne de déclaration.<br/>
-	 */
-	protected abstract String fournirDebutDeclaration();
-	
-	
-	
-	/**
-	 * method fournirDebutJavaDoc() :<br/>
-	 * Fournit le début de la javadoc de la classe Java.<br/>
-	 * Par exemple : "* CLASSE ABSTRAITE"<br/>
-	 *
-	 * @return : String : début de la javadoc.<br/>
-	 */
-	protected abstract String fournirDebutJavaDoc();
-
-	
 	
 	/**
 	 * method fournirDebutSepAttributs() :<br/>

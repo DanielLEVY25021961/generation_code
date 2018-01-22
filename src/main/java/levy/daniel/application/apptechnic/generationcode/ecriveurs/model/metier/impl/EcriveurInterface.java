@@ -46,10 +46,10 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 	
 	
 	/**
-	 * EXTENDS : String :<br/>
+	 * EXTENDS_IEXPORTATEUR : String :<br/>
 	 * " extends IExportateurCsv, IExportateurJTable, ".<br/>
 	 */
-	public static final String EXTENDS 
+	public static final String EXTENDS_IEXPORTATEUR 
 		= " extends IExportateurCsv, IExportateurJTable, ";
 
 	
@@ -481,16 +481,10 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 		final List<String> listeLignesRgSubst1 
 			= this.substituerVariablesDansLigne(
 					listeLignesRg
-						, VARIABLE_NOMSIMPLEINTERFACE
-							, this.nomSimpleInterface);
-		
-		final List<String> listeLignesRgSubst2 
-		= this.substituerVariablesDansLigne(
-				listeLignesRgSubst1
-					, VARIABLE_CONCEPT_MODELISE
-						, this.conceptModelise);
-		
-		this.javadoc.addAll(listeLignesRgSubst2);
+						, VARIABLE_CONCEPT_MODELISE
+							, this.conceptModelise);
+				
+		this.javadoc.addAll(listeLignesRgSubst1);
 
 	} // Fin de creerLignesJavaDocEnTeteRg().______________________________
 	
@@ -646,6 +640,22 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 	
 	/**
 	 * {@inheritDoc}
+	 * <br/>
+	 * <ul>
+	 * <b>fournirDebutJavaDoc() pour une INTERFACE</b> :
+	 * <li>" * INTERFACE".</li>
+	 * </ul>
+	 * <br/>
+	 */
+	@Override
+	protected final String fournirDebutJavaDoc() {
+		return " * INTERFACE";
+	} // Fin de fournirDebutJavaDoc()._____________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final List<String> creerLignesEntity(
@@ -683,7 +693,7 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 		
 		stb.append(INTERFACE);
 		stb.append(this.nomSimpleFichierJava);
-		stb.append(EXTENDS);
+		stb.append(EXTENDS_IEXPORTATEUR);
 		stb.append("Comparable<");
 		stb.append(this.nomSimpleFichierJava);
 		stb.append('>');
@@ -696,6 +706,22 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 		
 	} // Fin de creerLigneDeclaration(...).________________________________
 	
+
+	
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * <ul>
+	 * <b>fournirDebutDeclaration() pour une INTERFACE</b> :
+	 * <li>"public interface ".</li>
+	 * </ul>
+	 * <br/>
+	 */
+	@Override
+	protected final String fournirDebutDeclaration() {
+		return INTERFACE;
+	} // Fin de fournirDebutDeclaration()._________________________________
+
 
 	
 	/**
@@ -734,6 +760,17 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 	} // Fin de creerCodeAttribut(...).____________________________________
 	
 	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void ecrireCodeConstructeurCompletBase(
+			final File pFile) throws Exception {
+		return; // NOPMD by daniel.levy on 16/01/18 11:42		
+	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -1194,95 +1231,6 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 	} // Fin de creerCodeSetId(...)._______________________________________
 	
 	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final String creerLigneFinale(
-			final File pFile) {
-		
-		/* Retourne null si pFile est null. */
-		if (pFile == null) {
-			return null;
-		}
-		
-		/* Retourne null si pFile n'existe pas sur le disque. */
-		if (!pFile.exists()) {
-			return null;
-		}
-		
-		/* Retourne null si pFile est un répertoire. */
-		if (pFile.isDirectory()) {
-			return null;
-		}
-
-		
-		final StringBuilder stb = new StringBuilder();
-		
-		stb.append(CROCHET_FERMANT);
-		stb.append(" // FIN DE L'INTERFACE ");
-		stb.append(this.nomSimpleFichierJava);
-		stb.append(POINT);
-		
-		final String provisoire = stb.toString();
-		final int longueurProvisoire = provisoire.length();
-		
-		final int nombreTirets = 77 - longueurProvisoire;
-		
-		for (int i=0; i < nombreTirets; i++) {
-			stb.append('-');
-		}
-		
-		this.ligneFinale = stb.toString();
-		
-		return this.ligneFinale;
-		
-	} // Fin de creerLigneFinale(...)._____________________________________
-	
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final String fournirNomClasse() {
-		return CLASSE_ECRIVEUR_INTERFACE;
-	} // Fin de fournirNomClasse().________________________________________
-	
-
-	
-	/**
-	 * {@inheritDoc}
-	 * <br/>
-	 * <ul>
-	 * <b>fournirDebutDeclaration() pour une INTERFACE</b> :
-	 * <li>"public interface ".</li>
-	 * </ul>
-	 * <br/>
-	 */
-	@Override
-	protected final String fournirDebutDeclaration() {
-		return INTERFACE;
-	} // Fin de fournirDebutDeclaration()._________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 * <br/>
-	 * <ul>
-	 * <b>fournirDebutJavaDoc() pour une INTERFACE</b> :
-	 * <li>" * INTERFACE".</li>
-	 * </ul>
-	 * <br/>
-	 */
-	@Override
-	protected final String fournirDebutJavaDoc() {
-		return " * INTERFACE";
-	} // Fin de fournirDebutJavaDoc()._____________________________________
-
-
 
 	/**
 	 * {@inheritDoc}
@@ -1519,17 +1467,25 @@ public class EcriveurInterface extends AbstractEcriveurMetier {
 	}
 
 
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void ecrireCodeConstructeurCompletBase(
-			final File pFile) throws Exception {
-		return; // NOPMD by daniel.levy on 16/01/18 11:42
-		
-	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
+	protected final String fournirTypeFichierJava() {	
+		return "L'INTERFACE ";		
+	} // Fin de fournirTypeFichierJava(...)._______________________________
+	
 
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirNomClasse() {
+		return CLASSE_ECRIVEUR_INTERFACE;
+	} // Fin de fournirNomClasse().________________________________________
+	
+	
 	
 } // FIN DE LA CLASSE EcriveurInterface.-------------------------------------

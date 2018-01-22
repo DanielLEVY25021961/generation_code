@@ -1,9 +1,22 @@
 package levy.daniel.application.apptechnic.generationcode;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.impl.GestionnaireFiles;
 
 /**
@@ -63,6 +77,14 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * par exemple : "profil".<br/>
 	 */
 	protected static String nomPackage;
+	
+
+	
+	/**
+	 * packageMetier : File :<br/>
+	 * Package metier (model.metier).<br/>
+	 */
+	protected static File packageMetier;
 	
 	
 	/**
@@ -298,6 +320,8 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * @param pMapAttributs : Map&lt;String, String&gt; :  .<br/>
 	 * @param pMapAttributsEquals : Map&lt;String, String&gt; : .<br/>
 	 * @param pMapRg : Map&lt;String, List&lt;String&gt;&gt; :  .<br/>
+	 * 
+	 * @throws Exception 
 	 */
 	public static void configurer(
 			final String pNomPackage
@@ -305,7 +329,8 @@ public abstract class AbstractGenerateur implements IGenerateur {
 					, final String pNomObjetMetier
 			, final Map<String, String> pMapAttributs
 				, final Map<String, String> pMapAttributsEquals
-					, final Map<String, List<String>> pMapRg) {
+					, final Map<String, List<String>> pMapRg) 
+								throws Exception {
 		
 		/* retourne si pNomPackage est blank. */
 		if (StringUtils.isAllBlank(pNomPackage)) {
@@ -355,7 +380,9 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			return;
 		}
 		
-		
+		/* génère packageMetier. */
+		genererPackageMetier();
+
 		/* alimente tous les attributs static des Générateurs. */
 		alimenterAttributsStatic(pNomPackage
 				, pNomInterface
@@ -367,6 +394,238 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 	} // Fin de configurer(...).___________________________________________
 	
+
+	
+	/**
+	 * method genererPackageMetier() :<br/>
+	 * <ul>
+	 * <li>génère si nécessaire le package métier packageMetier 
+	 * <b>packageMetier</b> (model.metier).</li>
+	 * <li>génère si nécessaire l'interface IExportateurCsv 
+	 * sous model.metier.</li>
+	 * <li>génère si nécessaire l'interface IExportateurJTable 
+	 * sous model.metier.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererPackageMetier() throws Exception {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			final String pathModelString 
+			= BundleConfigurationProjetManager.getPathModel();
+		
+			if (packageMetier == null) {
+				
+				final IGestionnaireFiles gestionnaireFiles 
+					= new GestionnaireFiles();
+				
+				packageMetier 
+					= gestionnaireFiles
+						.creerSousPackage(pathModelString, "metier");
+			}
+			
+			genererInterfaceIExportateurCsv();
+			
+			genererInterfaceIExportateurJTable();
+			
+		} // Fin de synchronized._________________________________
+				
+	} // Fin de genererPackageMetier().____________________________________
+	
+
+	
+	/**
+	 * method genererInterfaceIExportateurCsv() :<br/>
+	 * <ul>
+	 * <li>génère si nécessaire l'interface IExportateurCsv 
+	 * sous model.metier.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void genererInterfaceIExportateurCsv() 
+				throws Exception {
+
+		synchronized (AbstractGenerateur.class) {
+			
+			
+			final String nomFichier = "IExportateurCsv.java";
+			
+			final IGestionnaireFiles gestionnaireFiles 
+				= new GestionnaireFiles();
+			
+			final File iExportateurCsv 
+				= gestionnaireFiles
+				.creerFichierDansPackage(
+						nomFichier, packageMetier);
+			
+			final List<String> listeCode = new ArrayList<String>();
+			
+			/* ENREGISTREMENT *********/
+			creerLignesInterfaceIExportateurCsv(listeCode);
+			
+			/* Recherche la ligne identifiant le code de l'interface. */
+			final String ligneIdentifiant 
+				= "public interface IExportateurCsv";
+			
+			/* Ne fait rien si le code est déjà existant. */
+			if (existLigneCommencant(
+					iExportateurCsv, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : listeCode) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					ecrireStringDansFile(
+							iExportateurCsv, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					ecrireStringDansFile(
+							iExportateurCsv, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+
+		} // Fin de synchronized._________________________________
+	
+	} // Fin de genererInterfaceIExportateurCsv()._________________________
+	
+
+	
+	/**
+	 * method creerLignesInterfaceIExportateurCsv(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>Crée le code de l'interface IExportateurCsv.</li>
+	 * <li>Insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; pListe.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private static void creerLignesInterfaceIExportateurCsv(
+			final List<String> pListe) throws Exception {
+		
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/IExportateurCsv.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= lireStringsDansFile(fichier, CHARSET_UTF8);
+					
+		pListe.addAll(listeLignes);
+				
+	} // Fin de creerLignesInterfaceIExportateurCsv(...).__________________
+
+	
+	
+	/**
+	 * method genererInterfaceIExportateurJTable() :<br/>
+	 * <ul>
+	 * <li>génère si nécessaire l'interface IExportateurJTable 
+	 * sous model.metier.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void genererInterfaceIExportateurJTable() 
+				throws Exception {
+		
+	
+		synchronized (AbstractGenerateur.class) {	
+					
+			final String nomFichier = "IExportateurJTable.java";
+			
+			final IGestionnaireFiles gestionnaireFiles 
+				= new GestionnaireFiles();
+			
+			final File iExportateurJTable 
+				= gestionnaireFiles
+				.creerFichierDansPackage(
+						nomFichier, packageMetier);
+			
+			final List<String> listeCode = new ArrayList<String>();
+			
+			/* ENREGISTREMENT *********/
+			creerLignesInterfaceIExportateurJTable(listeCode);
+			
+			/* Recherche la ligne identifiant le code de l'interface. */
+			final String ligneIdentifiant 
+				= "public interface IExportateurJTable";
+			
+			/* Ne fait rien si le code est déjà existant. */
+			if (existLigneCommencant(
+					iExportateurJTable
+						, CHARSET_UTF8
+							, ligneIdentifiant)) {
+				return;
+			}
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : listeCode) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					ecrireStringDansFile(
+							iExportateurJTable
+								, ""
+									, CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					ecrireStringDansFile(
+							iExportateurJTable
+								, ligne
+									, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		
+		} // Fin de synchronized._________________________________
+		
+	} // Fin de genererInterfaceIExportateurJTable().______________________
+	
+
+	
+	/**
+	 * method creerLignesInterfaceIExportateurJTable(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>Crée le code de l'interface IExportateurJTable.</li>
+	 * <li>Insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; pListe.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private static void creerLignesInterfaceIExportateurJTable(
+			final List<String> pListe) throws Exception {
+		
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/IExportateurJTable.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= lireStringsDansFile(fichier, CHARSET_UTF8);
+					
+		pListe.addAll(listeLignes);
+				
+	} // Fin de creerLignesInterfaceIExportateurJTable(...)._______________
+
 
 	
 	/**
@@ -443,7 +702,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	public void generer() 
 			throws Exception {
 		
-		/* GENERATION DES PACKAGES. */
+		/* GENERATION DES PACKAGES. */		
 		/* génère le package this.packageSousCouche. */
 		/* génère le package sousPackageImpl. */
 		this.genererPackages(nomPackage);
@@ -479,15 +738,21 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * method genererPackages(
 	 * String pNomPackage) :<br/>
 	 * <ul>
-	 * <li>génère le package <b>this.packageSousCouche</b>.</li>
-	 * <li>génère le package <b>sousPackageImpl</b>.</li>
+	 * <li>génère si nécessaire l'interface IExportateurCsv 
+	 * sous model.metier.</li>
+	 * <li>génère si nécessaire l'interface IExportateurJTable 
+	 * sous model.metier.</li>
+	 * <li>génère le package <b>this.packageSousCouche</b>.<br/>
+	 * Par exemple model.metier.profil pour un concept Profil.</li>
+	 * <li>génère le package <b>sousPackageImpl</b>.<br/>
+	 * Par exemple model.metier.profil.impl pour un concept Profil.</li>
 	 * </ul>
 	 * 
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	private void genererPackages(
 			final String pNomPackage) 
-					throws IOException {
+					throws Exception {
 		
 		/* génère le package this.packageSousCouche. */
 		this.genererPackageSousCouche(pNomPackage);
@@ -497,7 +762,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 	} // Fin de genererPackages(...).______________________________________
 	
-	
+		
 	
 	/**
 	 * method genererPackageSousCouche(
@@ -528,7 +793,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 	} // Fin de genererPackageSousCouche(...)._____________________________
 	
-
+	
 	
 	/**
 	 * method genererSousPackageImpl() :<br/>
@@ -824,6 +1089,803 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	
 	
 	
+	/**
+	 * method ecrireStringDansFile(
+	 * File pFile
+	 * , String pString
+	 * , Charset pCharset
+	 * , String pSautLigne) :<br/>
+	 * <ul>
+	 * <li><b>Ecrit la String pString</b> à 
+	 * la <b>fin</b> du File pFile 
+	 * avec un encodage pCharset et en substituant 
+	 * les sauts de ligne déjà existants 
+	 * <b>à l'intérieur de</b> pString par pSautLigne.</li>
+	 * <li>N'efface ni le fichier ni son contenu 
+	 * si il est déjà existant.</li>
+	 * <ul>
+	 * <li>Crée pFile sur disque si il n'existe pas.</li>
+	 * <li>Crée sur disque les répertoires parents de pFile 
+	 * (arborescence) si il n'existent pas.</li>
+	 * <li>Ecrit la String pString à la fin du fichier 
+	 * pFile si pFile est déjà existant et rempli
+	 * (utilisation de FileOutputStream(pFile, true)).</li>
+	 * <li>rajoute automatiquement 
+	 * un saut de ligne à la fin de pString.</li>
+	 * <li>Substitue automatiquement pSautLigne aux sauts de ligne 
+	 * EXISTANTS dans pString si nécessaire.</li>
+	 * <li>Utilise FileOutputStream, 
+	 * new OutputStreamWriter(fileOutputStream, charset) 
+	 * et BufferedWriter pour écrire.</li>
+	 * <li>Ecriture dans un fichier, écriture sur disque.</li>
+	 * <li>Passe automatiquement le Charset à CHARSET_UTF8 
+	 * si pCharset est null.</li>
+	 * <li>Passe automatiquement le saut de ligne à NEWLINE 
+	 * (saut de ligne de la plateforme) si pSautLigne est blank.</li>
+	 * </ul>
+	 * </ul>
+	 * <br/>
+	 * - retourne null si le pFile est null.<br/>
+	 * - retourne null si le pFile est un répertoire.<br/>
+	 * - retourne null en cas d'Exception loggée 
+	 * (FileNotFoundException, IOException).<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier dans lequel on écrit.<br/>
+	 * @param pString : String : String que l'on copie dans pFile.<br/>
+	 * @param pCharset : Charset : Charset pour encoder le fichier.<br/>
+	 * @param pSautLigne : String : Saut de ligne que l'on veut 
+	 * dans pFile de sortie 
+	 * (\r\n pour DOS/Windows, \r pour Mac, \n pour Unix).<br/>
+	 * 
+	 * @return : File : Le fichier dans lequel on a écrit pString.<br/>
+	 */
+	protected static final File ecrireStringDansFile(
+			final File pFile
+				, final String pString
+					, final Charset pCharset
+						, final String pSautLigne) {
+		
+		/* retourne null si le pFile est null. */
+		if (pFile == null) {
+			
+			/* LOG de niveau INFO. */
+			loggerInfo(
+					fournirNomClasse()
+						, METHODE_ECRIRESTRINGDANSFILE
+							, MESSAGE_FICHIER_NULL);
+			
+			/* retour de null. */
+			return null;
+			
+		} // Fin de if (pFile == null).______________________
+		
+		/* retourne null si le pFile est un répertoire. */
+		if (pFile.isDirectory()) {
+			
+			/* LOG de niveau INFO. */
+			loggerInfo(
+					fournirNomClasse()
+						, METHODE_ECRIRESTRINGDANSFILE
+							, MESSAGE_FICHIER_REPERTOIRE
+								, pFile.getAbsolutePath());
+			
+			/* retour de null. */
+			return null;
+			
+		} // Fin de if (pFile.isDirectory())._________________
+		
+		
+		final Path pathFichier = pFile.toPath();
+		final Path pathRepertoirePere = pathFichier.getParent();
+		File repertoirePere = null;
+		
+		if (pathRepertoirePere != null) {
+			repertoirePere = pathRepertoirePere.toFile();
+		} else {
+			return null;
+		}
+		
+				
+		/* Crée pFile sur disque si il n'existe pas. */
+		if (!pFile.exists()) {
+						
+			try {
+				
+				/* Crée sur disque les répertoires parents de pFile 
+				 * (arborescence) si il n'existent pas. */
+				if (!repertoirePere.exists()) {
+					Files.createDirectories(pathRepertoirePere);
+				}
+				
+				/* Crée le fichier sur disque si il n'existe pas. */
+				Files.createFile(pathFichier);
+				
+			} catch (IOException ioe) {
+				
+				/* LOG de niveau Error. */
+				loggerError(
+						fournirNomClasse()
+							, METHODE_ECRIRESTRINGDANSFILE
+								, ioe);
+				
+				/* retour de null. */
+				return null;
+			}
+			
+		} // Fin de if (!pFile.exists())._____________________
+		
+		
+		
+		Charset charset = null;
+		
+		/* Passe automatiquement le charset à UTF-8 si pCharset est null. */
+		if (pCharset == null) {
+			charset = CHARSET_UTF8;
+		}
+		else {
+			charset = pCharset;
+		}
+		
+		String sautLigne = null;
+		
+		/* Passe automatiquement le saut de ligne à NEWLINE 
+		 * (saut de ligne de la plateforme) si pSautLigne est blank. */
+		if (StringUtils.isBlank(pSautLigne)) {
+			sautLigne = NEWLINE;
+		} else {
+			sautLigne = pSautLigne;
+		}
+		
+		// ECRITURE SUR DISQUE ***************
+		FileOutputStream fileOutputStream = null;
+		OutputStreamWriter outputStreamWriter = null;
+		BufferedWriter bufferedWriter = null;
+		
+		try {
+			
+			/* Ouverture d'un FileOutputStream sur le fichier. */
+			/* Ecrit la String pString à la fin du fichier pFile 
+			 * si pFile est déjà existant et rempli sur le disque. */
+			fileOutputStream 
+				= new FileOutputStream(pFile, true);
+			
+			/* Ouverture d'un OutputStreamWriter 
+			 * sur le FileOutputStream en lui passant le Charset. */
+			outputStreamWriter 
+				= new OutputStreamWriter(fileOutputStream, charset);
+			
+			/* Ouverture d'un tampon d'écriture 
+			 * BufferedWriter sur le OutputStreamWriter. */
+			bufferedWriter 
+				= new BufferedWriter(outputStreamWriter);
+			
+			// ECRITURE.
+			/* Substitue automatiquement sautLigne aux sauts de ligne 
+			 * dans pString si nécessaire. */
+			String stringAEcrire = null;
+			
+			if (pString.length() == 0) {
+				stringAEcrire = "";
+			} else {
+				stringAEcrire = substituerSautLigne(pString, sautLigne);
+			}
+			
+			bufferedWriter.write(stringAEcrire);
+			
+			/* RAJOUTE AUTOMATIQUEMENT UN SAUT DE LIGNE. */
+			bufferedWriter.write(sautLigne);
+			bufferedWriter.flush();
+			
+			// Retour du fichier. 
+			return pFile;
+			
+		} catch (FileNotFoundException fnfe) {
+			
+			/* LOG de niveau ERROR. */
+			loggerError(
+					fournirNomClasse()
+						, MESSAGE_EXCEPTION				
+							, fnfe);
+			
+			/* retour de null. */
+			return null;
+			
+		} catch (IOException ioe) {
+			
+			/* LOG de niveau ERROR. */
+			loggerError(
+					fournirNomClasse()
+						, MESSAGE_EXCEPTION				
+							, ioe);
+			
+			/* retour de null. */
+			return null;
+		}
+		
+		finally {
+			
+			if (bufferedWriter != null) {
+				try {
+					
+					bufferedWriter.close();
+					
+				} catch (IOException ioe1) {
+					
+					/* LOG de niveau ERROR. */
+					loggerError(
+							fournirNomClasse()
+								, MESSAGE_EXCEPTION				
+									, ioe1);
+				}
+			} // Fin de if (bufferedWriter != null).__________
+			
+			if (outputStreamWriter != null) {
+				try {
+					
+					outputStreamWriter.close();
+					
+				} catch (IOException ioe2) {
+					
+					/* LOG de niveau ERROR. */
+					loggerError(
+							fournirNomClasse()
+								, MESSAGE_EXCEPTION				
+									, ioe2);
+				}
+			} // Fin de if (outputStreamWriter != null).______
+			
+			if (fileOutputStream != null) {
+				try {
+					
+					fileOutputStream.close();
+					
+				} catch (IOException ioe3) {
+					
+					//* LOG de niveau ERROR. */
+					loggerError(
+							fournirNomClasse()
+								, MESSAGE_EXCEPTION				
+									, ioe3);
+				}
+			}
+			
+		} // Fin du finally.____________________________
+			
+	} // Fin de ecrireStringDansFile(...)._________________________________
+	
+
+	
+	/**
+	 * method lireStringsDansFile(
+	 * File pFile
+	 * , Charset pCharset) :<br/>
+	 * <ul>
+	 * <li><b>Lit le contenu</b> d'un fichier texte 
+	 * (fichier simple contenant du texte) pFile.</li>
+	 * <li>Décode le contenu d'un fichier texte 
+	 * (fichier simple contenant du texte) pFile 
+	 * avec le Charset pCharset</li>
+	 * <li><b>Retourne la liste des lignes</b> 
+	 * du fichier simple texte pFile 
+	 * lues avec le Charset pCharset.</li>
+	 * <ul>
+	 * <li>Utilise automatiquement le CHARSET_UTF8 
+	 * si pCharset est null.</li>
+	 * </ul>
+	 * </ul>
+	 * - Retourne null si pFile est null.<br/>
+	 * - Retourne null si pFile n'existe pas.<br/>
+	 * - Retourne null si pFile est un répertoire.<br/>
+	 * - Retourne null en cas d'Exception loggée 
+	 * (MalformedInputException, ...).<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier simple textuel à lire.<br/>
+	 * @param pCharset : Charset : le Charset à utiliser pour 
+	 * lire le fichier pFile.<br/>
+	 * 
+	 * @return : List&lt;String&gt; : Liste des lignes lues.<br/>
+	 * 
+	 * @throws Exception en cas d'Exception loggée 
+	 * (IOException, MalformedInputException, ...).<br/>
+	 */
+	protected static final List<String> lireStringsDansFile(
+			final File pFile
+				, final Charset pCharset) throws Exception {
+		
+		/* Retourne null si pFile est null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* Retourne null si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* Retourne null si pFile est un répertoire. */
+		if (pFile.isDirectory()) {
+			return null;
+		}
+		
+		/* Utilise automatiquement le CHARSET_UTF8 si pCharset est null. */
+		Charset charset = null;
+		
+		if (pCharset == null) {
+			charset = CHARSET_UTF8;
+		}
+		else {
+			charset = pCharset;
+		}
+		
+		/* Récupère le Path de pFile. */
+		final Path pathFichier = pFile.toPath();
+		
+		try {
+			
+			// *****************************************************
+			/* Retourne la liste des lignes lues avec le charset. */
+			return Files.readAllLines(pathFichier, charset);
+			
+		} 
+		
+		catch (MalformedInputException malformedInputException) {
+			
+			final String message 
+			=  "Impossible de lire le contenu du fichier '" 
+			+ pFile.getName() 
+			+ "' avec le Charset " 
+			+ charset.displayName(Locale.getDefault()) 
+			+ " à cause d'un caractère qui ne peut être "
+			+ "écrit dans ce Charset (MalformedInputException)";
+			
+			/* LOG de niveau Error. */
+			loggerError(fournirNomClasse()
+					, METHODE_LIRE_STRINGS_DANS_FILE 
+					+ SEPARATEUR_MOINS_AERE 
+					+ message
+					, malformedInputException);
+			
+			/* retourne null en cas d'Exception loggée 
+			 * (IOException, MalformedInputException, ...). */
+			return null;
+
+		}
+		
+		catch (IOException ioe) {
+			
+			/* LOG de niveau Error. */
+			loggerError(fournirNomClasse()
+					, METHODE_LIRE_STRINGS_DANS_FILE
+					, ioe);
+			
+			final String message 
+			= fournirNomClasse() 
+			+ SEPARATEUR_MOINS_AERE 
+			+ METHODE_LIRE_STRINGS_DANS_FILE 
+			+ SEPARATEUR_MOINS_AERE 
+			+ "Impossible de lire le contenu du fichier '" 
+			+ pFile.getName() 
+			+ "' avec le Charset " 
+			+ charset.displayName(Locale.getDefault());
+			
+			/* jette une Exception en cas d'Exception loggée 
+			 * (IOException, MalformedInputException, ...). */
+			throw new Exception(message, ioe);
+		
+		}
+			
+	} // Fin de lireStringsDansFile(
+	 // File pFile
+	 // , Charset pCharset)._______________________________________________
+	
+
+	
+	/**
+	 * method existLigneCommencant(
+	 * File pFile
+	 * , Charset pCharsetLecture
+	 * , String pLigne) :<br/>
+	 * <ul>
+	 * <li><b>Détermine si une ligne commençant par pLIgne 
+	 * existe dans pFile</b>.</li>
+	 * <li>Retourne true si c'est le cas.</li>
+	 * <li>Lit le fichier textuel simple 
+	 * pFile avec l'encodage pCharsetLecture.</li>
+	 * <li>Utilise automatiquement le CHARSET_UTF8 pour la lecture 
+	 * si pCharsetLecture est null.</li>
+	 * </ul>
+	 * Retourne false si pFile est null.<br/>
+	 * Retourne false si pFile n'existe pas sur le disque.<br/>
+	 * Retourne false si pFile est un répertoire.<br/>
+	 * Retourne false si pLigne est null.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier textuel simple dans lequel 
+	 * on veut savoir si la ligne commençant par pLigne existe.<br/>
+	 * @param pCharsetLecture : Charset : Charset dans lequel 
+	 * le fichier simple textuel pFile est encodé. 
+	 * On le lit donc avec ce Charset.<br/>
+	 * @param pLigne : String : ligne à rechercher.<br/>
+	 * 
+	 * @return : boolean : true si la ligne existe.<br/>
+	 */
+	protected static final boolean existLigneCommencant(
+			final File pFile
+				, final Charset pCharsetLecture
+					, final String pLigne) {
+		
+		/* Retourne false si pFile est null. */
+		if (pFile == null) {
+			return false;
+		}
+		
+		/* Retourne false si pFile n'existe pas sur le disque. */
+		if (!pFile.exists()) {
+			return false;
+		}
+		
+		/* Retourne false si pFile est un répertoire. */
+		if (pFile.isDirectory()) {
+			return false;
+		}
+		
+		/* Retourne false si pLigne est null. */
+		if (pLigne == null) {
+			return false;
+		}
+
+		Charset charsetLecture = null;
+		
+		/* Utilise automatiquement le CHARSET_UTF8 si 
+		 * pCharsetLecture est null. */			
+		if (pCharsetLecture == null) {
+			charsetLecture = CHARSET_UTF8;
+		}
+		else {
+			charsetLecture = pCharsetLecture;
+		}
+		
+		// ****************************************************
+		/* LECTURE. */
+		InputStream inputStream = null;
+		InputStreamReader inputStreamReader = null;
+		BufferedReader bufferedReader = null;
+		
+		boolean resultat = false;
+		
+		try {
+
+			/* LECTURE DU FICHIER AVEC CHARSET charsetLecture. */
+			inputStream = new FileInputStream(pFile);
+			inputStreamReader 
+				= new InputStreamReader(inputStream, charsetLecture);
+			bufferedReader = new BufferedReader(inputStreamReader);
+
+
+			String ligneLue = null;
+			
+			/* BOUCLE SUR LES LIGNES DE pFile. */
+			while (true) {
+														
+				/* Lecture de la ligne. */
+				ligneLue = bufferedReader.readLine();
+				
+				/* Fin de boucle à la fin du fichier. */
+				if (ligneLue == null) {
+					break;
+				}
+				
+				/* capture le numéro de ligne si pLigne est trouvée. */
+				if (StringUtils.startsWith(ligneLue, pLigne)) {
+					resultat = true;
+					break;
+				}
+
+			} // Fin de BOUCLE SUR LES LIGNES DE pFile._____
+			
+		} catch (FileNotFoundException e) {
+			
+			/* LOG de niveau ERROR. */
+			loggerError(
+					fournirNomClasse()
+					, METHODE_EXISTLIGNECOMMENCANT
+					, e);
+			
+			/* retourne false. */
+			return false;
+			
+		} catch (IOException e) {
+			
+			/* LOG de niveau ERROR. */
+			loggerError(
+					fournirNomClasse()
+					, METHODE_EXISTLIGNECOMMENCANT
+					, e);
+			
+			/* retourne false. */
+			return false;
+			
+		}
+		
+		finally {
+			
+			/* Fermeture des flux de lecture. */
+			if (bufferedReader != null) {
+				try {
+					bufferedReader.close();
+				} catch (IOException e) {
+					
+					/* LOG de niveau ERROR. */
+					loggerError(
+							fournirNomClasse()
+							, METHODE_EXISTLIGNECOMMENCANT
+							, e);
+				}
+			}
+			if (inputStreamReader != null) {
+				try {
+					inputStreamReader.close();
+				} catch (IOException e) {
+					
+					/* LOG de niveau ERROR. */
+					loggerError(
+							fournirNomClasse()
+							, METHODE_EXISTLIGNECOMMENCANT
+							, e);
+				}
+			}
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					
+					/* LOG de niveau ERROR. */
+					loggerError(
+							fournirNomClasse()
+							, METHODE_EXISTLIGNECOMMENCANT
+							, e);
+				}
+			}
+											
+		} // Fin du finally._______________________________
+
+		return resultat;
+		
+	} // Fin de existLigneCommencant(...)._________________________________
+	
+
+	
+	/**
+	 * method substituerSautLigne(
+	 * String pString
+	 * , String pSautLigne) :<br/>
+	 * <ul>
+	 * <li><b>Substitue les sauts</b> de ligne <b>à l'intérieur</b> 
+	 * de pString 
+	 * (\r\n pour DOS/Windows, \r pour Mac, \n pour Unix) 
+	 * par les sauts de ligne pSautLigne.</li>
+	 * </ul>
+	 * - retourne null si pString est blank (null ou vide).<br/>
+	 * - retourne null si pSautLigne est blank (null ou vide).<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : String à corriger.<br/>
+	 * @param pSautLigne : String : saut de ligne à substituer.<br/>
+	 * 
+	 * @return : String : La String dans laquelle les sauts de ligne 
+	 * (\r\n pour DOS/Windows, \r pour Mac, \n pour Unix) 
+	 * ont été substitués par les sauts de ligne pSautLigne.<br/>
+	 */
+	protected static final String substituerSautLigne(
+			final String pString
+				, final String pSautLigne) {
+		
+		/* retourne null si pString est blank (null ou vide). */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pSautLigne est blank (null ou vide). */
+		
+		/* Recherche des sauts de ligne DOS/Windows. */
+		if (StringUtils.contains(pString, SAUTDELIGNE_DOS_WINDOWS)) {
+			
+			final String resultat 
+				= StringUtils.replace(
+						pString, SAUTDELIGNE_DOS_WINDOWS, pSautLigne);
+			
+			return resultat;
+		}
+		
+		/* Recherche des sauts de ligne Mac. */
+		if (StringUtils.contains(pString, SAUTDELIGNE_MAC)) {
+			
+			final String resultat 
+				= StringUtils.replace(
+						pString, SAUTDELIGNE_MAC, pSautLigne);
+			
+			return resultat;
+		}
+		
+		/* Recherche des sauts de ligne Unix. */
+		if (StringUtils.contains(pString, SAUTDELIGNE_UNIX)) {
+			
+			final String resultat 
+				= StringUtils.replace(
+						pString, SAUTDELIGNE_UNIX, pSautLigne);
+			
+			return resultat;
+		}
+		
+		/* Retourne la chaîne inchangée 
+		 * si il n'y avait pas de saut de ligne. */
+		return pString;
+			
+	} // Fin de substituerSautLigne(
+	 // String pString
+	 // , String pSautLigne).______________________________________________
+	
+
+	
+	/**
+	 * method loggerInfo(
+	 * String pClasse
+	 * , String pMethode
+	 * , String pMessage) :<br/>
+	 * <ul>
+	 * <li>Crée un message de niveau INFO dans le LOG.</li>
+	 * </ul>
+	 * - Ne fait rien si un des paramètres est null.<br/>
+	 * <br/>
+	 *
+	 * @param pClasse : String : Classe appelante.<br/>
+	 * @param pMethode : String : Méthode appelante.<br/>
+	 * @param pMessage : String : Message particulier de la méthode.<br/>
+	 */
+	protected static final void loggerInfo(
+			final String pClasse
+				, final String pMethode
+					, final String pMessage) {
+		
+		/* Ne fait rien si un des paramètres est null. */
+		if (pClasse == null || pMethode == null || pMessage == null) {
+			return;
+		}
+		
+		/* LOG de niveau INFO. */			
+		if (LOG.isInfoEnabled()) {
+			
+			final String message 
+			= pClasse 
+			+ SEPARATEUR_MOINS_AERE
+			+ pMethode
+			+ SEPARATEUR_MOINS_AERE
+			+ pMessage;
+			
+			LOG.info(message);
+		}
+		
+	} // Fin de la classe loggerInfo(
+	 // String pClasse
+	 // , String pMethode
+	 // , String pMessage).________________________________________________
+	
+
+	
+	/**
+	 * method loggerInfo(
+	 * String pClasse
+	 * , String pMethode
+	 * , String pMessage
+	 * , String pComplement) :<br/>
+	 * <ul>
+	 * <li>Créée un message de niveau INFO dans le LOG.</li>
+	 * </ul>
+	 * - Ne fait rien si un des paramètres est null.<br/>
+	 * <br/>
+	 *
+	 * @param pClasse : String : Classe appelante.<br/>
+	 * @param pMethode : String : Méthode appelante.<br/>
+	 * @param pMessage : String : Message particulier de la méthode.<br/>
+	 * @param pComplement : String : Complément au message de la méthode.<br/>
+	 */
+	protected static final void loggerInfo(
+			final String pClasse
+				, final String pMethode
+					, final String pMessage
+						, final String pComplement) {
+		
+		/* Ne fait rien si un des paramètres est null. */
+		if (pClasse == null || pMethode == null 
+				|| pMessage == null || pComplement == null) {
+			return;
+		}
+		
+		/* LOG de niveau INFO. */			
+		if (LOG.isInfoEnabled()) {
+			
+			final String message 
+			= pClasse 
+			+ SEPARATEUR_MOINS_AERE
+			+ pMethode
+			+ SEPARATEUR_MOINS_AERE
+			+ pMessage
+			+ pComplement;
+			
+			LOG.info(message);
+		}
+		
+	} // Fin de loggerInfo(
+	 // String pClasse
+	 // , String pMethode
+	 // , String pMessage
+	 // , String pComplement)._____________________________________________
+	
+	
+	
+	/**
+	 * method loggerError(
+	 * String pClasse
+	 * , String pMethode
+	 * , Exception pException) :<br/>
+	 * <ul>
+	 * <li>Crée un message de niveau ERROR dans le LOG.</li>
+	 * </ul>
+	 * - Ne fait rien si un des paramètres est null.<br/>
+	 * <br/>
+	 *
+	 * @param pClasse : String : Classe appelante.<br/>
+	 * @param pMethode : String : Méthode appelante.<br/>
+	 * @param pException : Exception : Exception transmise 
+	 * par la méthode appelante.<br/>
+	 */
+	protected static final void loggerError(
+			final String pClasse
+				, final String pMethode
+					, final Exception pException) {
+		
+		/* Ne fait rien si un des paramètres est null. */
+		if (pClasse == null || pMethode == null || pException == null) {
+			return;
+		}
+		
+		/* LOG de niveau ERROR. */			
+		if (LOG.isErrorEnabled()) {
+			
+			final String message 
+			= pClasse 
+			+ SEPARATEUR_MOINS_AERE
+			+ pMethode
+			+ SEPARATEUR_MOINS_AERE 
+			+ pException.getMessage();
+			
+			LOG.error(message, pException);
+			
+		}
+		
+	} // Fin de loggerError(
+	 // String pClasse
+	 // , String pMethode
+	 // , Exception pException).___________________________________________
+	
+	
+
+	/**
+	 * method fournirNomClasse() :<br/>
+	 * <ul>
+	 * <li>Retourne "Classe AbstractGenerateur".</li>
+	 * <li>Utile pour les LOGS.</li>
+	 * </ul>
+	 *
+	 * @return : String : "Classe AbstractGenerateur".<br/>
+	 */
+	protected static final String fournirNomClasse() {
+		return CLASSE_ABSTRACT_GENERATEUR;
+	} // Fin de fournirNomClasse().________________________________________
+	
+
 	/**
 	 * method conformeNomPackage(
 	 * String pString) :<br/>
@@ -1357,6 +2419,19 @@ public abstract class AbstractGenerateur implements IGenerateur {
 
 
 	
+	/**
+	 * method getPackageMetier() :<br/>
+	 * Getter du Package metier (model.metier).<br/>
+	 * <br/>
+	 *
+	 * @return packageMetier : File.<br/>
+	 */
+	public static final File getPackageMetier() {	
+		return packageMetier;
+	} // Fin de getPackageMetier().________________________________________
+
+
+
 	/**
 	 * method getConceptModelise() :<br/>
 	 * Getter du <b>concept modélisé par ce générateur</b>.<br/>

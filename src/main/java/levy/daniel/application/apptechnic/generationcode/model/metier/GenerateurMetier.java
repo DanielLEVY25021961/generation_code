@@ -10,6 +10,7 @@ import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurAbstractClass;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurConcreteClass;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurConcreteClassForm;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurInterface;
 
 
@@ -73,6 +74,14 @@ public class GenerateurMetier extends AbstractGenerateur {
 
 	
 	/**
+	 * ecriveurConcreteClassForm : IEcriveur :<br/>
+	 * EcriveurConcreteClassForm.<br/>
+	 */
+	private final transient IEcriveur ecriveurConcreteClassForm 
+		= new EcriveurConcreteClassForm();
+	
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -115,18 +124,25 @@ public class GenerateurMetier extends AbstractGenerateur {
 	@Override
 	protected final void genererHook() throws Exception {
 						
-		/* Génère le code de l'interface dans this.interfaceJava. */
+		/* Génère le code de l'interface 
+		 * dans this.interfaceJava. */
 		this.ecriveurInterface.ecrireCode(this.interfaceJava, this);
 		
-		/* génère le code de la classe abstraite dans this.abstractClass. */
+		/* génère le code de la classe abstraite 
+		 * dans this.abstractClass. */
 		this.ecriveurAbstractClass.ecrireCode(this.abstractClass, this);
 		
-		/* génère le code de la classe concrète dans this.concreteClass. */
+		/* génère le code de la classe concrète 
+		 * dans this.concreteClass. */
 		this.ecriveurConcreteClass.ecrireCode(this.concreteClass, this);
-		
+
 		/* génère le fichier vide classMetierForm. */
 		this.genererClassMetierForm();
-		
+
+		/* génère le code de la classe concrète 
+		 * Formulaire dans classMetierForm. */
+		this.ecriveurConcreteClassForm.ecrireCode(classMetierForm, this);
+				
 	} // Fin de genererObjetMetier(...).___________________________________
 
 	

@@ -5,7 +5,7 @@
  * <ul>
  * <li>
  * Les <b>Règles de Gestion (RG)</b> applicables aux attributs 
- * d'un {$nomSimpleInterface} sont les suivantes :
+ * d'un {$conceptModelise} sont les suivantes :
  * </li>
  * <br/>
  * <table border="1">

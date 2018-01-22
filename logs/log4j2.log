@@ -282,3 +282,13 @@ java.lang.NullPointerException: null
 	at levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier.genererHook(GenerateurMetier.java:122) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
+2018-janvier-20 11:01:21 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la javadoc
+java.lang.NullPointerException: null
+	at java.util.ArrayList.addAll(ArrayList.java:577) ~[?:1.8.0_144]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurInterface.creerLignesJavaDocDiagrammes(EcriveurInterface.java:455) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurInterface.creerLignesJavaDoc(EcriveurInterface.java:245) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireJavaDoc(AbstractEcriveurMetier.java:789) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveurMetier.java:480) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier.genererHook(GenerateurMetier.java:119) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
+	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]

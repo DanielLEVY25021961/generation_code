@@ -23,8 +23,8 @@ package levy.daniel.application.model.metier;
  *
  */
 public interface IExportateurJTable {
-
-
+	
+		
 	/**
 	* method getEnTeteColonne(
 	* int pI) :<br/>
@@ -44,9 +44,9 @@ public interface IExportateurJTable {
 	* @return : String : En-tête de la pIème colonne (0 - based).<br/>
 	*/
 	String getEnTeteColonne(int pI);
-
-
-
+	
+	
+	
 	/**
 	* method getValeurColonne(
 	* int pI) :<br/>
@@ -69,7 +69,7 @@ public interface IExportateurJTable {
 	* @return : Object : valeur de la pIème colonne (0 - based).<br/>
 	*/
 	Object getValeurColonne(int pI);
-
-
-
+	
+	
+	
 } // FIN DE L'INTERFACE IExportateurJTable.----------------------------------

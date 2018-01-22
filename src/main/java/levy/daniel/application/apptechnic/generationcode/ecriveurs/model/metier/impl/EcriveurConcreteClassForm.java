@@ -15,7 +15,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurat
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier;
 
 /**
- * class EcriveurConcreteClass :<br/>
+ * class EcriveurConcreteClassForm :<br/>
  * .<br/>
  * <br/>
  *
@@ -34,15 +34,15 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.
  * @since 18 janv. 2018
  *
  */
-public class EcriveurConcreteClass extends AbstractEcriveurMetier {
+public class EcriveurConcreteClassForm extends AbstractEcriveurMetier {
 
 	// ************************ATTRIBUTS************************************/
 	/**
-	 * CLASSE_ECRIVEUR_CONCRETECLASS : String :<br/>
-	 * "Classe EcriveurConcreteClass".<br/>
+	 * CLASSE_ECRIVEUR_CONCRETECLASSFORM : String :<br/>
+	 * "Classe EcriveurConcreteClassForm".<br/>
 	 */
-	public static final String CLASSE_ECRIVEUR_CONCRETECLASS 
-		= "Classe EcriveurConcreteClass";
+	public static final String CLASSE_ECRIVEUR_CONCRETECLASSFORM 
+		= "Classe EcriveurConcreteClassForm";
 
 
 	/**
@@ -50,7 +50,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(EcriveurConcreteClass.class);
+		= LogFactory.getLog(EcriveurConcreteClassForm.class);
 	
 
 	// *************************METHODES************************************/
@@ -60,7 +60,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	* method CONSTRUCTEUR EcriveurConcreteClass() :<br/>
 	* CONSTRUCTEUR D'ARITE NULLE.<br/>
 	*/
-	public EcriveurConcreteClass() {
+	public EcriveurConcreteClassForm() {
 		
 		super();
 				
@@ -160,6 +160,21 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 		this.insererLignesVidesSousLigneDansFichier(
 				pFile, derniereLigneStringClasse, 2, CHARSET_UTF8);
 		
+		/* écrit attributId. */
+		this.ecrireLignesAttributId(pFile);
+		
+		
+		try {
+			
+			/* écrit tous les attributs. */
+			this.ecrireAttributs(pFile);
+			
+		} catch (Exception e) {
+					
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer les attributs", e);
+			}
+		}
 		
 	} // Fin de creerAttributs(...)._______________________________________
 	
@@ -212,10 +227,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 		
 		/* écrit le constructeur complet. */
 		this.ecrireConstructeurComplet(pFile);
-		
-		/* écrit le constructeur complet base. */
-		this.ecrireConstructeurCompletBase(pFile);
-				
+						
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
 
@@ -228,31 +240,14 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 		
 		final String cheminFichier 
 		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/imports_concreteclass.txt";
+		+ "/templates/imports_concreteclassform.txt";
 	
 		final File fichier = new File(cheminFichier);
 		
 		final List<String> listeLignes 
 			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
-		
-		final List<String> listeLignesSubst1 
-			= this.substituerVariablesDansLigne(
-					listeLignes
-						, VARIABLE_PATHMETIER, this.pathMetier);
-		
-		final List<String> listeLignesSubst2 
-			= this.substituerVariablesDansLigne(
-				listeLignesSubst1
-					, VARIABLE_NOMSIMPLEABSTRACTCLASS
-						, this.nomSimpleAbstractClass);
-		
-		final List<String> listeLignesSubst3 
-		= this.substituerVariablesDansLigne(
-			listeLignesSubst2
-				, VARIABLE_NOMPACKAGE
-					, this.nomPackage);
-		
-		this.imports = listeLignesSubst3;
+				
+		this.imports = listeLignes;
 		
 		return this.imports;
 
@@ -364,37 +359,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 * @throws Exception
 	 */
 	private void creerLignesJavaDocAttributs() throws Exception {
-		
-		final String cheminFichierAttributs 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_interface_attributs.txt";
-	
-		final File fichierAttributs = new File(cheminFichierAttributs);
-		
-		final List<String> listeLignesAttributs 
-			= this.lireStringsDansFile(fichierAttributs, CHARSET_UTF8);
-		
-		final Set<Entry<String, String>> entrySetAttributs 
-		= this.mapAttributs.entrySet();
-	
-		final Iterator<Entry<String, String>> iteAttributs 
-			= entrySetAttributs.iterator();
-		
-		while (iteAttributs.hasNext()) {
-			
-			final Entry<String, String> entryAttributs = iteAttributs.next();
-			
-			final String nomAttribut = entryAttributs.getKey();
-			
-			final List<String> listeAttribut 
-				= this.substituerVariablesDansLigne(
-						listeLignesAttributs
-							, VARIABLE_NOMATTRIBUT
-								, nomAttribut);
-			
-			this.javadoc.addAll(listeAttribut);
-		}
-
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
 	} // Fin de creerLignesJavaDocAttributs()._____________________________
 	
 
@@ -409,24 +374,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 */
 	private void creerLignesJavaDocEnTeteEgaliteMetier() 
 			throws Exception {
-		
-		final String cheminFichierEgalite 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_concreteclass_egalite.txt";
-	
-		final File fichierEgalite = new File(cheminFichierEgalite);
-		
-		final List<String> listeLignesEgalite 
-			= this.lireStringsDansFile(fichierEgalite, CHARSET_UTF8);
-		
-		final List<String> listeLignesEgaliteSubst1 
-			= this.substituerVariablesDansLigne(
-					listeLignesEgalite
-						, VARIABLE_NOMSIMPLEFICHIERJAVA
-							, this.nomSimpleFichierJava);
-		
-		this.javadoc.addAll(listeLignesEgaliteSubst1);
-		
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
 	} // Fin de creerLignesJavaDocEnTeteEgaliteMetier().___________________
 	
 	
@@ -441,37 +389,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 */
 	private void creerLignesJavaDocAttributsEgaliteMetier() 
 			throws Exception {
-		
-		final String cheminFichierAttributsEquals 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_interface_attributs.txt";
-	
-		final File fichierAttributsEquals = new File(cheminFichierAttributsEquals);
-		
-		final List<String> listeLignesAttributsEquals 
-			= this.lireStringsDansFile(fichierAttributsEquals, CHARSET_UTF8);
-		
-		final Set<Entry<String, String>> entrySetAttributsEquals 
-		= this.mapAttributsEquals.entrySet();
-	
-		final Iterator<Entry<String, String>> iteAttributsEquals 
-			= entrySetAttributsEquals.iterator();
-		
-		while (iteAttributsEquals.hasNext()) {
-			
-			final Entry<String, String> entryAttributs = iteAttributsEquals.next();
-			
-			final String nomAttribut = entryAttributs.getKey();
-			
-			final List<String> listeAttribut 
-				= this.substituerVariablesDansLigne(
-						listeLignesAttributsEquals
-							, VARIABLE_NOMATTRIBUT
-								, nomAttribut);
-			
-			this.javadoc.addAll(listeAttribut);
-		}
-
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
 	} // Fin de creerLignesJavaDocAttributsEgaliteMetier().________________
 	
 
@@ -486,30 +404,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 */
 	private void creerLignesJavaDocDiagrammes() 
 			throws Exception {
-		
-		final String cheminFichierDiagramme
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_concreteclass_diagrammes.txt";
-	
-		final File fichierDiagramme= new File(cheminFichierDiagramme);
-		
-		final List<String> listeLignesDiagramme
-			= this.lireStringsDansFile(fichierDiagramme, CHARSET_UTF8);
-		
-		final List<String> listeLignesRgSubst1 
-			= this.substituerVariablesDansLigne(
-					listeLignesDiagramme
-						, VARIABLE_CONCEPT_MODELISE
-							, this.conceptModelise);
-		
-		final List<String> listeLignesRgSubst2 
-		= this.substituerVariablesDansLigne(
-				listeLignesRgSubst1
-					, VARIABLE_NOMSIMPLEFICHIERJAVA
-						, this.nomSimpleFichierJava);
-		
-		this.javadoc.addAll(listeLignesRgSubst2);
-
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
 	} // Fin de creerLignesJavaDocDiagrammes().____________________________
 	
 
@@ -524,24 +419,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 */
 	private void creerLignesJavaDocEnTeteRg() 
 			throws Exception {
-		
-		final String cheminFichierRg 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/javadoc_interface_rg_debut.txt";
-	
-		final File fichierRg = new File(cheminFichierRg);
-		
-		final List<String> listeLignesRg 
-			= this.lireStringsDansFile(fichierRg, CHARSET_UTF8);
-		
-		final List<String> listeLignesRgSubst1 
-			= this.substituerVariablesDansLigne(
-					listeLignesRg
-						, VARIABLE_CONCEPT_MODELISE
-							, this.conceptModelise);
-				
-		this.javadoc.addAll(listeLignesRgSubst1);
-
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
 	} // Fin de creerLignesJavaDocEnTeteRg().______________________________
 	
 
@@ -556,108 +434,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 */
 	private void creerLignesJavaDocTableauRg() 
 			throws Exception {
-		
-		final Set<Entry<String, List<String>>> entrySetAttributs2 
-		= this.mapRg.entrySet();
-	
-		final Iterator<Entry<String, List<String>>> iteAttributs2 
-			= entrySetAttributs2.iterator();
-		
-		while (iteAttributs2.hasNext()) {
-			
-			final Entry<String, List<String>> entryAttributs2 
-				= iteAttributs2.next();
-			
-			final String nomAttribut = entryAttributs2.getKey();
-			final List<String> listeRg = entryAttributs2.getValue();
-			
-			if (listeRg.isEmpty()) {
-				continue;
-			}
-			
-			final int nombreRgs = listeRg.size();
-			int compteur = 0;
-			
-			for (final String rG : listeRg) {
-				
-				compteur++;
-				
-				if (compteur == 1) {
-					
-					final String cheminFichierRgLigne1 
-					= BundleConfigurationProjetManager.getRacineMainResources() 
-					+ "/templates/javadoc_interface_rg_attribut_ligne_1.txt";
-				
-					final File fichierRgLigne1 = new File(cheminFichierRgLigne1);
-					
-					final List<String> listeLignesRgLigne1 
-						= this.lireStringsDansFile(fichierRgLigne1, CHARSET_UTF8);
-					
-					final List<String> listeLignesRgLigne1Subst1 
-						= this.substituerVariablesDansLigne(
-								listeLignesRgLigne1
-									, VARIABLE_NOMATTRIBUT
-										, nomAttribut);
-					
-					final List<String> listeLignesRgLigne1Subst2 
-						= this.substituerVariablesDansLigne(
-							listeLignesRgLigne1Subst1
-								, VARIABLE_NOMBRE_RGS
-									, String.valueOf(nombreRgs));
-					
-					final List<String> listeLignesRgLigne1Subst3 
-						= this.substituerVariablesDansLigne(
-							listeLignesRgLigne1Subst2
-								, VARIABLE_TITRE_RG
-									, this.fournirTitreRg(rG));
-					
-					final List<String> listeLignesRgLigne1Subst4 
-					= this.substituerVariablesDansLigne(
-						listeLignesRgLigne1Subst3
-							, VARIABLE_MESSAGE_RG
-								, this.fournirMessageRg(rG));
-					
-					this.javadoc.addAll(listeLignesRgLigne1Subst4);
-						
-				} else {
-
-					final String cheminFichierRgLigneCourant
-					= BundleConfigurationProjetManager.getRacineMainResources() 
-					+ "/templates/javadoc_interface_rg_attribut_courant.txt";
-				
-					final File fichierRgLigneCourant 
-						= new File(cheminFichierRgLigneCourant);
-					
-					final List<String> listeLignesRgLigneCourant
-						= this.lireStringsDansFile(
-								fichierRgLigneCourant, CHARSET_UTF8);
-										
-					final List<String> listeLignesRgLigneCourantSubst1 
-						= this.substituerVariablesDansLigne(
-								listeLignesRgLigneCourant
-									, VARIABLE_TITRE_RG
-										, this.fournirTitreRg(rG));
-					
-					final List<String> listeLignesRgLigneCourantSubst2 
-						= this.substituerVariablesDansLigne(
-								listeLignesRgLigneCourantSubst1
-									, VARIABLE_MESSAGE_RG
-										, this.fournirMessageRg(rG));
-					
-					this.javadoc.addAll(listeLignesRgLigneCourantSubst2);
-						
-				}
-								
-			} // Fin de l'itération sur les RG d'un attribut.___
-			
-		} // Fin de l'itération sur les attributs._________
-
-		/* FIN DU TABLEAU. */
-		this.javadoc.add(" * </table>");
-		
-		/* FIN DE LA LISTE. */
-		this.javadoc.add(" * </ul>");
-		
+		return; // NOPMD by daniel.levy on 19/01/18 10:15
 	} // Fin de creerLignesJavaDocTableauRg()._____________________________
 	
 
@@ -693,12 +470,12 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	} // Fin de creerLignesJavaDocFin().___________________________________
 	
 
-
+	
 	/**
 	 * {@inheritDoc}
 	 * <br/>
 	 * <ul>
-	 * <b>fournirDebutJavaDoc() pour une CLASS CONCRETE</b> :
+	 * <b>fournirDebutJavaDoc() pour une CLASS CONCRETE FORMULAIRE</b> :
 	 * <li>" * CLASSE".</li>
 	 * </ul>
 	 * <br/>
@@ -747,8 +524,6 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 
 		stb.append(CLASS);
 		stb.append(this.nomSimpleFichierJava);
-		stb.append(EXTENDS);
-		stb.append(this.nomSimpleAbstractClass);
 		stb.append(SEP_ESPACE);
 		stb.append(CROCHET_OUVRANT);
 
@@ -758,8 +533,8 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 
 	} // Fin de creerLigneDeclaration(...).________________________________
 
-	
-	
+
+		
 	/**
 	 * {@inheritDoc}
 	 * <br/>
@@ -773,7 +548,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	protected final String fournirDebutDeclaration() {
 		return CLASS;
 	} // Fin de fournirDebutDeclaration()._________________________________
-	
+
 
 	
 	/**
@@ -784,9 +559,9 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 			final List<String> pListe) throws Exception {
 		return; // NOPMD by daniel.levy on 17/01/18 11:18	
 	} // Fin de creerAttributId(...).______________________________________
-	
-	
 
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -796,10 +571,57 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 				, final String pNomAttribut
 					, final String pTypeAttribut)
 			throws Exception {
-		return;		 // NOPMD by daniel.levy on 17/01/18 11:28
+		
+		/* ne fait rien si pListe == null. */
+		if (pListe == null) {
+			return;
+		}
+		
+		/* ne fait rien si pNomAttribut est blank. */
+		if (StringUtils.isBlank(pNomAttribut)) {
+			return;
+		}
+		
+		/* DEBUT. */
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/attribut/javadoc_attribut_debut.txt";
+	
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listProv 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> attributListSubst1 
+			= this.substituerVariablesDansLigne(
+					listProv
+					, VARIABLE_NOMATTRIBUT
+						, pNomAttribut);
+		
+		final List<String> attributListSubst2 
+		= this.substituerVariablesDansLigne(
+				attributListSubst1
+					, VARIABLE_TYPEATTRIBUT
+						, pTypeAttribut);
+		
+		/* Liste des lignes à générer. */
+		final List<String> attributList 
+		= this.substituerVariablesDansLigne(
+				attributListSubst2
+					, VARIABLE_CONCEPT_MODELISE
+						, this.conceptModelise);
+		
+		pListe.addAll(attributList);
+		
+		/* CORPS.*/
+		this.ajouterRGsAJavadoc(pListe, pNomAttribut);
+		
+		/* FIN. */
+		pListe.add(FIN_JAVADOC_MEMBRE);
+		
 	} // Fin de creerJavadocAttribut(...)._________________________________
 	
-	
+
 	
 	/**
 	 * {@inheritDoc}
@@ -809,18 +631,528 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 			final List<String> pListe
 				, final String pNomAttribut
 					, final String pTypeAttribut) throws Exception {
-		return; // NOPMD by daniel.levy on 17/01/18 11:28
+		
+		/* ne fait rien si pListe == null. */
+		if (pListe == null) {
+			return;
+		}
+		
+		/* ne fait rien si pNomAttribut est blank. */
+		if (StringUtils.isBlank(pNomAttribut)) {
+			return;
+		}
+		
+
+		final String cheminFichier 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/attribut/code_attribut.txt";
+	
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listProv 
+			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+		
+		final List<String> attributListSubst1 
+			= this.substituerVariablesDansLigne(
+					listProv
+					, VARIABLE_NOMATTRIBUT
+						, pNomAttribut + STRING);
+		
+		final List<String> attributListSubst2 
+		= this.substituerVariablesDansLigne(
+				attributListSubst1
+					, VARIABLE_TYPEATTRIBUT
+						, STRING);
+		
+		pListe.addAll(attributListSubst2);
+		
 	} // Fin de creerCodeAttribut(...).____________________________________
 
 	
+		
+	/**
+	* method ecrireConstructeurNull(
+	* File pFile) :<br/>
+	* <ul>
+	* <li><b>écriture</b> dans le fichier java.</li>
+	* <li>écrit la totalité du <b>constructeur d'arite nulle</b></li>
+	* <li>écrit la javadoc du constructeur d'arite nulle.</li>
+	* <li>écrit le code du constructeur d'arite nulle.</li>
+	* <li>ajoute 3 lignes vides à la suite.<br/>
+	* <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	* </ul>
+	* ne fait rien si pFile est null.<br/>
+	* ne fait rien si pFile n'existe pas.<br/>
+	* ne fait rien si pFile n'est pas un fichier simple.<br/>
+	* <br/>
+	*
+	* @param pFile : File : fichier java.<br/>
+	* 
+	* @throws Exception 
+	*/
+	@Override
+	protected void ecrireConstructeurNull(
+			final File pFile) throws Exception {
+
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* écrit la javadoc du constructeur d'arite nulle. */
+		this.ecrireJavadocConstructeurNull(pFile);
+
+		/* écrit le code du constructeur d'arite nulle. */
+		this.ecrireCodeConstructeurNull(pFile);
+
+	} // Fin de ecrireConstructeurNull(...)._______________________________
+	
+	
 	
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final void ecrireCodeConstructeurCompletBase(
+	* method ecrireJavadocConstructeurNull(
+	* File pFile) :<br/>
+	* <ul>
+	* <li><b>écriture</b> dans le fichier java.</li>
+	* <li>Génère la <b>javadoc du constructeur d'arite nulle</b>.</li>
+	* </ul>
+	* ne fait rien si pFile est null.<br/>
+	* ne fait rien si pFile n'existe pas.<br/>
+	* ne fait rien si pFile n'est pas un fichier simple.<br/>
+	* <br/>
+	*
+	* @param pFile : File : fichier java.<br/>
+	* 
+	* @throws Exception 
+	*/
+	private void ecrireJavadocConstructeurNull(
 			final File pFile) throws Exception {
+
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		final List<String> listJavadoc = new ArrayList<String>();
+		listJavadoc.add(DEBUT_JAVADOC_MEMBRE);
+		listJavadoc.add(CONSTR_JAVADOC + this.nomSimpleFichierJava + "() :<br/>");
+		listJavadoc.add(LIGNE_CONSTR_NULL_JAVADOC);
+		listJavadoc.add(FIN_JAVADOC_MEMBRE);
+
+		try {
+
+			/* Recherche la ligne identifiant. */
+			final String ligneIdentifiant = LIGNE_CONSTR_NULL_JAVADOC;
+
+			/* Ne fait rien si la javadoc a déjà été écrite. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : listJavadoc) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+
+				}
+				else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer la Javadoc", e);
+			}
+		}
+
+	} // Fin de ecrireJavadocConstructeurNull(...)._________________
+	
+	
+	
+	/**
+	* method ecrireCodeConstructeurNull(
+	* File pFile) :<br/>
+	* <ul>
+	* <li><b>écriture</b> dans le fichier java.</li>
+	* <li>génère le <b>code du constructeur d'arite nulle</b>.</li>
+	* </ul>
+	* ne fait rien si pFile est null.<br/>
+	* ne fait rien si pFile n'existe pas.<br/>
+	* ne fait rien si pFile n'est pas un fichier simple.<br/>
+	* <br/>
+	*
+	* @param pFile : File : fichier java.<br/>
+	* 
+	* @throws Exception 
+	*/
+	private void ecrireCodeConstructeurNull(
+			final File pFile) throws Exception {
+
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		final List<String> listCode = new ArrayList<String>();
+
+		/* DECLARATION du constructeur. */
+		listCode.add(PUBLIC + this.nomSimpleFichierJava + "() {");
+
+		listCode.add("");
+
+		/* CODE du Constructeur. */
+		final StringBuilder stb = new StringBuilder();
+
+		stb.append("this(");
+
+		int compteur2 = 0;
+
+		final int tailleMap = this.mapAttributs.size();
+
+		final Set<Entry<String, String>> entrySet2 = this.mapAttributs.entrySet();
+
+		final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
+
+		while (ite2.hasNext()) {
+
+			compteur2++;
+
+			ite2.next();
+
+			String aAjouter = null;
+
+			if (compteur2 < tailleMap) {
+				if (compteur2 == 1) {
+					aAjouter = "null";
+				} else {
+					aAjouter = ", null";
+				}				
+			}
+			else {
+				aAjouter = ", null);";
+			}
+
+			stb.append(aAjouter);
+		}
+
+		listCode.add(DECALAGE_CODE + stb.toString());
+
+		listCode.add("");
+
+		final String ligneIdentifiant = "\t" + LIGNE_FIN_CONSTR_NULL;
+
+		listCode.add(ligneIdentifiant);
+
+		/* ajoute 3 lignes vides. */
+		this.ajouterLignesVides(3, listCode);
+
+		try {
+
+			/* Ne fait rien si le code a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : listCode) {
+
+				if (StringUtils.isBlank(ligne)) {
+
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
+
+				}
+				else {
+
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+		}
+		catch (Exception e) {
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer " + "le code du constructeur", e);
+			}
+		}
+
+	} // Fin de ecrireCodeConstructeurNull(...).____________________
+	
+	
+	
+	/**
+	* method ecrireConstructeurComplet(
+	* File pFile) :<br/>
+	* <ul>
+	* <li><b>écriture</b> dans le fichier java.</li>
+	* <li>écrit la totalité du <b>constructeur complet</b>.</li>
+	* <li>écrit la javadoc du constructeur complet.</li>
+	* <li>écrit le code du constructeur complet.</li>
+	* <li>ajoute 3 lignes vides à la suite.</li>
+	* <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	* </ul>
+	* ne fait rien si pFile est null.<br/>
+	* ne fait rien si pFile n'existe pas.<br/>
+	* ne fait rien si pFile n'est pas un fichier simple.<br/>
+	* <br/>
+	*
+	* @param pFile : File : fichier java.<br/>
+	* 
+	* @throws Exception 
+	*/
+	@Override
+	protected void ecrireConstructeurComplet(
+			final File pFile) throws Exception {
+
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* écrit la javadoc du constructeur complet. */
+		this.ecrireJavadocConstructeurComplet(pFile);
+
+		/* écrit le code du constructeur complet. */
+		this.ecrireCodeConstructeurComplet(pFile);
+
+	} // Fin de ecrireConstructeurComplet(...).____________________________
+	
+	
+	
+	/**
+	* method ecrireJavadocConstructeurComplet(
+	* File pFile) :<br/>
+	* <ul>
+	* <li><b>écriture</b> dans le fichier java.</li>
+	* <li>Génère la <b>javadoc du constructeur complet</b>.</li>
+	* <br/>
+	* ne fait rien si pFile est null.<br/>
+	* ne fait rien si pFile n'existe pas.<br/>
+	* ne fait rien si pFile n'est pas un fichier simple.<br/>
+	* <br/>
+	*
+	* @param pFile : File : fichier java.<br/>
+	* 
+	* @throws Exception 
+	*/
+	private void ecrireJavadocConstructeurComplet(
+		final File pFile) throws Exception {
+	
+	/* ne fait rien si pFile est null. */
+	if (pFile == null) {
+		return;
+	}
+	
+	/* ne fait rien si pFile n'existe pas. */
+	if (!pFile.exists()) {
+		return;
+	}
+	
+	/* ne fait rien si pFile n'est pas un fichier simple. */
+	if (!pFile.isFile()) {
+		return;
+	}
+	
+	final List<String> listJavadoc = new ArrayList<String>();
+	listJavadoc.add(DEBUT_JAVADOC_MEMBRE);
+	listJavadoc.add(CONSTR_JAVADOC + this.nomSimpleFichierJava + "(");
+	
+	final int tailleMap = this.mapAttributs.size();
+	
+	final Set<Entry<String, String>> entrySet 
+	= this.mapAttributs.entrySet();
+	
+	final Iterator<Entry<String, String>> ite = entrySet.iterator();
+	
+	int compteur = 0;
+	
+	while (ite.hasNext()) {
 		
+		compteur++;
+		
+		final Entry<String, String> entry = ite.next();
+		
+		final String nomAttribut = entry.getKey();
+		
+		String ligneACreerBase = null;
+		
+		if (compteur == 1) {
+			
+			ligneACreerBase 
+			= LIGNE_VIDE_JAVADOC_MEMBRE
+			+ SEP_ESPACE
+			+ STRING 
+			+ SEP_ESPACE 
+			+ this.fournirParametre(nomAttribut) + STRING;
+		}
+		else {
+			
+			ligneACreerBase 
+			= VIRGULE_JAVADOC_MEMBRE 
+			+ "String" 
+			+ SEP_ESPACE 
+			+ this.fournirParametre(nomAttribut) + STRING;
+		}
+		
+		
+		String ligneACreer = null;
+		
+		if (compteur < tailleMap) {
+			ligneACreer = ligneACreerBase;
+		} else {
+			ligneACreer = ligneACreerBase + ") :<br/>";
+		}
+		
+		listJavadoc.add(ligneACreer);
+	}
+	
+	listJavadoc.add(UL_OUVRANT_JAVADOC_MEMBRE);
+	listJavadoc.add(LIGNE_CONSTR_COMPLET_JAVADOC);
+	listJavadoc.add(SANS_ID_JAVADOC);
+	listJavadoc.add(UL_FERMANT_JAVADOC_MEMBRE);
+	listJavadoc.add(LIGNE_VIDE_JAVADOC_MEMBRE);
+	
+	
+	final Set<Entry<String, String>> entrySet2 
+	= this.mapAttributs.entrySet();
+	
+	final Iterator<Entry<String, String>> ite2 = entrySet2.iterator();
+	
+	while (ite2.hasNext()) {
+		
+		final Entry<String, String> entry2 = ite2.next();
+		
+		final String nomAttribut = entry2.getKey();
+		
+		final String ligneACreer1 
+			= LIGNE_PARAM_JAVADOC 
+			+ fournirParametre(nomAttribut) + STRING 
+			+ SEP_2PTS_AERE 
+			+ STRING 
+			+ SEP_2PTS_AERE;
+		
+		final String ligneACreer2 
+			= "	 *" 
+			+ SEP_ESPACE
+			+ nomAttribut + STRING 
+			+ " du " 
+			+ this.nomSimpleFichierJava 
+			+ POINT_BR;
+		
+		listJavadoc.add(ligneACreer1);
+		listJavadoc.add(ligneACreer2);
+	}
+	
+	
+	listJavadoc.add(FIN_JAVADOC_MEMBRE);
+	
+	
+	
+	try {
+	
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant = LIGNE_CONSTR_COMPLET_JAVADOC;
+	
+		/* Ne fait rien si la javadoc a déjà été écrite. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		for (final String ligne : listJavadoc) {
+	
+			if (StringUtils.isBlank(ligne)) {
+	
+				this.ecrireStringDansFile(
+						pFile, "", CHARSET_UTF8, NEWLINE);
+				
+			} else {
+	
+				this.ecrireStringDansFile(
+						pFile, ligne, CHARSET_UTF8, NEWLINE);
+				
+			}
+		}
+	} catch (Exception e) {
+	
+		if (LOG.isFatalEnabled()) {
+			LOG.fatal("Impossible de créer la Javadoc", e);
+		}
+	}
+	
+	} // Fin de ecrireJavadocConstructeurComplet(...)._________________
+	
+
+	
+	/**
+	 * method ecrireCodeConstructeurComplet(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>génère le <b>code du constructeur complet</b>.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireCodeConstructeurComplet(
+			final File pFile) throws Exception {
+				
 		/* ne fait rien si pFile est null. */
 		if (pFile == null) {
 			return;
@@ -843,10 +1175,6 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 
 		/* PARAMETRES du constructeur. */
 		final String decalageDebut = TAB + TAB + TAB;
-		/* pId. */
-		final String idString = decalageDebut + FINAL + "Long pId";
-		
-		listCode.add(idString);
 		
 		final int tailleMap = this.mapAttributs.size();
 		
@@ -861,24 +1189,38 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 		while (ite.hasNext()) {
 			
 			compteur++;
-			final StringBuffer stb = new StringBuffer();
-			stb.append(decalage);
-			stb.append(TAB);
-			
-			decalage = stb.toString();
 			
 			final Entry<String, String> entry = ite.next();
 			
 			final String nomAttribut = entry.getKey();
-			final String typeAttribut = entry.getValue();
-			
-			final String ligneACreerBase 
-				= decalage + ", " + FINAL
-				+ typeAttribut 
-				+ SEP_ESPACE + this.fournirParametre(nomAttribut);
 			
 			String ligneACreer = null;
+			String ligneACreerBase = null;
 			
+			if (compteur == 1) {
+				
+				ligneACreerBase 
+					= decalage + FINAL
+						+ STRING + SEP_ESPACE 
+							+ this.fournirParametre(nomAttribut) + STRING;
+								
+			} else {
+				
+				final StringBuffer stb = new StringBuffer();
+				
+				stb.append(decalage);
+				stb.append(TAB);
+				
+				decalage = stb.toString();
+				
+				ligneACreerBase 
+					= decalage + ", " + FINAL
+						+ STRING + SEP_ESPACE 
+						+ this.fournirParametre(nomAttribut) + STRING;
+				
+			}
+			
+						
 			if (compteur < tailleMap) {
 				ligneACreer = ligneACreerBase;
 			} else {
@@ -888,15 +1230,12 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 			listCode.add(ligneACreer);
 		}
 
+
 		/* CODE du Constructeur. */
 		listCode.add("");
+		listCode.add(DECALAGE_CODE + "super();");
+		listCode.add("");
 
-		final StringBuilder stb = new StringBuilder();
-		
-		stb.append("super(pId");
-		
-		int compteur2 = 0;
-		
 		final Set<Entry<String, String>> entrySet2 
 		= this.mapAttributs.entrySet();
 	
@@ -904,30 +1243,28 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 		
 		while (ite2.hasNext()) {
 			
-			compteur2++;
+			final StringBuilder stb = new StringBuilder();
 			
+			stb.append("this.");
+						
 			final Entry<String, String> entry2 = ite2.next();
 			
-			final String nomAttribut = entry2.getKey();
+			final String nomAttribut = entry2.getKey() + STRING;
 
-			String aAjouter = null;
+			stb.append(nomAttribut);
+			stb.append(EGAL);
+			stb.append(this.fournirParametre(nomAttribut));
+			stb.append(POINT_VIRGULE);
 			
-			if (compteur2 < tailleMap) {
-				aAjouter = ", " + this.fournirParametre(nomAttribut);
-			} else {
-				aAjouter = ", " + this.fournirParametre(nomAttribut) + ");";
-			}
+			listCode.add(DECALAGE_CODE + stb.toString());
 			
-			stb.append(aAjouter);
 		}
-		
-		listCode.add(DECALAGE_CODE + stb.toString());
-		
+				
 		listCode.add("");
 		
 		final String ligneIdentifiant 
 			= "\t" 
-			+ LIGNE_FIN_CONSTR_COMPLET_BASE;
+			+ LIGNE_FIN_CONSTR_COMPLET;
 		
 		listCode.add(ligneIdentifiant);
 		
@@ -938,8 +1275,7 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 		try {
 
 			/* Ne fait rien si le code a déjà été écrit. */
-			if (this.existLigneCommencant(
-					pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
 				return;
 			}
 
@@ -950,22 +1286,30 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 
 				if (StringUtils.isBlank(ligne)) {
 
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(pFile, "", CHARSET_UTF8, NEWLINE);
 				} else {
 
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
+					this.ecrireStringDansFile(pFile, ligne, CHARSET_UTF8, NEWLINE);
 				}
 			}
 		} catch (Exception e) {
 
 			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer "
-						+ "le code du constructeur", e);
+				LOG.fatal("Impossible de créer le code du constructeur", e);
 			}
 		}
 		
+	} // Fin de ecrireCodeConstructeurComplet(...).____________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void ecrireCodeConstructeurCompletBase(
+			final File pFile) throws Exception {		
+		return;		
 	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
 
 	
@@ -1244,6 +1588,8 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 
 	}
 
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -1272,9 +1618,9 @@ public class EcriveurConcreteClass extends AbstractEcriveurMetier {
 	 */
 	@Override
 	protected final String fournirNomClasse() {
-		return CLASSE_ECRIVEUR_CONCRETECLASS;
+		return CLASSE_ECRIVEUR_CONCRETECLASSFORM;
 	} // Fin de fournirNomClasse().________________________________________
 
-	
 
-} // FIN DE LA CLASSE EcriveurConcreteClass.---------------------------------
+
+} // FIN DE LA CLASSE EcriveurConcreteClassForm.-----------------------------

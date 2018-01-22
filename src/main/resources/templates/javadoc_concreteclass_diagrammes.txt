@@ -1,0 +1,45 @@
+ * </ul>
+ * </ul>
+ *
+ * <p>
+ * <span style="text-decoration: underline;">DIAGRAMME DE CLASSES D'IMPLEMENTATION</span>
+ * </p>
+ * <ul>
+ * <li>
+ * <img src="../../../../../../../../../../javadoc/images/classes_implementation_{$conceptModelise}.png" 
+ * alt="classes d'implémentation des {$conceptModelise}" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * ENTITIES JPA
+ * </span>
+ * </p>
+ * <ul>
+ * <li>la classe concrète {$nomSimpleFichierJava} 
+ * est transformée en <b>Entity JPA</b> au moyen de 
+ * <b>javax.persistence annotations</b>.</li>
+ * <li>La <b>stratégie de jointure des tables</b> entre la classe abstraite 
+ * et ses descendants concrets est <b>InheritanceType.JOINED</b>.</li>
+ * <br/>
+ * <li>
+ * <img src="../../../../../../../../../../javadoc/images/implementation_{$conceptModelise}_entities.png" 
+ * alt="implémentation des entities de {$conceptModelise}" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * TABLES
+ * </span>
+ * </p>
+ * <ul>
+ * <li>Les <b>tables en base</b> résultantes des entities JPA sont :</li>
+ * <br/>
+ * <li>
+ * <img src="../../../../../../../../../../javadoc/images/tables-abstract_{$conceptModelise}s_{$conceptModelise}s.png" 
+ * alt="implémentation des tables de {$conceptModelise}" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 

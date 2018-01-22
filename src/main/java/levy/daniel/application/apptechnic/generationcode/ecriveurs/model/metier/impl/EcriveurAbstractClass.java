@@ -48,21 +48,6 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 
 	
 	/**
-	 * ABSTRACT_CLASS : String :<br/>
-	 * "public abstract class ".<br/>
-	 */
-	public static final String ABSTRACT_CLASS 
-		= "public abstract class ";
-
-	
-	/**
-	 * IMPLEMENTS : String :<br/>
-	 * " implements ".<br/>
-	 */
-	public static final String IMPLEMENTS = " implements ";
-	
-	
-	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -574,7 +559,24 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 	 */
 	private void creerLignesJavaDocEnTeteRg() 
 			throws Exception {
-		return; // NOPMD by daniel.levy on 19/01/18 10:15
+		
+		final String cheminFichierRg 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/javadoc_interface_rg_debut.txt";
+	
+		final File fichierRg = new File(cheminFichierRg);
+		
+		final List<String> listeLignesRg 
+			= this.lireStringsDansFile(fichierRg, CHARSET_UTF8);
+		
+		final List<String> listeLignesRgSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignesRg
+						, VARIABLE_CONCEPT_MODELISE
+							, this.conceptModelise);
+				
+		this.javadoc.addAll(listeLignesRgSubst1);
+
 	} // Fin de creerLignesJavaDocEnTeteRg().______________________________
 	
 
@@ -589,7 +591,108 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 	 */
 	private void creerLignesJavaDocTableauRg() 
 			throws Exception {
-		return; // NOPMD by daniel.levy on 19/01/18 10:15
+		
+		final Set<Entry<String, List<String>>> entrySetAttributs2 
+		= this.mapRg.entrySet();
+	
+		final Iterator<Entry<String, List<String>>> iteAttributs2 
+			= entrySetAttributs2.iterator();
+		
+		while (iteAttributs2.hasNext()) {
+			
+			final Entry<String, List<String>> entryAttributs2 
+				= iteAttributs2.next();
+			
+			final String nomAttribut = entryAttributs2.getKey();
+			final List<String> listeRg = entryAttributs2.getValue();
+			
+			if (listeRg.isEmpty()) {
+				continue;
+			}
+			
+			final int nombreRgs = listeRg.size();
+			int compteur = 0;
+			
+			for (final String rG : listeRg) {
+				
+				compteur++;
+				
+				if (compteur == 1) {
+					
+					final String cheminFichierRgLigne1 
+					= BundleConfigurationProjetManager.getRacineMainResources() 
+					+ "/templates/javadoc_interface_rg_attribut_ligne_1.txt";
+				
+					final File fichierRgLigne1 = new File(cheminFichierRgLigne1);
+					
+					final List<String> listeLignesRgLigne1 
+						= this.lireStringsDansFile(fichierRgLigne1, CHARSET_UTF8);
+					
+					final List<String> listeLignesRgLigne1Subst1 
+						= this.substituerVariablesDansLigne(
+								listeLignesRgLigne1
+									, VARIABLE_NOMATTRIBUT
+										, nomAttribut);
+					
+					final List<String> listeLignesRgLigne1Subst2 
+						= this.substituerVariablesDansLigne(
+							listeLignesRgLigne1Subst1
+								, VARIABLE_NOMBRE_RGS
+									, String.valueOf(nombreRgs));
+					
+					final List<String> listeLignesRgLigne1Subst3 
+						= this.substituerVariablesDansLigne(
+							listeLignesRgLigne1Subst2
+								, VARIABLE_TITRE_RG
+									, this.fournirTitreRg(rG));
+					
+					final List<String> listeLignesRgLigne1Subst4 
+					= this.substituerVariablesDansLigne(
+						listeLignesRgLigne1Subst3
+							, VARIABLE_MESSAGE_RG
+								, this.fournirMessageRg(rG));
+					
+					this.javadoc.addAll(listeLignesRgLigne1Subst4);
+						
+				} else {
+
+					final String cheminFichierRgLigneCourant
+					= BundleConfigurationProjetManager.getRacineMainResources() 
+					+ "/templates/javadoc_interface_rg_attribut_courant.txt";
+				
+					final File fichierRgLigneCourant 
+						= new File(cheminFichierRgLigneCourant);
+					
+					final List<String> listeLignesRgLigneCourant
+						= this.lireStringsDansFile(
+								fichierRgLigneCourant, CHARSET_UTF8);
+										
+					final List<String> listeLignesRgLigneCourantSubst1 
+						= this.substituerVariablesDansLigne(
+								listeLignesRgLigneCourant
+									, VARIABLE_TITRE_RG
+										, this.fournirTitreRg(rG));
+					
+					final List<String> listeLignesRgLigneCourantSubst2 
+						= this.substituerVariablesDansLigne(
+								listeLignesRgLigneCourantSubst1
+									, VARIABLE_MESSAGE_RG
+										, this.fournirMessageRg(rG));
+					
+					this.javadoc.addAll(listeLignesRgLigneCourantSubst2);
+						
+				}
+								
+			} // Fin de l'itération sur les RG d'un attribut.___
+			
+		} // Fin de l'itération sur les attributs._________
+
+		/* FIN DU TABLEAU. */
+		this.javadoc.add(" * </table>");
+		
+		/* FIN DE LA LISTE. */
+		this.javadoc.add(" * </ul>");
+		
 	} // Fin de creerLignesJavaDocTableauRg()._____________________________
 	
 
@@ -624,6 +727,22 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 
 	} // Fin de creerLignesJavaDocFin().___________________________________
 	
+
+	
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * <ul>
+	 * <b>fournirDebutJavaDoc() pour une ABSTRACTCLASS</b> :
+	 * <li>" * CLASSE ABSTRAITE".</li>
+	 * </ul>
+	 * <br/>
+	 */
+	@Override
+	protected final String fournirDebutJavaDoc() {
+		return " * CLASSE ABSTRAITE";
+	} // Fin de fournirDebutJavaDoc()._____________________________________
+
 
 	
 	/**
@@ -665,7 +784,7 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 		stb.append(this.nomSimpleFichierJava);
 		stb.append(IMPLEMENTS);
 		stb.append(this.genererNomInterface(this.nomSimpleFichierJava));
-		stb.append(' ');
+		stb.append(SEP_ESPACE);
 		stb.append(CROCHET_OUVRANT);
 
 		this.ligneDeclaration = stb.toString();
@@ -675,7 +794,23 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 	} // Fin de creerLigneDeclaration(...).________________________________
 
 
-	
+
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * <ul>
+	 * <b>fournirDebutDeclaration() pour une ABSTRACTCLASS</b> :
+	 * <li>"public abstract class ".</li>
+	 * </ul>
+	 * <br/>
+	 */
+	@Override
+	protected final String fournirDebutDeclaration() {
+		return ABSTRACT_CLASS;
+	} // Fin de fournirDebutDeclaration()._________________________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -809,95 +944,6 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final String creerLigneFinale(
-			final File pFile) {
-		
-		/* Retourne null si pFile est null. */
-		if (pFile == null) {
-			return null;
-		}
-		
-		/* Retourne null si pFile n'existe pas sur le disque. */
-		if (!pFile.exists()) {
-			return null;
-		}
-		
-		/* Retourne null si pFile est un répertoire. */
-		if (pFile.isDirectory()) {
-			return null;
-		}
-
-		
-		final StringBuilder stb = new StringBuilder();
-		
-		stb.append(CROCHET_FERMANT);
-		stb.append(" // FIN DE LA CLASSE ");
-		stb.append(this.nomSimpleFichierJava);
-		stb.append(POINT);
-		
-		final String provisoire = stb.toString();
-		final int longueurProvisoire = provisoire.length();
-		
-		final int nombreTirets = 77 - longueurProvisoire;
-		
-		for (int i=0; i < nombreTirets; i++) {
-			stb.append('-');
-		}
-		
-		this.ligneFinale = stb.toString();
-		
-		return this.ligneFinale;
-		
-	} // Fin de creerLigneFinale(...)._____________________________________
-	
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final String fournirNomClasse() {
-		return CLASSE_ECRIVEUR_ABSTRACTCLASS;
-	} // Fin de fournirNomClasse().________________________________________
-	
-	
-
-	/**
-	 * {@inheritDoc}
-	 * <br/>
-	 * <ul>
-	 * <b>fournirDebutDeclaration() pour une ABSTRACTCLASS</b> :
-	 * <li>"public abstract class ".</li>
-	 * </ul>
-	 * <br/>
-	 */
-	@Override
-	protected final String fournirDebutDeclaration() {
-		return ABSTRACT_CLASS;
-	} // Fin de fournirDebutDeclaration()._________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 * <br/>
-	 * <ul>
-	 * <b>fournirDebutJavaDoc() pour une ABSTRACTCLASS</b> :
-	 * <li>" * CLASSE ABSTRAITE".</li>
-	 * </ul>
-	 * <br/>
-	 */
-	@Override
-	protected final String fournirDebutJavaDoc() {
-		return " * CLASSE ABSTRAITE";
-	} // Fin de fournirDebutJavaDoc()._____________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	protected final void ecrireCodeConstructeurCompletBase(
 			final File pFile) throws Exception {
 				
@@ -918,9 +964,12 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 
 		final List<String> listCode = new ArrayList<String>();
 		
+		/* DECLARATION du constructeur. */
 		listCode.add(PUBLIC + this.nomSimpleFichierJava + "(");
 
-		final String decalageDebut = "\t" + "\t" + "\t";
+		/* PARAMETRES du constructeur. */
+		final String decalageDebut = TAB + TAB + TAB;
+		/* pId. */
 		final String idString = decalageDebut + FINAL + "Long pId";
 		
 		listCode.add(idString);
@@ -938,7 +987,11 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 		while (ite.hasNext()) {
 			
 			compteur++;
-			decalage = decalage +"\t"; // NOPMD by daniel.levy on 10/01/18 14:43
+			final StringBuffer stb = new StringBuffer();
+			stb.append(decalage);
+			stb.append(TAB);
+			
+			decalage = stb.toString();
 			
 			final Entry<String, String> entry = ite.next();
 			
@@ -961,12 +1014,11 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 			listCode.add(ligneACreer);
 		}
 
-		final String decalageCode = "\t" + "\t";
-		
+		/* CODE du Constructeur. */
 		listCode.add("");
-		listCode.add(decalageCode + SUPER);
+		listCode.add(DECALAGE_CODE + SUPER);
 		listCode.add("");
-		listCode.add(decalageCode + "this.id = pId;");
+		listCode.add(DECALAGE_CODE + "this.id = pId;");
 		
 		
 		final Set<Entry<String, String>> entrySet2 
@@ -981,7 +1033,7 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 			final String nomAttribut = entry2.getKey();
 
 			final String ligneACreer 
-				= decalageCode 
+				= DECALAGE_CODE 
 				+ THIS + nomAttribut + EGAL 
 				+ this.fournirParametre(nomAttribut) + SEP_PV;
 						
@@ -2157,11 +2209,37 @@ public class EcriveurAbstractClass extends AbstractEcriveurMetier {
 	protected String fournirLigneIdentifianteSetter(
 			final String pNomAttribut
 				, final String pTypeAttribut) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		final String ligneIdentifiant 
+		= PUBLIC
+				+ "void" 
+				+ SEP_ESPACE 
+				+ this.fournirSetter(pNomAttribut);
+		
+		return ligneIdentifiant;
+		
+	} // Fin de fournirLigneIdentifianteSetter(...)._______________________
 
 
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirTypeFichierJava() {	
+		return "LA CLASSE ";		
+	} // Fin de fournirTypeFichierJava(...)._______________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirNomClasse() {
+		return CLASSE_ECRIVEUR_ABSTRACTCLASS;
+	} // Fin de fournirNomClasse().________________________________________
+	
+		
 
 } // FIN DE LA CLASSE EcriveurAbstractClass.---------------------------------
