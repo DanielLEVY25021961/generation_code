@@ -1309,7 +1309,7 @@ public class EcriveurConcreteClassForm extends AbstractEcriveurMetier {
 	@Override
 	protected final void ecrireCodeConstructeurCompletBase(
 			final File pFile) throws Exception {		
-		return;		
+		return;		 // NOPMD by daniel.levy on 22/01/18 13:07
 	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
 
 	

@@ -63,12 +63,22 @@ public abstract class AbstractGenerateur implements IGenerateur {
 
 
 	/**
-	 * gestionnaire : GestionnaireFiles :<br/>
+	 * gestionnaireFiles : GestionnaireFiles :<br/>
 	 * GestionnaireFiles.<br/>
 	 */
-	protected final transient IGestionnaireFiles gestionnaire 
+	protected final transient IGestionnaireFiles gestionnaireFiles 
 		= new GestionnaireFiles();
 
+	
+	/**
+	 * conceptModelise : String :<br/>
+	 * <b>concept modélisé par ce générateur</b>.<br/>
+	 * nom du package à créer dans chaque couche 
+	 * avec une majuscule en première position.<br/>
+	 * Par exemple : Profil pour le nomPackage "profil".<br/>
+	 */
+	protected static String conceptModelise;
+	
 	
 	/**
 	 * nomPackage : String :<br/>
@@ -86,17 +96,8 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 */
 	protected static File packageMetier;
 	
-	
-	/**
-	 * conceptModelise : String :<br/>
-	 * <b>concept modélisé par ce générateur</b>.<br/>
-	 * nom du package à créer dans chaque couche 
-	 * avec une majuscule en première position.<br/>
-	 * Par exemple : Profil pour le nomPackage "profil".<br/>
-	 */
-	protected static String conceptModelise;
-	
 
+	
 	/**
 	 * nomInterfaceMetier : String :<br/>
 	 * <b>nom de l'interface de l'Objet metier 
@@ -146,6 +147,14 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 */
 	protected static File classMetierForm;
 
+	
+	/**
+	 * packageDaoMetier : File :<br/>
+	 * package metier sous la couche DAO (model.dao.metier).<br/>
+	 */
+	protected static File packageDaoMetier;
+	
+	
 	
 	/**
 	 * mapAttributs : Map&lt;String,String&gt; :<br/>
@@ -382,6 +391,9 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 		/* génère packageMetier. */
 		genererPackageMetier();
+		
+		/* g2n7re pqckqgeDqo:etier. */
+		genererPackageDaoMetier();
 
 		/* alimente tous les attributs static des Générateurs. */
 		alimenterAttributsStatic(pNomPackage
@@ -399,7 +411,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * method genererPackageMetier() :<br/>
 	 * <ul>
-	 * <li>génère si nécessaire le package métier packageMetier 
+	 * <li>génère si nécessaire le package métier
 	 * <b>packageMetier</b> (model.metier).</li>
 	 * <li>génère si nécessaire l'interface IExportateurCsv 
 	 * sous model.metier.</li>
@@ -449,13 +461,13 @@ public abstract class AbstractGenerateur implements IGenerateur {
 				throws Exception {
 
 		synchronized (AbstractGenerateur.class) {
-			
-			
+						
 			final String nomFichier = "IExportateurCsv.java";
 			
 			final IGestionnaireFiles gestionnaireFiles 
 				= new GestionnaireFiles();
 			
+			/* création du fichier vide. */
 			final File iExportateurCsv 
 				= gestionnaireFiles
 				.creerFichierDansPackage(
@@ -540,8 +552,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 */
 	private static void genererInterfaceIExportateurJTable() 
 				throws Exception {
-		
-	
+			
 		synchronized (AbstractGenerateur.class) {	
 					
 			final String nomFichier = "IExportateurJTable.java";
@@ -549,6 +560,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			final IGestionnaireFiles gestionnaireFiles 
 				= new GestionnaireFiles();
 			
+			/* création du fichier vide. */
 			final File iExportateurJTable 
 				= gestionnaireFiles
 				.creerFichierDansPackage(
@@ -627,6 +639,248 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de creerLignesInterfaceIExportateurJTable(...)._______________
 
 
+	
+	/**
+	 * method genererPackageDaoMetier() :<br/>
+	 * <ul>
+	 * <li>génère si nécessaire le package metier sous DAO
+	 * <b>packageDaoMetier</b> (model.dao.metier).</li>
+	 * <li>génère si nécessaire l'interface IDaoGenericJPASpring.java 
+	 * sous model.dao.metier.</li>
+	 * <li>génère si nécessaire la classe abstraite 
+	 * AbstractDaoGenericJPASpring.java sous model.dao.metier.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererPackageDaoMetier() throws Exception {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			final String pathDaoString 
+			= BundleConfigurationProjetManager.getPathDao();
+		
+			if (packageDaoMetier == null) {
+				
+				final IGestionnaireFiles gestionnaireFiles 
+					= new GestionnaireFiles();
+				
+				packageDaoMetier 
+					= gestionnaireFiles
+						.creerSousPackage(pathDaoString, "metier");
+			}
+			
+			genererIDaoGenericJPASpring();
+			
+			genererAbstractDaoGenericJPASpring();
+			
+		} // Fin de synchronized._________________________________
+						
+	} // Fin de genererPackageDaoMetier()._________________________________
+	
+
+	
+	/**
+	 * method genererIDaoGenericJPASpring() :<br/>
+	 * <ul>
+	 * <li>génère si nécessaire l'interface 
+	 * IDaoGenericJPASpring sous model.dao.metier.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererIDaoGenericJPASpring() 
+			throws Exception {
+
+		synchronized (AbstractGenerateur.class) {
+						
+			final String nomFichier = "IDaoGenericJPASpring.java";
+			
+			final IGestionnaireFiles gestionnaireFiles 
+				= new GestionnaireFiles();
+			
+			/* récupération du package des DAOs. */
+			final String pathPackageDao 
+				= BundleConfigurationProjetManager.getPathDao();
+			
+			final File packageDao = new File(pathPackageDao);
+			
+			/* création du fichier vide. */
+			final File iDaoGenericJPASpring 
+				= gestionnaireFiles
+				.creerFichierDansPackage(
+						nomFichier, packageDao);
+			
+			final List<String> listeCode = new ArrayList<String>();
+			
+			/* ENREGISTREMENT *********/
+			creerLignesIDaoGenericJPASpring(listeCode);
+			
+			/* Recherche la ligne identifiant le code de l'interface. */
+			final String ligneIdentifiant 
+				= "public interface IDaoGenericJPASpring";
+			
+			/* Ne fait rien si le code est déjà existant. */
+			if (existLigneCommencant(
+					iDaoGenericJPASpring, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : listeCode) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					ecrireStringDansFile(
+							iDaoGenericJPASpring, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					ecrireStringDansFile(
+							iDaoGenericJPASpring, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+
+		} // Fin de synchronized._________________________________
+	
+	} // Fin de genererIDaoGenericJPASpring()._____________________________
+	
+
+	
+	/**
+	 * method creerLignesIDaoGenericJPASpring(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>Crée le code de l'interface IDaoGenericJPASpring.</li>
+	 * <li>Insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; pListe.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private static void creerLignesIDaoGenericJPASpring(
+			final List<String> pListe) throws Exception {
+		
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/dao/interface_idaogenericjpaspring.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= lireStringsDansFile(fichier, CHARSET_UTF8);
+					
+		pListe.addAll(listeLignes);
+				
+	} // Fin de creerLignesIDaoGenericJPASpring(...).______________________
+	
+	
+	
+	/**
+	 * method genererAbstractDaoGenericJPASpring() :<br/>
+	 * <ul>
+	 * <li>génère si nécessaire la classe abstraite 
+	 * AbstractDaoGenericJPASpring.java sous model.dao.metier.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererAbstractDaoGenericJPASpring() 
+			throws Exception {
+
+		synchronized (AbstractGenerateur.class) {
+						
+			final String nomFichier = "AbstractDaoGenericJPASpring.java";
+			
+			final IGestionnaireFiles gestionnaireFiles 
+				= new GestionnaireFiles();
+			
+			/* récupération du package des DAOs. */
+			final String pathPackageDao 
+				= BundleConfigurationProjetManager.getPathDao();
+			
+			final File packageDao = new File(pathPackageDao);
+			
+			/* création du fichier vide. */
+			final File abstractDaoGenericJPASpring 
+				= gestionnaireFiles
+				.creerFichierDansPackage(
+						nomFichier, packageDao);
+			
+			final List<String> listeCode = new ArrayList<String>();
+			
+			/* ENREGISTREMENT *********/
+			creerLignesAbstractDaoGenericJPASpring(listeCode);
+			
+			/* Recherche la ligne identifiant le code de l'interface. */
+			final String ligneIdentifiant 
+				= "public abstract class AbstractDaoGenericJPASpring";
+			
+			/* Ne fait rien si le code est déjà existant. */
+			if (existLigneCommencant(
+					abstractDaoGenericJPASpring
+						, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			for (final String ligne : listeCode) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					ecrireStringDansFile(
+							abstractDaoGenericJPASpring
+							, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					ecrireStringDansFile(
+							abstractDaoGenericJPASpring
+							, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+
+		} // Fin de synchronized._________________________________
+	
+	} // Fin de genererAbstractDaoGenericJPASpring().______________________
+	
+
+	
+	/**
+	 * method creerLignesAbstractDaoGenericJPASpring(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>Crée le code de la classe abstraite 
+	 * AbstractDaoGenericJPASpring.</li>
+	 * <li>Insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; pListe.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private static void creerLignesAbstractDaoGenericJPASpring(
+			final List<String> pListe) throws Exception {
+		
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/dao/abstractclass_abstractdaogenericjpaspring.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= lireStringsDansFile(fichier, CHARSET_UTF8);
+					
+		pListe.addAll(listeLignes);
+				
+	} // Fin de creerLignesAbstractDaoGenericJPASpring(...)._______________
+	
+	
 	
 	/**
 	 * method alimenterAttributsStatic(
@@ -788,7 +1042,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 					throws IOException {
 		
 		this.packageSousCouche 
-			= this.gestionnaire
+			= this.gestionnaireFiles
 				.creerSousPackage(this.pathPackage, pNomPackage);
 		
 	} // Fin de genererPackageSousCouche(...)._____________________________
@@ -815,7 +1069,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			throws IOException {
 		
 		this.sousPackageImpl 
-			= this.gestionnaire
+			= this.gestionnaireFiles
 				.creerSousPackage(this.packageSousCouche, "impl");
 		
 	} // Fin de genererSousPackageImpl().__________________________________
@@ -958,7 +1212,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		final String nomFichier = pNomInterface + ".java";
 		
 		this.interfaceJava 
-			= this.gestionnaire
+			= this.gestionnaireFiles
 			.creerFichierDansPackage(
 					nomFichier, this.packageSousCouche);
 		
@@ -989,7 +1243,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			=  this.nomSimpleAbstractClass + ".java";
 		
 		this.abstractClass
-			= this.gestionnaire
+			= this.gestionnaireFiles
 			.creerFichierDansPackage(
 					nomFichier, this.packageSousCouche);
 		
@@ -1022,7 +1276,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		final String nomFichier = pNomConcreteClass + ".java";
 		
 		this.concreteClass 
-			= this.gestionnaire
+			= this.gestionnaireFiles
 			.creerFichierDansPackage(
 					nomFichier, this.sousPackageImpl);
 		

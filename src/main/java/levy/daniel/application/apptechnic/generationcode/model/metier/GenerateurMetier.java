@@ -165,7 +165,7 @@ public class GenerateurMetier extends AbstractGenerateur {
 		final String nomFichier = nomClassMetierForm + ".java";
 		
 		classMetierForm 
-			= this.gestionnaire
+			= this.gestionnaireFiles
 			.creerFichierDansPackage(
 					nomFichier, this.sousPackageImpl);
 		

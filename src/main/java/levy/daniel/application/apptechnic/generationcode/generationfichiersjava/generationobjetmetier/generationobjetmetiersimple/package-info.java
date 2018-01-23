@@ -13,9 +13,9 @@
  * <br/>
  *
  *
- * @author dan Lévy
+ * @author daniel.levy Lévy
  * @version 1.0
- * @since 22 sept. 2017
+ * @since 22 janv. 2018
  *
  */
-package levy.daniel.application.model.dao.metier;
+package levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple;
