@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.generationcode.generationfichiersjava;
+package levy.daniel.application.apptechnic.generationcode.generationresources;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -6,7 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 
 /**
- * CLASSE ABSTRAITE <b>AbstractGenerateurFichiersJava</b> :<br/>
+ * CLASSE ABSTRAITE <b>AbstractGenerateurResources</b> :<br/>
  * .<br/>
  * <br/>
  *
@@ -22,19 +22,19 @@ import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
  *
  * @author daniel.levy Lévy
  * @version 1.0
- * @since 22 janv. 2018
+ * @since 24 janv. 2018
  *
  */
-public class AbstractGenerateurFichiersJava extends AbstractGenerateur {
+public abstract class AbstractGenerateurResources extends AbstractGenerateur {
 
 	// ************************ATTRIBUTS************************************/
-	
+
 	/**
-	 * CLASSE_ABSTRACT_GENERATEUR_FICHIERSJAVA : String :<br/>
-	 * "Classe AbstractGenerateurFichiersJava".<br/>
+	 * CLASSE_ABSTRACT_GENERATEUR_RESOURCES : String :<br/>
+	 * "Classe AbstractGenerateurResources".<br/>
 	 */
-	public static final String CLASSE_ABSTRACT_GENERATEUR_FICHIERSJAVA 
-		= "Classe AbstractGenerateurFichiersJava";
+	public static final String CLASSE_ABSTRACT_GENERATEUR_RESOURCES 
+		= "Classe AbstractGenerateurResources";
 
 	
 	/**
@@ -42,18 +42,18 @@ public class AbstractGenerateurFichiersJava extends AbstractGenerateur {
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(AbstractGenerateurFichiersJava.class);
+		= LogFactory.getLog(AbstractGenerateurResources.class);
 
 	
 	// *************************METHODES************************************/
 	
 	
 	 /**
-	 * method CONSTRUCTEUR AbstractGenerateurFichiersJava() :<br/>
+	 * method CONSTRUCTEUR AbstractGenerateurResources() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <br/>
 	 */
-	public AbstractGenerateurFichiersJava() {
+	public AbstractGenerateurResources() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
@@ -89,4 +89,5 @@ public class AbstractGenerateurFichiersJava extends AbstractGenerateur {
 	}
 
 	
-} // FIN DE LA CLASSE AbstractGenerateurFichiersJava.----------------------
+
+} // FIN DE LA CLASSE AbstractGenerateurResources.-------------------------

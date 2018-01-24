@@ -130,10 +130,10 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 	
 	/**
 	 * nomSimpleConcreteClass : String :<br/>
-	 * Nom simple de l'Objet metier à générer.<br/>
-	 * Par exemple "ProfilSimple".<br/>
+	 * Nom simple de la classe concrète à générer.<br/>
+	 * Par exemple "ProfilSimple"ou "DaoProfilSimple".<br/>
 	 */
-	protected transient String nomSimpleObjetMetier;
+	protected transient String nomSimpleConcreteClass;
 
 	
 	/**
@@ -458,7 +458,7 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 			= this.generateurMetier.getNomSimpleAbstractClass();
 		
 		/* alimente this.nomSimpleObjetMetier. */
-		this.nomSimpleObjetMetier 
+		this.nomSimpleConcreteClass 
 			= this.generateurMetier.getNomSimpleConcreteClass();
 
 		/* alimente this.fichierJava. */

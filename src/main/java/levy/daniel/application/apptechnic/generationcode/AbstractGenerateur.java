@@ -30,7 +30,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurat
 import levy.daniel.application.apptechnic.generationcode.impl.GestionnaireFiles;
 
 /**
- * class AbstractGenerateur :<br/>
+ * CLASSE ABSTRAITE <b>AbstractGenerateur</b> :<br/>
  * .<br/>
  * <br/>
  *

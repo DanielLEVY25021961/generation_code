@@ -5,8 +5,14 @@ import java.nio.charset.Charset;
 
 /**
  * INTERFACE <b>IGenerateur</b> :<br/>
- * Generateur de code.<br/>
- * <br/>
+ * <p>
+ * <b>IGenerateur</b> modélise un <i>concept</i> 
+ * de <b>Générateur de code</b> 
+ * , c'est à dire un objet <b>générant des fichiers java</b>  
+ * (IConcept, AbstractConcept, Concept, IDaoConcept
+ * , AbstractDaoConcept, ...) 
+ * ou des <b>ressources</b> (jsp, properties, ...).
+ * </p>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
