@@ -40,7 +40,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurat
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.IGenerateur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
-import levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier;
+import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple.GenerateurMetier;
 
 /**
  * CLASSE ABSTRAITE <b>AbstractEcriveurMetier</b> :<br/>

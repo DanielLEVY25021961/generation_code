@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.generationcode.model.metier;
+package levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple;
 
 import java.io.IOException;
 

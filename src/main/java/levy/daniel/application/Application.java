@@ -13,8 +13,8 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.IGenerateur;
-import levy.daniel.application.apptechnic.generationcode.model.dao.GenerateurDao;
-import levy.daniel.application.apptechnic.generationcode.model.metier.GenerateurMetier;
+import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationdao.GenerateurDao;
+import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple.GenerateurMetier;
 
 /**
  * class Application :<br/>

@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.generationcode.model.dao;
+package levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationdao;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
