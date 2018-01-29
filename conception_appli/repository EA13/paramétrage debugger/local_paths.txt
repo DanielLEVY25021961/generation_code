@@ -1,0 +1,4 @@
+%path_jdk% = C:\Program Files\Java\jdk1.8.0_144
+%path_projet% = D:\Donnees\eclipse\eclipseworkspace_neon\generation_code
+%path_repository_maven% = C:\Users\daniel.levy\.m2\repository
+
