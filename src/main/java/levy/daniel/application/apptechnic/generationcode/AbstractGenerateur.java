@@ -392,7 +392,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		/* génère packageMetier. */
 		genererPackageMetier();
 		
-		/* g2n7re pqckqgeDqo:etier. */
+		/* génère packageDaoMetier. */
 		genererPackageDaoMetier();
 
 		/* alimente tous les attributs static des Générateurs. */

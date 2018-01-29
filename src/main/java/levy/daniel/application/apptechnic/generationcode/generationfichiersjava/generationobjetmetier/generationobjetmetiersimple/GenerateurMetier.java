@@ -8,10 +8,10 @@ import org.apache.commons.logging.LogFactory;
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurAbstractClass;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurConcreteClass;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurConcreteClassForm;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurInterface;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierAbstractClass;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClassForm;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierInterface;
 
 
 /**
@@ -50,35 +50,35 @@ public class GenerateurMetier extends AbstractGenerateur {
 	
 
 	/**
-	 * ecriveurInterface : EcriveurInterface :<br/>
-	 * EcriveurInterface.<br/>
+	 * ecriveurInterface : EcriveurMetierInterface :<br/>
+	 * EcriveurMetierInterface.<br/>
 	 */
 	private final transient IEcriveur ecriveurInterface 
-		= new EcriveurInterface();
+		= new EcriveurMetierInterface();
 	
 	
 	/**
-	 * ecriveurAbstractClass : EcriveurAbstractClass :<br/>
-	 * EcriveurAbstractClass.<br/>
+	 * ecriveurAbstractClass : EcriveurMetierAbstractClass :<br/>
+	 * EcriveurMetierAbstractClass.<br/>
 	 */
 	private final transient IEcriveur ecriveurAbstractClass 
-		= new EcriveurAbstractClass();
+		= new EcriveurMetierAbstractClass();
 
 
 	/**
 	 * ecriveurConcreteClass : IEcriveur :<br/>
-	 * EcriveurConcreteClass.<br/>
+	 * EcriveurMetierConcreteClass.<br/>
 	 */
 	private final transient IEcriveur ecriveurConcreteClass 
-		= new EcriveurConcreteClass();
+		= new EcriveurMetierConcreteClass();
 
 	
 	/**
 	 * ecriveurConcreteClassForm : IEcriveur :<br/>
-	 * EcriveurConcreteClassForm.<br/>
+	 * EcriveurMetierConcreteClassForm.<br/>
 	 */
 	private final transient IEcriveur ecriveurConcreteClassForm 
-		= new EcriveurConcreteClassForm();
+		= new EcriveurMetierConcreteClassForm();
 	
 	
 	/**

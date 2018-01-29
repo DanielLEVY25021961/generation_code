@@ -158,8 +158,7 @@ public final class Application {
 							, "ProfilCerbere"
 								, MAP_ATTRIBUTS
 									, MAP_ATTRIBUTS_EQUALS
-
-									, MAP_RG);
+										, MAP_RG);
 		
 		/* GENERATION DU CODE. */
 		generateurMetier.generer();

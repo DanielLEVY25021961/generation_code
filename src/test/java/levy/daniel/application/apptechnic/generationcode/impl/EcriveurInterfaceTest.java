@@ -98,7 +98,7 @@ public class EcriveurInterfaceTest {
 //		
 //		final File interfaceP = new File(pathInterface);
 //		
-//		final EcriveurInterface ecriveur = new EcriveurInterface();
+//		final EcriveurMetierInterface ecriveur = new EcriveurMetierInterface();
 //		
 //		final String resultat = ecriveur.creerLignePackage(interfaceP);
 //		

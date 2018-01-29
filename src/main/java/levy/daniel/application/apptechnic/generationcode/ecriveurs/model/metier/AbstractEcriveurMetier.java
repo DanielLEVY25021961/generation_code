@@ -38,8 +38,7 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
-import levy.daniel.application.apptechnic.generationcode.IGenerateur;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJava;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple.GenerateurMetier;
 
 /**
@@ -62,7 +61,8 @@ import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.
  * @since 8 janv. 2018
  *
  */
-public abstract class AbstractEcriveurMetier implements IEcriveur {
+public abstract class AbstractEcriveurMetier 
+					extends AbstractEcriveurFichiersJava {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -74,29 +74,6 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 		= "Classe AbstractEcriveurMetier";
 
 	
-	/**
-	 * generateurMetier : IGenerateur :<br/>
-	 * GenerateurMetier.<br/>
-	 */
-	protected transient IGenerateur generateurMetier;
-
-	
-	/**
-	 * nomPackage : String :<br/>
-	 * <b>nom du package à créer dans chaque couche</b>.<br/>
-	 * passé en paramètre au générateur.<br/>
-	 * par exemple : "profil".<br/>
-	 */
-	protected transient String nomPackage;
-	
-	
-	/**
-	 * conceptModelise : String :<br/>
-	 * concept modélisé.<br/>
-	 */
-	protected transient String conceptModelise;
-	
-
 	/**
 	 * fichierJava : File :<br/>
 	 * Fichier Java à générer.<br/>
@@ -428,7 +405,7 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 		}
 		
 		/* alimente this.generateurMetier. */
-		this.generateurMetier = pGenerateurMetier;
+		this.generateurCode = pGenerateurMetier;
 		
 		/* alimente this.nomPackage. */
 		this.nomPackage = AbstractGenerateur.getNomPackage();
@@ -451,15 +428,15 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 		
 		/* alimente this.nomSimpleInterface. */
 		this.nomSimpleInterface 
-			= this.generateurMetier.getNomSimpleInterface();
+			= this.generateurCode.getNomSimpleInterface();
 		
 		/* alimente this.nomSimpleAbstractClass. */
 		this.nomSimpleAbstractClass 
-			= this.generateurMetier.getNomSimpleAbstractClass();
+			= this.generateurCode.getNomSimpleAbstractClass();
 		
-		/* alimente this.nomSimpleObjetMetier. */
+		/* alimente this.nomSimpleConcreteClass. */
 		this.nomSimpleConcreteClass 
-			= this.generateurMetier.getNomSimpleConcreteClass();
+			= this.generateurCode.getNomSimpleConcreteClass();
 
 		/* alimente this.fichierJava. */
 		this.fichierJava = pFile;
@@ -7416,34 +7393,6 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 
 	
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final String afficherListeString(
-			final List<String> pListe) {
-					
-			/* Retourne null si pListe est null. */
-			if (pListe == null) {
-				return null;
-			}
-			
-			final StringBuilder stb = new StringBuilder();
-			
-			for (final String ligne : pListe) {
-				
-				stb.append(ligne);
-				stb.append(NEWLINE);
-				
-			}
-			
-			return stb.toString();
-			
-	} // Fin de afficherListeString(
-	 // List<String> pListe).______________________________________________
-	
-
-	
-	/**
 	 * method genererNomAbstractClass(
 	 * String pNomInterface) :<br/>
 	 * <ul>
@@ -7565,7 +7514,7 @@ public abstract class AbstractEcriveurMetier implements IEcriveur {
 	 * method fournirNomClasse() :<br/>
 	 * Fournit le nom de la classe concrète 
 	 * pour les messages des logs.<br/>
-	 * Par exemple : "Classe EcriveurInterface".<br/>
+	 * Par exemple : "Classe EcriveurMetierInterface".<br/>
 	 * <br/>
 	 *
 	 * @return : String : nom de la classe concrète.<br/>
