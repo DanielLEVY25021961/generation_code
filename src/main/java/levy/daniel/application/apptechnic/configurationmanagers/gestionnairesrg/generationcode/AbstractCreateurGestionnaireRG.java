@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.text.WordUtils;
 
 /**
  * class AbstractCreateurGestionnaireRG :<br/>
@@ -993,7 +994,7 @@ public abstract class AbstractCreateurGestionnaireRG {
 			return null;
 		}
 		
-		return org.apache.commons.text.WordUtils.capitalizeFully(pString);
+		return WordUtils.capitalizeFully(pString);
 		
 	} // Fin de mettrePremiereEnMajuscule(...).____________________________
 	

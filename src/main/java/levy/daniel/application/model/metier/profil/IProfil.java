@@ -137,7 +137,7 @@ import levy.daniel.application.model.metier.IExportateurJTable;
  *
  * @author dan Lévy
  * @version 1.0
- * @since 22 janvier 2018
+ * @since 30 janvier 2018
  *
  */
 public interface IProfil extends IExportateurCsv, IExportateurJTable, Comparable<IProfil>, Cloneable, Serializable {

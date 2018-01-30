@@ -1,32 +1,32 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
-	        
+
+
          <!-- ================================================== -->
          <!-- 			POM pour MAVEN 3.5.0					 -->
          <!-- 			Java 1.8.0_144							 -->
          <!-- ================================================== -->
-         
-         
+
+
 	<!-- Version du POM. -->
 	<modelVersion>4.0.0</modelVersion>
-	
-	
+
+
 	<!-- ========================================================== -->
-	<!-- GAV (identifiant du projet)                                -->
-	<!-- G : groupId : nom de domaine                               -->
-	<!-- A : artifactId : nom du projet                             -->
-	<!-- V : version : version du projet                            -->
+	<!-- GAV (identifiant du projet) 								-->
+	<!-- G : groupId : nom de domaine 								-->
+	<!-- A : artifactId : nom du projet 							-->
+	<!-- V : version : version du projet 							-->
 	<!-- ========================================================== -->
-	<!-- domaine (espace de nom) appelé GROUPE (G) dans Maven -->	
+	<!-- domaine (espace de nom) appelé GROUPE (G) dans Maven 		-->
 	<groupId>levy.daniel.application</groupId>
-	<!-- Nom du projet appelé artifactId (A) dans Maven -->
+	<!-- Nom du projet appelé artifactId (A) dans Maven 			-->
 	<artifactId>generation_code</artifactId>
-	<!-- Version Bêta de développement (SNAPSHOT) -->
-	<!--non incrémentée dans Maven -->
+	<!-- Version Bêta de développement (SNAPSHOT) 					-->
+	<!--non incrémentée dans Maven 									-->	
 	<version>0.0.1-SNAPSHOT</version>
-	
+
 	
 	<!-- ========================================================== -->
 	<!--                       PACKAGING                            -->
@@ -34,7 +34,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	<!-- que le projet Maven doit produire (war, jar,               -->
 	<!--	POM, ...).                                              -->
 	<!-- ========================================================== -->
-	<!-- Résultat du Packaging (forme du livrable). Ici jar -->
+	<!-- Résultat du Packaging (forme du livrable). Ici jar 		-->
 	<packaging>jar</packaging>
 
 	
@@ -50,8 +50,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	<description>Application WEB avec Maven 3.5.0, Spring 5.0.0, JPA 2.1, Hibernate 5.2.10</description>
 	<!-- URL éventuelle permettant de se connecter à l'application 	-->
 	<url></url>
-	
-	
+
+
 
     <!-- ================================================ -->
 	<!--                    PROPERTIEs                    -->
@@ -70,7 +70,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		
-		
+
 		<!-- ========================================================== -->
 		<!-- 		VERSIONS DES COMPOSANTS DANS LES DEPENDANCES		-->
 		<!-- ========================================================== -->
@@ -157,9 +157,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
 		<!-- 		Version maven-javadoc-plugin					    -->
 		<maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
-						
+				
 	</properties>
-
+	
 
 
 	<!-- =========================================================== -->
@@ -180,8 +180,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			</dependency>
 	    </dependencies>
 	</dependencyManagement>
-	
-	
+
+
 	<!-- =============================================== -->
 	<!--                DEPENDANCEs                      -->
 	<!-- Gestion des dépendances utilisées par le projet -->
@@ -211,7 +211,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <artifactId>commons-text</artifactId>
 		    <version>${commons-text.version}</version>
 		</dependency>
-		
+
 		
 		<!-- =============================================== -->
 		<!-- dépendances pour Log4j2 utilisé par Hibernate 5 -->
@@ -305,26 +305,26 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- Le serveur applicatif (Tomcat) fournira cette bibli -->
 		<!-- =================================================== -->		
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>javax.servlet-api</artifactId>
-		    <version>${servlets.version}</version>
-		    <scope>provided</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 		    <groupId>javax.servlet</groupId> -->
+<!-- 		    <artifactId>javax.servlet-api</artifactId> -->
+<!-- 		    <version>${servlets.version}</version> -->
+<!-- 		    <scope>provided</scope> -->
+<!-- 		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->
-		<dependency>
-		    <groupId>javax.servlet.jsp</groupId>
-		    <artifactId>jsp-api</artifactId>
-		    <version>${jsp.version}</version>
-		    <scope>provided</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 		    <groupId>javax.servlet.jsp</groupId> -->
+<!-- 		    <artifactId>jsp-api</artifactId> -->
+<!-- 		    <version>${jsp.version}</version> -->
+<!-- 		    <scope>provided</scope> -->
+<!-- 		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
-		<dependency>
-		    <groupId>javax.servlet.jsp</groupId>
-		    <artifactId>javax.servlet.jsp-api</artifactId>
-		    <version>${javax.servlet.jsp-api.version}</version>
-		    <scope>provided</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 		    <groupId>javax.servlet.jsp</groupId> -->
+<!-- 		    <artifactId>javax.servlet.jsp-api</artifactId> -->
+<!-- 		    <version>${javax.servlet.jsp-api.version}</version> -->
+<!-- 		    <scope>provided</scope> -->
+<!-- 		</dependency> -->
 		
 
 
@@ -334,19 +334,19 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- JSTL -->		
 		<!-- tuto : https://www.journaldev.com/2090/jstl-tutorial-jstl-tags-example -->
 		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl-api -->
-		<dependency>
-		    <groupId>javax.servlet.jsp.jstl</groupId>
-		    <artifactId>jstl-api</artifactId>
-		    <version>${jstl.version}</version>
-		    <scope>compile</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 		    <groupId>javax.servlet.jsp.jstl</groupId> -->
+<!-- 		    <artifactId>jstl-api</artifactId> -->
+<!-- 		    <version>${jstl.version}</version> -->
+<!-- 		    <scope>compile</scope> -->
+<!-- 		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
-		<dependency>
-		    <groupId>org.apache.taglibs</groupId>
-		    <artifactId>taglibs-standard-impl</artifactId>
-		    <version>${taglibs-standard-impl.version}</version>
-		    <scope>compile</scope>
-		</dependency>		
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.apache.taglibs</groupId> -->
+<!-- 		    <artifactId>taglibs-standard-impl</artifactId> -->
+<!-- 		    <version>${taglibs-standard-impl.version}</version> -->
+<!-- 		    <scope>compile</scope> -->
+<!-- 		</dependency>		 -->
 
 
 		<!-- ================================ -->
@@ -407,21 +407,21 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- ========================================================== -->
 		<!-- JPA : validation-api -->	
 		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
-		<dependency>
-		    <groupId>javax.validation</groupId>
-		    <artifactId>validation-api</artifactId>
-		    <version>${validation-api.version}</version>
-		    <scope>compile</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 		    <groupId>javax.validation</groupId> -->
+<!-- 		    <artifactId>validation-api</artifactId> -->
+<!-- 		    <version>${validation-api.version}</version> -->
+<!-- 		    <scope>compile</scope> -->
+<!-- 		</dependency> -->
 				
 		<!-- Hibernate-Validator -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-		<dependency>
-		    <groupId>org.hibernate.validator</groupId>
-		    <artifactId>hibernate-validator</artifactId>
-		    <version>${hibernate.validator}</version>
-		    <scope>test</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.hibernate.validator</groupId> -->
+<!-- 		    <artifactId>hibernate-validator</artifactId> -->
+<!-- 		    <version>${hibernate.validator}</version> -->
+<!-- 		    <scope>test</scope> -->
+<!-- 		</dependency> -->
 
 				
 		<!-- ====================================================== -->
@@ -499,9 +499,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		</dependency>
 
 	</dependencies>
-	
 
-	
+
+
 				<!-- ======================================  -->
 				<!--   REPOSITORIES	POUR LES DEPENDANCES  	 -->
 				<!-- ======================================  -->	
@@ -542,8 +542,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	    </repository>
     	    	
 	</repositories>
-	
-  
+
+
   				<!-- ================================== -->
 				<!--       PLUGIN REPOSITORIES			-->
 				<!-- ================================== -->	
@@ -561,9 +561,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	      <url>https://repo.maven.apache.org/maven2</url>
 	    </pluginRepository>
 	  </pluginRepositories>
-  
-  
- 
+
+
+
 
   				<!-- ================================== -->
 				<!--       			BUILD				-->
@@ -694,31 +694,57 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				</executions>
 			</plugin>
 
-			<!-- Build des War -->
+
+			<!-- Build des Jar -->
 			<!-- ATTENTION en fonction de la balise packaging - METTRE PLUGIN JAR SI APPLI DESKTOP -->
 			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-   				<artifactId>maven-war-plugin</artifactId>
-   				<version>${maven-war-plugin.version}</version>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<archive>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
 				<executions>
 					<execution>
-						<id>default-war</id>
+						<id>default-jar</id>
 						<phase>package</phase>
 						<goals>
-							<goal>war</goal>
+							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<!-- ATTENTION : CHEMIN DES RESSOURCES WEB DE L'APPLICATION -->
-					<warSourceDirectory>${project.basedir}/src/main/webapp</warSourceDirectory>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
 			</plugin>
 			
 			
 			
+			<!-- Build des War -->
+			<!-- ATTENTION en fonction de la balise packaging - METTRE PLUGIN JAR SI APPLI DESKTOP -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!--    				<artifactId>maven-war-plugin</artifactId> -->
+<!--    				<version>${maven-war-plugin.version}</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>default-war</id> -->
+<!-- 						<phase>package</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>war</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 				<configuration> -->
+					<!-- ATTENTION : CHEMIN DES RESSOURCES WEB DE L'APPLICATION -->
+<!-- 					<warSourceDirectory>${project.basedir}/src/main/webapp</warSourceDirectory> -->
+<!-- 					<failOnMissingWebXml>false</failOnMissingWebXml> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
+
+
+
 			<!-- Compilation des sources en classes. -->
 			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
 			<plugin>

@@ -48,7 +48,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author dan Lévy
  * @version 1.0
- * @since 22 janvier 2018
+ * @since 30 janvier 2018
  *
  */
 public class ProfilCerbereForm {
@@ -159,12 +159,3 @@ public class ProfilCerbereForm {
 
 
 } // FIN DE LA CLASSE ProfilCerbereForm.-------------------------------------
-
-
-
-
-
-
-
-
-

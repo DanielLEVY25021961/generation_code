@@ -149,7 +149,7 @@ import levy.daniel.application.model.metier.profil.AbstractProfil;
  *
  * @author dan Lévy
  * @version 1.0
- * @since 22 janvier 2018
+ * @since 30 janvier 2018
  *
  */
 public class ProfilCerbere extends AbstractProfil {
