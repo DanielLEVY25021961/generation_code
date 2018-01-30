@@ -250,7 +250,8 @@ public final class BundleConfigurationProjetManager {
 
 	/**
 	 * pathWorkspace : String :<br/>
-	 * path du workspace.<br/>
+	 * path du workspace indiqué dans 
+	 * configuration_projet.properties.<br/>
 	 */
 	private static String pathWorkspace;
 	
@@ -663,7 +664,8 @@ public final class BundleConfigurationProjetManager {
 	/**
 	 * method getPathWorkspace() :<br/>
 	 * <ul>
-	 * <li>Getter du path du workspace.</li>
+	 * <li>Getter du path du workspace indiqué 
+	 * dans configuration_projet.properties.</li>
 	 * <li>Exemple : "D:/Donnees/eclipse/eclipseworkspace_neon/"</li>
 	 * </ul>
 	 *
