@@ -171,7 +171,8 @@ public class GestionnaireProjetTest {
 		final String pathTest = null;
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
-		GestionnaireProjet.alimenterAttributs(pathTest, null);
+		GestionnaireProjet
+			.alimenterAttributs(pathTest, null, null);
 		
 		final String pathString 
 			= GestionnaireProjet.getPathWorkspaceString();
@@ -222,7 +223,8 @@ public class GestionnaireProjetTest {
 		final String pathTest = "D:/toto/tata/titi";
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
-		GestionnaireProjet.alimenterAttributs(pathTest, null);
+		GestionnaireProjet
+			.alimenterAttributs(pathTest, null, null);
 		
 		final String pathString 
 			= GestionnaireProjet.getPathWorkspaceString();
@@ -275,7 +277,8 @@ public class GestionnaireProjetTest {
 		= "D:/Donnees/eclipse/eclipseworkspace";
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
-		GestionnaireProjet.alimenterAttributs(pathTest, null);
+		GestionnaireProjet
+			.alimenterAttributs(pathTest, null, null);
 		
 		final String pathString 
 			= GestionnaireProjet.getPathWorkspaceString();
@@ -331,7 +334,8 @@ public class GestionnaireProjetTest {
 		final String nomProjetTest = null;
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
-		GestionnaireProjet.alimenterAttributs(pathTest, nomProjetTest);
+		GestionnaireProjet
+			.alimenterAttributs(pathTest, nomProjetTest, null);
 		
 		final String nomProjet 
 			= GestionnaireProjet.getNomProjet();
@@ -387,7 +391,8 @@ public class GestionnaireProjetTest {
 		final String nomProjetTest = "toto_pouet_pouet";
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
-		GestionnaireProjet.alimenterAttributs(pathTest, nomProjetTest);
+		GestionnaireProjet
+			.alimenterAttributs(pathTest, nomProjetTest, null);
 		
 		final String nomProjet 
 			= GestionnaireProjet.getNomProjet();
@@ -443,7 +448,8 @@ public class GestionnaireProjetTest {
 		final String nomProjetTest = "generation_code_test";
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
-		GestionnaireProjet.alimenterAttributs(pathTest, nomProjetTest);
+		GestionnaireProjet
+			.alimenterAttributs(pathTest, nomProjetTest, null);
 		
 		final String nomProjet 
 			= GestionnaireProjet.getNomProjet();
@@ -478,5 +484,53 @@ public class GestionnaireProjetTest {
 
 
 
+	/**
+	 * method testGetNomRepertoireSrcString() :<br/>
+	 * .<br/>
+	 * <br/>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetNomRepertoireSrcString() throws Exception {
+						
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest, nomProjetTest, nomRepertoireSrcTest);
+
+		final String nomRepertoireSrc 
+			= GestionnaireProjet.getNomRepertoireSrc();
+		final String pathRepertoireSrcString 
+			= GestionnaireProjet.getPathRepertoireSrcString();
+		final Path pathRepertoireSrc 
+			= GestionnaireProjet.getPathRepertoireSrc();		
+		final File file 
+			= GestionnaireProjet.getFileRepertoireSrc();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testGetNomRepertoireSrcString()");
+			System.out.println(NOM_PROJET + nomRepertoireSrc);
+			System.out.println(PATH_PROJET + pathRepertoireSrcString);
+			System.out.println(PATH_PROJET + pathRepertoireSrc.toString());
+		}
+
+		
+	} // Fin de testGetNomRepertoireSrcString().___________________________
+	
+	
 	
 } // FIN DE LA CLASSE GestionnaireProjetTest.--------------------------------

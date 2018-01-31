@@ -2,6 +2,7 @@ package levy.daniel.application.apptechnic.generationcode;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -25,6 +26,8 @@ import levy.daniel.application.apptechnic.configurationmanagers.ManagerPaths;
  * dans lequel générer le code <b>pathWorkspace</b>.</li>
  * <li>l'emplacement du <b>projet Eclipse</b> 
  * dans lequel générer le code <b>pathProjet</b>.</li>
+ * <li>l'emplacement du <b>répertoire des sources</b> (src)
+ * dans lequel générer le code <b>pathRepertoiresrc</b>.</li>
  * <li></li>
  * </ol>
  * </li>
@@ -162,7 +165,73 @@ public final class GestionnaireProjet {
 	 */
 	private static File fileProjet;
 	
+
 	
+	/**
+	 * nomRepertoireSrc : String :<br/>
+	 * <ul>
+	 * <li><b>nom du répertoire des sources</b> (src) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>src
+	 * </code></li>
+	 * </ul>
+	 */
+	private static String nomRepertoireSrc;
+	
+	
+	/**
+	 * pathRepertoireSrcString : String :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire des sources</b>  (src)
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathRepertoireSrc = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users/src
+	 * </code></li>
+	 * </ul>
+	 */
+	private static String pathRepertoireSrcString;
+	
+	
+	/**
+	 * pathRepertoireSrc : Path :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire des sources</b>  (src)
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathRepertoireSrc = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users/src
+	 * </code></li>
+	 * </ul>
+	 */
+	private static Path pathRepertoireSrc;
+	
+	
+	/**
+	 * fileRepertoireSrc : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le répertoire des sources</b> (src)
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathRepertoireSrc = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users/src
+	 * </code></li>
+	 * </ul>
+	 */
+	private static File fileRepertoireSrc;
+	
+
 	
 	/**
 	 * LOG : Log : 
@@ -183,6 +252,19 @@ public final class GestionnaireProjet {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
+
+	
+	
+	public static void alimenterAttributs() throws Exception {
+		alimenterAttributs(null, null, null);
+	}
+	
+
+	
+	public static void alimenterAttributs(final String pNomProjet) throws Exception {
+		alimenterAttributs(null, pNomProjet, null);
+	}
+	
 	
 	
 	/**
@@ -192,15 +274,17 @@ public final class GestionnaireProjet {
 	 *
 	 * @param pPathWorkspaceString
 	 * @param pNomProjet
+	 * @param pNomRepertoireSrc
 	 * @throws Exception : void :  .<br/>
 	 */
-	public static void alimenterAttributs(final String pPathWorkspaceString, final String pNomProjet) 
+	public static void alimenterAttributs(final String pPathWorkspaceString, final String pNomProjet, final String pNomRepertoireSrc) 
 				throws Exception {
 		
 		synchronized (GestionnaireProjet.class) {
 			
 			alimenterPathWorkspaceString(pPathWorkspaceString);
 			alimenterNomProjet(pNomProjet);
+			alimenterNomRepertoireSrc(pNomRepertoireSrc);
 			
 		} // Fin de synchronized._______________________
 		
@@ -389,13 +473,7 @@ public final class GestionnaireProjet {
 				if (parametreExistant(pString)) {
 					
 					if (existeProjet(pString)) {
-						
-						nomProjet = pString;
-						pathProjet 
-							= fabriquerPath(pathWorkspace, pString);
-						pathProjetString = pathProjet.toString();
-						fileProjet = pathProjet.toFile();
-						
+						alimenterAttributsProjet(pString);						
 					} else {
 						alimenterProjetParDefaut();
 					}
@@ -411,6 +489,38 @@ public final class GestionnaireProjet {
 	} // Fin de alimenterNomProjet(...).___________________________________
 	
 
+	
+	/**
+	 * method alimenterAttributsProjet(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>passe pString à nomProjet.</li>
+	 * <li>passe fabriquerPath(pathWorkspace, pString) à pathProjet.</li>
+	 * <li>passe pathProjet.toString() à pathProjetString.</li>
+	 * <li>passe pathProjet.toFile() à fileProjet.</li>
+	 * </ul>
+	 * ne fait rien si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 */
+	private static void alimenterAttributsProjet(
+			final String pString) {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		nomProjet = pString;
+		pathProjet 
+			= fabriquerPath(pathWorkspace, pString);
+		pathProjetString = pathProjet.toString();
+		fileProjet = pathProjet.toFile();
+		
+	} // Fin de alimenterAttributsProjet(...)._____________________________
+	
+	
 	
 	/**
 	 * method alimenterProjetParDefaut() :<br/>
@@ -432,6 +542,194 @@ public final class GestionnaireProjet {
 		
 	} // Fin de alimenterProjetParDefaut().________________________________
 	
+
+	
+	/**
+	 * method alimenterNomRepertoireSrc(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li><b>alimente nomRepertoireSrc</b>.</li>
+	 * <li><b>alimente pathRepertoireSrcString</b>.</li>
+	 * <li><b>alimente pathRepertoireSrc</b>.</li>
+	 * <li><b>alimente fileRepertoireSrc</b>.</li>
+	 * <ol>
+	 * <li>alimente nomRepertoireSrc avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire existant.</li>
+	 * <li><b>crée d'abord le répertoire</b>, 
+	 * puis alimente nomRepertoireSrc avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire inexistant.</li>
+	 * <li>alimente nomRepertoireSrc avec une valeur par défaut 
+	 * si pString est blank.</li>
+	 * </ol>
+	 * <li>la valeur par défaut est :</li>
+	 * <ol>
+	 * <li>le nom du repertoire des sources dans 
+	 * <b>configuration_projet.properties</b> si il existe.</li>
+	 * <li><b>src</b> sinon.</li>
+	 * </ol>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * nom du répertoire des sources du projet dans 
+	 * lequel générer le code.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterNomRepertoireSrc(
+			final String pString) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (nomRepertoireSrc == null) {
+				
+				if (parametreExistant(pString)) {
+					
+					final Path pathSrc = fabriquerPath(pathProjet, pString);
+					final String pathSrcString = pathSrc.toString();
+					
+					if (existeDossier(pathSrcString)) {
+						alimenterAttributsRepertoireSrc(pString);						
+					} else {
+						
+						/* création du répertoire. */
+						creerRepertoire(pathSrc);
+						
+						alimenterAttributsRepertoireSrc(pString);
+					}
+										
+				} else {
+					alimenterRepertoireSrcParDefaut();
+				}
+								
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterNomRepertoireSrc(...).___________________________________
+	
+
+	
+	/**
+	 * method alimenterAttributsRepertoireSrc(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>passe pString à nomRepertoireSrc.</li>
+	 * <li>passe fabriquerPath(pathProjet, pString) 
+	 * à pathRepertoireSrc.</li>
+	 * <li>passe pathRepertoireSrc.toString() à 
+	 * pathRepertoireSrcString.</li>
+	 * <li>passe pathRepertoireSrc.toFile() à fileRepertoireSrc.</li>
+	 * </ul>
+	 * ne fait rien si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 */
+	private static void alimenterAttributsRepertoireSrc(
+			final String pString) {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		nomRepertoireSrc = pString;
+		pathRepertoireSrc = fabriquerPath(pathProjet, pString);
+		pathRepertoireSrcString = pathRepertoireSrc.toString();
+		fileRepertoireSrc = pathRepertoireSrc.toFile();
+		
+	} // Fin de alimenterAttributsRepertoireSrc(...).______________________
+	
+	
+	
+	/**
+	 * method alimenterRepertoireSrcParDefaut() :<br/>
+	 * <ul>
+	 * <li>Affecte le nom du répertoire des sources du 
+	 * config_projet.properties si il existe, "src" sinon.</li>
+	 * <li>passe le nom par défaut à nomRepertoireSrc.</li>
+	 * <li>passe fabriquerPath(pathProjet, nomRepertoireSrc) 
+	 * à pathRepertoireSrc.</li>
+	 * <li>passe pathRepertoireSrc.toString() à 
+	 * pathRepertoireSrcString.</li>
+	 * <li>passe pathRepertoireSrc.toFile() à fileRepertoireSrc.</li>
+	 * </ul>
+	 * 
+	 * @throws IOException 
+	 */
+	private static void alimenterRepertoireSrcParDefaut() 
+			throws IOException {
+		
+		String repertoireSrcConfig;
+		String repSrc = null;
+		
+		try {
+			
+			repertoireSrcConfig 
+				= BundleConfigurationProjetManager.getNomRepertoireSrc();
+			
+			if (StringUtils.isBlank(repertoireSrcConfig)) {
+				repSrc = "src";
+			} else {
+				repSrc = repertoireSrcConfig;
+			}
+			
+		} catch (Exception e) {
+			repSrc = "src";
+		}
+				
+		nomRepertoireSrc = repSrc;
+		pathRepertoireSrc = fabriquerPath(pathProjet, nomRepertoireSrc);
+		pathRepertoireSrcString = pathRepertoireSrc.toString();
+		fileRepertoireSrc = pathRepertoireSrc.toFile();
+		
+	} // Fin de alimenterRepertoireSrcParDefaut().________________________________
+	
+
+	
+	/**
+	 * method creerRepertoire(
+	 * Path pPath) :<br/>
+	 * <ul>
+	 * <li><b>Crée le répertoire situé à pPath</b></li>
+	 * <li>Ne crée le répertoire que si il n'existe pas déjà.</li>
+	 * <li>crée toute l'arborescence nécessaire dans pPath si nécessaire.</li>
+	 * </ul>
+	 * ne fait rien si pPath == null.<br/>
+	 * <br/>
+	 *
+	 * @param pPath : Path.<br/>
+	 */
+	private static void creerRepertoire(
+			final Path pPath) {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* ne fait rien si pPath == null. */
+			if (pPath == null) {
+				return;
+			}
+			
+			try {
+				
+				final File file = pPath.toFile();
+				
+				if (!file.exists()) {
+					Files.createDirectories(pPath);
+				}
+								
+			} catch (IOException e) {
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Impossible de créer le répertoire : " 
+							+ pPath.toString(), e);
+				}
+			}
+			
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de creerRepertoire(...).______________________________________
+
 	
 	
 	/**
@@ -722,7 +1020,92 @@ public final class GestionnaireProjet {
 	} // Fin de getFileProjet().___________________________________________
 
 
+	
+	/**
+	 * method getNomRepertoireSrc() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>nom du répertoire des sources</b> (src) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>src
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return nomRepertoireSrc : String.<br/>
+	 */
+	public static String getNomRepertoireSrc() {
+		return nomRepertoireSrc;
+	} // Fin de getNomRepertoireSrc()._____________________________________
 
+
+	
+	/**
+	 * method getPathRepertoireSrcString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire des sources</b>  (src)
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathRepertoireSrc = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users/src
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathRepertoireSrcString : String.<br/>
+	 */
+	public static String getPathRepertoireSrcString() {
+		return pathRepertoireSrcString;
+	} // Fin de getPathRepertoireSrcString().______________________________
+
+
+	
+	/**
+	 * method getPathRepertoireSrc() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire des sources</b>  (src)
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathRepertoireSrc = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users/src
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathRepertoireSrc : Path.<br/>
+	 */
+	public static Path getPathRepertoireSrc() {
+		return pathRepertoireSrc;
+	} // Fin de getPathRepertoireSrc().____________________________________
+
+
+	
+	/**
+	 * method getFileRepertoireSrc() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le répertoire des sources</b> 
+	 * (src) dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathRepertoireSrc = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users/src
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return fileRepertoireSrc : File.<br/>
+	 */
+	public static File getFileRepertoireSrc() {
+		return fileRepertoireSrc;
+	} // Fin de getFileRepertoireSrc().____________________________________
+
+
+	
 	/**
 	 * method reinitialiserAttributs() :<br/>
 	 * <ul>
