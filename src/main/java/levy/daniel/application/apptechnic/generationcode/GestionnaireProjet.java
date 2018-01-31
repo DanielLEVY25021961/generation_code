@@ -1,6 +1,7 @@
 package levy.daniel.application.apptechnic.generationcode;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -13,15 +14,28 @@ import levy.daniel.application.apptechnic.configurationmanagers.ManagerPaths;
 
 /**
  * CLASSE <b>GestionnaireProjet</b> :<br/>
- * Classe <b>utilitaire (méthodes static)</b> chargée de gérer 
+ * <ul>
+ * <li>Classe <b>utilitaire (méthodes static)</b> chargée de gérer 
  * les données de configuration du code à générer 
- * (chemin du Workspace, nom du projet, path des sources java, ...).<br/>
+ * (chemin du Workspace, nom du projet, path des sources java, ...).</li>
+ * <li>
+ * classe chargée de fournir des SINGLETONS pour :
+ * <ol>
+ * <li>l'emplacement du <b>Workspace Eclipse</b> 
+ * dans lequel générer le code <b>pathWorkspace</b>.</li>
+ * <li>l'emplacement du <b>projet Eclipse</b> 
+ * dans lequel générer le code <b>pathProjet</b>.</li>
+ * <li></li>
+ * </ol>
+ * </li>
+ * </ul>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * path.resolve, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -87,7 +101,68 @@ public final class GestionnaireProjet {
 	private static File fileWorkspace;
 	
 	
+	/**
+	 * nomProjet : String :<br/>
+	 * <ul>
+	 * <li><b>nom du projet Eclipse</b> 
+	 * dont on va générer le code.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>projet_users
+	 * </code></li>
+	 * </ul>
+	 */
 	private static String nomProjet;
+	
+	
+	/**
+	 * pathProjetString : String :<br/>
+	 * <ul>
+	 * <li><b>path du projet Eclipse</b> 
+	 * dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathProjet = pathWorkspace + /nomProjet</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users
+	 * </code></li>
+	 * </ul>
+	 */
+	private static String pathProjetString;
+	
+	
+	/**
+	 * pathProjet : Path :<br/>
+	 * <ul>
+	 * <li><b>path du projet Eclipse</b> 
+	 * dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathProjet = pathWorkspace + /nomProjet</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users
+	 * </code></li>
+	 * </ul>
+	 */
+	private static Path pathProjet;
+	
+	
+	/**
+	 * fileProjet : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le projet Eclipse</b> 
+	 * dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathProjet = pathWorkspace + /nomProjet</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users
+	 * </code></li>
+	 * </ul>
+	 */
+	private static File fileProjet;
+	
+	
 	
 	/**
 	 * LOG : Log : 
@@ -108,30 +183,28 @@ public final class GestionnaireProjet {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
-
 	
 	
 	/**
-	 * method alimenterAttributs(
-	 * ) :<br/>
-	 * <ul>
-	 * <li>.</li>
-	 * <li>.</li>
-	 * </ul>
+	 * method alimenterAttributs() :<br/>
+	 * .<br/>
+	 * <br/>
 	 *
 	 * @param pPathWorkspaceString
-	 * @throws Exception :  :  .<br/>
+	 * @param pNomProjet
+	 * @throws Exception : void :  .<br/>
 	 */
-	public static void alimenterAttributs(final String pPathWorkspaceString) 
+	public static void alimenterAttributs(final String pPathWorkspaceString, final String pNomProjet) 
 				throws Exception {
 		
 		synchronized (GestionnaireProjet.class) {
 			
 			alimenterPathWorkspaceString(pPathWorkspaceString);
+			alimenterNomProjet(pNomProjet);
 			
 		} // Fin de synchronized._______________________
 		
-	}
+	} // Fin de alimenterAttributs(...).___________________________________
 	
 	
 	
@@ -275,6 +348,136 @@ public final class GestionnaireProjet {
 		
 	} // Fin de fournirPathWorkspaceParDefaut().___________________________
 	
+
+	
+	/**
+	 * method alimenterNomProjet(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li><b>alimente nomProjet</b>.</li>
+	 * <li><b>alimente pathProjetString</b>.</li>
+	 * <li><b>alimente pathProjet</b>.</li>
+	 * <li><b>alimente fileProjet</b>.</li>
+	 * <ol>
+	 * <li>alimente nomProjet avec pString si pString 
+	 * n'est pas blank et si pathProjet pointe 
+	 * sur un dossier existant.</li>
+	 * <li>alimente nomProjet avec une valeur par défaut 
+	 * si pString n'est pas blank mais si pathProjet 
+	 * ne pointe sur rien ou sur un fichier simple.</li>
+	 * <li>alimente nomProjet avec une valeur par défaut 
+	 * si pString est blank.</li>
+	 * </ol>
+	 * <li>la valeur par défaut est :</li>
+	 * <ol>
+	 * <li>le nom du <b>présent</b> projet.</li>
+	 * </ol>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * nom du projet dans lequel générer le code.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterNomProjet(
+			final String pString) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (nomProjet == null) {
+				
+				if (parametreExistant(pString)) {
+					
+					if (existeProjet(pString)) {
+						
+						nomProjet = pString;
+						pathProjet 
+							= fabriquerPath(pathWorkspace, pString);
+						pathProjetString = pathProjet.toString();
+						fileProjet = pathProjet.toFile();
+						
+					} else {
+						alimenterProjetParDefaut();
+					}
+										
+				} else {
+					alimenterProjetParDefaut();
+				}
+								
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterNomProjet(...).___________________________________
+	
+
+	
+	/**
+	 * method alimenterProjetParDefaut() :<br/>
+	 * <ul>
+	 * <li>alimente nomProjet avec le nom du présent projet Eclipse.</li>
+	 * <li>alimente pathProjetString avec le présent projet Eclipse.</li>
+	 * <li>alimente pathProjet avec le présent projet Eclipse.</li>
+	 * <li>alimente fileProjet avec le présent projet Eclipse.</li>
+	 * </ul>
+	 * 
+	 * @throws IOException 
+	 */
+	private static void alimenterProjetParDefaut() throws IOException {
+		
+		nomProjet = ManagerPaths.getNomPresentProjet();
+		pathProjet = fabriquerPath(pathWorkspace, nomProjet);
+		pathProjetString = pathProjet.toString();
+		fileProjet = pathProjet.toFile();
+		
+	} // Fin de alimenterProjetParDefaut().________________________________
+	
+	
+	
+	/**
+	 * method fabriquerPath(
+	 * Path pPath
+	 * , String pString) :<br/>
+	 * <ul>
+	 * <li>fabrique un nouveau Path en augmentant pPath de pString.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>fabriquerPath(pathWorkspace, "generation_code")</code> 
+	 * retourne 
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/generation_code</code> 
+	 * alors que pathWorkspace vaut 
+	 * D:/Donnees/eclipse/eclipseworkspace_neon
+	 * </li>
+	 * <li>utilise pPath.resolve(pString).</li>
+	 * </ul>
+	 * retourne null si pPath == null.<br/>
+	 * retourne null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pPath : java.nio.file.Path.<br/>
+	 * @param pString : chemin à rajouter au path.<br/>
+	 * 
+	 * @return : Path : Path augmenté de pString.<br/>
+	 */
+	private static Path fabriquerPath(
+			final Path pPath
+				, final String pString) {
+		
+		/* retourne null si pPath == null. */
+		if (pPath == null) {
+			return null;
+		}
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		final Path resultat = pPath.resolve(pString);
+		
+		return resultat;
+		
+	} // Fin de fabriquerPath(...).________________________________________
+	
 	
 	
 	/**
@@ -339,6 +542,45 @@ public final class GestionnaireProjet {
 		
 	} // Fin de existeDossier(...).________________________________________
 	
+
+	
+	/**
+	 * method existeProjet(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>retourne un boolean stipulant si 
+	 * un projet existe au chemin pathWorkspace/pString.</li>
+	 * <li>retourne true si un dossier existe au chemin 
+	 * pathWorkspace/pString.</li>
+	 * </ul>
+	 * retourne false si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : 
+	 * true si un dossier existe au chemin pathWorkspace/pString.<br/>
+	 */
+	private static boolean existeProjet(
+			final String pString) {
+		
+		/* retourne false si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return false;
+		}
+		
+		final Path path = fabriquerPath(pathWorkspace, pString);
+		final File file = path.toFile();
+		
+		/* retourne true si un dossier existe au chemin pString. */
+		if (file.exists() && file.isDirectory()) {
+			return true;
+		}
+		
+		return false;
+		
+	} // Fin de existeProjet(...)._________________________________________
+	
 	
 	
 	/**
@@ -398,6 +640,88 @@ public final class GestionnaireProjet {
 	} // Fin de getFileWorkspace().________________________________________
 
 
+		
+	/**
+	 * method getNomProjet() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>nom du projet Eclipse</b> 
+	 * dont on va générer le code.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>projet_users
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return nomProjet : String.<br/>
+	 */
+	public static String getNomProjet() {
+		return nomProjet;
+	} // Fin de getNomProjet().____________________________________________
+
+
+	
+	/**
+	 * method getPathProjetString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du projet Eclipse</b> 
+	 * dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathProjet = pathWorkspace + /nomProjet</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathProjetString : String.<br/>
+	 */
+	public static String getPathProjetString() {
+		return pathProjetString;
+	} // Fin de getPathProjetString()._______________________________________
+
+
+	
+	/**
+	 * method getPathProjet() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du projet Eclipse</b> 
+	 * dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathProjet = pathWorkspace + /nomProjet</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathProjet : Path.<br/>
+	 */
+	public static Path getPathProjet() {
+		return pathProjet;
+	} // Fin de getPathProjet().___________________________________________
+
+
+	
+	/**
+	 * method getFileProjet() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le projet Eclipse</b> 
+	 * dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathProjet = pathWorkspace + /nomProjet</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return fileProjet : File.<br/>
+	 */
+	public static File getFileProjet() {
+		return fileProjet;
+	} // Fin de getFileProjet().___________________________________________
+
+
 
 	/**
 	 * method reinitialiserAttributs() :<br/>
@@ -407,9 +731,16 @@ public final class GestionnaireProjet {
 	 * </ul>
 	 */
 	public static void reinitialiserAttributs() {
+		
 		pathWorkspaceString = null;
 		pathWorkspace = null;
 		fileWorkspace = null;
+		
+		nomProjet = null;
+		pathProjetString = null;
+		pathProjet = null;
+		fileProjet = null;
+		
 	} // Fin de reinitialiserAttributs().__________________________________
 
 	

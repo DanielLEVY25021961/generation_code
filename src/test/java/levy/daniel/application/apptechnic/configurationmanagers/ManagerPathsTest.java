@@ -49,6 +49,14 @@ public class ManagerPathsTest {
 	
 	
 	/**
+	 * NOM_PROJET : String :<br/>
+	 * "Nom du présent projet Eclipse : ".<br/>
+	 */
+	public static final String NOM_PROJET 
+		= "Nom du présent projet Eclipse : ";
+	
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -283,6 +291,41 @@ public class ManagerPathsTest {
 		
 	} // Fin de testGetPathPresentProjet().__________________________
 
-	
 
+	
+	/**
+	 * method testGetNomPresentProjet() :<br/>
+	 * <ul>
+	 * <li>Teste la méthode getNomPresentProjet().</li>
+	 * <li>garantit que getNomPresentProjet() 
+	 * ne retourne pas null.</li>
+	 * </ul>
+	 * 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testGetNomPresentProjet() throws IOException {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		final String nomProjet = ManagerPaths.getNomPresentProjet();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testGetNomPresentProjet() : ");
+			System.out.println(NOM_PROJET + nomProjet);
+		}
+
+		/* garantit que getNomPresentProjet() 
+		 * ne retourne pas null. */
+		assertNotNull("Le nom du projet ne doit pas être null : "
+				, nomProjet);
+		
+	} // Fin de testGetNomPresentProjet()._________________________________
+
+	
+	
 } // FIN DE LA CLASSE ManagerPathsTest.--------------------------------------

@@ -11,7 +11,23 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * CLASSE <b>ManagerPaths</b> :<br/>
- * .<br/>
+ * <ul>
+ * <li>Classe <b>utilitaire (méthodes static)</b> chargée de fournir
+ * les caractéristiques du projet courant 
+ * (chemin du Workspace courant, nom du projet courant
+ * , path des sources java dans le projet courant, ...).</li>
+ * <li>
+ * classe chargée de fournir des SINGLETONS pour :
+ * <ol>
+ * <li><b>l'unité de disque dur</b> sur laquelle est située 
+ * le projet courant <b>pathUniteCourante</b>.</li>
+ * <li>l'emplacement du <b>Workspace Eclipse</b> courant 
+ * <b>pathPresentWorkspace</b>.</li>
+ * <li>l'emplacement du <b>projet Eclipse</b> courant 
+ * <b>pathPresentProjet</b>.</li>
+ * </ol>
+ * </li>
+ * </ul>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -140,6 +156,15 @@ public final class ManagerPaths {
 	 * </ul>
 	 */
 	private static Path pathPresentProjet;
+	
+	
+	/**
+	 * nomPresentProjet : String :<br/>
+	 * <ul>
+	 * <li><b>nom du présent projet Eclipse</b>.</li>
+	 * </ul>
+	 */
+	private static String nomPresentProjet;
 	
 	
 	/**
@@ -399,7 +424,45 @@ public final class ManagerPaths {
 	} // Fin de getPathPresentProjet().____________________________________
 	
 
-	
+		
+	/**
+	 * method getNomPresentProjet() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>nom du présent projet Eclipse</b>.</li>
+	 * <li>utilise <code>
+	 * pathPresentWorkspace.relativize(pathPresentProjet)
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return nomPresentProjet : String.<br/>
+	 * 
+	 * @throws IOException 
+	 */
+	public static String getNomPresentProjet() 
+			throws IOException {
+		
+		synchronized (ManagerPaths.class) {
+			
+			if (nomPresentProjet == null) {
+				
+				getPathPresentWorkspace();
+				getPathPresentProjet();
+				
+				final Path path 
+					= pathPresentWorkspace.relativize(pathPresentProjet);
+				
+				nomPresentProjet = path.toString();
+				
+			}
+			
+			return nomPresentProjet;
+						
+		} //Fin de synchronized. ________________________________
+		
+	} // Fin de getNomPresentProjet()._____________________________________
+
+
+
 	/**
 	 * method retournerPathGenerique(
 	 * String pPathString) :<br/>
