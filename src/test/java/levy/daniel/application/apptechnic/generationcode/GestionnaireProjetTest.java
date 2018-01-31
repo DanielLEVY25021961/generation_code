@@ -1,6 +1,11 @@
 package levy.daniel.application.apptechnic.generationcode;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.nio.file.Path;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,11 +50,33 @@ public class GestionnaireProjetTest {
 		= "CHEMIN DU WORKSPACE : ";
 	
 	/**
+	 * PATH_WORKSPACE : String :<br/>
+	 * "PATH DU WORKSPACE : ".<br/>
+	 */
+	public static final String PATH_WORKSPACE 
+		= "PATH DU WORKSPACE : ";
+	
+	/**
 	 * PATH_WORKSPACE_NON_NULL : String :<br/>
 	 * "le path du Workspace ne doit pas être null : ".<br/>
 	 */
 	public static final String PATH_WORKSPACE_NON_NULL 
 		= "le path du Workspace ne doit pas être null : ";
+	
+	/**
+	 * WORKSPACE_DOIT_EXISTER : String :<br/>
+	 * "Le Workspace doit exister : ".<br/>
+	 */
+	public static final String WORKSPACE_DOIT_EXISTER 
+		= "Le Workspace doit exister : ";
+	
+	/**
+	 * WORKSPACE_DOIT_REPERTOIRE : String :<br/>
+	 * "Le Workspace doit être un répertoire : ".<br/>
+	 */
+	public static final String WORKSPACE_DOIT_REPERTOIRE 
+		= "Le Workspace doit être un répertoire : ";
+	
 	
 	
 	/**
@@ -93,19 +120,29 @@ public class GestionnaireProjetTest {
 
 		final String pathTest = null;
 		
-		GestionnaireProjet.alimenterPathWorkspaceString(pathTest);
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet.alimenterAttributs(pathTest);
 		
-		final String path = GestionnaireProjet.getPathWorkspaceString();
+		final String pathString 
+			= GestionnaireProjet.getPathWorkspaceString();
+		final Path path 
+			= GestionnaireProjet.getPathWorkspace();
+		final File file 
+			= GestionnaireProjet.getFileWorkspace();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("testGetPathWorkspaceStringNull()");
-			System.out.println(CHEMIN_WORKSPACE + path);
+			System.out.println(CHEMIN_WORKSPACE + pathString);
+			System.out.println(PATH_WORKSPACE + path.toString());
 		}
 		
 		/* garantit que alimenterPathWorkspaceString(null) 
 		 * fournit un path par défaut.*/
+		assertNotNull(PATH_WORKSPACE_NON_NULL, pathString);
 		assertNotNull(PATH_WORKSPACE_NON_NULL, path);
+		assertTrue(WORKSPACE_DOIT_EXISTER, file.exists());
+		assertTrue(WORKSPACE_DOIT_REPERTOIRE, file.isDirectory());
 		
 	} // Fin de testGetPathWorkspaceStringNull().__________________________
 	
@@ -131,19 +168,30 @@ public class GestionnaireProjetTest {
 
 		final String pathTest = "D:/toto/tata/titi";
 		
-		GestionnaireProjet.alimenterPathWorkspaceString(pathTest);
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet.alimenterAttributs(pathTest);
 		
-		final String path = GestionnaireProjet.getPathWorkspaceString();
+		final String pathString 
+			= GestionnaireProjet.getPathWorkspaceString();
+		final Path path 
+			= GestionnaireProjet.getPathWorkspace();
+		final File file 
+			= GestionnaireProjet.getFileWorkspace();
+		
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("testGetPathWorkspaceStringInexistant()");
-			System.out.println(CHEMIN_WORKSPACE + path);
+			System.out.println(CHEMIN_WORKSPACE + pathString);
+			System.out.println(PATH_WORKSPACE + path.toString());
 		}
 		
 		/* garantit que alimenterPathWorkspaceString(inexistant) 
 		 * fournit un path par défaut.*/
+		assertNotNull(PATH_WORKSPACE_NON_NULL, pathString);
 		assertNotNull(PATH_WORKSPACE_NON_NULL, path);
+		assertTrue(WORKSPACE_DOIT_EXISTER, file.exists());
+		assertTrue(WORKSPACE_DOIT_REPERTOIRE, file.isDirectory());
 		
 	} // Fin de testGetPathWorkspaceStringInexistant.______________________
 	
@@ -164,7 +212,7 @@ public class GestionnaireProjetTest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 
 		/* remet à null les attributs. */
@@ -173,25 +221,36 @@ public class GestionnaireProjetTest {
 		final String pathTest 
 		= "D:/Donnees/eclipse/eclipseworkspace";
 		
-		GestionnaireProjet.alimenterPathWorkspaceString(pathTest);
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet.alimenterAttributs(pathTest);
 		
-		final String path = GestionnaireProjet.getPathWorkspaceString();
+		final String pathString 
+			= GestionnaireProjet.getPathWorkspaceString();
+		final Path path 
+			= GestionnaireProjet.getPathWorkspace();
+		final File file 
+		= GestionnaireProjet.getFileWorkspace();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("testGetPathWorkspaceString()");
-			System.out.println(CHEMIN_WORKSPACE + path);
+			System.out.println(CHEMIN_WORKSPACE + pathString);
+			System.out.println(PATH_WORKSPACE + path.toString());
 		}
 		
 		/* garantit que alimenterPathWorkspaceString(existant) 
 		 * prend en compte le path.*/
+		assertNotNull(PATH_WORKSPACE_NON_NULL, pathString);
 		assertNotNull(PATH_WORKSPACE_NON_NULL, path);
 		
 		assertEquals("Le path pris en compte doit "
 				+ "être le path fourni (existant) : "
-					, pathTest, path);
+					, pathTest, pathString);
+		assertTrue(WORKSPACE_DOIT_EXISTER, file.exists());
+		assertTrue(WORKSPACE_DOIT_REPERTOIRE, file.isDirectory());
 		
 	} // Fin de testGetPathWorkspaceString().______________________________
 
+	
 
 } // FIN DE LA CLASSE GestionnaireProjetTest.--------------------------------

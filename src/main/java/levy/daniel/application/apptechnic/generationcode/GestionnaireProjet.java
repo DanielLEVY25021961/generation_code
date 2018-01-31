@@ -48,14 +48,46 @@ public final class GestionnaireProjet {
 	/**
 	 * pathWorkspaceString : String :<br/>
 	 * <ul>
-	 * <li>path du workspace dans lequel est 
+	 * <li><b>path du workspace Eclipse</b> dans lequel est 
 	 * situé le projet dont on va générer le code.</li>
-	 * <li>path sous forme de String.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
 	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon</code></li>
 	 * </ul>
 	 */
 	private static String pathWorkspaceString;
 
+	
+	/**
+	 * pathWorkspace : Path :<br/>
+	 * <ul>
+	 * <li><b>path du workspace Eclipse</b> dans lequel est 
+	 * situé le projet dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon</code></li>
+	 * </ul>
+	 */
+	private static Path pathWorkspace;
+	
+	
+	/**
+	 * fileWorkspace : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le workspace Eclipse</b> dans lequel est 
+	 * situé le projet dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon</code></li>
+	 * </ul>
+	 */
+	private static File fileWorkspace;
+	
+	
+	private static String nomProjet;
 	
 	/**
 	 * LOG : Log : 
@@ -78,11 +110,38 @@ public final class GestionnaireProjet {
 
 
 	
+	
+	/**
+	 * method alimenterAttributs(
+	 * ) :<br/>
+	 * <ul>
+	 * <li>.</li>
+	 * <li>.</li>
+	 * </ul>
+	 *
+	 * @param pPathWorkspaceString
+	 * @throws Exception :  :  .<br/>
+	 */
+	public static void alimenterAttributs(final String pPathWorkspaceString) 
+				throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			alimenterPathWorkspaceString(pPathWorkspaceString);
+			
+		} // Fin de synchronized._______________________
+		
+	}
+	
+	
+	
 	/**
 	 * method alimenterPathWorkspaceString(
 	 * String pString) :<br/>
 	 * <ul>
-	 * <li><b>alimente pathWorkspaceString</b></li>
+	 * <li><b>alimente pathWorkspaceString</b>.</li>
+	 * <li><b>alimente pathWorkspace</b>.</li>
+	 * <li><b>alimente fileWorkspace</b>.</li>
 	 * <ol>
 	 * <li>alimente pathWorkspaceString avec pString si pString 
 	 * n'est pas blank et pointe sur un dossier existant.</li>
@@ -103,7 +162,7 @@ public final class GestionnaireProjet {
 	 * 
 	 * @throws Exception 
 	 */
-	public static void alimenterPathWorkspaceString(
+	private static void alimenterPathWorkspaceString(
 			final String pString) throws Exception {
 		
 		synchronized (GestionnaireProjet.class) {
@@ -122,6 +181,12 @@ public final class GestionnaireProjet {
 					pathWorkspaceString 
 						= fournirPathWorkspaceParDefaut();
 				}
+				
+				/* alimente pathWorkspace. */
+				alimenterPathWorkspace();
+				
+				/* alimente fileWorkspace. */
+				alimenterFileWorkspace();
 			}
 			
 		} // Fin de synchronized._______________________
@@ -129,6 +194,52 @@ public final class GestionnaireProjet {
 	} // Fin de alimenterPathWorkspaceString(...)._________________________
 	
 
+	
+	/**
+	 * method alimenterPathWorkspace() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathWorkspace</b> 
+	 * à partir de pathWorkspaceString.</li>
+	 * <li>Utilise Paths.get(pathWorkspaceString).</li>
+	 * </ul>
+	 * ne fait rien si pathWorkspaceString est null.<br/>
+	 * <br/>
+	 */
+	private static void alimenterPathWorkspace() {
+		
+		/* ne fait rien si pathWorkspaceString est null. */
+		if (pathWorkspaceString == null) {
+			return;
+		}
+		
+		pathWorkspace = Paths.get(pathWorkspaceString);
+		
+	} // Fin de alimenterPathWorkspace().__________________________________
+	
+	
+	
+	/**
+	 * method alimenterFileWorkspace() :<br/>
+	 * <ul>
+	 * <li><b>alimente fileWorkspace</b> 
+	 * à partir de pathWorkspace.</li>
+	 * <li>Utilise pathWorkspace.toFile().</li>
+	 * </ul>
+	 * ne fait rien si pathWorkspace est null.<br/>
+	 * <br/>
+	 */
+	private static void alimenterFileWorkspace() {
+				
+		/* ne fait rien si pathWorkspace est null. */
+		if (pathWorkspace == null) {
+			return;
+		}
+
+		fileWorkspace = pathWorkspace.toFile();
+		
+	} // Fin de alimenterFileWorkspace().__________________________________
+	
+	
 	
 	/**
 	 * method fournirPathWorkspaceParDefaut() :<br/>
@@ -233,10 +344,12 @@ public final class GestionnaireProjet {
 	/**
 	 * method getPathWorkspaceString() :<br/>
 	 * <ul>
-	 * <li>Getter du path du workspace dans lequel est 
+	 * <li>Getter du <b>path du workspace Eclipse</b> dans lequel est 
 	 * situé le projet dont on va générer le code.</li>
-	 * <li>path sous forme de String.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
 	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon</code></li>
 	 * </ul>
 	 *
 	 * @return pathWorkspaceString : String.<br/>
@@ -246,6 +359,45 @@ public final class GestionnaireProjet {
 	} // Fin de getPathWorkspaceString().__________________________________
 	
 	
+	
+	/**
+	 * method getPathWorkspace() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du workspace Eclipse</b> dans lequel est 
+	 * situé le projet dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon</code></li>
+	 * </ul>
+	 *
+	 * @return pathWorkspace : java.nio.file.Path.<br/>
+	 */
+	public static Path getPathWorkspace() {	
+		return pathWorkspace;
+	} // Fin de getPathWorkspace().________________________________________
+
+
+	
+	/**
+	 * method getFileWorkspace() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le workspace Eclipse</b> 
+	 * dans lequel est 
+	 * situé le projet dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon</code></li>
+	 * </ul>
+	 *
+	 * @return fileWorkspace : File.<br/>
+	 */
+	public static File getFileWorkspace() {	
+		return fileWorkspace;
+	} // Fin de getFileWorkspace().________________________________________
+
+
 
 	/**
 	 * method reinitialiserAttributs() :<br/>
@@ -256,6 +408,8 @@ public final class GestionnaireProjet {
 	 */
 	public static void reinitialiserAttributs() {
 		pathWorkspaceString = null;
+		pathWorkspace = null;
+		fileWorkspace = null;
 	} // Fin de reinitialiserAttributs().__________________________________
 
 	
