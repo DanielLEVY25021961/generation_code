@@ -124,6 +124,70 @@ public class GestionnaireProjetTest {
 	 */
 	public static final String PROJET_DOIT_REPERTOIRE 
 		= "Le projet visé par nomProjet doit être un répertoire : ";
+
+	
+	/**
+	 * PATH_RELATIF : String :<br/>
+	 * "PATH RELATIF : ".<br/>
+	 */
+	public static final String PATH_RELATIF 
+		= "PATH RELATIF : ";
+
+	
+	/**
+	 * PATH_ABSOLU : String :<br/>
+	 * "PATH ABSOLU : ".<br/>
+	 */
+	public static final String PATH_ABSOLU 
+		= "PATH ABSOLU : ";
+
+	
+	/**
+	 * FILE : String :<br/>
+	 * "FILE : ".<br/>
+	 */
+	public static final String FILE 
+		= "FILE : ";
+
+	
+	/**
+	 * PATH_RELATIF_NON_NULL : String :<br/>
+	 * "Le path relatif ne doit pas être null : ".<br/>
+	 */
+	public static final String PATH_RELATIF_NON_NULL 
+		= "Le path relatif ne doit pas être null : ";
+
+	
+	/**
+	 * PATH_NON_NULL : String :<br/>
+	 * "Le Path ne doit pas être null : ".<br/>
+	 */
+	public static final String PATH_NON_NULL 
+		= "Le Path ne doit pas être null : ";
+
+	
+	/**
+	 * REP_NON_NULL : String :<br/>
+	 * "Le répertoire ne doit pas être null : ".<br/>
+	 */
+	public static final String REP_NON_NULL 
+		= "Le répertoire ne doit pas être null : ";
+
+	
+	/**
+	 * REP_EXISTE : String :<br/>
+	 * "Le répertoire doit exister : ".<br/>
+	 */
+	public static final String REP_EXISTE 
+		= "Le répertoire doit exister : ";
+	
+	
+	/**
+	 * REP_DIRECTORY : String :<br/>
+	 * "Le répertoire doit être une Directory : ".<br/>
+	 */
+	public static final String REP_DIRECTORY 
+		= "Le répertoire doit être une Directory : ";
 	
 	
 	/**
@@ -172,7 +236,15 @@ public class GestionnaireProjetTest {
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
 		GestionnaireProjet
-			.alimenterAttributs(pathTest, null, null);
+			.alimenterAttributs(
+					pathTest
+						, null
+							, null
+								, null
+									, null
+										, null
+											, null
+												, null);
 		
 		final String pathString 
 			= GestionnaireProjet.getPathWorkspaceString();
@@ -224,7 +296,15 @@ public class GestionnaireProjetTest {
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
 		GestionnaireProjet
-			.alimenterAttributs(pathTest, null, null);
+		.alimenterAttributs(
+				pathTest
+					, null
+						, null
+							, null
+								, null
+									, null
+										, null
+											, null);
 		
 		final String pathString 
 			= GestionnaireProjet.getPathWorkspaceString();
@@ -278,7 +358,15 @@ public class GestionnaireProjetTest {
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
 		GestionnaireProjet
-			.alimenterAttributs(pathTest, null, null);
+		.alimenterAttributs(
+				pathTest
+					, null
+						, null
+							, null
+								, null
+									, null
+										, null
+											, null);
 		
 		final String pathString 
 			= GestionnaireProjet.getPathWorkspaceString();
@@ -335,7 +423,15 @@ public class GestionnaireProjetTest {
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
 		GestionnaireProjet
-			.alimenterAttributs(pathTest, nomProjetTest, null);
+			.alimenterAttributs(
+					pathTest
+						, nomProjetTest
+							, null
+								, null
+									, null
+										, null
+											, null
+												, null);
 		
 		final String nomProjet 
 			= GestionnaireProjet.getNomProjet();
@@ -392,7 +488,16 @@ public class GestionnaireProjetTest {
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
 		GestionnaireProjet
-			.alimenterAttributs(pathTest, nomProjetTest, null);
+			.alimenterAttributs(
+					pathTest
+						, nomProjetTest
+							, null
+								, null
+									, null
+										, null
+											, null
+												, null);
+
 		
 		final String nomProjet 
 			= GestionnaireProjet.getNomProjet();
@@ -449,7 +554,16 @@ public class GestionnaireProjetTest {
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
 		GestionnaireProjet
-			.alimenterAttributs(pathTest, nomProjetTest, null);
+			.alimenterAttributs(
+					pathTest
+						, nomProjetTest
+							, null
+								, null
+									, null
+										, null
+											, null
+												, null);
+
 		
 		final String nomProjet 
 			= GestionnaireProjet.getNomProjet();
@@ -485,18 +599,21 @@ public class GestionnaireProjetTest {
 
 
 	/**
-	 * method testGetNomRepertoireSrcString() :<br/>
-	 * .<br/>
-	 * <br/>
+	 * method testGetPathRepertoireSrc() :<br/>
+	 * <ul>
+	 * <li>Teste la méthode getPathRepertoireSrc(src) :</li>
+	 * <li>garantit que getPathRepertoireSrc(src) 
+	 * prend le nom fourni.</li>
+	 * </ul>
 	 *
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetNomRepertoireSrcString() throws Exception {
+	public void testGetPathRepertoireSrc() throws Exception {
 						
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* remet à null les attributs. */
@@ -509,7 +626,14 @@ public class GestionnaireProjetTest {
 		/* Alimentation des attributs du GestionnaireProjet. */
 		GestionnaireProjet
 			.alimenterAttributs(
-					pathTest, nomProjetTest, nomRepertoireSrcTest);
+					pathTest
+						, nomProjetTest
+							, nomRepertoireSrcTest
+								, null
+									, null
+										, null
+											, null
+												, null);
 
 		final String nomRepertoireSrc 
 			= GestionnaireProjet.getNomRepertoireSrc();
@@ -528,9 +652,848 @@ public class GestionnaireProjetTest {
 			System.out.println(PATH_PROJET + pathRepertoireSrc.toString());
 		}
 
+		/* garantit que getPathRepertoireSrc(existant) 
+		 * prend le nom fourni.*/
+		assertNotNull("Le répertoire src doit être non null : ", nomRepertoireSrc);
 		
-	} // Fin de testGetNomRepertoireSrcString().___________________________
+		assertEquals("Le répertoire src doit être src : "
+				, "src", nomRepertoireSrc);
+		
+		assertNotNull("Le pathString du repertoire "
+				+ "src doit être non null : "
+					, pathRepertoireSrcString);
+		assertNotNull("Le path du répertoire src doit être non null : "
+				, pathRepertoireSrc);
+		assertTrue("le répertoire src doit exister : "
+				, file.exists());
+		assertTrue("le répertoire src doit être un Directory : "
+				, file.isDirectory());
+		
+	} // Fin de testGetPathRepertoireSrc().________________________________
+	
+
+	
+	/**
+	 * method testMainJavaNull() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathMainJava.</li>
+	 * <li>test avec un paramètre null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testMainJavaNull() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, null
+								, null
+									, null
+										, null);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelMainJava();
+		final String pathString 
+			= GestionnaireProjet.getPathMainJavaString();
+		final Path path 
+			= GestionnaireProjet.getPathMainJava();		
+		final File file 
+			= GestionnaireProjet.getFileMainJava();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testMainJavaNull()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+		
+	} // Fin de testMainJavaNull().________________________________________
+	
+
+	
+	/**
+	 * method testMainJavaInexistant() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathMainJava.</li>
+	 * <li>test avec un paramètre pointant sur un 
+	 * repertoire inexistant.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testMainJavaInexistant() throws Exception {
+						
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = "maintest/javatest";
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, null
+								, null
+									, null
+										, null);
+
+		final String pathRel 
+		= GestionnaireProjet.getPathRelMainJava();
+		final String pathString 
+			= GestionnaireProjet.getPathMainJavaString();
+		final Path path 
+			= GestionnaireProjet.getPathMainJava();		
+		final File file 
+			= GestionnaireProjet.getFileMainJava();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testMainJavaInexistant()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+	
+	} // Fin de testMainJavaInexistant().__________________________________
+
+	
+		
+	/**
+	 * method testMainJava() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathMainJava.</li>
+	 * <li>test avec un paramètre pointant sur un repertoire existant.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testMainJava() throws Exception {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = "main/java";
+		
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, null
+								, null
+									, null
+										, null);
+		
+		final String pathRel 
+		= GestionnaireProjet.getPathRelMainJava();
+		final String pathString 
+			= GestionnaireProjet.getPathMainJavaString();
+		final Path path 
+			= GestionnaireProjet.getPathMainJava();		
+		final File file 
+			= GestionnaireProjet.getFileMainJava();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testMainJava()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+	
+	} // Fin de testMainJava().____________________________________________
+
+
+	
+	/**
+	 * method testMainResourcesNull() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathMainResources.</li>
+	 * <li>test avec un paramètre null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testMainResourcesNull() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = null;
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, null
+									, null
+										, null);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelMainResources();
+		final String pathString 
+			= GestionnaireProjet.getPathMainResourcesString();
+		final Path path 
+			= GestionnaireProjet.getPathMainResources();		
+		final File file 
+			= GestionnaireProjet.getFileMainResources();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testMainResourcesNull()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+		
+	} // Fin de testMainResourcesNull().___________________________________
+	
+
+	
+	/**
+	 * method testMainResourcesInexistant() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives 
+	 * à pathMainResources.</li>
+	 * <li>test avec un paramètre pointant sur un 
+	 * repertoire inexistant.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testMainResourcesInexistant() throws Exception {
+						
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = "maintest/resourcestest";
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, null
+									, null
+										, null);
+
+		final String pathRel 
+		= GestionnaireProjet.getPathRelMainResources();
+		final String pathString 
+			= GestionnaireProjet.getPathMainResourcesString();
+		final Path path 
+			= GestionnaireProjet.getPathMainResources();		
+		final File file 
+			= GestionnaireProjet.getFileMainResources();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testMainResourcesInexistant()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+	
+	} // Fin de testMainResourcesInexistant().__________________________________
+
+	
+		
+	/**
+	 * method testMainResources() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathMainResources.</li>
+	 * <li>test avec un paramètre pointant sur un repertoire existant.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testMainResources() throws Exception {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = "main/resources";
+		
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, null
+									, null
+										, null);
+		
+		final String pathRel 
+		= GestionnaireProjet.getPathRelMainResources();
+		final String pathString 
+			= GestionnaireProjet.getPathMainResourcesString();
+		final Path path 
+			= GestionnaireProjet.getPathMainResources();		
+		final File file 
+			= GestionnaireProjet.getFileMainResources();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testMainResources()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+	
+	} // Fin de testMainResources()._______________________________________
+
+
+	
+	/**
+	 * method testTestJavaNull() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathTestJava.</li>
+	 * <li>test avec un paramètre null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testTestJavaNull() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = null;
+		final String pathRelTestJavaTest = null;
+		final String pathRelTestResourcesTest = null;
+		final String groupId = null;
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, pathRelTestJavaTest
+									, pathRelTestResourcesTest
+										, groupId);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelTestJava();
+		final String pathString 
+			= GestionnaireProjet.getPathTestJavaString();
+		final Path path 
+			= GestionnaireProjet.getPathTestJava();		
+		final File file 
+			= GestionnaireProjet.getFileTestJava();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testTestJavaNull()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+		
+	} // Fin de testTestJavaNull().________________________________________
+	
+
+	
+	/**
+	 * method testTestJavaInexistant() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathTestJava.</li>
+	 * <li>test avec un paramètre pointant sur un 
+	 * repertoire inexistant.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testTestJavaInexistant() throws Exception {
+						
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = null;
+		final String pathRelTestJavaTest = "testtest/javatest";
+		final String pathRelTestResourcesTest = null;
+		final String groupId = null;
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, pathRelTestJavaTest
+									, pathRelTestResourcesTest
+										, groupId);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelTestJava();
+		final String pathString 
+			= GestionnaireProjet.getPathTestJavaString();
+		final Path path 
+			= GestionnaireProjet.getPathTestJava();		
+		final File file 
+			= GestionnaireProjet.getFileTestJava();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testTestJavaNull()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+		
+	} // Fin de testTestJavaInexistant().__________________________________
+
+	
+		
+	/**
+	 * method testTestJava() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathTestJava.</li>
+	 * <li>test avec un paramètre pointant sur un repertoire existant.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testTestJava() throws Exception {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = null;
+		final String pathRelTestJavaTest = "test/java";
+		final String pathRelTestResourcesTest = null;
+		final String groupId = null;
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, pathRelTestJavaTest
+									, pathRelTestResourcesTest
+										, groupId);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelTestJava();
+		final String pathString 
+			= GestionnaireProjet.getPathTestJavaString();
+		final Path path 
+			= GestionnaireProjet.getPathTestJava();		
+		final File file 
+			= GestionnaireProjet.getFileTestJava();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testTestJavaNull()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+		
+	} // Fin de testTestJava().____________________________________________
+
+
+	
+	/**
+	 * method testTestResourcesNull() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathTestResources.</li>
+	 * <li>test avec un paramètre null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testTestResourcesNull() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = null;
+		final String pathRelTestJavaTest = null;
+		final String pathRelTestResourcesTest = null;
+		final String groupId = null;
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, pathRelTestJavaTest
+									, pathRelTestResourcesTest
+										, groupId);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelTestResources();
+		final String pathString 
+			= GestionnaireProjet.getPathTestResourcesString();
+		final Path path 
+			= GestionnaireProjet.getPathTestResources();		
+		final File file 
+			= GestionnaireProjet.getFileTestResources();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testTestResourcesNull()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+		
+	} // Fin de testTestResourcesNull().___________________________________
 	
 	
+	
+	/**
+	 * method testTestResourcesInexistant() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathTestResources.</li>
+	 * <li>test avec un paramètre inexistant.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testTestResourcesInexistant() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = null;
+		final String pathRelTestJavaTest = null;
+		final String pathRelTestResourcesTest = "testtest/resourcestest";
+		final String groupId = null;
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, pathRelTestJavaTest
+									, pathRelTestResourcesTest
+										, groupId);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelTestResources();
+		final String pathString 
+			= GestionnaireProjet.getPathTestResourcesString();
+		final Path path 
+			= GestionnaireProjet.getPathTestResources();		
+		final File file 
+			= GestionnaireProjet.getFileTestResources();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testTestResourcesInexistant()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+		
+	} // Fin de testTestResourcesInexistant()._____________________________
+	
+
+	
+	/**
+	 * method testTestResources() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathTestResources.</li>
+	 * <li>test avec un paramètre existant.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testTestResources() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = "generation_code_test";
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = null;
+		final String pathRelTestJavaTest = null;
+		final String pathRelTestResourcesTest = "test/resources";
+		final String groupId = null;
+
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, pathRelTestJavaTest
+									, pathRelTestResourcesTest
+										, groupId);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelTestResources();
+		final String pathString 
+			= GestionnaireProjet.getPathTestResourcesString();
+		final Path path 
+			= GestionnaireProjet.getPathTestResources();		
+		final File file 
+			= GestionnaireProjet.getFileTestResources();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testTestResources()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathString);
+			System.out.println(PATH_ABSOLU + path.toString());
+			System.out.println(FILE + file.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathString);
+		assertNotNull(PATH_NON_NULL, path);
+		assertNotNull(REP_NON_NULL, file);
+		assertTrue(REP_EXISTE, file.exists());
+		assertTrue(REP_DIRECTORY, file.isDirectory());
+		
+	} // Fin de testTestResources()._______________________________________
+	
+
 	
 } // FIN DE LA CLASSE GestionnaireProjetTest.--------------------------------

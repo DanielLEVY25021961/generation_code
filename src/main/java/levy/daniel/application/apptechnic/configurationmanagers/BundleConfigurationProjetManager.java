@@ -271,38 +271,38 @@ public final class BundleConfigurationProjetManager {
 	
 	
 	/**
-	 * pathMainJava : String :<br/>
+	 * pathRelMainJava : String :<br/>
 	 * path relatif des sources java par rapport à src.<br/>
 	 */
-	private static String pathMainJava;
+	private static String pathRelMainJava;
 	
 	
 	/**
-	 * pathMainResources : String :<br/>
+	 * pathRelMainResources : String :<br/>
 	 * path relatif des ressources par rapport à src.<br/>
 	 */
-	private static String pathMainResources;
+	private static String pathRelMainResources;
 
 	
 	/**
-	 * pathTestJava : String :<br/>
+	 * pathRelTestJava : String :<br/>
 	 * path relatif des sources des tests JUnit 
 	 * par rapport à src.<br/>
 	 */
-	private static String pathTestJava;
+	private static String pathRelTestJava;
 	
 	
 	/**
-	 * pathTestResources : String :<br/>
+	 * pathRelTestResources : String :<br/>
 	 * path relatif des ressources des tests JUnit 
 	 * par rapport à src.<br/>
 	 */
-	private static String pathTestResources;
+	private static String pathRelTestResources;
 	
 	
 	
 	/**
-	 * pathMainJava : String :<br/>
+	 * pathRelMainJava : String :<br/>
 	 * path absolu des sources java.<br/>
 	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
 	 * generation_code/src/main/java<br/>
@@ -311,7 +311,7 @@ public final class BundleConfigurationProjetManager {
 	
 	
 	/**
-	 * pathMainResources : String :<br/>
+	 * pathRelMainResources : String :<br/>
 	 * path absolu des ressources.<br/>
 	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
 	 * generation_code/src/main/resources<br/>
@@ -320,7 +320,7 @@ public final class BundleConfigurationProjetManager {
 
 	
 	/**
-	 * pathTestJava : String :<br/>
+	 * pathRelTestJava : String :<br/>
 	 * path absolu des sources des tests JUnit.<br/>
 	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
 	 * generation_code/src/test/java<br/>
@@ -329,7 +329,7 @@ public final class BundleConfigurationProjetManager {
 	
 	
 	/**
-	 * pathTestResources : String :<br/>
+	 * pathRelTestResources : String :<br/>
 	 * path absolu des ressources des tests JUnit.<br/>
 	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
 	 * generation_code/src/test/resources<br/>
@@ -346,12 +346,12 @@ public final class BundleConfigurationProjetManager {
 	
 	
 	/**
-	 * pathGroupid : String :<br/>
+	 * pathGroupidString : String :<br/>
 	 * path relatif du groupid Maven du projet par rapport 
 	 * au path absolu des sources java.<br/>
 	 * Exemple : "levy/daniel/application"<br/>
 	 */
-	private static String pathGroupid;
+	private static String pathGroupidString;
 
 	
 	/**
@@ -893,18 +893,18 @@ public final class BundleConfigurationProjetManager {
 
 	
 	/**
-	 * method getPathMainJava() :<br/>
+	 * method getPathRelMainJava() :<br/>
 	 * <ul>
 	 * <li>Getter du path relatif des sources java par rapport à src
 	 * dans lequel générer du code.</li>
 	 * <li>Exemple : "main/java"</li>
 	 * </ul>
 	 *
-	 * @return pathMainJava : String.<br/>
+	 * @return pathRelMainJava : String.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	public static String getPathMainJava() throws Exception {
+	public static String getPathRelMainJava() throws Exception {
 		
 		/* Bloc synchronized. */
 		synchronized (BundleConfigurationProjetManager.class) {
@@ -912,7 +912,7 @@ public final class BundleConfigurationProjetManager {
 			final String nomBaseProperties 
 				= getNomBasePropertiesConfigurationProjet();
 			
-			if (pathMainJava == null) {
+			if (pathRelMainJava == null) {
 				
 				if (bundleConfigurationProjet == null) {
 					getBundleConfigurationProjet();
@@ -920,9 +920,9 @@ public final class BundleConfigurationProjetManager {
 				
 				try {
 					
-					pathMainJava 
+					pathRelMainJava 
 						= bundleConfigurationProjet
-							.getString(getClePathMainJava()).trim();
+							.getString(getClePathRelMainJava()).trim();
 					
 				} catch (MissingResourceException mre) {
 					
@@ -931,30 +931,30 @@ public final class BundleConfigurationProjetManager {
 							METHODE_GET_PATHMAINJAVA
 								, nomBaseProperties
 									, mre
-									, getClePathMainJava());
+									, getClePathRelMainJava());
 				}
 			}
 			
 			/* Clé vide (sans valeur). */
-			if (StringUtils.isBlank(pathMainJava)) {
+			if (StringUtils.isBlank(pathRelMainJava)) {
 				
 				traiterCleVide(
 						METHODE_GET_PATHMAINJAVA
-						, getClePathMainJava()
+						, getClePathRelMainJava()
 						, nomBaseProperties);
 				
 			}
 			
-			return pathMainJava;
+			return pathRelMainJava;
 			
 		} // Fin de synchronized.___________________________________
 			
-	} // Fin de getPathMainJava()._________________________________________
+	} // Fin de getPathRelMainJava().______________________________________
 
 
 
 	/**
-	 * method getClePathMainJava() :<br/>
+	 * method getClePathRelMainJava() :<br/>
 	 * <ul>
 	 * <li>Retourne la clé dans configuration_projet.properties 
 	 * associée au path relatif des sources Java par rapport à src
@@ -964,25 +964,25 @@ public final class BundleConfigurationProjetManager {
 	 *
 	 * @return : String : "main.java".<br/>
 	 */
-	private static String getClePathMainJava() {
+	private static String getClePathRelMainJava() {
 		return "main.java";
-	} // Fin de getClePathMainJava().______________________________________
+	} // Fin de getClePathRelMainJava().___________________________________
 	
 
 	
 	/**
-	 * method getPathMainResources() :<br/>
+	 * method getPathRelMainResources() :<br/>
 	 * <ul>
 	 * <li>Getter du path relatif des ressources java par rapport à src
 	 * dans lequel générer du code.</li>
 	 * <li>Exemple : "main/resources"</li>
 	 * </ul>
 	 *
-	 * @return pathMainResources : String.<br/>
+	 * @return pathRelMainResources : String.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	public static String getPathMainResources() throws Exception {
+	public static String getPathRelMainResources() throws Exception {
 		
 		/* Bloc synchronized. */
 		synchronized (BundleConfigurationProjetManager.class) {
@@ -990,7 +990,7 @@ public final class BundleConfigurationProjetManager {
 			final String nomBaseProperties 
 				= getNomBasePropertiesConfigurationProjet();
 			
-			if (pathMainResources == null) {
+			if (pathRelMainResources == null) {
 				
 				if (bundleConfigurationProjet == null) {
 					getBundleConfigurationProjet();
@@ -998,9 +998,9 @@ public final class BundleConfigurationProjetManager {
 				
 				try {
 					
-					pathMainResources 
+					pathRelMainResources 
 						= bundleConfigurationProjet
-							.getString(getClePathMainResources()).trim();
+							.getString(getClePathRelMainResources()).trim();
 					
 				} catch (MissingResourceException mre) {
 					
@@ -1009,30 +1009,30 @@ public final class BundleConfigurationProjetManager {
 							METHODE_GET_PATHMAINRESOURCES
 								, nomBaseProperties
 									, mre
-									, getClePathMainResources());
+									, getClePathRelMainResources());
 				}
 			}
 			
 			/* Clé vide (sans valeur). */
-			if (StringUtils.isBlank(pathMainResources)) {
+			if (StringUtils.isBlank(pathRelMainResources)) {
 				
 				traiterCleVide(
 						METHODE_GET_PATHMAINRESOURCES
-						, getClePathMainResources()
+						, getClePathRelMainResources()
 						, nomBaseProperties);
 				
 			}
 			
-			return pathMainResources;
+			return pathRelMainResources;
 			
 		} // Fin de synchronized.___________________________________
 			
-	} // Fin de getPathMainResources().____________________________________
+	} // Fin de getPathRelMainResources()._________________________________
 
 
 
 	/**
-	 * method getClePathMainResources() :<br/>
+	 * method getClePathRelMainResources() :<br/>
 	 * <ul>
 	 * <li>Retourne la clé dans configuration_projet.properties 
 	 * associée au path relatif des ressources java par rapport à src 
@@ -1042,14 +1042,14 @@ public final class BundleConfigurationProjetManager {
 	 *
 	 * @return : String : "main.resources".<br/>
 	 */
-	private static String getClePathMainResources() {
+	private static String getClePathRelMainResources() {
 		return "main.resources";
-	} // Fin de getClePathMainResources()._________________________________
+	} // Fin de getClePathRelMainResources().______________________________
 	
 
 	
 	/**
-	 * method getPathTestJava() :<br/>
+	 * method getPathRelTestJava() :<br/>
 	 * <ul>
 	 * <li>Getter du path relatif des sources des tests JUnit 
 	 * par rapport à src
@@ -1057,11 +1057,11 @@ public final class BundleConfigurationProjetManager {
 	 * <li>Exemple : "test/java"</li>
 	 * </ul>
 	 *
-	 * @return pathTestJava : String.<br/>
+	 * @return pathRelTestJava : String.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	public static String getPathTestJava() throws Exception {
+	public static String getPathRelTestJava() throws Exception {
 		
 		/* Bloc synchronized. */
 		synchronized (BundleConfigurationProjetManager.class) {
@@ -1069,7 +1069,7 @@ public final class BundleConfigurationProjetManager {
 			final String nomBaseProperties 
 				= getNomBasePropertiesConfigurationProjet();
 			
-			if (pathTestJava == null) {
+			if (pathRelTestJava == null) {
 				
 				if (bundleConfigurationProjet == null) {
 					getBundleConfigurationProjet();
@@ -1077,9 +1077,9 @@ public final class BundleConfigurationProjetManager {
 				
 				try {
 					
-					pathTestJava 
+					pathRelTestJava 
 						= bundleConfigurationProjet
-							.getString(getClePathTestJava()).trim();
+							.getString(getClePathRelTestJava()).trim();
 					
 				} catch (MissingResourceException mre) {
 					
@@ -1088,30 +1088,30 @@ public final class BundleConfigurationProjetManager {
 							METHODE_GET_PATHTESTJAVA
 								, nomBaseProperties
 									, mre
-									, getClePathTestJava());
+									, getClePathRelTestJava());
 				}
 			}
 			
 			/* Clé vide (sans valeur). */
-			if (StringUtils.isBlank(pathTestJava)) {
+			if (StringUtils.isBlank(pathRelTestJava)) {
 				
 				traiterCleVide(
 						METHODE_GET_PATHTESTJAVA
-						, getClePathTestJava()
+						, getClePathRelTestJava()
 						, nomBaseProperties);
 				
 			}
 			
-			return pathTestJava;
+			return pathRelTestJava;
 			
 		} // Fin de synchronized.___________________________________
 			
-	} // Fin de getPathTestJava()._________________________________________
+	} // Fin de getPathRelTestJava().______________________________________
 
 
 
 	/**
-	 * method getClePathTestJava() :<br/>
+	 * method getClePathRelTestJava() :<br/>
 	 * <ul>
 	 * <li>Retourne la clé dans configuration_projet.properties 
 	 * associée au path relatif des sources des tests JUnit 
@@ -1122,14 +1122,14 @@ public final class BundleConfigurationProjetManager {
 	 *
 	 * @return : String : "test.java".<br/>
 	 */
-	private static String getClePathTestJava() {
+	private static String getClePathRelTestJava() {
 		return "test.java";
-	} // Fin de getClePathTestJava().______________________________________
+	} // Fin de getClePathRelTestJava().___________________________________
 	
 
 	
 	/**
-	 * method getPathTestResources() :<br/>
+	 * method getPathRelTestResources() :<br/>
 	 * <ul>
 	 * <li>Getter du path relatif des ressources des tests JUnit 
 	 * par rapport à src
@@ -1137,11 +1137,11 @@ public final class BundleConfigurationProjetManager {
 	 * <li>Exemple : "test/resources"</li>
 	 * </ul>
 	 *
-	 * @return pathTestResources : String.<br/>
+	 * @return pathRelTestResources : String.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	public static String getPathTestResources() throws Exception {
+	public static String getPathRelTestResources() throws Exception {
 		
 		/* Bloc synchronized. */
 		synchronized (BundleConfigurationProjetManager.class) {
@@ -1149,7 +1149,7 @@ public final class BundleConfigurationProjetManager {
 			final String nomBaseProperties 
 				= getNomBasePropertiesConfigurationProjet();
 			
-			if (pathTestResources == null) {
+			if (pathRelTestResources == null) {
 				
 				if (bundleConfigurationProjet == null) {
 					getBundleConfigurationProjet();
@@ -1157,9 +1157,9 @@ public final class BundleConfigurationProjetManager {
 				
 				try {
 					
-					pathTestResources 
+					pathRelTestResources 
 						= bundleConfigurationProjet
-							.getString(getClePathTestResources()).trim();
+							.getString(getClePathRelTestResources()).trim();
 					
 				} catch (MissingResourceException mre) {
 					
@@ -1168,30 +1168,30 @@ public final class BundleConfigurationProjetManager {
 							METHODE_GET_PATHTESTRESOURCES
 								, nomBaseProperties
 									, mre
-									, getClePathTestResources());
+									, getClePathRelTestResources());
 				}
 			}
 			
 			/* Clé vide (sans valeur). */
-			if (StringUtils.isBlank(pathTestResources)) {
+			if (StringUtils.isBlank(pathRelTestResources)) {
 				
 				traiterCleVide(
 						METHODE_GET_PATHTESTRESOURCES
-						, getClePathTestResources()
+						, getClePathRelTestResources()
 						, nomBaseProperties);
 				
 			}
 			
-			return pathTestResources;
+			return pathRelTestResources;
 			
 		} // Fin de synchronized.___________________________________
 			
-	} // Fin de getPathTestResources().____________________________________
+	} // Fin de getPathRelTestResources()._________________________________
 
 
 
 	/**
-	 * method getClePathTestResources() :<br/>
+	 * method getClePathRelTestResources() :<br/>
 	 * <ul>
 	 * <li>Retourne la clé dans configuration_projet.properties 
 	 * associée au path relatif des ressources des tests JUnit 
@@ -1202,9 +1202,9 @@ public final class BundleConfigurationProjetManager {
 	 *
 	 * @return : String : "test.resources".<br/>
 	 */
-	private static String getClePathTestResources() {
+	private static String getClePathRelTestResources() {
 		return "test.resources";
-	} // Fin de getClePathTestResources()._________________________________
+	} // Fin de getClePathRelTestResources().______________________________
 	
 
 		
@@ -1235,7 +1235,7 @@ public final class BundleConfigurationProjetManager {
 				+ SLASH
 				+ getNomRepertoireSrc() 
 				+ SLASH 
-				+ getPathMainJava();
+				+ getPathRelMainJava();
 				
 			}
 			
@@ -1274,7 +1274,7 @@ public final class BundleConfigurationProjetManager {
 				+ SLASH
 				+ getNomRepertoireSrc() 
 				+ SLASH 
-				+ getPathMainResources();
+				+ getPathRelMainResources();
 				
 			}
 			
@@ -1312,7 +1312,7 @@ public final class BundleConfigurationProjetManager {
 				+ SLASH
 				+ getNomRepertoireSrc() 
 				+ SLASH 
-				+ getPathTestJava();
+				+ getPathRelTestJava();
 				
 			}
 			
@@ -1351,7 +1351,7 @@ public final class BundleConfigurationProjetManager {
 				+ SLASH
 				+ getNomRepertoireSrc() 
 				+ SLASH 
-				+ getPathTestResources();
+				+ getPathRelTestResources();
 				
 			}
 			
@@ -1440,37 +1440,37 @@ public final class BundleConfigurationProjetManager {
 	
 	
 	/**
-	 * method getPathGroupid() :<br/>
+	 * method getPathGroupidString() :<br/>
 	 * <ul>
 	 * <li> Getter du path relatif du groupid Maven du projet par rapport 
 	 * au path absolu des sources java.</li>
 	 * <li>Exemple : "levy/daniel/application"</li>
 	 * </ul>
 	 *
-	 * @return pathGroupid : String.<br/>
+	 * @return pathGroupidString : String.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	public static String getPathGroupid() throws Exception {
+	public static String getPathGroupidString() throws Exception {
 		
 		/* Bloc synchronized. */
 		synchronized (BundleConfigurationProjetManager.class) {
 			
-			if (pathGroupid == null) {
+			if (pathGroupidString == null) {
 				
 				if (groupid == null) {
 					getGroupid();
 				}
 				
-				pathGroupid = remplacerPointparSlash(groupid);
+				pathGroupidString = remplacerPointparSlash(groupid);
 								
 			}
 			
-			return pathGroupid;
+			return pathGroupidString;
 			
 		} // Fin de synchronized.___________________________________
 			
-	} // Fin de getPathGroupid().__________________________________________
+	} // Fin de getPathGroupidString().____________________________________
 
 
 	
@@ -1496,7 +1496,7 @@ public final class BundleConfigurationProjetManager {
 				
 				pathAppTechnic 
 				= getRacineMainJava() 
-				+ SLASH + getPathGroupid()
+				+ SLASH + getPathGroupidString()
 				+ SLASH 
 				+ "apptechnic";
 				
@@ -1533,7 +1533,7 @@ public final class BundleConfigurationProjetManager {
 				
 				pathControllers 
 				= getRacineMainJava() 
-				+ SLASH + getPathGroupid()
+				+ SLASH + getPathGroupidString()
 				+ SLASH 
 				+ "controllers";
 				
@@ -1570,7 +1570,7 @@ public final class BundleConfigurationProjetManager {
 				
 				pathModel 
 				= getRacineMainJava() 
-				+ SLASH + getPathGroupid()
+				+ SLASH + getPathGroupidString()
 				+ SLASH 
 				+ "model";
 				
@@ -1607,7 +1607,7 @@ public final class BundleConfigurationProjetManager {
 				
 				pathVues 
 				= getRacineMainJava() 
-				+ SLASH + getPathGroupid()
+				+ SLASH + getPathGroupidString()
 				+ SLASH 
 				+ "vues";
 				

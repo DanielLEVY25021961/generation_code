@@ -19,6 +19,19 @@ import levy.daniel.application.apptechnic.configurationmanagers.ManagerPaths;
  * <li>Classe <b>utilitaire (méthodes static)</b> chargée de gérer 
  * les données de configuration du code à générer 
  * (chemin du Workspace, nom du projet, path des sources java, ...).</li>
+ * <li>Fournit pour chaque composant du Path d'un répertoire 
+ * dans un projet MAVEN :
+ * <ol>
+ * <li>le nom du composant (par exemple pathRelMainJava 
+ * susceptible de contenir main/java)</li>
+ * <li>le path absolu du répertoire sous forme de String 
+ * (par exemple pathMainJavaString)</li>
+ * <li>le path absolu du répertoire sous forme de Path 
+ * (par exemple pathMainJava)</li>
+ * <li>le File modélisant le répertoire 
+ * (par exemple fileMainJava)</li>
+ * </ol>
+ * </li>
  * <li>
  * classe chargée de fournir des SINGLETONS pour :
  * <ol>
@@ -28,7 +41,18 @@ import levy.daniel.application.apptechnic.configurationmanagers.ManagerPaths;
  * dans lequel générer le code <b>pathProjet</b>.</li>
  * <li>l'emplacement du <b>répertoire des sources</b> (src)
  * dans lequel générer le code <b>pathRepertoiresrc</b>.</li>
- * <li></li>
+ * <li>l'emplacement de la <b>racine des sources</b> 
+ * (src/main/java) dans lequel générer les .java 
+ * du main <b>pathMainJava</b>.</li>
+ * <li>l'emplacement de la <b>racine des ressources</b> 
+ * (src/main/resources) dans lequel stocker les ressources 
+ * du main <b>pathMainResources</b>.</li>
+ * <li>l'emplacement de la <b>racine des sources de test</b> 
+ * (src/test/java) dans lequel générer les .java 
+ * de test <b>pathTestJava</b>.</li>
+ * <li>l'emplacement de la <b>racine des ressources des tests</b> 
+ * (src/test/resources) dans lequel stocker les ressources 
+ * des tests <b>pathTestResources</b>.</li>
  * </ol>
  * </li>
  * </ul>
@@ -231,6 +255,298 @@ public final class GestionnaireProjet {
 	 */
 	private static File fileRepertoireSrc;
 	
+	
+	/**
+	 * pathRelMainJava : String :<br/>
+	 * <ul>
+	 * <li>path <i>relatif</i> des sources java par rapport à src.</li>
+	 * <li>sous forme de <b>String</b>.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>main/java</code></li>
+	 * </ul>
+	 */
+	private static String pathRelMainJava;
+
+	
+	/**
+	 * pathMainJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 */
+	private static String pathMainJavaString;
+
+	
+	/**
+	 * pathMainJava : Path :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 */
+	private static Path pathMainJava;
+
+		
+	/**
+	 * fileMainJava : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le répertoire 
+	 * de la RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 */
+	private static File fileMainJava;
+	
+	
+	
+	/**
+	 * pathRelMainResources : String :<br/>
+	 * <ul>
+	 * <li>path <i>relatif</i> des ressources main par rapport à src.</li>
+	 * <li>sous forme de <b>String</b>.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>main/resources</code></li>
+	 * </ul>
+	 */
+	private static String pathRelMainResources;
+
+	
+	/**
+	 * pathMainResourcesString : String :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des ressources main</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathMainResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/resources
+	 * </code></li>
+	 * </ul>
+	 */
+	private static String pathMainResourcesString;
+
+	
+	/**
+	 * pathMainResources : Path :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des ressources main</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathMainResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/resources
+	 * </code></li>
+	 * </ul>
+	 */
+	private static Path pathMainResources;
+
+		
+	/**
+	 * fileMainResources : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le répertoire 
+	 * de la RACINE des ressources main</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathMainResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/resources
+	 * </code></li>
+	 * </ul>
+	 */
+	private static File fileMainResources;
+		
+	
+	/**
+	 * pathRelTestJava : String :<br/>
+	 * <ul>
+	 * <li>path <i>relatif</i> des sources des tests 
+	 * java par rapport à src.</li>
+	 * <li>sous forme de <b>String</b>.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>test/java</code></li>
+	 * </ul>
+	 */
+	private static String pathRelTestJava;
+
+	
+	/**
+	 * pathTestJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des sources 
+	 * des test .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java
+	 * </code></li>
+	 * </ul>
+	 */
+	private static String pathTestJavaString;
+
+	
+	/**
+	 * pathTestJava : Path :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des sources 
+	 * des tests .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java
+	 * </code></li>
+	 * </ul>
+	 */
+	private static Path pathTestJava;
+
+		
+	/**
+	 * fileTestJava : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le répertoire 
+	 * de la RACINE des sources des tests .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java
+	 * </code></li>
+	 * </ul>
+	 */
+	private static File fileTestJava;
+	
+		
+	/**
+	 * pathRelTestResources : String :<br/>
+	 * <ul>
+	 * <li>path <i>relatif</i> des ressources de test 
+	 * par rapport à src.</li>
+	 * <li>sous forme de <b>String</b>.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>test/resources</code></li>
+	 * </ul>
+	 */
+	private static String pathRelTestResources;
+
+	
+	/**
+	 * pathTestResourcesString : String :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE 
+	 * des ressources des tests</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathTestResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/resources
+	 * </code></li>
+	 * </ul>
+	 */
+	private static String pathTestResourcesString;
+
+	
+	/**
+	 * pathTestResources : Path :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE 
+	 * des ressources des tests</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathTestResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/resources
+	 * </code></li>
+	 * </ul>
+	 */
+	private static Path pathTestResources;
+
+		
+	/**
+	 * fileTestResources : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le répertoire 
+	 * de la RACINE des ressources des tests</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathTestResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/resources
+	 * </code></li>
+	 * </ul>
+	 */
+	private static File fileTestResources;
+		
+
+	/**
+	 * groupid : String :<br/>
+	 * groupid Maven du projet.<br/>
+	 * Exemple : "levy.daniel.application"<br/>
+	 */
+	private static String groupid;
+	
+	
+	/**
+	 * pathGroupidString : String :<br/>
+	 * path relatif du groupid Maven du projet par rapport 
+	 * au path absolu des sources java.<br/>
+	 * Exemple : "levy/daniel/application"<br/>
+	 */
+	private static String pathGroupidString;
+
 
 	
 	/**
@@ -256,14 +572,18 @@ public final class GestionnaireProjet {
 	
 	
 	public static void alimenterAttributs() throws Exception {
-		alimenterAttributs(null, null, null);
+		alimenterAttributs(null, null, null, null, null, null, null, null);
 	}
 	
 
 	
 	public static void alimenterAttributs(final String pNomProjet) throws Exception {
-		alimenterAttributs(null, pNomProjet, null);
+		alimenterAttributs(null, pNomProjet, null, null, null, null, null, null);
 	}
+	
+	
+	
+	
 	
 	
 	
@@ -275,9 +595,22 @@ public final class GestionnaireProjet {
 	 * @param pPathWorkspaceString
 	 * @param pNomProjet
 	 * @param pNomRepertoireSrc
+	 * @param pPathRelMainJava
+	 * @param pPathRelMainResources
+	 * @param pPathRelTestJava
+	 * @param pPathRelTestResources
+	 * @param pGroupId
 	 * @throws Exception : void :  .<br/>
 	 */
-	public static void alimenterAttributs(final String pPathWorkspaceString, final String pNomProjet, final String pNomRepertoireSrc) 
+	public static void alimenterAttributs(
+			final String pPathWorkspaceString
+				, final String pNomProjet
+					, final String pNomRepertoireSrc
+						, final String pPathRelMainJava
+							, final String pPathRelMainResources
+								, final String pPathRelTestJava
+									, final String pPathRelTestResources
+										, final String pGroupId) 
 				throws Exception {
 		
 		synchronized (GestionnaireProjet.class) {
@@ -285,6 +618,10 @@ public final class GestionnaireProjet {
 			alimenterPathWorkspaceString(pPathWorkspaceString);
 			alimenterNomProjet(pNomProjet);
 			alimenterNomRepertoireSrc(pNomRepertoireSrc);
+			alimenterPathRelMainJava(pPathRelMainJava);
+			alimenterPathRelMainResources(pPathRelMainResources);
+			alimenterPathRelTestJava(pPathRelTestJava);
+			alimenterPathRelTestResources(pPathRelTestResources);
 			
 		} // Fin de synchronized._______________________
 		
@@ -686,7 +1023,633 @@ public final class GestionnaireProjet {
 	} // Fin de alimenterRepertoireSrcParDefaut().________________________________
 	
 
+		
+	/**
+	 * method alimenterPathRelMainJava() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathRelMainJava</b>.</li>
+	 * <li><b>alimente pathMainJavaString</b>.</li>
+	 * <li><b>alimente pathMainJava</b>.</li>
+	 * <li><b>alimente fileMainJava</b>.</li>
+	 * <ol>
+	 * <li>alimente pathRelMainJava avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire existant.</li>
+	 * <li><b>crée d'abord le répertoire</b>, 
+	 * puis alimente pathRelMainJava avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire inexistant.</li>
+	 * <li>alimente pathRelMainJava avec une valeur par défaut 
+	 * si pString est blank.</li>
+	 * </ol>
+	 * <li>la valeur par défaut est :</li>
+	 * <ol>
+	 * <li>le nom du chemin relatif dans 
+	 * <b>configuration_projet.properties</b> si il existe.</li>
+	 * <li><b>main/java</b> sinon.</li>
+	 * </ol>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * chemin relatif (archétype MAVEN) dans 
+	 * lequel générer le code.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterPathRelMainJava(
+			final String pString) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathRelMainJava == null) {
+				
+				if (parametreExistant(pString)) {
+					
+					final Path path = fabriquerPath(pathRepertoireSrc, pString);
+					final String pathString = path.toString();
+					
+					if (existeDossier(pathString)) {
+						alimenterAttributsMainJava(pString);						
+					} else {
+						
+						/* création du répertoire. */
+						creerRepertoire(path);
+						
+						alimenterAttributsMainJava(pString);
+					}
+										
+				} else {
+					alimenterMainJavaParDefaut();
+				}
+								
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterPathRelMainJava(...)._____________________________
 	
+
+	
+	/**
+	 * method alimenterAttributsMainJava(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>passe pString à pathRelMainJava.</li>
+	 * <li>passe fabriquerPath(pathRepertoireSrc, pString) 
+	 * à pathMainJava.</li>
+	 * <li>passe pathMainJava.toString() à 
+	 * pathMainJavaString.</li>
+	 * <li>passe pathMainJava.toFile() à fileMainJava.</li>
+	 * </ul>
+	 * ne fait rien si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 */
+	private static void alimenterAttributsMainJava(
+			final String pString) {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		pathRelMainJava = pString;
+		pathMainJava = fabriquerPath(pathRepertoireSrc, pString);
+		pathMainJavaString = pathMainJava.toString();
+		fileMainJava = pathMainJava.toFile();
+		
+	} // Fin de alimenterAttributsMainJava(...).___________________________
+	
+
+	
+	/**
+	 * method alimenterMainJavaParDefaut() :<br/>
+	 * <ul>
+	 * <li>Calcule la valeur par défaut de pathRelMainJava :
+	 * <ol>
+	 * <li>dans config_projet.properties si elle existe</li>
+	 * <li>main/java sinon.</li>
+	 * </ol>  
+	 * </li>
+	 * <li>passe la valeur par défaut à pathRelMainJava.</li>
+	 * <li>passe fabriquerPath(pathRepertoireSrc, pathRelMainJava) 
+	 * à pathMainJava.</li>
+	 * <li>passe pathMainJava.toString() à 
+	 * pathMainJavaString.</li>
+	 * <li>passe pathMainJava.toFile() à fileMainJava.</li>
+	 * <li>crée le répertoire par défaut si il n'existe pas.</li>
+	 * </ul>
+	 * 
+	 * @throws IOException 
+	 */
+	private static void alimenterMainJavaParDefaut() 
+			throws IOException {
+		
+		String valeurDefautConfig;
+		String valeurDefaut = null;
+		
+		try {
+			
+			/* récupération de la valeur par défaut dans 
+			 * configuration_projet.properties via 
+			 * BundleConfigurationProjetManager. */
+			valeurDefautConfig 
+				= BundleConfigurationProjetManager.getPathRelMainJava();
+			
+			if (StringUtils.isBlank(valeurDefautConfig)) {
+				valeurDefaut = "main/java";
+			} else {
+				valeurDefaut = valeurDefautConfig;
+			}
+			
+		} catch (Exception e) {
+			valeurDefaut = "main/java";
+		}
+				
+		pathRelMainJava = valeurDefaut;
+		pathMainJava = fabriquerPath(pathRepertoireSrc, pathRelMainJava);
+		pathMainJavaString = pathMainJava.toString();
+		fileMainJava = pathMainJava.toFile();
+		
+		/* crée le répertoire par défaut si il n'existe pas. */
+		if (!fileMainJava.exists()) {
+			Files.createDirectories(pathMainJava);
+		}
+		
+	} // Fin de alimenterMainJavaParDefaut().______________________________
+	
+
+		
+	/**
+	 * method alimenterPathRelMainResources() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathRelMainResources</b>.</li>
+	 * <li><b>alimente pathMainResourcesString</b>.</li>
+	 * <li><b>alimente pathMainResources</b>.</li>
+	 * <li><b>alimente fileMainResources</b>.</li>
+	 * <ol>
+	 * <li>alimente pathRelMainResources avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire existant.</li>
+	 * <li><b>crée d'abord le répertoire</b>, 
+	 * puis alimente pathRelMainResources avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire inexistant.</li>
+	 * <li>alimente pathRelMainResources avec une valeur par défaut 
+	 * si pString est blank.</li>
+	 * </ol>
+	 * <li>la valeur par défaut est :</li>
+	 * <ol>
+	 * <li>le nom du chemin relatif dans 
+	 * <b>configuration_projet.properties</b> si il existe.</li>
+	 * <li><b>main/resources</b> sinon.</li>
+	 * </ol>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * chemin relatif (archétype MAVEN) dans 
+	 * lequel générer le code.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterPathRelMainResources(
+			final String pString) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathRelMainResources == null) {
+				
+				if (parametreExistant(pString)) {
+					
+					final Path path = fabriquerPath(pathRepertoireSrc, pString);
+					final String pathString = path.toString();
+					
+					if (existeDossier(pathString)) {
+						alimenterAttributsMainResources(pString);						
+					} else {
+						
+						/* création du répertoire. */
+						creerRepertoire(path);
+						
+						alimenterAttributsMainResources(pString);
+					}
+										
+				} else {
+					alimenterMainResourcesParDefaut();
+				}
+								
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterPathRelMainResources(...).________________________
+	
+	
+	
+	/**
+	 * method alimenterAttributsMainResources(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>passe pString à pathRelMainResources.</li>
+	 * <li>passe fabriquerPath(pathRepertoireSrc, pString) 
+	 * à pathMainResources.</li>
+	 * <li>passe pathMainResources.toString() à 
+	 * pathMainResourcesString.</li>
+	 * <li>passe pathMainResources.toFile() à fileMainResources.</li>
+	 * </ul>
+	 * ne fait rien si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 */
+	private static void alimenterAttributsMainResources(
+			final String pString) {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		pathRelMainResources = pString;
+		pathMainResources = fabriquerPath(pathRepertoireSrc, pString);
+		pathMainResourcesString = pathMainResources.toString();
+		fileMainResources = pathMainResources.toFile();
+		
+	} // Fin de alimenterAttributsMainResources(...).______________________
+	
+	
+	
+	/**
+	 * method alimenterMainResourcesParDefaut() :<br/>
+	 * <ul>
+	 * <li>Calcule la valeur par défaut de pathRelMainResources :
+	 * <ol>
+	 * <li>dans config_projet.properties si elle existe</li>
+	 * <li>main/resources sinon.</li>
+	 * </ol>  
+	 * </li>
+	 * <li>passe la valeur par défaut à pathRelMainResources.</li>
+	 * <li>passe fabriquerPath(pathRepertoireSrc, pathRelMainResources) 
+	 * à pathMainResources.</li>
+	 * <li>passe pathMainResources.toString() à 
+	 * pathMainResourcesString.</li>
+	 * <li>passe pathMainResources.toFile() à fileMainResources.</li>
+	 * <li>crée le répertoire par défaut si il n'existe pas.</li>
+	 * </ul>
+	 * 
+	 * @throws IOException 
+	 */
+	private static void alimenterMainResourcesParDefaut() 
+			throws IOException {
+		
+		String valeurDefautConfig;
+		String valeurDefaut = null;
+		
+		try {
+			
+			/* récupération de la valeur par défaut dans 
+			 * configuration_projet.properties via 
+			 * BundleConfigurationProjetManager. */
+			valeurDefautConfig 
+				= BundleConfigurationProjetManager
+					.getPathRelMainResources();
+			
+			if (StringUtils.isBlank(valeurDefautConfig)) {
+				valeurDefaut = "main/resources";
+			} else {
+				valeurDefaut = valeurDefautConfig;
+			}
+			
+		} catch (Exception e) {
+			valeurDefaut = "main/resources";
+		}
+				
+		pathRelMainResources = valeurDefaut;
+		pathMainResources 
+			= fabriquerPath(pathRepertoireSrc, pathRelMainResources);
+		pathMainResourcesString = pathMainResources.toString();
+		fileMainResources = pathMainResources.toFile();
+		
+		/* crée le répertoire par défaut si il n'existe pas. */
+		if (!fileMainResources.exists()) {
+			Files.createDirectories(pathMainResources);
+		}
+		
+	} // Fin de alimenterMainResourcesParDefaut().______________________________
+	
+
+		
+	/**
+	 * method alimenterPathRelTestJava() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathRelTestJava</b>.</li>
+	 * <li><b>alimente pathTestJavaString</b>.</li>
+	 * <li><b>alimente pathTestJava</b>.</li>
+	 * <li><b>alimente fileTestJava</b>.</li>
+	 * <ol>
+	 * <li>alimente pathRelTestJava avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire existant.</li>
+	 * <li><b>crée d'abord le répertoire</b>, 
+	 * puis alimente pathRelTestJava avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire inexistant.</li>
+	 * <li>alimente pathRelTestJava avec une valeur par défaut 
+	 * si pString est blank.</li>
+	 * </ol>
+	 * <li>la valeur par défaut est :</li>
+	 * <ol>
+	 * <li>le nom du chemin relatif dans 
+	 * <b>configuration_projet.properties</b> si il existe.</li>
+	 * <li><b>test/java</b> sinon.</li>
+	 * </ol>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * chemin relatif (archétype MAVEN) dans 
+	 * lequel générer le code.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterPathRelTestJava(
+			final String pString) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathRelTestJava == null) {
+				
+				if (parametreExistant(pString)) {
+					
+					final Path path 
+						= fabriquerPath(pathRepertoireSrc, pString);
+					final String pathString = path.toString();
+					
+					if (existeDossier(pathString)) {
+						alimenterAttributsTestJava(pString);						
+					} else {
+						
+						/* création du répertoire. */
+						creerRepertoire(path);
+						
+						alimenterAttributsTestJava(pString);
+					}
+										
+				} else {
+					alimenterTestJavaParDefaut();
+				}
+								
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterPathRelTestJava(...)._____________________________
+	
+	
+	
+	/**
+	 * method alimenterAttributsTestJava(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>passe pString à pathRelTestJava.</li>
+	 * <li>passe fabriquerPath(pathRepertoireSrc, pString) 
+	 * à pathTestJava.</li>
+	 * <li>passe pathTestJava.toString() à 
+	 * pathTestJavaString.</li>
+	 * <li>passe pathTestJava.toFile() à fileTestJava.</li>
+	 * </ul>
+	 * ne fait rien si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 */
+	private static void alimenterAttributsTestJava(
+			final String pString) {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		pathRelTestJava = pString;
+		pathTestJava = fabriquerPath(pathRepertoireSrc, pString);
+		pathTestJavaString = pathTestJava.toString();
+		fileTestJava = pathTestJava.toFile();
+		
+	} // Fin de alimenterAttributsTestJava(...).___________________________
+	
+	
+	
+	/**
+	 * method alimenterTestJavaParDefaut() :<br/>
+	 * <ul>
+	 * <li>Calcule la valeur par défaut de pathRelTestJava :
+	 * <ol>
+	 * <li>dans config_projet.properties si elle existe</li>
+	 * <li>test/java sinon.</li>
+	 * </ol>  
+	 * </li>
+	 * <li>passe la valeur par défaut à pathRelTestJava.</li>
+	 * <li>passe fabriquerPath(pathRepertoireSrc, pathRelTestJava) 
+	 * à pathTestJava.</li>
+	 * <li>passe pathTestJava.toString() à 
+	 * pathTestJavaString.</li>
+	 * <li>passe pathTestJava.toFile() à fileTestJava.</li>
+	 * <li>crée le répertoire par défaut si il n'existe pas.</li>
+	 * </ul>
+	 * 
+	 * @throws IOException 
+	 */
+	private static void alimenterTestJavaParDefaut() 
+			throws IOException {
+		
+		String valeurDefautConfig;
+		String valeurDefaut = null;
+		
+		try {
+			
+			/* récupération de la valeur par défaut dans 
+			 * configuration_projet.properties via 
+			 * BundleConfigurationProjetManager. */
+			valeurDefautConfig 
+				= BundleConfigurationProjetManager.getPathRelTestJava();
+			
+			if (StringUtils.isBlank(valeurDefautConfig)) {
+				valeurDefaut = "test/java";
+			} else {
+				valeurDefaut = valeurDefautConfig;
+			}
+			
+		} catch (Exception e) {
+			valeurDefaut = "test/java";
+		}
+				
+		pathRelTestJava = valeurDefaut;
+		pathTestJava = fabriquerPath(pathRepertoireSrc, pathRelTestJava);
+		pathTestJavaString = pathTestJava.toString();
+		fileTestJava = pathTestJava.toFile();
+		
+		/* crée le répertoire par défaut si il n'existe pas. */
+		if (!fileTestJava.exists()) {
+			Files.createDirectories(pathTestJava);
+		}
+		
+	} // Fin de alimenterTestJavaParDefaut().______________________________
+	
+	
+		
+	/**
+	 * method alimenterPathRelTestResources() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathRelTestResources</b>.</li>
+	 * <li><b>alimente pathTestResourcesString</b>.</li>
+	 * <li><b>alimente pathTestResources</b>.</li>
+	 * <li><b>alimente fileTestResources</b>.</li>
+	 * <ol>
+	 * <li>alimente pathRelTestResources avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire existant.</li>
+	 * <li><b>crée d'abord le répertoire</b>, 
+	 * puis alimente pathRelTestResources avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire inexistant.</li>
+	 * <li>alimente pathRelTestResources avec une valeur par défaut 
+	 * si pString est blank.</li>
+	 * </ol>
+	 * <li>la valeur par défaut est :</li>
+	 * <ol>
+	 * <li>le nom du chemin relatif dans 
+	 * <b>configuration_projet.properties</b> si il existe.</li>
+	 * <li><b>test/resources</b> sinon.</li>
+	 * </ol>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * chemin relatif (archétype MAVEN) dans 
+	 * lequel générer le code.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterPathRelTestResources(
+			final String pString) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathRelTestResources == null) {
+				
+				if (parametreExistant(pString)) {
+					
+					final Path path 
+						= fabriquerPath(pathRepertoireSrc, pString);
+					final String pathString = path.toString();
+					
+					if (existeDossier(pathString)) {
+						alimenterAttributsTestResources(pString);						
+					} else {
+						
+						/* création du répertoire. */
+						creerRepertoire(path);
+						
+						alimenterAttributsTestResources(pString);
+					}
+										
+				} else {
+					alimenterTestResourcesParDefaut();
+				}
+								
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterPathRelTestResources(...).________________________
+	
+	
+	
+	/**
+	 * method alimenterAttributsTestResources(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>passe pString à pathRelTestResources.</li>
+	 * <li>passe fabriquerPath(pathRepertoireSrc, pString) 
+	 * à pathTestResources.</li>
+	 * <li>passe pathTestResources.toString() à 
+	 * pathTestResourcesString.</li>
+	 * <li>passe pathTestResources.toFile() à fileTestResources.</li>
+	 * </ul>
+	 * ne fait rien si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 */
+	private static void alimenterAttributsTestResources(
+			final String pString) {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		pathRelTestResources = pString;
+		pathTestResources = fabriquerPath(pathRepertoireSrc, pString);
+		pathTestResourcesString = pathTestResources.toString();
+		fileTestResources = pathTestResources.toFile();
+		
+	} // Fin de alimenterAttributsTestResources(...).______________________
+	
+	
+	
+	/**
+	 * method alimenterTestResourcesParDefaut() :<br/>
+	 * <ul>
+	 * <li>Calcule la valeur par défaut de pathRelTestResources :
+	 * <ol>
+	 * <li>dans config_projet.properties si elle existe</li>
+	 * <li>test/resources sinon.</li>
+	 * </ol>  
+	 * </li>
+	 * <li>passe la valeur par défaut à pathRelTestResources.</li>
+	 * <li>passe fabriquerPath(pathRepertoireSrc, pathRelTestResources) 
+	 * à pathTestResources.</li>
+	 * <li>passe pathTestResources.toString() à 
+	 * pathTestResourcesString.</li>
+	 * <li>passe pathTestResources.toFile() à fileTestResources.</li>
+	 * <li>crée le répertoire par défaut si il n'existe pas.</li>
+	 * </ul>
+	 * 
+	 * @throws IOException 
+	 */
+	private static void alimenterTestResourcesParDefaut() 
+			throws IOException {
+		
+		String valeurDefautConfig;
+		String valeurDefaut = null;
+		
+		try {
+			
+			/* récupération de la valeur par défaut dans 
+			 * configuration_projet.properties via 
+			 * BundleConfigurationProjetManager. */
+			valeurDefautConfig 
+				= BundleConfigurationProjetManager
+					.getPathRelTestResources();
+			
+			if (StringUtils.isBlank(valeurDefautConfig)) {
+				valeurDefaut = "test/resources";
+			} else {
+				valeurDefaut = valeurDefautConfig;
+			}
+			
+		} catch (Exception e) {
+			valeurDefaut = "test/resources";
+		}
+				
+		pathRelTestResources = valeurDefaut;
+		pathTestResources 
+			= fabriquerPath(pathRepertoireSrc, pathRelTestResources);
+		pathTestResourcesString = pathTestResources.toString();
+		fileTestResources = pathTestResources.toFile();
+		
+		/* crée le répertoire par défaut si il n'existe pas. */
+		if (!fileTestResources.exists()) {
+			Files.createDirectories(pathTestResources);
+		}
+		
+	} // Fin de alimenterTestResourcesParDefaut().______________________________
+	
+	
+
 	/**
 	 * method creerRepertoire(
 	 * Path pPath) :<br/>
@@ -1105,7 +2068,367 @@ public final class GestionnaireProjet {
 	} // Fin de getFileRepertoireSrc().____________________________________
 
 
+		
+	/**
+	 * method getPathRelMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du path <i>relatif</i> des sources java 
+	 * par rapport à src.</li>
+	 * <li>sous forme de <b>String</b>.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>main/java</code></li>
+	 * </ul>
+	 *
+	 * @return pathRelMainJava : String.<br/>
+	 */
+	public static String getPathRelMainJava() {
+		return pathRelMainJava;
+	} // Fin de getPathRelMainJava().______________________________________
+
+
 	
+	/**
+	 * method getPathMainJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la 
+	 * RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathMainJavaString : String.<br/>
+	 */
+	public static String getPathMainJavaString() {
+		return pathMainJavaString;
+	} // Fin de getPathMainJavaString().___________________________________
+
+
+	
+	/**
+	 * method getPathMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la 
+	 * RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathMainJava : Path.<br/>
+	 */
+	public static Path getPathMainJava() {
+		return pathMainJava;
+	} // Fin de getPathMainJava()._________________________________________
+
+
+	
+	/**
+	 * method getFileMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le répertoire 
+	 * de la RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return fileMainJava : File.<br/>
+	 */
+	public static File getFileMainJava() {
+		return fileMainJava;
+	} // Fin de getFileMainJava()._________________________________________
+
+
+		
+	/**
+	 * method getPathRelMainResources() :<br/>
+	 *<ul>
+	 * <li>Getter du path <i>relatif</i> des ressources 
+	 * main par rapport à src.</li>
+	 * <li>sous forme de <b>String</b>.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>main/resources</code></li>
+	 * </ul>
+	 *
+	 * @return pathRelMainResources : String.<br/>
+	 */
+	public static String getPathRelMainResources() {
+		return pathRelMainResources;
+	} // Fin de getPathRelMainResources()._________________________________
+
+
+	
+	/**
+	 * method getPathMainResourcesString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la RACINE 
+	 * des ressources main</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathMainResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/resources
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathMainResourcesString : String.<br/>
+	 */
+	public static String getPathMainResourcesString() {
+		return pathMainResourcesString;
+	} // Fin de getPathMainResourcesString().______________________________
+
+
+	
+	/**
+	 * method getPathMainResources() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la RACINE 
+	 * des ressources main</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathMainResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/resources
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathMainResources : Path.<br/>
+	 */
+	public static Path getPathMainResources() {
+		return pathMainResources;
+	} // Fin de getPathMainResources().____________________________________
+
+
+	
+	/**
+	 * method getFileMainResources() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le répertoire 
+	 * de la RACINE des ressources main</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathMainResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/resources
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return fileMainResources : File.<br/>
+	 */
+	public static File getFileMainResources() {
+		return fileMainResources;
+	} // Fin de getFileMainResources().____________________________________
+
+
+		
+	/**
+	 * method getPathRelTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du path <i>relatif</i> des sources des tests 
+	 * java par rapport à src.</li>
+	 * <li>sous forme de <b>String</b>.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>test/java</code></li>
+	 * </ul>
+	 *
+	 * @return pathRelTestJava : String.<br/>
+	 */
+	public static String getPathRelTestJava() {
+		return pathRelTestJava;
+	} // Fin de getPathRelTestJava().______________________________________
+	
+	
+	
+	/**
+	 * method getPathTestJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la RACINE des sources 
+	 * des test .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathTestJavaString : String.<br/>
+	 */
+	public static String getPathTestJavaString() {
+		return pathTestJavaString;
+	} // Fin de getPathTestJavaString().___________________________________
+	
+	
+	
+	/**
+	 * method getPathTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la RACINE des sources 
+	 * des tests .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathTestJava : Path.<br/>
+	 */
+	public static Path getPathTestJava() {
+		return pathTestJava;
+	} // Fin de getPathTestJava()._________________________________________
+	
+	
+	
+	/**
+	 * method getFileTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le répertoire 
+	 * de la RACINE des sources des tests .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return fileTestJava : File.<br/>
+	 */
+	public static File getFileTestJava() {
+		return fileTestJava;
+	} // Fin de getFileTestJava()._________________________________________
+	
+	
+		
+	/**
+	 * method getPathRelTestResources() :<br/>
+	 * <ul>
+	 * <li>Getter du path <i>relatif</i> des ressources de test 
+	 * par rapport à src.</li>
+	 * <li>sous forme de <b>String</b>.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>test/resources</code></li>
+	 * </ul>
+	 *
+	 * @return pathRelTestResources : String.<br/>
+	 */
+	public static String getPathRelTestResources() {
+		return pathRelTestResources;
+	} // Fin de getPathRelTestResources()._________________________________
+
+
+	
+	/**
+	 * method getPathTestResourcesString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la RACINE 
+	 * des ressources des tests</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathTestResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/resources
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathTestResourcesString : String.<br/>
+	 */
+	public static String getPathTestResourcesString() {
+		return pathTestResourcesString;
+	} // Fin de getPathTestResourcesString().______________________________
+
+
+	
+	/**
+	 * method getPathTestResources() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la RACINE 
+	 * des ressources des tests</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathTestResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/resources
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathTestResources : Path.<br/>
+	 */
+	public static Path getPathTestResources() {
+		return pathTestResources;
+	} // Fin de getPathTestResources().____________________________________
+
+
+	
+	/**
+	 * method getFileTestResources() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le répertoire 
+	 * de la RACINE des ressources des tests</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathTestResources = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestResources.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/resources
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return fileTestResources : File.<br/>
+	 */
+	public static File getFileTestResources() {
+		return fileTestResources;
+	} // Fin de getFileTestResources().____________________________________
+
+
+
 	/**
 	 * method reinitialiserAttributs() :<br/>
 	 * <ul>
@@ -1124,6 +2447,31 @@ public final class GestionnaireProjet {
 		pathProjet = null;
 		fileProjet = null;
 		
+		nomRepertoireSrc = null;
+		pathRepertoireSrcString = null;
+		pathRepertoireSrc = null;
+		fileRepertoireSrc = null;
+		
+		pathRelMainJava = null;
+		pathMainJavaString = null;
+		pathMainJava = null;
+		fileMainJava = null;
+		
+		pathRelMainResources = null;
+		pathMainResourcesString = null;
+		pathMainResources = null;
+		fileMainResources = null;
+		
+		pathRelTestJava = null;
+		pathTestJavaString = null;
+		pathTestJava = null;
+		fileTestJava = null;
+		
+		pathRelTestResources = null;
+		pathTestResourcesString = null;
+		pathTestResources = null;
+		fileTestResources = null;
+
 	} // Fin de reinitialiserAttributs().__________________________________
 
 	

@@ -909,10 +909,10 @@ public class BundleConfigurationProjetManagerTest {
 		try {
 			
 			pathMainJava1 
-				= BundleConfigurationProjetManager.getPathMainJava();
+				= BundleConfigurationProjetManager.getPathRelMainJava();
 			
 			pathMainJava2 
-				= BundleConfigurationProjetManager.getPathMainJava();
+				= BundleConfigurationProjetManager.getPathRelMainJava();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1110,10 +1110,10 @@ public class BundleConfigurationProjetManagerTest {
 		try {
 			
 			pathMainResources1 
-				= BundleConfigurationProjetManager.getPathMainResources();
+				= BundleConfigurationProjetManager.getPathRelMainResources();
 			
 			pathMainResources2 
-				= BundleConfigurationProjetManager.getPathMainResources();
+				= BundleConfigurationProjetManager.getPathRelMainResources();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1311,10 +1311,10 @@ public class BundleConfigurationProjetManagerTest {
 		try {
 			
 			pathTestJava1 
-				= BundleConfigurationProjetManager.getPathTestJava();
+				= BundleConfigurationProjetManager.getPathRelTestJava();
 			
 			pathTestJava2 
-				= BundleConfigurationProjetManager.getPathTestJava();
+				= BundleConfigurationProjetManager.getPathRelTestJava();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1512,10 +1512,10 @@ public class BundleConfigurationProjetManagerTest {
 		try {
 			
 			pathResourcesJava1 
-				= BundleConfigurationProjetManager.getPathTestResources();
+				= BundleConfigurationProjetManager.getPathRelTestResources();
 			
 			pathResourcesJava2 
-				= BundleConfigurationProjetManager.getPathTestResources();
+				= BundleConfigurationProjetManager.getPathRelTestResources();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1849,7 +1849,7 @@ public class BundleConfigurationProjetManagerTest {
 						+ groupid1);
 				System.out.println("PATH GROUPID : " 
 						+ BundleConfigurationProjetManager
-							.getPathGroupid());
+							.getPathGroupidString());
 			}
 			
 			/* garantit que l'objet n'est pas null. */
