@@ -532,22 +532,32 @@ public final class GestionnaireProjet {
 		
 
 	/**
-	 * groupid : String :<br/>
-	 * groupid Maven du projet.<br/>
-	 * Exemple : "levy.daniel.application"<br/>
+	 * groupId : String :<br/>
+	 * <ul>
+	 * <li><b>groupId Maven</b> du projet.<br/>
+	 * <li>Par Exemple : <br/>
+	 * <code>levy.daniel.application</code></li>
+	 * </ul>
 	 */
-	private static String groupid;
+	private static String groupId;
 	
 	
 	/**
-	 * pathGroupidString : String :<br/>
-	 * path relatif du groupid Maven du projet par rapport 
-	 * au path absolu des sources java.<br/>
-	 * Exemple : "levy/daniel/application"<br/>
+	 * pathRelGroupIdString : String :<br/>
+	 * <ul>
+	 * <li>path relatif du groupId Maven du projet par rapport 
+	 * au path absolu des sources java.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>levy/daniel/application</code></li>
+	 * </li>
 	 */
-	private static String pathGroupidString;
+	private static String pathRelGroupIdString;
 
 
+	private static String pathGroupidMainJavaString;
+	
+	
+	private static String pathGroupidTestJavaString;
 	
 	/**
 	 * LOG : Log : 
