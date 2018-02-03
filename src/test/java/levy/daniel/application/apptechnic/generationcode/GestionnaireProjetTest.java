@@ -188,6 +188,14 @@ public class GestionnaireProjetTest {
 	 */
 	public static final String REP_DIRECTORY 
 		= "Le répertoire doit être une Directory : ";
+
+	
+	/**
+	 * PROJET_GENERATION_CODE_TEST : String :<br/>
+	 * "generation_code_test".<br/>
+	 */
+	public static final String PROJET_GENERATION_CODE_TEST 
+		= "generation_code_test";
 	
 	
 	/**
@@ -550,7 +558,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
 		GestionnaireProjet
@@ -620,7 +628,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		
 		/* Alimentation des attributs du GestionnaireProjet. */
@@ -694,7 +702,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 
@@ -761,7 +769,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = "maintest/javatest";
 
@@ -827,7 +835,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = "main/java";
 		
@@ -893,7 +901,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 		final String pathRelMainResourcesTest = null;
@@ -962,7 +970,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 		final String pathRelMainResourcesTest = "maintest/resourcestest";
@@ -1029,7 +1037,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 		final String pathRelMainResourcesTest = "main/resources";
@@ -1096,7 +1104,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 		final String pathRelMainResourcesTest = null;
@@ -1167,7 +1175,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 		final String pathRelMainResourcesTest = null;
@@ -1237,7 +1245,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 		final String pathRelMainResourcesTest = null;
@@ -1307,7 +1315,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 		final String pathRelMainResourcesTest = null;
@@ -1377,7 +1385,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 		final String pathRelMainResourcesTest = null;
@@ -1447,7 +1455,7 @@ public class GestionnaireProjetTest {
 		GestionnaireProjet.reinitialiserAttributs();
 		
 		final String pathTest = null;
-		final String nomProjetTest = "generation_code_test";
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
 		final String nomRepertoireSrcTest = null;
 		final String pathRelMainJavaTest = null;
 		final String pathRelMainResourcesTest = null;
@@ -1495,5 +1503,171 @@ public class GestionnaireProjetTest {
 	} // Fin de testTestResources()._______________________________________
 	
 
+	
+	/**
+	 * method testTestGroupIdNull() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathGroupId.</li>
+	 * <li>test avec un paramètre null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testTestGroupIdNull() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = null;
+		final String pathRelTestJavaTest = null;
+		final String pathRelTestResourcesTest = null;
+		final String groupId = null;
+		
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, pathRelTestJavaTest
+									, pathRelTestResourcesTest
+										, groupId);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelGroupId();
+		final String pathStringMainJava 
+			= GestionnaireProjet.getPathGroupIdMainJavaString();
+		final String pathStringTestJava 
+			= GestionnaireProjet.getPathGroupIdTestJavaString();
+		final Path pathMainJava 
+			= GestionnaireProjet.getPathGroupIdMainJava();
+		final Path pathTestJava 
+			= GestionnaireProjet.getPathGroupIdTestJava();
+		final File fileMainJava 
+			= GestionnaireProjet.getFileGroupIdMainJava();
+		final File fileTestJava 
+			= GestionnaireProjet.getFileGroupIdTestJava();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testTestResources()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathStringMainJava);
+			System.out.println(PATH_ABSOLU + pathStringTestJava);
+			System.out.println(PATH_ABSOLU + pathMainJava.toString());
+			System.out.println(PATH_ABSOLU + pathTestJava.toString());
+			System.out.println(FILE + fileMainJava.getName());
+			System.out.println(FILE + fileTestJava.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathStringMainJava);
+		assertNotNull(PATH_NON_NULL, pathStringTestJava);
+		assertNotNull(PATH_NON_NULL, pathMainJava);
+		assertNotNull(PATH_NON_NULL, pathTestJava);
+		assertNotNull(REP_NON_NULL, fileMainJava);
+		assertTrue(REP_EXISTE, fileMainJava.exists());
+		assertTrue(REP_EXISTE, fileTestJava.exists());
+		assertTrue(REP_DIRECTORY, fileMainJava.isDirectory());
+		assertTrue(REP_DIRECTORY, fileTestJava.isDirectory());
+		
+	} // Fin de testTestGroupIdNull()._____________________________________
+	
+
+	
+	/**
+	 * method testTestGroupId() :<br/>
+	 * <ul>
+	 * <li>teste l'ensemble des méthodes relatives à pathGroupId.</li>
+	 * <li>test avec un paramètre existant.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testTestGroupId() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* remet à null les attributs. */
+		GestionnaireProjet.reinitialiserAttributs();
+		
+		final String pathTest = null;
+		final String nomProjetTest = PROJET_GENERATION_CODE_TEST;
+		final String nomRepertoireSrcTest = null;
+		final String pathRelMainJavaTest = null;
+		final String pathRelMainResourcesTest = null;
+		final String pathRelTestJavaTest = null;
+		final String pathRelTestResourcesTest = null;
+		final String groupId = "levy/daniel/application";
+		
+		/* Alimentation des attributs du GestionnaireProjet. */
+		GestionnaireProjet
+			.alimenterAttributs(
+					pathTest
+					, nomProjetTest
+					, nomRepertoireSrcTest
+						, pathRelMainJavaTest
+							, pathRelMainResourcesTest
+								, pathRelTestJavaTest
+									, pathRelTestResourcesTest
+										, groupId);
+
+		final String pathRel 
+			= GestionnaireProjet.getPathRelGroupId();
+		final String pathStringMainJava 
+			= GestionnaireProjet.getPathGroupIdMainJavaString();
+		final String pathStringTestJava 
+			= GestionnaireProjet.getPathGroupIdTestJavaString();
+		final Path pathMainJava 
+			= GestionnaireProjet.getPathGroupIdMainJava();
+		final Path pathTestJava 
+			= GestionnaireProjet.getPathGroupIdTestJava();
+		final File fileMainJava 
+			= GestionnaireProjet.getFileGroupIdMainJava();
+		final File fileTestJava 
+			= GestionnaireProjet.getFileGroupIdTestJava();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("testTestResources()");
+			System.out.println(PATH_RELATIF + pathRel);
+			System.out.println(PATH_ABSOLU + pathStringMainJava);
+			System.out.println(PATH_ABSOLU + pathStringTestJava);
+			System.out.println(PATH_ABSOLU + pathMainJava.toString());
+			System.out.println(PATH_ABSOLU + pathTestJava.toString());
+			System.out.println(FILE + fileMainJava.getName());
+			System.out.println(FILE + fileTestJava.getName());
+		}
+		
+		assertNotNull(PATH_RELATIF_NON_NULL, pathRel);
+		assertNotNull(PATH_NON_NULL, pathStringMainJava);
+		assertNotNull(PATH_NON_NULL, pathStringTestJava);
+		assertNotNull(PATH_NON_NULL, pathMainJava);
+		assertNotNull(PATH_NON_NULL, pathTestJava);
+		assertNotNull(REP_NON_NULL, fileMainJava);
+		assertTrue(REP_EXISTE, fileMainJava.exists());
+		assertTrue(REP_EXISTE, fileTestJava.exists());
+		assertTrue(REP_DIRECTORY, fileMainJava.isDirectory());
+		assertTrue(REP_DIRECTORY, fileTestJava.isDirectory());
+		
+	} // Fin de testTestGroupId()._________________________________________
+	
+		
 	
 } // FIN DE LA CLASSE GestionnaireProjetTest.--------------------------------

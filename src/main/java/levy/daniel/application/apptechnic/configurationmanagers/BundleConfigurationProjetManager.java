@@ -346,12 +346,12 @@ public final class BundleConfigurationProjetManager {
 	
 	
 	/**
-	 * pathGroupidString : String :<br/>
+	 * pathRelGroupId : String :<br/>
 	 * path relatif du groupid Maven du projet par rapport 
 	 * au path absolu des sources java.<br/>
 	 * Exemple : "levy/daniel/application"<br/>
 	 */
-	private static String pathGroupidString;
+	private static String pathRelGroupId;
 
 	
 	/**
@@ -1440,37 +1440,37 @@ public final class BundleConfigurationProjetManager {
 	
 	
 	/**
-	 * method getPathGroupidString() :<br/>
+	 * method getPathRelGroupId() :<br/>
 	 * <ul>
 	 * <li> Getter du path relatif du groupid Maven du projet par rapport 
 	 * au path absolu des sources java.</li>
 	 * <li>Exemple : "levy/daniel/application"</li>
 	 * </ul>
 	 *
-	 * @return pathGroupidString : String.<br/>
+	 * @return pathRelGroupId : String.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	public static String getPathGroupidString() throws Exception {
+	public static String getPathRelGroupId() throws Exception {
 		
 		/* Bloc synchronized. */
 		synchronized (BundleConfigurationProjetManager.class) {
 			
-			if (pathGroupidString == null) {
+			if (pathRelGroupId == null) {
 				
 				if (groupid == null) {
 					getGroupid();
 				}
 				
-				pathGroupidString = remplacerPointparSlash(groupid);
+				pathRelGroupId = remplacerPointparSlash(groupid);
 								
 			}
 			
-			return pathGroupidString;
+			return pathRelGroupId;
 			
 		} // Fin de synchronized.___________________________________
 			
-	} // Fin de getPathGroupidString().____________________________________
+	} // Fin de getPathRelGroupId()._______________________________________
 
 
 	
@@ -1496,7 +1496,7 @@ public final class BundleConfigurationProjetManager {
 				
 				pathAppTechnic 
 				= getRacineMainJava() 
-				+ SLASH + getPathGroupidString()
+				+ SLASH + getPathRelGroupId()
 				+ SLASH 
 				+ "apptechnic";
 				
@@ -1533,7 +1533,7 @@ public final class BundleConfigurationProjetManager {
 				
 				pathControllers 
 				= getRacineMainJava() 
-				+ SLASH + getPathGroupidString()
+				+ SLASH + getPathRelGroupId()
 				+ SLASH 
 				+ "controllers";
 				
@@ -1570,7 +1570,7 @@ public final class BundleConfigurationProjetManager {
 				
 				pathModel 
 				= getRacineMainJava() 
-				+ SLASH + getPathGroupidString()
+				+ SLASH + getPathRelGroupId()
 				+ SLASH 
 				+ "model";
 				
@@ -1607,7 +1607,7 @@ public final class BundleConfigurationProjetManager {
 				
 				pathVues 
 				= getRacineMainJava() 
-				+ SLASH + getPathGroupidString()
+				+ SLASH + getPathRelGroupId()
 				+ SLASH 
 				+ "vues";
 				

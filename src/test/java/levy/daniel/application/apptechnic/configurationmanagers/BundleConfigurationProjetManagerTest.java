@@ -1849,7 +1849,7 @@ public class BundleConfigurationProjetManagerTest {
 						+ groupid1);
 				System.out.println("PATH GROUPID : " 
 						+ BundleConfigurationProjetManager
-							.getPathGroupidString());
+							.getPathRelGroupId());
 			}
 			
 			/* garantit que l'objet n'est pas null. */
@@ -2094,7 +2094,7 @@ public class BundleConfigurationProjetManagerTest {
 						
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 	
 		final String racineTestResources 
@@ -2132,7 +2132,7 @@ public class BundleConfigurationProjetManagerTest {
 						
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 	
 		final String racineTestResources 

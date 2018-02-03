@@ -535,6 +535,7 @@ public final class GestionnaireProjet {
 	 * groupId : String :<br/>
 	 * <ul>
 	 * <li><b>groupId Maven</b> du projet.<br/>
+	 * <li>Singleton.</li>
 	 * <li>Par Exemple : <br/>
 	 * <code>levy.daniel.application</code></li>
 	 * </ul>
@@ -543,21 +544,140 @@ public final class GestionnaireProjet {
 	
 	
 	/**
-	 * pathRelGroupIdString : String :<br/>
+	 * pathRelGroupId : String :<br/>
 	 * <ul>
-	 * <li>path relatif du groupId Maven du projet par rapport 
-	 * au path absolu des sources java.</li>
+	 * <li><b>path relatif du groupId Maven</b> du projet par rapport 
+	 * au path absolu des sources java 
+	 * (pathMainJava pour les sources du main 
+	 * et pathTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
 	 * <li>Par Exemple : <br/>
 	 * <code>levy/daniel/application</code></li>
 	 * </li>
 	 */
-	private static String pathRelGroupIdString;
+	private static String pathRelGroupId;
 
 
-	private static String pathGroupidMainJavaString;
+	/**
+	 * pathGroupIdMainJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path du PACKAGE PERE des sources main Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathGroupidMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 */
+	private static String pathGroupIdMainJavaString;
 	
 	
-	private static String pathGroupidTestJavaString;
+	/**
+	 * pathGroupIdMainJava : Path :<br/>
+	 * <ul>
+	 * <li><b>path du PACKAGE PERE des sources main Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathGroupidMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 */
+	private static Path pathGroupIdMainJava;
+	
+	
+	/**
+	 * fileGroupIdMainJava : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le PACKAGE PERE des sources main Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathGroupidMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 */
+	private static File fileGroupIdMainJava;
+	
+	
+	/**
+	 * pathGroupIdTestJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path du PACKAGE PERE des sources des tests Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathGroupIdTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 */
+	private static String pathGroupIdTestJavaString;
+
+	
+	/**
+	 * pathGroupIdTestJava : Path :<br/>
+	 * <ul>
+	 * <li><b>path du PACKAGE PERE des sources des tests Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathGroupIdTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 */
+	private static Path pathGroupIdTestJava;
+
+	
+	/**
+	 * fileGroupIdTestJava : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le PACKAGE PERE des sources 
+	 * des tests Java</b> (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathGroupIdTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 */
+	private static File fileGroupIdTestJava;
+
 	
 	/**
 	 * LOG : Log : 
@@ -579,38 +699,90 @@ public final class GestionnaireProjet {
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 
-	
-	
-	public static void alimenterAttributs() throws Exception {
-		alimenterAttributs(null, null, null, null, null, null, null, null);
-	}
+		
+	/**
+	 * method alimenterAttributs() :
+	 * <ul>
+	 * <li>Alimente tous les attributs avec les valeurs par défaut.</li>
+	 * <li>Utilise le présent Workspace.</li>
+	 * <li>Génère le code dans le présent projet.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	public static void alimenterAttributs() 
+			throws Exception {
+		alimenterAttributs(null
+				, null
+				, null
+				, null, null, null, null, null);
+	} // Fin de alimenterAttributs().______________________________________
 	
 
 	
-	public static void alimenterAttributs(final String pNomProjet) throws Exception {
-		alimenterAttributs(null, pNomProjet, null, null, null, null, null, null);
-	}
-	
-	
-	
-	
-	
-	
-	
 	/**
-	 * method alimenterAttributs() :<br/>
-	 * .<br/>
-	 * <br/>
+	 * method alimenterAttributs(
+	 * String pNomProjet) :
+	 * <ul>
+	 * <li>Alimente tous les atttributs avec les valeurs par défaut.</li>
+	 * <li>Utilise le présent Workspace.</li>
+	 * <li>Ne prend en paramètre que le nom du projet.</li>
+	 * <li>Génère le code dans projet passé en paramètre.</li>
+	 * </ul>
 	 *
-	 * @param pPathWorkspaceString
-	 * @param pNomProjet
-	 * @param pNomRepertoireSrc
-	 * @param pPathRelMainJava
-	 * @param pPathRelMainResources
-	 * @param pPathRelTestJava
-	 * @param pPathRelTestResources
-	 * @param pGroupId
-	 * @throws Exception : void :  .<br/>
+	 * @param pNomProjet : String : nom du projet. 
+	 * Le projet courant si ce paramètre est null.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	public static void alimenterAttributs(
+			final String pNomProjet) throws Exception {
+		alimenterAttributs(
+				null
+				, pNomProjet
+				, null, null, null, null, null, null);
+	} // Fin de alimenterAttributs(...).___________________________________
+	
+	
+		
+	/**
+	 * method alimenterAttributs(
+	 * String pPathWorkspaceString
+	 * , String pNomProjet
+	 * , String pNomRepertoireSrc
+	 * , String pPathRelMainJava
+	 * , String pPathRelMainResources
+	 * , String pPathRelTestJava
+	 * , String pPathRelTestResources
+	 * , String pGroupId) :<br/>
+	 * <ul>
+	 * <li>alimente tous les attributs avec les paramètres.</li>
+	 * <li>passe une valeur par défaut pour chaque paramètre 
+	 * si ce paramètre est null.</li>
+	 * </ul>
+	 *
+	 * @param pPathWorkspaceString : String : 
+	 * chemin du Workspace dans lequel générer le code. 
+	 * Prend une valeur par défaut si ce paramètre est null.<br/>
+	 * @param pNomProjet : String : nom du projet. 
+	 * Le projet courant si ce paramètre est null.<br/>
+	 * @param pNomRepertoireSrc : String : nom du répertoire des src. 
+	 * Prend une valeur par défaut si le paramètre est null.<br/>
+	 * @param pPathRelMainJava : String : chemin relatif des main/java. 
+	 * Prend une valeur par défaut si le paramètre est null.<br/>
+	 * @param pPathRelMainResources : String : 
+	 * chemin relatif des main/resources. 
+	 * Prend une valeur par défaut si le paramètre est null.<br/>
+	 * @param pPathRelTestJava : String : chemin relatif des test/java. 
+	 * Prend une valeur par défaut si le paramètre est null.<br/>
+	 * @param pPathRelTestResources : String : chemin relatif 
+	 * des test/resources. 
+	 * Prend une valeur par défaut si le paramètre est null.<br/>
+	 * @param pGroupId : String : chemin relatif du GroupId 
+	 * (levy/daniel/application). 
+	 * Prend une valeur par défaut si le paramètre est null.<br/>
+	 * 
+	 * @throws Exception
 	 */
 	public static void alimenterAttributs(
 			final String pPathWorkspaceString
@@ -632,6 +804,7 @@ public final class GestionnaireProjet {
 			alimenterPathRelMainResources(pPathRelMainResources);
 			alimenterPathRelTestJava(pPathRelTestJava);
 			alimenterPathRelTestResources(pPathRelTestResources);
+			alimenterPathRelGroupId(pGroupId);
 			
 		} // Fin de synchronized._______________________
 		
@@ -1659,7 +1832,204 @@ public final class GestionnaireProjet {
 	} // Fin de alimenterTestResourcesParDefaut().______________________________
 	
 	
+		
+	/**
+	 * method alimenterPathRelGroupId() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathRelGroupId</b>.</li>
+	 * <li><b>alimente groupId</b>.</li>
+	 * <li><b>alimente pathGroupIdMainJavaString</b>.</li>
+	 * <li><b>alimente pathGroupIdMainJava</b>.</li>
+	 * <li><b>alimente fileGroupIdMainJava</b>.</li>
+	 * <li><b>alimente pathGroupIdTestJavaString</b>.</li>
+	 * <li><b>alimente pathGroupIdTestJava</b>.</li>
+	 * <li><b>alimente fileGroupIdTestJava</b>.</li>
+	 * <ol>
+	 * <li>alimente pathRelGroupId avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire existant.</li>
+	 * <li><b>crée d'abord le répertoire</b>, 
+	 * puis alimente pathRelGroupId avec pString si pString 
+	 * n'est pas blank et pointe sur un répertoire inexistant.</li>
+	 * <li>alimente pathRelGroupId avec une valeur par défaut 
+	 * si pString est blank.</li>
+	 * </ol>
+	 * <li>la valeur par défaut est :</li>
+	 * <ol>
+	 * <li>le nom du chemin relatif dans 
+	 * <b>configuration_projet.properties</b> si il existe.</li>
+	 * <li><b>levy/daniel/application</b> sinon.</li>
+	 * </ol>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * chemin relatif (archétype MAVEN) dans 
+	 * lequel générer le code.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterPathRelGroupId(
+			final String pString) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathRelGroupId == null) {
+				
+				if (parametreExistant(pString)) {
+					
+					final Path pathMainJavaGId
+						= fabriquerPath(pathMainJava, pString);
+					final Path pathTestJavaGId
+						= fabriquerPath(pathTestJava, pString);
+					
+					final String pathMainJavaGIdString 
+						= pathMainJavaGId.toString();
+					final String pathTestJavaGIdString 
+						= pathTestJavaGId.toString();
+					
+					if (existeDossier(pathMainJavaGIdString) 
+							&& existeDossier(pathTestJavaGIdString)) {
+						alimenterAttributsGroupId(pString);						
+					} else {
+						
+						/* création des répertoires. */
+						creerRepertoire(pathMainJavaGId);
+						creerRepertoire(pathTestJavaGId);
+						
+						alimenterAttributsGroupId(pString);
+					}
+										
+				} else {
+					alimenterGroupIdParDefaut();
+				}
+								
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterPathRelGroupId(...).________________________
+	
 
+	
+	/**
+	 * method alimenterAttributsGroupId(
+	 * String pString) :
+	 * <ul>
+	 * <li>passe pString à pathRelTestResources.</li>
+	 * <li>passe fabriquerPath(pathMainJava, pString) 
+	 * à pathGroupIdMainJava.</li>
+	 * <li>passe fabriquerPath(pathTestJava, pString) 
+	 * à pathGroupIdTestJava</li>
+	 * <li>passe pathGroupIdMainJava.toString() à 
+	 * pathGroupIdMainJavaString.</li>
+	 * <li>passe pathGroupIdTestJava.toString() 
+	 * à pathGroupIdTestJavaString.</li>
+	 * <li>passe pathGroupIdMainJava.toFile() 
+	 * à fileGroupIdMainJava.</li>
+	 * <li>passe pathGroupIdTestJava.toFile() 
+	 * à fileGroupIdTestJava.</li>
+	 * </ul>
+	 * ne fait rien si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 */
+	private static void alimenterAttributsGroupId(
+			final String pString) {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		pathRelGroupId = pString;
+		pathGroupIdMainJava = fabriquerPath(pathMainJava, pString);
+		pathGroupIdTestJava = fabriquerPath(pathTestJava, pString);
+		pathGroupIdMainJavaString = pathGroupIdMainJava.toString();
+		pathGroupIdTestJavaString = pathGroupIdTestJava.toString();
+		fileGroupIdMainJava = pathGroupIdMainJava.toFile();
+		fileGroupIdTestJava = pathGroupIdTestJava.toFile();
+		
+	} // Fin de alimenterAttributsGroupId(...).____________________________
+	
+
+	
+	/**
+	 * method alimenterGroupIdParDefaut() :
+	 * <ul>
+	 * <li>Calcule la valeur par défaut de pathRelGroupId :
+	 * <ol>
+	 * <li>dans config_projet.properties si elle existe</li>
+	 * <li>levy/daniel/application sinon.</li>
+	 * </ol>  
+	 * </li>
+	 * <li>passe la valeur par défaut à pathRelGroupId.</li>
+	 * <li>passe fabriquerPath(pathMainJava, pathRelGroupId) 
+	 * à pathGroupIdMainJava.</li>
+	 * <li>passe fabriquerPath(pathTestJava, pathRelGroupId) 
+	 * à pathGroupIdTestJava.</li>
+	 * <li>passe pathGroupIdMainJava.toString() à 
+	 * pathGroupIdMainJavaString.</li>
+	 * <li>passe pathGroupIdTestJava.toString() à 
+	 * pathGroupIdTestJavaString.</li>
+	 * <li>passe pathGroupIdMainJava.toFile() à 
+	 * fileGroupIdMainJava.</li>
+	 * <li>passe pathGroupIdTestJava.toFile() à 
+	 * fileGroupIdTestJava.</li>
+	 * <li>crée le répertoire fileGroupIdMainJava 
+	 * par défaut si il n'existe pas.</li>
+	 * <li>crée le répertoire fileGroupIdTestJava 
+	 * par défaut si il n'existe pas.</li>
+	 * </ul>
+	 *
+	 * @throws IOException
+	 */
+	private static void alimenterGroupIdParDefaut() 
+			throws IOException {
+		
+		String valeurDefautConfig;
+		String valeurDefaut = null;
+		
+		try {
+			
+			/* récupération de la valeur par défaut dans 
+			 * configuration_projet.properties via 
+			 * BundleConfigurationProjetManager. */
+			valeurDefautConfig 
+				= BundleConfigurationProjetManager
+					.getPathRelGroupId();
+			
+			if (StringUtils.isBlank(valeurDefautConfig)) {
+				valeurDefaut = "levy/daniel/application";
+			} else {
+				valeurDefaut = valeurDefautConfig;
+			}
+			
+		} catch (Exception e) {
+			valeurDefaut = "levy/daniel/application";
+		}
+				
+		pathRelGroupId = valeurDefaut;
+		pathGroupIdMainJava = fabriquerPath(pathMainJava, pathRelGroupId);
+		pathGroupIdTestJava = fabriquerPath(pathTestJava, pathRelGroupId);
+		pathGroupIdMainJavaString = pathGroupIdMainJava.toString();
+		pathGroupIdTestJavaString = pathGroupIdTestJava.toString();
+		fileGroupIdMainJava = pathGroupIdMainJava.toFile();
+		fileGroupIdTestJava = pathGroupIdTestJava.toFile();
+		
+		/* crée le répertoire par défaut si il n'existe pas. */
+		if (!fileGroupIdMainJava.exists()) {
+			Files.createDirectories(pathGroupIdMainJava);
+		}
+		
+		/* crée le répertoire par défaut si il n'existe pas. */
+		if (!fileGroupIdTestJava.exists()) {
+			Files.createDirectories(pathGroupIdTestJava);
+		}
+		
+	} // Fin de alimenterGroupIdParDefaut()._______________________________
+	
+	
+	
 	/**
 	 * method creerRepertoire(
 	 * Path pPath) :<br/>
@@ -2438,6 +2808,196 @@ public final class GestionnaireProjet {
 	} // Fin de getFileTestResources().____________________________________
 
 
+	
+	/**
+	 * method getGroupId() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>groupId Maven</b> du projet.<br/>
+	 * <li>Singleton.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>levy.daniel.application</code></li>
+	 * </ul>
+	 *
+	 * @return groupId : String.<br/>
+	 */
+	public static String getGroupId() {	
+		return groupId;
+	} // Fin de getGroupId().______________________________________________
+
+
+	
+	/**
+	 * method getPathRelGroupId() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path relatif du groupId Maven</b> 
+	 * du projet par rapport 
+	 * au path absolu des sources java 
+	 * (pathMainJava pour les sources du main 
+	 * et pathTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>levy/daniel/application</code></li>
+	 * </li>
+	 *
+	 * @return pathRelGroupId : String.<br/>
+	 */
+	public static String getPathRelGroupId() {	
+		return pathRelGroupId;
+	} // Fin de getPathRelGroupId()._______________________________________
+
+
+	
+	/**
+	 * method getPathGroupIdMainJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du PACKAGE PERE des sources main Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathGroupidMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathGroupIdMainJavaString : String.<br/>
+	 */
+	public static String getPathGroupIdMainJavaString() {	
+		return pathGroupIdMainJavaString;
+	} // Fin de getPathGroupIdMainJavaString().____________________________
+
+
+	
+	/**
+	 * method getPathGroupIdMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du PACKAGE PERE des sources main Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathGroupidMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathGroupIdMainJava : Path.<br/>
+	 */
+	public static Path getPathGroupIdMainJava() {	
+		return pathGroupIdMainJava;
+	} // Fin de getPathGroupIdMainJava().__________________________________
+
+
+	
+	/**
+	 * method getFileGroupIdMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le PACKAGE PERE 
+	 * des sources main Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathGroupidMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return fileGroupIdMainJava : File.<br/>
+	 */
+	public static File getFileGroupIdMainJava() {	
+		return fileGroupIdMainJava;
+	} // Fin de getFileGroupIdMainJava().__________________________________
+
+
+	
+	/**
+	 * method getPathGroupIdTestJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du PACKAGE PERE des sources des tests Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathGroupIdTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathGroupIdTestJavaString : String.<br/>
+	 */
+	public static String getPathGroupIdTestJavaString() {	
+		return pathGroupIdTestJavaString;
+	} // Fin de getPathGroupIdTestJavaString().____________________________
+
+
+	
+	/**
+	 * method getPathGroupIdTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du PACKAGE PERE des sources des tests Java</b>
+	 * (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathGroupIdTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return pathGroupIdTestJava : Path.<br/>
+	 */
+	public static Path getPathGroupIdTestJava() {	
+		return pathGroupIdTestJava;
+	} // Fin de getPathGroupIdTestJava().__________________________________
+
+
+	
+	/**
+	 * method getFileGroupIdTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le PACKAGE PERE des sources 
+	 * des tests Java</b> (comprenant le GroupId) 
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathGroupIdTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return fileGroupIdTestJava : File.<br/>
+	 */
+	public static File getFileGroupIdTestJava() {	
+		return fileGroupIdTestJava;
+	} // Fin de getFileGroupIdTestJava().__________________________________
+
+
 
 	/**
 	 * method reinitialiserAttributs() :<br/>
@@ -2481,6 +3041,15 @@ public final class GestionnaireProjet {
 		pathTestResourcesString = null;
 		pathTestResources = null;
 		fileTestResources = null;
+		
+		groupId = null;
+		pathRelGroupId = null;
+		pathGroupIdMainJavaString = null;
+		pathGroupIdMainJava = null;
+		fileGroupIdMainJava = null;
+		pathGroupIdTestJavaString = null;
+		pathGroupIdTestJava = null;
+		fileGroupIdTestJava = null;
 
 	} // Fin de reinitialiserAttributs().__________________________________
 
