@@ -1,10 +1,23 @@
 package levy.daniel.application.apptechnic.generationcode;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -85,6 +98,218 @@ public final class GestionnaireProjet {
 	public static final String GESTIONNAIRE_PROJET 
 		= "Classe GestionnaireProjet";
 
+	
+	/**
+	 * METHODE_LIRE_STRINGS_DANS_FILE : String :<br/>
+	 * "méthode lireStringsDansFile(File pFile, Charset pCharset)".<br/>
+	 */
+	public static final String METHODE_LIRE_STRINGS_DANS_FILE 
+		= "méthode lireStringsDansFile(File pFile, Charset pCharset)";
+
+
+	/**
+	 * METHODE_ECRIRESTRINGDANSFILE : String :<br/>
+	 * "méthode ecrireStringDansFile(
+	 * File pFile, String pString, Charset pCharset)".<br/>
+	 */
+	public static final String METHODE_ECRIRESTRINGDANSFILE 
+		= "méthode ecrireStringDansFile(File pFile, ....)";
+
+
+	//*****************************************************************/
+	//**************************** BOM_UTF-8 **************************/
+	//*****************************************************************/
+	/**
+	 * BOM_UTF : char :<br/>
+	 * BOM UTF-8 pour forcer Excel 2010 à lire en UTF-8.<br/>
+	 */
+	public static final char BOM_UTF_8 = '\uFEFF';
+
+	
+	
+	//*****************************************************************/
+	//*********************** SAUTS DE LIGNE **************************/
+	//*****************************************************************/	
+	/**
+	 * SAUTDELIGNE_UNIX : String :<br/>
+	 * Saut de ligne généré par les éditeurs Unix.<br/>
+	 * "\n" (Retour Ligne = LINE FEED (LF)).
+	 */
+	public static final String SAUTDELIGNE_UNIX = "\n";
+	
+	/**
+	 * SAUTDELIGNE_MAC : String :<br/>
+	 * Saut de ligne généré par les éditeurs Mac.<br/>
+	 * "\r" (Retour Chariot RC = CARRIAGE RETURN (CR))
+	 */
+	public static final String SAUTDELIGNE_MAC = "\r";
+	
+	/**
+	 * SAUTDELIGNE_DOS_WINDOWS : String :<br/>
+	 * Saut de ligne généré par les éditeurs DOS/Windows.<br/>
+	 * "\r\n" (Retour Chariot RC + Retour Ligne LF).
+	 */
+	public static final String SAUTDELIGNE_DOS_WINDOWS = "\r\n";
+	
+	/**
+	 * NEWLINE : String :<br/>
+	 * Saut de ligne spécifique de la plateforme.<br/>
+	 * System.getProperty("line.separator").<br/>
+	 */
+	public static final String NEWLINE 
+		= System.getProperty("line.separator");
+
+
+	
+	
+	//*****************************************************************/
+	//************************** SEPARATEURS **************************/
+	//*****************************************************************/		
+	/**
+	 * SEP_ESPACE : String :<br/>
+	 * " ".<br/>
+	 */
+	public static final String SEP_ESPACE = " ";
+	
+	/**
+	 * SEP_PV : String :<br/>
+	 * Séparateur pour les CSV ";".<br/>
+	 */
+	public static final String SEP_PV = ";";
+	
+	/**
+	 * SEP_2PTS_AERE : String :<br/>
+	 * " : ".<br/>
+	 */
+	public static final String SEP_2PTS_AERE = " : ";
+	
+	/**
+	 * SEPARATEUR_MOINS_AERE : String :<br/>
+	 * " - ".<br/>
+	 */
+	public static final String SEPARATEUR_MOINS_AERE = " - ";
+	
+	/**
+	 * EGAL : String :<br/>
+	 * " = ".<br/>
+	 */
+	public static final String EGAL = " = ";
+	
+	/**
+	 * UNDERSCORE : String :<br/>
+	 * "_".<br/>
+	 */
+	public static final String UNDERSCORE = "_";
+	
+	/**
+	 * SLASH : char :<br/>
+	 * '/'.<br/>
+	 */
+	public static final char SLASH = '/';
+	
+	/**
+	 * ANTISLASH : char :<br/>
+	 * '\'.<br/>
+	 * ATTENTION : antislash est un caractère spécial 
+	 * qui doit être échappé en Java ('\\')<br/>
+	 */
+	public static final char ANTISLASH = '\\';
+	
+	/**
+	 * POINT : char :<br/>
+	 * '.'.<br/>
+	 */
+	public static final char POINT = '.';
+	
+	/**
+	 * POINT_VIRGULE : char :<br/>
+	 * ';'.<br/>
+	 */
+	public static final char POINT_VIRGULE = ';';
+
+	
+	//*****************************************************************/
+	//************************** CHARSETS *****************************/
+	//*****************************************************************/	
+	/**
+	 * CHARSET_UTF8 : Charset :<br/>
+	 * Charset.forName("UTF-8").<br/>
+	 * Eight-bit Unicode (or UCS) Transformation Format.<br/> 
+	 */
+	public static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
+
+	
+	// ****************************************************/
+	// MESSAGES.
+	// ****************************************************/
+	/**
+	 * MESSAGE_FICHIER_NULL : String :<br/>
+	 * Message retourné par la METHODE_ECRIRESTRINGDANSFILE 
+	 * si le fichier est null.<br/>
+	 * "Le fichier passé en paramètre est null".<br/>
+	 */
+	public static final String MESSAGE_FICHIER_NULL 
+		= "Le fichier passé en paramètre est null";
+	
+	
+	/**
+	 * MESSAGE_FICHIER_INEXISTANT : String :<br/>
+	 * Message retourné par la METHODE_ECRIRESTRINGDANSFILE 
+	 * si le fichier est inexistant.<br/>
+	 * "Le fichier passé en paramètre est inexistant : "
+	 */
+	public static final String MESSAGE_FICHIER_INEXISTANT 
+		= "Le fichier passé en paramètre est inexistant : ";
+	
+	
+	/**
+	 * MESSAGE_FICHIER_REPERTOIRE : String :<br/>
+	 * Message retourné par la METHODE_ECRIRESTRINGDANSFILE 
+	 * si le fichier est un répertoire.<br/>
+	 * "Le fichier passé en paramètre est un répertoire : ".<br/>
+	 */
+	public static final String MESSAGE_FICHIER_REPERTOIRE 
+		= "Le fichier passé en paramètre est un répertoire : ";
+	
+	
+	/**
+	 * MESSAGE_STRING_BLANK : String :<br/>
+	 * Message retourné par la METHODE_ECRIRESTRINGDANSFILE 
+	 * si la String passée en paramètre est blank.<br/>
+	 * "La chaine de caractères passée en paramètre est blank (null ou vide) : "
+	 */
+	public static final String MESSAGE_STRING_BLANK 
+		= "La chaine de caractères passée en paramètre est blank (null ou vide) : ";
+	
+	
+	/**
+	 * MESSAGE_EXCEPTION : String :<br/>
+	 * "Exception GRAVE : ".<br/>
+	 */
+	public static final String MESSAGE_EXCEPTION = "Exception GRAVE : ";
+	
+
+	// ****************************************************/
+	// VARIABLES DE TEMPLATES.
+	// ****************************************************/
+	
+	/**
+	 * VARIABLE_NEW_DATE : String :<br/>
+	 * "{$date}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_NEW_DATE 
+		= "{$date}";
+
+	
+	/**
+	 * VARIABLE_PACKAGE : String :<br/>
+	 * "{$chemin.package}".<br/>
+	 */
+	public static final String VARIABLE_PACKAGE 
+		= "{$chemin.package}";
+	
+	
 	
 	/**
 	 * pathWorkspaceString : String :<br/>
@@ -678,6 +903,593 @@ public final class GestionnaireProjet {
 	 */
 	private static File fileGroupIdTestJava;
 
+		
+	/**
+	 * PATH_REL_APPTECHNIC : String :<br/>
+	 * <ul>
+	 * <li><b>path relatif du répertoire apptechnic</b> 
+	 * du projet par rapport 
+	 * au path absolu du groupId
+	 * (pathGroupIdMainJava pour les sources du main 
+	 * et pathGroupIdTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>appTechnic</code></li>
+	 * </li>
+	 * </ul>
+	 */
+	private static final String PATH_REL_APPTECHNIC 
+		= "apptechnic";
+	
+	
+	/**
+	 * pathAppTechnicMainJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path absolu du repertoire apptechnic</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathAppTechnicMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static String pathAppTechnicMainJavaString;
+	
+	
+	/**
+	 * pathAppTechnicMainJava : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu du repertoire apptechnic</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathAppTechnicMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static Path pathAppTechnicMainJava;
+	
+
+	/**
+	 * fileAppTechnicMainJava : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le repertoire apptechnic</b> 
+	 * dans les sources Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathAppTechnicMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static File fileAppTechnicMainJava;
+	
+
+	/**
+	 * pathAppTechnicTestJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path absolu du repertoire apptechnic</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathAppTechnicTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static String pathAppTechnicTestJavaString;
+
+	
+	/**
+	 * pathAppTechnicTestJava : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu du repertoire apptechnic</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathAppTechnicTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static Path pathAppTechnicTestJava;
+
+	
+	/**
+	 * fileAppTechnicTestJava : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le repertoire apptechnic</b> 
+	 * dans les tests Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathAppTechnicTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static File fileAppTechnicTestJava;
+
+			
+	/**
+	 * PATH_REL_CONTROLLERS : String :<br/>
+	 * <ul>
+	 * <li><b>path relatif du répertoire controllers</b> 
+	 * du projet par rapport 
+	 * au path absolu du groupId
+	 * (pathGroupIdMainJava pour les sources du main 
+	 * et pathGroupIdTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>controllers</code></li>
+	 * </li>
+	 * </ul>
+	 */
+	private static final String PATH_REL_CONTROLLERS 
+		= "controllers";
+	
+	
+	/**
+	 * pathControllersMainJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path absolu du repertoire controllers</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathControllersMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static String pathControllersMainJavaString;
+	
+	
+	/**
+	 * pathControllersMainJava : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu du repertoire controllers</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathControllersMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static Path pathControllersMainJava;
+	
+	
+	/**
+	 * fileControllersMainJava : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le repertoire controllers</b> 
+	 * dans les sources Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathControllersMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static File fileControllersMainJava;
+	
+	
+	/**
+	 * pathControllersTestJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path absolu du repertoire controllers</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathControllersTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static String pathControllersTestJavaString;
+	
+	
+	/**
+	 * pathControllersTestJava : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu du repertoire controllers</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathControllersTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static Path pathControllersTestJava;
+	
+	
+	/**
+	 * fileControllersTestJava : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant le repertoire controllers</b> 
+	 * dans les tests Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathControllersTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static File fileControllersTestJava;
+	
+	
+		
+	/**
+	* PATH_REL_MODEL : String :<br/>
+	* <ul>
+	* <li><b>path relatif du répertoire model</b> 
+	* du projet par rapport 
+	* au path absolu du groupId
+	* (pathGroupIdMainJava pour les sources du main 
+	* et pathGroupIdTestJava pour les sources des tests).</li>
+	* <li>Singleton.</li>
+	* <li>sous forme de String.</li>
+	* <li>Par Exemple : <br/>
+	* <code>model</code></li>
+	* </li>
+	* </ul>
+	*/
+	private static final String PATH_REL_MODEL 
+		= "model";
+	
+	
+	/**
+	* pathModelMainJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire model</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathModelMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathModelMainJavaString;
+	
+	
+	/**
+	* pathModelMainJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire model</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathModelMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathModelMainJava;
+	
+	
+	/**
+	* fileModelMainJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire model</b> 
+	* dans les sources Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathModelMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileModelMainJava;
+	
+	
+	/**
+	* pathModelTestJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire model</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathModelTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathModelTestJavaString;
+	
+	
+	/**
+	* pathModelTestJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire model</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathModelTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathModelTestJava;
+	
+	
+	/**
+	* fileModelTestJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire model</b> 
+	* dans les tests Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathModelTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileModelTestJava;
+	
+		
+	/**
+	* PATH_REL_VUES : String :<br/>
+	* <ul>
+	* <li><b>path relatif du répertoire vues</b> 
+	* du projet par rapport 
+	* au path absolu du groupId
+	* (pathGroupIdMainJava pour les sources du main 
+	* et pathGroupIdTestJava pour les sources des tests).</li>
+	* <li>Singleton.</li>
+	* <li>sous forme de String.</li>
+	* <li>Par Exemple : <br/>
+	* <code>vues</code></li>
+	* </li>
+	* </ul>
+	*/
+	private static final String PATH_REL_VUES 
+		= "vues";
+	
+	
+	/**
+	* pathVuesMainJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire vues</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathVuesMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* vues</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathVuesMainJavaString;
+	
+	
+	/**
+	* pathVuesMainJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire vues</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathVuesMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* vues</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathVuesMainJava;
+	
+	
+	/**
+	* fileVuesMainJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire vues</b> 
+	* dans les sources Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathVuesMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* vues</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileVuesMainJava;
+	
+	
+	/**
+	* pathVuesTestJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire vues</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathVuesTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* vues</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathVuesTestJavaString;
+	
+	
+	/**
+	* pathVuesTestJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire vues</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathVuesTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* vues</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathVuesTestJava;
+	
+	
+	/**
+	* fileVuesTestJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire vues</b> 
+	* dans les tests Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathVuesTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* vues</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileVuesTestJava;
+	
+	
+	/**
+	 * pathDao : String :<br/>
+	 * path absolu du repertoire model/dao.<br/>
+	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/dao<br/>
+	 */
+	private static String pathDao;
+	
+	
+	/**
+	 * pathMetier : String :<br/>
+	 * path absolu du repertoire model/metier.<br/>
+	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/metier<br/>
+	 */
+	private static String pathMetier;
+	
+	
+	/**
+	 * pathServices : String :<br/>
+	 * path absolu du repertoire model/services.<br/>
+	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/services<br/>
+	 */
+	private static String pathServices;
+
 	
 	/**
 	 * LOG : Log : 
@@ -805,6 +1617,11 @@ public final class GestionnaireProjet {
 			alimenterPathRelTestJava(pPathRelTestJava);
 			alimenterPathRelTestResources(pPathRelTestResources);
 			alimenterPathRelGroupId(pGroupId);
+			
+			alimenterAppTechnic();
+			alimenterControllers();
+			alimenterModel();
+			alimenterVues();
 			
 		} // Fin de synchronized._______________________
 		
@@ -1246,7 +2063,8 @@ public final class GestionnaireProjet {
 				
 				if (parametreExistant(pString)) {
 					
-					final Path path = fabriquerPath(pathRepertoireSrc, pString);
+					final Path path 
+						= fabriquerPath(pathRepertoireSrc, pString);
 					final String pathString = path.toString();
 					
 					if (existeDossier(pathString)) {
@@ -1286,9 +2104,11 @@ public final class GestionnaireProjet {
 	 * <br/>
 	 *
 	 * @param pString : String.<br/>
+	 * 
+	 * @throws Exception 
 	 */
 	private static void alimenterAttributsMainJava(
-			final String pString) {
+			final String pString) throws Exception {
 		
 		/* ne fait rien si pString est blank. */
 		if (StringUtils.isBlank(pString)) {
@@ -1299,7 +2119,7 @@ public final class GestionnaireProjet {
 		pathMainJava = fabriquerPath(pathRepertoireSrc, pString);
 		pathMainJavaString = pathMainJava.toString();
 		fileMainJava = pathMainJava.toFile();
-		
+				
 	} // Fin de alimenterAttributsMainJava(...).___________________________
 	
 
@@ -1322,10 +2142,10 @@ public final class GestionnaireProjet {
 	 * <li>crée le répertoire par défaut si il n'existe pas.</li>
 	 * </ul>
 	 * 
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
 	private static void alimenterMainJavaParDefaut() 
-			throws IOException {
+			throws Exception {
 		
 		String valeurDefautConfig;
 		String valeurDefaut = null;
@@ -1927,14 +2747,17 @@ public final class GestionnaireProjet {
 	 * à fileGroupIdMainJava.</li>
 	 * <li>passe pathGroupIdTestJava.toFile() 
 	 * à fileGroupIdTestJava.</li>
+	 * <li>crée le package-info si il n'existe pas déjà.</li>
 	 * </ul>
 	 * ne fait rien si pString est blank.<br/>
 	 * <br/>
 	 *
 	 * @param pString : String.<br/>
+	 * 
+	 * @throws Exception 
 	 */
 	private static void alimenterAttributsGroupId(
-			final String pString) {
+			final String pString) throws Exception {
 		
 		/* ne fait rien si pString est blank. */
 		if (StringUtils.isBlank(pString)) {
@@ -1949,10 +2772,13 @@ public final class GestionnaireProjet {
 		fileGroupIdMainJava = pathGroupIdMainJava.toFile();
 		fileGroupIdTestJava = pathGroupIdTestJava.toFile();
 		
+		/* crée le package-info si il n'existe pas déjà. */
+		creerPackageInfo(pathGroupIdMainJava);
+		
 	} // Fin de alimenterAttributsGroupId(...).____________________________
 	
 
-	
+
 	/**
 	 * method alimenterGroupIdParDefaut() :
 	 * <ul>
@@ -1979,12 +2805,13 @@ public final class GestionnaireProjet {
 	 * par défaut si il n'existe pas.</li>
 	 * <li>crée le répertoire fileGroupIdTestJava 
 	 * par défaut si il n'existe pas.</li>
+	 * <li>crée le package-info si il n'existe pas déjà.</li>
 	 * </ul>
-	 *
-	 * @throws IOException
+	 * 
+	 * @throws Exception 
 	 */
 	private static void alimenterGroupIdParDefaut() 
-			throws IOException {
+			throws Exception {
 		
 		String valeurDefautConfig;
 		String valeurDefaut = null;
@@ -2026,9 +2853,396 @@ public final class GestionnaireProjet {
 			Files.createDirectories(pathGroupIdTestJava);
 		}
 		
+		/* crée le package-info si il n'existe pas déjà. */
+		creerPackageInfo(pathGroupIdMainJava);
+		
 	} // Fin de alimenterGroupIdParDefaut()._______________________________
 	
+
 	
+	/**
+	 * method alimenterAppTechnic() :<br/>
+	 * <ul>
+	 * <li>Alimente tous les attributs relatifs à apptechnic.</li>
+	 * <li>Crée les répertoires si ils n'existent pas déjà.</li>
+	 * <li>crée le package-info si il n'existe pas déjà.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterAppTechnic() throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathAppTechnicMainJava == null) {
+				
+				pathAppTechnicMainJava 
+					= fabriquerPath(
+							pathGroupIdMainJava, PATH_REL_APPTECHNIC);
+				pathAppTechnicMainJavaString 
+					= pathAppTechnicMainJava.toString();
+				fileAppTechnicMainJava 
+					= pathAppTechnicMainJava.toFile();
+				
+				if (!fileAppTechnicMainJava.exists()) {
+					Files.createDirectories(pathAppTechnicMainJava);
+				}
+				
+				/* crée le package-info si il n'existe pas déjà. */
+				creerPackageInfo(pathAppTechnicMainJava);
+				
+				
+				pathAppTechnicTestJava 
+				= fabriquerPath(
+						pathGroupIdTestJava, PATH_REL_APPTECHNIC);
+				pathAppTechnicTestJavaString 
+					= pathAppTechnicTestJava.toString();
+				fileAppTechnicTestJava 
+					= pathAppTechnicTestJava.toFile();
+				
+				if (!fileAppTechnicTestJava.exists()) {
+					Files.createDirectories(pathAppTechnicTestJava);
+				}
+				
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterAppTechnic()._____________________________________
+	
+
+	
+	/**
+	 * method alimenterControllers() :<br/>
+	 * <ul>
+	 * <li>Alimente tous les attributs relatifs à controllers.</li>
+	 * <li>Crée les répertoires si ils n'existent pas déjà.</li>
+	 * <li>crée le package-info si il n'existe pas déjà.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterControllers() throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathControllersMainJava == null) {
+				
+				pathControllersMainJava 
+					= fabriquerPath(
+							pathGroupIdMainJava, PATH_REL_CONTROLLERS);
+				pathControllersMainJavaString 
+					= pathControllersMainJava.toString();
+				fileControllersMainJava 
+					= pathControllersMainJava.toFile();
+				
+				if (!fileControllersMainJava.exists()) {
+					Files.createDirectories(pathControllersMainJava);
+				}
+				
+				/* crée le package-info si il n'existe pas déjà. */
+				creerPackageInfo(pathControllersMainJava);
+				
+				
+				pathControllersTestJava 
+				= fabriquerPath(
+						pathGroupIdTestJava, PATH_REL_CONTROLLERS);
+				pathControllersTestJavaString 
+					= pathControllersTestJava.toString();
+				fileControllersTestJava 
+					= pathControllersTestJava.toFile();
+				
+				if (!fileControllersTestJava.exists()) {
+					Files.createDirectories(pathControllersTestJava);
+				}
+				
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterControllers().____________________________________
+	
+
+	
+	/**
+	 * method alimenterModel() :<br/>
+	 * <ul>
+	 * <li>Alimente tous les attributs relatifs à model.</li>
+	 * <li>Crée les répertoires si ils n'existent pas déjà.</li>
+	 * <li>crée le package-info si il n'existe pas déjà.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterModel() throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathModelMainJava == null) {
+				
+				pathModelMainJava 
+					= fabriquerPath(
+							pathGroupIdMainJava, PATH_REL_MODEL);
+				pathModelMainJavaString 
+					= pathModelMainJava.toString();
+				fileModelMainJava 
+					= pathModelMainJava.toFile();
+				
+				if (!fileModelMainJava.exists()) {
+					Files.createDirectories(pathModelMainJava);
+				}
+				
+				/* crée le package-info si il n'existe pas déjà. */
+				creerPackageInfo(pathModelMainJava);
+				
+				
+				pathModelTestJava 
+				= fabriquerPath(
+						pathGroupIdTestJava, PATH_REL_MODEL);
+				pathModelTestJavaString 
+					= pathModelTestJava.toString();
+				fileModelTestJava 
+					= pathModelTestJava.toFile();
+				
+				if (!fileModelTestJava.exists()) {
+					Files.createDirectories(pathModelTestJava);
+				}
+				
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterModel().__________________________________________
+	
+
+	
+	/**
+	 * method alimenterVues() :<br/>
+	 * <ul>
+	 * <li>Alimente tous les attributs relatifs à vues.</li>
+	 * <li>Crée les répertoires si ils n'existent pas déjà.</li>
+	 * <li>crée le package-info si il n'existe pas déjà.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterVues() throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathVuesMainJava == null) {
+				
+				pathVuesMainJava 
+					= fabriquerPath(
+							pathGroupIdMainJava, PATH_REL_VUES);
+				pathVuesMainJavaString 
+					= pathVuesMainJava.toString();
+				fileVuesMainJava 
+					= pathVuesMainJava.toFile();
+				
+				if (!fileVuesMainJava.exists()) {
+					Files.createDirectories(pathVuesMainJava);
+				}
+				
+				/* crée le package-info si il n'existe pas déjà. */
+				creerPackageInfo(pathVuesMainJava);
+				
+				
+				pathVuesTestJava 
+				= fabriquerPath(
+						pathGroupIdTestJava, PATH_REL_VUES);
+				pathVuesTestJavaString 
+					= pathVuesTestJava.toString();
+				fileVuesTestJava 
+					= pathVuesTestJava.toFile();
+				
+				if (!fileVuesTestJava.exists()) {
+					Files.createDirectories(pathVuesTestJava);
+				}
+				
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterVues().__________________________________________
+	
+
+	
+	/**
+	 * method creerPackageInfo(
+	 * Path pPath) :<br/>
+	 * <ul>
+	 * <li>Crée un fichier package-info.java vide sous pPath 
+	 * si il n'existe pas déjà.</li>
+	 * <li>Ecrit le squelette du package-info.java.</li>
+	 * </ul>
+	 * ne fait rien si pPath==null.<br/>
+	 * <br/>
+	 *
+	 * @param pPath : Path.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void creerPackageInfo(
+			final Path pPath) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* ne fait rien si pPath==null. */
+			if (pPath == null) {
+				return;
+			}
+			
+			/* Crée le path vers le fichier package-info.java. */
+			final Path pathPackageInfo 
+				= fabriquerPath(pPath, "package-info.java");
+			final File filePackageInfo 
+				= pathPackageInfo.toFile();
+			
+			final String pathTemplate 
+				= "./src/main/resources/templates/package-info.txt";
+			
+			final File template = new File(pathTemplate);
+			
+			/* Créé le fichier vide si il n'existe pas déjà. */
+			if (!filePackageInfo.exists()) {
+				
+				Files.createFile(pathPackageInfo);
+				
+				/* lit le template. */
+				final List<String> list 
+					= lireStringsDansFile(template, null);
+				
+				final List<String> listSubst1 
+					= substituerVariablesDansLigne(
+							list
+							, VARIABLE_NEW_DATE
+								, afficherDateDuJour());
+				
+				final List<String> listSubst2 
+				= substituerVariablesDansLigne(
+						listSubst1
+						, VARIABLE_PACKAGE
+							, creerPathJavaPackage(pPath));
+				
+				/* *************** */
+				/* ENREGISTREMENT. */
+				/* *************** */
+				for (final String ligne : listSubst2) {
+
+					if (StringUtils.isBlank(ligne)) {
+
+						ecrireStringDansFile(
+								filePackageInfo
+									, ""
+										, CHARSET_UTF8, NEWLINE);
+						
+					} else {
+
+						ecrireStringDansFile(
+								filePackageInfo
+									, ligne
+										, CHARSET_UTF8, NEWLINE);
+						
+					}
+					
+				} // Fin de l'écriture de la liste._________
+					
+			} // Fin de if (!filePackageInfo.exists()).______
+						
+		} // Fin de synchronized.______________________________
+		
+	} // Fin de creerPackageInfo(...)._____________________________________
+	
+
+	
+	/**
+	 * method creerPathJavaPackage(
+	 * Path pPath) :<br/>
+	 * <ul>
+	 * <li>Crée le chemin Java du Package visé par pPath 
+	 * relativement à pathMainJava.</li>
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.apptechnic</code>.</li>
+	 * </ul>
+	 *
+	 * @param pPath : java.nio.file.Path.<br/>
+	 * 
+	 * @return : String : package Java.<br/>
+	 */
+	private static String creerPathJavaPackage(
+			final Path pPath) {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* retourne null si pPath==null. */
+			if (pPath == null) {
+				return null;
+			}
+			
+			/* RELATIVIZE : EXTRACTION DU PATH RELATIF. */
+			final Path pathRelatif 
+				= pathMainJava.relativize(pPath);
+			
+			/* Transformation du path relatif en String 
+			 * avec des antislash. */
+			final String pathRelatifAntiSlash 
+				= pathRelatif.toString();
+			
+			/* Transformation en path Java avec des points. */
+			final String pathRelatifPoint 
+				= remplacerAntiSlashparPoint(
+						pathRelatifAntiSlash);
+			
+			return pathRelatifPoint;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de creerPackage(...)._________________________________________
+	
+
+		
+	/**
+	 * method remplacerAntiSlashparPoint(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Remplace les antislashs '\' dans pString par des points '.'.</li>
+	 * <li>Exemple : "levy\daniel\application" 
+	 * remplacé par "levy.daniel.application".</li>
+	 * <li>ATTENTION : antislash est un caractère spécial 
+	 * qui doit être échappé en Java ('\\')</li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : String : String dans laquelle les antislashs 
+	 * ont été remplacés par des points.<br/>
+	 */
+	private static String remplacerAntiSlashparPoint(
+			final String pString) {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* retourne null si pString est blank. */
+			if (StringUtils.isBlank(pString)) {
+				return null;
+			}
+			
+			String resultat = null;
+			
+			resultat = StringUtils.replaceChars(
+					pString, ANTISLASH, POINT);
+			
+			return resultat;
+
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de remplacerAntiSlashparPoint(...)._______________________________
+	
+
 	
 	/**
 	 * method creerRepertoire(
@@ -2221,6 +3435,760 @@ public final class GestionnaireProjet {
 		return false;
 		
 	} // Fin de existeProjet(...)._________________________________________
+	
+	
+	
+	/**
+	 * method lireStringsDansFile(
+	 * File pFile
+	 * , Charset pCharset) :<br/>
+	 * <ul>
+	 * <li><b>Lit le contenu</b> d'un fichier texte 
+	 * (fichier simple contenant du texte) pFile.</li>
+	 * <li>Décode le contenu d'un fichier texte 
+	 * (fichier simple contenant du texte) pFile 
+	 * avec le Charset pCharset</li>
+	 * <li><b>Retourne la liste des lignes</b> 
+	 * du fichier simple texte pFile 
+	 * lues avec le Charset pCharset.</li>
+	 * <ul>
+	 * <li>Utilise automatiquement le CHARSET_UTF8 
+	 * si pCharset est null.</li>
+	 * </ul>
+	 * </ul>
+	 * - Retourne null si pFile est null.<br/>
+	 * - Retourne null si pFile n'existe pas.<br/>
+	 * - Retourne null si pFile est un répertoire.<br/>
+	 * - Retourne null en cas d'Exception loggée 
+	 * (MalformedInputException, ...).<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier simple textuel à lire.<br/>
+	 * @param pCharset : Charset : le Charset à utiliser pour 
+	 * lire le fichier pFile.<br/>
+	 * 
+	 * @return : List&lt;String&gt; : Liste des lignes lues.<br/>
+	 * 
+	 * @throws Exception en cas d'Exception loggée 
+	 * (IOException, MalformedInputException, ...).<br/>
+	 */
+	private static List<String> lireStringsDansFile(
+			final File pFile
+				, final Charset pCharset) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* Retourne null si pFile est null. */
+			if (pFile == null) {
+				return null;
+			}
+			
+			/* Retourne null si pFile n'existe pas. */
+			if (!pFile.exists()) {
+				return null;
+			}
+			
+			/* Retourne null si pFile est un répertoire. */
+			if (pFile.isDirectory()) {
+				return null;
+			}
+			
+			/* Utilise automatiquement le CHARSET_UTF8 si pCharset est null. */
+			Charset charset = null;
+			
+			if (pCharset == null) {
+				charset = CHARSET_UTF8;
+			}
+			else {
+				charset = pCharset;
+			}
+			
+			/* Récupère le Path de pFile. */
+			final Path pathFichier = pFile.toPath();
+			
+			try {
+				
+				// *****************************************************
+				/* Retourne la liste des lignes lues avec le charset. */
+				return Files.readAllLines(pathFichier, charset);
+				
+			} 
+			
+			catch (MalformedInputException malformedInputException) {
+				
+				final String message 
+				=  "Impossible de lire le contenu du fichier '" 
+				+ pFile.getName() 
+				+ "' avec le Charset " 
+				+ charset.displayName(Locale.getDefault()) 
+				+ " à cause d'un caractère qui ne peut être "
+				+ "écrit dans ce Charset (MalformedInputException)";
+				
+				/* LOG de niveau Error. */
+				loggerError(fournirNomClasse()
+						, METHODE_LIRE_STRINGS_DANS_FILE 
+						+ SEPARATEUR_MOINS_AERE 
+						+ message
+						, malformedInputException);
+				
+				/* retourne null en cas d'Exception loggée 
+				 * (IOException, MalformedInputException, ...). */
+				return null;
+
+			}
+			
+			catch (IOException ioe) {
+				
+				/* LOG de niveau Error. */
+				loggerError(fournirNomClasse()
+						, METHODE_LIRE_STRINGS_DANS_FILE
+						, ioe);
+				
+				final String message 
+				= fournirNomClasse() 
+				+ SEPARATEUR_MOINS_AERE 
+				+ METHODE_LIRE_STRINGS_DANS_FILE 
+				+ SEPARATEUR_MOINS_AERE 
+				+ "Impossible de lire le contenu du fichier '" 
+				+ pFile.getName() 
+				+ "' avec le Charset " 
+				+ charset.displayName(Locale.getDefault());
+				
+				/* jette une Exception en cas d'Exception loggée 
+				 * (IOException, MalformedInputException, ...). */
+				throw new Exception(message, ioe);
+			
+			}
+
+		} // Fin de synchronized._______________________________
+			
+	} // Fin de lireStringsDansFile(
+	 // File pFile
+	 // , Charset pCharset)._______________________________________________
+	
+
+	
+	/**
+	 * method ecrireStringDansFile(
+	 * File pFile
+	 * , String pString
+	 * , Charset pCharset
+	 * , String pSautLigne) :<br/>
+	 * <ul>
+	 * <li><b>Ecrit la String pString</b> à 
+	 * la <b>fin</b> du File pFile 
+	 * avec un encodage pCharset et en substituant 
+	 * les sauts de ligne déjà existants 
+	 * <b>à l'intérieur de</b> pString par pSautLigne.</li>
+	 * <li>N'efface ni le fichier ni son contenu 
+	 * si il est déjà existant.</li>
+	 * <ul>
+	 * <li>Crée pFile sur disque si il n'existe pas.</li>
+	 * <li>Crée sur disque les répertoires parents de pFile 
+	 * (arborescence) si il n'existent pas.</li>
+	 * <li>Ecrit la String pString à la fin du fichier 
+	 * pFile si pFile est déjà existant et rempli
+	 * (utilisation de FileOutputStream(pFile, true)).</li>
+	 * <li>rajoute automatiquement 
+	 * un saut de ligne à la fin de pString.</li>
+	 * <li>Substitue automatiquement pSautLigne aux sauts de ligne 
+	 * EXISTANTS dans pString si nécessaire.</li>
+	 * <li>Utilise FileOutputStream, 
+	 * new OutputStreamWriter(fileOutputStream, charset) 
+	 * et BufferedWriter pour écrire.</li>
+	 * <li>Ecriture dans un fichier, écriture sur disque.</li>
+	 * <li>Passe automatiquement le Charset à CHARSET_UTF8 
+	 * si pCharset est null.</li>
+	 * <li>Passe automatiquement le saut de ligne à NEWLINE 
+	 * (saut de ligne de la plateforme) si pSautLigne est blank.</li>
+	 * </ul>
+	 * </ul>
+	 * <br/>
+	 * - retourne null si le pFile est null.<br/>
+	 * - retourne null si le pFile est un répertoire.<br/>
+	 * - retourne null en cas d'Exception loggée 
+	 * (FileNotFoundException, IOException).<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier dans lequel on écrit.<br/>
+	 * @param pString : String : String que l'on copie dans pFile.<br/>
+	 * @param pCharset : Charset : Charset pour encoder le fichier.<br/>
+	 * @param pSautLigne : String : Saut de ligne que l'on veut 
+	 * dans pFile de sortie 
+	 * (\r\n pour DOS/Windows, \r pour Mac, \n pour Unix).<br/>
+	 * 
+	 * @return : File : Le fichier dans lequel on a écrit pString.<br/>
+	 */
+	private static File ecrireStringDansFile(
+			final File pFile
+				, final String pString
+					, final Charset pCharset
+						, final String pSautLigne) {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* retourne null si le pFile est null. */
+			if (pFile == null) {
+				
+				/* LOG de niveau INFO. */
+				loggerInfo(
+						fournirNomClasse()
+							, METHODE_ECRIRESTRINGDANSFILE
+								, MESSAGE_FICHIER_NULL);
+				
+				/* retour de null. */
+				return null;
+				
+			} // Fin de if (pFile == null).______________________
+			
+			/* retourne null si le pFile est un répertoire. */
+			if (pFile.isDirectory()) {
+				
+				/* LOG de niveau INFO. */
+				loggerInfo(
+						fournirNomClasse()
+							, METHODE_ECRIRESTRINGDANSFILE
+								, MESSAGE_FICHIER_REPERTOIRE
+									, pFile.getAbsolutePath());
+				
+				/* retour de null. */
+				return null;
+				
+			} // Fin de if (pFile.isDirectory())._________________
+			
+			
+			final Path pathFichier = pFile.toPath();
+			final Path pathRepertoirePere = pathFichier.getParent();
+			File repertoirePere = null;
+			
+			if (pathRepertoirePere != null) {
+				repertoirePere = pathRepertoirePere.toFile();
+			} else {
+				return null;
+			}
+			
+					
+			/* Crée pFile sur disque si il n'existe pas. */
+			if (!pFile.exists()) {
+							
+				try {
+					
+					/* Crée sur disque les répertoires parents de pFile 
+					 * (arborescence) si il n'existent pas. */
+					if (!repertoirePere.exists()) {
+						Files.createDirectories(pathRepertoirePere);
+					}
+					
+					/* Crée le fichier sur disque si il n'existe pas. */
+					Files.createFile(pathFichier);
+					
+				} catch (IOException ioe) {
+					
+					/* LOG de niveau Error. */
+					loggerError(
+							fournirNomClasse()
+								, METHODE_ECRIRESTRINGDANSFILE
+									, ioe);
+					
+					/* retour de null. */
+					return null;
+				}
+				
+			} // Fin de if (!pFile.exists())._____________________
+			
+						
+			Charset charset = null;
+			
+			/* Passe automatiquement le charset à UTF-8 si pCharset est null. */
+			if (pCharset == null) {
+				charset = CHARSET_UTF8;
+			}
+			else {
+				charset = pCharset;
+			}
+			
+			String sautLigne = null;
+			
+			/* Passe automatiquement le saut de ligne à NEWLINE 
+			 * (saut de ligne de la plateforme) si pSautLigne est blank. */
+			if (StringUtils.isBlank(pSautLigne)) {
+				sautLigne = NEWLINE;
+			} else {
+				sautLigne = pSautLigne;
+			}
+			
+			// ECRITURE SUR DISQUE ***************
+			FileOutputStream fileOutputStream = null;
+			OutputStreamWriter outputStreamWriter = null;
+			BufferedWriter bufferedWriter = null;
+			
+			try {
+				
+				/* Ouverture d'un FileOutputStream sur le fichier. */
+				/* Ecrit la String pString à la fin du fichier pFile 
+				 * si pFile est déjà existant et rempli sur le disque. */
+				fileOutputStream 
+					= new FileOutputStream(pFile, true);
+				
+				/* Ouverture d'un OutputStreamWriter 
+				 * sur le FileOutputStream en lui passant le Charset. */
+				outputStreamWriter 
+					= new OutputStreamWriter(fileOutputStream, charset);
+				
+				/* Ouverture d'un tampon d'écriture 
+				 * BufferedWriter sur le OutputStreamWriter. */
+				bufferedWriter 
+					= new BufferedWriter(outputStreamWriter);
+				
+				// ECRITURE.
+				/* Substitue automatiquement sautLigne aux sauts de ligne 
+				 * dans pString si nécessaire. */
+				String stringAEcrire = null;
+				
+				if (pString.length() == 0) {
+					stringAEcrire = "";
+				} else {
+					stringAEcrire = substituerSautLigne(pString, sautLigne);
+				}
+				
+				bufferedWriter.write(stringAEcrire);
+				
+				/* RAJOUTE AUTOMATIQUEMENT UN SAUT DE LIGNE. */
+				bufferedWriter.write(sautLigne);
+				bufferedWriter.flush();
+				
+				// Retour du fichier. 
+				return pFile;
+				
+			} catch (FileNotFoundException fnfe) {
+				
+				/* LOG de niveau ERROR. */
+				loggerError(
+						fournirNomClasse()
+							, MESSAGE_EXCEPTION				
+								, fnfe);
+				
+				/* retour de null. */
+				return null;
+				
+			} catch (IOException ioe) {
+				
+				/* LOG de niveau ERROR. */
+				loggerError(
+						fournirNomClasse()
+							, MESSAGE_EXCEPTION				
+								, ioe);
+				
+				/* retour de null. */
+				return null;
+			}
+			
+			finally {
+				
+				if (bufferedWriter != null) {
+					try {
+						
+						bufferedWriter.close();
+						
+					} catch (IOException ioe1) {
+						
+						/* LOG de niveau ERROR. */
+						loggerError(
+								fournirNomClasse()
+									, MESSAGE_EXCEPTION				
+										, ioe1);
+					}
+				} // Fin de if (bufferedWriter != null).__________
+				
+				if (outputStreamWriter != null) {
+					try {
+						
+						outputStreamWriter.close();
+						
+					} catch (IOException ioe2) {
+						
+						/* LOG de niveau ERROR. */
+						loggerError(
+								fournirNomClasse()
+									, MESSAGE_EXCEPTION				
+										, ioe2);
+					}
+				} // Fin de if (outputStreamWriter != null).______
+				
+				if (fileOutputStream != null) {
+					try {
+						
+						fileOutputStream.close();
+						
+					} catch (IOException ioe3) {
+						
+						//* LOG de niveau ERROR. */
+						loggerError(
+								fournirNomClasse()
+									, MESSAGE_EXCEPTION				
+										, ioe3);
+					}
+				}
+				
+			} // Fin du finally.____________________________				
+			
+		} // Fin de synchronized.________________________________
+		
+	} // Fin de ecrireStringDansFile(...)._________________________________
+	
+
+	
+	/**
+	 * method substituerSautLigne(
+	 * String pString
+	 * , String pSautLigne) :<br/>
+	 * <ul>
+	 * <li><b>Substitue les sauts</b> de ligne <b>à l'intérieur</b> 
+	 * de pString 
+	 * (\r\n pour DOS/Windows, \r pour Mac, \n pour Unix) 
+	 * par les sauts de ligne pSautLigne.</li>
+	 * </ul>
+	 * - retourne null si pString est blank (null ou vide).<br/>
+	 * - retourne null si pSautLigne est blank (null ou vide).<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : String à corriger.<br/>
+	 * @param pSautLigne : String : saut de ligne à substituer.<br/>
+	 * 
+	 * @return : String : La String dans laquelle les sauts de ligne 
+	 * (\r\n pour DOS/Windows, \r pour Mac, \n pour Unix) 
+	 * ont été substitués par les sauts de ligne pSautLigne.<br/>
+	 */
+	private static String substituerSautLigne(
+			final String pString
+				, final String pSautLigne) {
+		
+		/* retourne null si pString est blank (null ou vide). */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pSautLigne est blank (null ou vide). */
+		
+		/* Recherche des sauts de ligne DOS/Windows. */
+		if (StringUtils.contains(pString, SAUTDELIGNE_DOS_WINDOWS)) {
+			
+			final String resultat 
+				= StringUtils.replace(
+						pString, SAUTDELIGNE_DOS_WINDOWS, pSautLigne);
+			
+			return resultat;
+		}
+		
+		/* Recherche des sauts de ligne Mac. */
+		if (StringUtils.contains(pString, SAUTDELIGNE_MAC)) {
+			
+			final String resultat 
+				= StringUtils.replace(
+						pString, SAUTDELIGNE_MAC, pSautLigne);
+			
+			return resultat;
+		}
+		
+		/* Recherche des sauts de ligne Unix. */
+		if (StringUtils.contains(pString, SAUTDELIGNE_UNIX)) {
+			
+			final String resultat 
+				= StringUtils.replace(
+						pString, SAUTDELIGNE_UNIX, pSautLigne);
+			
+			return resultat;
+		}
+		
+		/* Retourne la chaîne inchangée 
+		 * si il n'y avait pas de saut de ligne. */
+		return pString;
+			
+	} // Fin de substituerSautLigne(
+	 // String pString
+	 // , String pSautLigne).______________________________________________
+	
+
+	
+	/**
+	 * method substituerVariablesDansLigne(
+	 * List&lt;String&gt; pListe
+	 * , String pVariable
+	 * , String pSubstituant) :<br/>
+	 * <ul>
+	 * <li><b>Substitue</b> <i>pSubstituant</i> à la 
+	 * variable <i>pVariable</i> 
+	 * dans chaque ligne de pListe.</li>
+	 * <li>Par exemple : <br/>
+	 * Substitue "levy.daniel.application.model.metier" 
+	 * à {$pathmetier} dans chaque ligne.</li>
+	 * </ul>
+	 * retourne null si pListe est null.<br/>
+	 * <br/>
+	 *
+	 * @param pListe : List&lt;String&gt;
+	 * @param pVariable : String : variable à substituer
+	 * @param pSubstituant : String : valeur à substituer à variable.<br/>
+	 * 
+	 * @return : List&lt;String&gt; : Liste des lignes 
+	 * avec les variables substituées.<br/>
+	 */
+	private static List<String> substituerVariablesDansLigne(
+			final List<String> pListe
+				, final String pVariable
+					, final String pSubstituant) {
+
+		synchronized (GestionnaireProjet.class) {
+			
+			/* retourne null si pListe est null. */
+			if (pListe == null) {
+				return null;
+			}
+			
+			final List<String> resultat = new ArrayList<String>();
+			
+			for (final String ligne : pListe) {
+				
+				final String nouvelleLigne 
+					= StringUtils.replace(ligne, pVariable, pSubstituant);
+				
+				resultat.add(nouvelleLigne);
+				
+			}
+			
+			return resultat;
+
+		} // Fin de synchronized._______________________________
+		
+	} // Fin de substituerVariablesDansLigne.______________________________
+	
+
+	
+	/**
+	 * method afficherDateDuJour() :<br/>
+	 * <ul>
+	 * <li>Retourne une String pour l'affichage de la date du jour.</li>
+	 * <li>Par exemple : 12 janvier 2018.</li>
+	 * </ul>
+	 *
+	 * @return : String : Date du jour.<br/>
+	 */
+	private static String afficherDateDuJour() {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			final Date dateDuJour = new Date();
+			
+			final Locale localeFr = new Locale("fr", "FR");
+			
+			/* 12 janvier 2018. */
+			final DateFormat dfDateFrancaise 
+			= new SimpleDateFormat("dd MMMM yyyy", localeFr);
+			
+			return dfDateFrancaise.format(dateDuJour);
+			
+		} // Fin de synchronized._______________________________
+				
+	} // Fin de afficherDateDuJour().______________________________________
+
+	
+	
+	/**
+	 * method fournirDate(
+	 * String pDateString) :<br/>
+	 * Prend en paramètre une String compatible avec une Date
+	 * au format "dd/MM/yyyy" ('25/02/1961' par exemple) et
+	 * retourne une String.<br/>
+	 * <br/>
+	 *
+	 * @param pDateString : la Date sous forme de String
+	 * au format '25/02/1961'.<br/>
+	 * 
+	 * @return Date.<br/>
+	 * 
+	 * @throws ParseException : lorsque la date rentrée
+	 * sous forme de String ne respecte pas le format
+	 * "dd/MM/yyyy" ou n'est pas compatible avec une date
+	 * (45/122/2012 par exemple).<br/>
+	 */
+	private static Date fournirDate(
+							final String pDateString) 
+												throws ParseException {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			final Locale localeFr = new Locale("fr", "FR");
+			
+			final DateFormat dfDateFrancaise 
+			= new SimpleDateFormat("dd/MM/yyyy", localeFr);
+					
+			/* Indispensable pour générer une exception si la chaine
+			 * de caractères ne peut être une date comme 322/47/2011. */
+			dfDateFrancaise.setLenient(false);
+			
+			return dfDateFrancaise.parse(pDateString);
+		
+		} // Fin de synchronized._______________________________
+	
+	} // Fin de fournirDate(
+	 // String pDateString)._______________________________________________
+	
+
+	
+	/**
+	 * method fournirNomClasse() :<br/>
+	 * <ul>
+	 * <li>Retourne "Classe GestionnaireProjet".</li>
+	 * </ul>
+	 *
+	 * @return : String : "Classe GestionnaireProjet".<br/>
+	 */
+	private static String fournirNomClasse() {
+		return GESTIONNAIRE_PROJET;
+	} // Fin de fournirNomClasse().________________________________________
+
+
+	
+	/**
+	 * method loggerInfo(
+	 * String pClasse
+	 * , String pMethode
+	 * , String pMessage) :<br/>
+	 * <ul>
+	 * <li>Crée un message de niveau INFO dans le LOG.</li>
+	 * </ul>
+	 * - Ne fait rien si un des paramètres est null.<br/>
+	 * <br/>
+	 *
+	 * @param pClasse : String : Classe appelante.<br/>
+	 * @param pMethode : String : Méthode appelante.<br/>
+	 * @param pMessage : String : Message particulier de la méthode.<br/>
+	 */
+	private static void loggerInfo(
+			final String pClasse
+				, final String pMethode
+					, final String pMessage) {
+		
+		/* Ne fait rien si un des paramètres est null. */
+		if (pClasse == null || pMethode == null || pMessage == null) {
+			return;
+		}
+		
+		/* LOG de niveau INFO. */			
+		if (LOG.isInfoEnabled()) {
+			
+			final String message 
+			= pClasse 
+			+ SEPARATEUR_MOINS_AERE
+			+ pMethode
+			+ SEPARATEUR_MOINS_AERE
+			+ pMessage;
+			
+			LOG.info(message);
+		}
+		
+	} // Fin de la classe loggerInfo(
+	 // String pClasse
+	 // , String pMethode
+	 // , String pMessage).________________________________________________
+	
+
+	
+	/**
+	 * method loggerInfo(
+	 * String pClasse
+	 * , String pMethode
+	 * , String pMessage
+	 * , String pComplement) :<br/>
+	 * <ul>
+	 * <li>Créée un message de niveau INFO dans le LOG.</li>
+	 * </ul>
+	 * - Ne fait rien si un des paramètres est null.<br/>
+	 * <br/>
+	 *
+	 * @param pClasse : String : Classe appelante.<br/>
+	 * @param pMethode : String : Méthode appelante.<br/>
+	 * @param pMessage : String : Message particulier de la méthode.<br/>
+	 * @param pComplement : String : Complément au message de la méthode.<br/>
+	 */
+	private static void loggerInfo(
+			final String pClasse
+				, final String pMethode
+					, final String pMessage
+						, final String pComplement) {
+		
+		/* Ne fait rien si un des paramètres est null. */
+		if (pClasse == null || pMethode == null 
+				|| pMessage == null || pComplement == null) {
+			return;
+		}
+		
+		/* LOG de niveau INFO. */			
+		if (LOG.isInfoEnabled()) {
+			
+			final String message 
+			= pClasse 
+			+ SEPARATEUR_MOINS_AERE
+			+ pMethode
+			+ SEPARATEUR_MOINS_AERE
+			+ pMessage
+			+ pComplement;
+			
+			LOG.info(message);
+		}
+		
+	} // Fin de loggerInfo(
+	 // String pClasse
+	 // , String pMethode
+	 // , String pMessage
+	 // , String pComplement)._____________________________________________
+	
+	
+	
+	/**
+	 * method loggerError(
+	 * String pClasse
+	 * , String pMethode
+	 * , Exception pException) :<br/>
+	 * <ul>
+	 * <li>Crée un message de niveau ERROR dans le LOG.</li>
+	 * </ul>
+	 * - Ne fait rien si un des paramètres est null.<br/>
+	 * <br/>
+	 *
+	 * @param pClasse : String : Classe appelante.<br/>
+	 * @param pMethode : String : Méthode appelante.<br/>
+	 * @param pException : Exception : Exception transmise 
+	 * par la méthode appelante.<br/>
+	 */
+	private static void loggerError(
+			final String pClasse
+				, final String pMethode
+					, final Exception pException) {
+		
+		/* Ne fait rien si un des paramètres est null. */
+		if (pClasse == null || pMethode == null || pException == null) {
+			return;
+		}
+		
+		/* LOG de niveau ERROR. */			
+		if (LOG.isErrorEnabled()) {
+			
+			final String message 
+			= pClasse 
+			+ SEPARATEUR_MOINS_AERE
+			+ pMethode
+			+ SEPARATEUR_MOINS_AERE 
+			+ pException.getMessage();
+			
+			LOG.error(message, pException);
+			
+		}
+		
+	} // Fin de loggerError(
+	 // String pClasse
+	 // , String pMethode
+	 // , Exception pException).___________________________________________
 	
 	
 	
@@ -2998,7 +4966,526 @@ public final class GestionnaireProjet {
 	} // Fin de getFileGroupIdTestJava().__________________________________
 
 
+	
+	/**
+	 * method getPathRelApptechnic() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path relatif du répertoire apptechnic</b> 
+	 * du projet par rapport 
+	 * au path absolu du groupId
+	 * (pathGroupIdMainJava pour les sources du main 
+	 * et pathGroupIdTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>appTechnic</code></li>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return PATH_REL_APPTECHNIC : String.<br/>
+	 */
+	public static String getPathRelApptechnic() {	
+		return PATH_REL_APPTECHNIC;
+	} // Fin de getPathRelApptechnic().____________________________________
 
+
+	
+	/**
+	 * method getPathAppTechnicMainJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire apptechnic</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathAppTechnicMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathAppTechnicMainJavaString : String.<br/>
+	 */
+	public static String getPathAppTechnicMainJavaString() {	
+		return pathAppTechnicMainJavaString;
+	} // Fin de getPathAppTechnicMainJavaString()._________________________
+
+
+	
+	/**
+	 * method getPathAppTechnicMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire apptechnic</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathAppTechnicMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathAppTechnicMainJava : Path.<br/>
+	 */
+	public static Path getPathAppTechnicMainJava() {
+		return pathAppTechnicMainJava;
+	} // Fin de getPathAppTechnicMainJava()._______________________________
+
+
+		
+	/**
+	 * method getFileAppTechnicMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire apptechnic</b> 
+	 * dans les sources Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathAppTechnicMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileAppTechnicMainJava : File.<br/>
+	 */
+	public static File getFileAppTechnicMainJava() {	
+		return fileAppTechnicMainJava;
+	} // Fin de getFileAppTechnicMainJava()._______________________________
+
+
+
+	/**
+	 * method getPathAppTechnicTestJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire apptechnic</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathAppTechnicTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathAppTechnicTestJavaString : String.<br/>
+	 */
+	public static String getPathAppTechnicTestJavaString() {	
+		return pathAppTechnicTestJavaString;
+	} // Fin de getPathAppTechnicTestJavaString()._________________________
+
+
+	
+	/**
+	 * method getPathAppTechnicTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire apptechnic</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathAppTechnicTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathAppTechnicTestJava : Path.<br/>
+	 */
+	public static Path getPathAppTechnicTestJava() {	
+		return pathAppTechnicTestJava;
+	} // Fin de getPathAppTechnicTestJava()._______________________________
+
+
+	
+	/**
+	 * method getFileAppTechnicTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire apptechnic</b> 
+	 * dans les tests Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathAppTechnicTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_APPTECHNIC.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * apptechnic</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileAppTechnicTestJava : File.<br/>
+	 */
+	public static File getFileAppTechnicTestJava() {	
+		return fileAppTechnicTestJava;
+	} // Fin de getFileAppTechnicTestJava()._______________________________
+
+
+	
+	/**
+	 * method getPathRelControllers() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path relatif du répertoire controllers</b> 
+	 * du projet par rapport 
+	 * au path absolu du groupId
+	 * (pathGroupIdMainJava pour les sources du main 
+	 * et pathGroupIdTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>controllers</code></li>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return PATH_REL_CONTROLLERS : String.<br/>
+	 */
+	public static String getPathRelControllers() {	
+		return PATH_REL_CONTROLLERS;
+	} // Fin de getPathRelControllers().___________________________________
+
+
+	
+	/**
+	 * method getPathControllersMainJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire controllers</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathControllersMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathControllersMainJavaString : String.<br/>
+	 */
+	public static String getPathControllersMainJavaString() {	
+		return pathControllersMainJavaString;
+	} // Fin de getPathControllersMainJavaString().________________________
+
+
+	
+	/**
+	 * method getPathControllersMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire controllers</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathControllersMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathControllersMainJava : Path.<br/>
+	 */
+	public static Path getPathControllersMainJava() {
+		return pathControllersMainJava;
+	} // Fin de getPathControllersMainJava().______________________________
+
+
+		
+	/**
+	 * method getFileControllersMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire controllers</b> 
+	 * dans les sources Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathControllersMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileControllersMainJava : File.<br/>
+	 */
+	public static File getFileControllersMainJava() {	
+		return fileControllersMainJava;
+	} // Fin de getFileControllersMainJava().______________________________
+
+
+
+	/**
+	 * method getPathControllersTestJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire controllers</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathControllersTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathControllersTestJavaString : String.<br/>
+	 */
+	public static String getPathControllersTestJavaString() {	
+		return pathControllersTestJavaString;
+	} // Fin de getPathControllersTestJavaString().________________________
+
+
+	
+	/**
+	 * method getPathControllersTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire controllers</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathControllersTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathControllersTestJava : Path.<br/>
+	 */
+	public static Path getPathControllersTestJava() {	
+		return pathControllersTestJava;
+	} // Fin de getPathControllersTestJava().______________________________
+
+
+	
+	/**
+	 * method getFileControllersTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire controllers</b> 
+	 * dans les tests Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathControllersTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_CONTROLLERS.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * controllers</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileControllersTestJava : File.<br/>
+	 */
+	public static File getFileControllersTestJava() {	
+		return fileControllersTestJava;
+	} // Fin de getFileControllersTestJava().______________________________
+
+
+	
+	/**
+	 * method getPathRelVues() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path relatif du répertoire vues</b> 
+	 * du projet par rapport 
+	 * au path absolu du groupId
+	 * (pathGroupIdMainJava pour les sources du main 
+	 * et pathGroupIdTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>vues</code></li>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return PATH_REL_VUES : String.<br/>
+	 */
+	public static String getPathRelVues() {	
+		return PATH_REL_VUES;
+	} // Fin de getPathRelVues().__________________________________________
+
+
+	
+	/**
+	 * method getPathVuesMainJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire vues</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathVuesMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * vues</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathVuesMainJavaString : String.<br/>
+	 */
+	public static String getPathVuesMainJavaString() {	
+		return pathVuesMainJavaString;
+	} // Fin de getPathVuesMainJavaString()._______________________________
+
+
+	
+	/**
+	 * method getPathVuesMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire vues</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathVuesMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * vues</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathVuesMainJava : Path.<br/>
+	 */
+	public static Path getPathVuesMainJava() {
+		return pathVuesMainJava;
+	} // Fin de getPathVuesMainJava()._____________________________________
+
+
+		
+	/**
+	 * method getFileVuesMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire vues</b> 
+	 * dans les sources Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathVuesMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * vues</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileVuesMainJava : File.<br/>
+	 */
+	public static File getFileVuesMainJava() {	
+		return fileVuesMainJava;
+	} // Fin de getFileVuesMainJava()._____________________________________
+
+
+
+	/**
+	 * method getPathVuesTestJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire vues</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathVuesTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * vues</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathVuesTestJavaString : String.<br/>
+	 */
+	public static String getPathVuesTestJavaString() {	
+		return pathVuesTestJavaString;
+	} // Fin de getPathVuesTestJavaString()._______________________________
+
+
+	
+	/**
+	 * method getPathVuesTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire vues</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathVuesTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * vues</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathVuesTestJava : Path.<br/>
+	 */
+	public static Path getPathVuesTestJava() {	
+		return pathVuesTestJava;
+	} // Fin de getPathVuesTestJava()._____________________________________
+
+
+	
+	/**
+	 * method getFileVuesTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire vues</b> 
+	 * dans les tests Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathVuesTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_VUES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * vues</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileVuesTestJava : File.<br/>
+	 */
+	public static File getFileVuesTestJava() {	
+		return fileVuesTestJava;
+	} // Fin de getFileVuesTestJava()._____________________________________
+
+
+	
 	/**
 	 * method reinitialiserAttributs() :<br/>
 	 * <ul>
@@ -3050,6 +5537,27 @@ public final class GestionnaireProjet {
 		pathGroupIdTestJavaString = null;
 		pathGroupIdTestJava = null;
 		fileGroupIdTestJava = null;
+		
+		pathAppTechnicMainJavaString = null;
+		pathAppTechnicMainJava = null;
+		fileAppTechnicMainJava = null;
+		pathAppTechnicTestJavaString = null;
+		pathAppTechnicTestJava = null;
+		fileAppTechnicTestJava = null;
+		
+		pathControllersMainJavaString = null;
+		pathControllersMainJava = null;
+		fileControllersMainJava = null;
+		pathControllersTestJavaString = null;
+		pathControllersTestJava = null;
+		fileControllersTestJava = null;
+		
+		pathModelMainJavaString = null;
+		pathModelMainJava = null;
+		fileModelMainJava = null;
+		pathModelTestJavaString = null;
+		pathModelTestJava = null;
+		fileModelTestJava = null;
 
 	} // Fin de reinitialiserAttributs().__________________________________
 

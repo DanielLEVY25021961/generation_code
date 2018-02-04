@@ -1,6 +1,7 @@
 /**
  * package-info :<br/>
- * .<br/>
+ * <ul>
+ * </ul>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -13,9 +14,9 @@
  * <br/>
  *
  *
- * @author dan Lévy
+ * @author daniel Lévy
  * @version 1.0
- * @since 22 sept. 2017
+ * @since 04 février 2018
  *
  */
-package levy.daniel.application.apptechnic;
+package levy.daniel.application;

@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
+import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.IGenerateur;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationdao.GenerateurDao;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple.GenerateurMetier;
@@ -96,6 +97,14 @@ public final class Application {
 
 	
 	/**
+	 * PROJET_GENERATION_CODE_TEST : String :<br/>
+	 * "generation_code_test".<br/>
+	 */
+	public static final String PROJET_GENERATION_CODE_TEST 
+		= "generation_code_test";
+
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -129,6 +138,10 @@ public final class Application {
 	public static void main(
 			final String[] pArgs) throws Exception {
 		
+		/* Choisit le projet dans lequel générer le code. */
+		GestionnaireProjet.alimenterAttributs(PROJET_GENERATION_CODE_TEST);
+		
+		/* Instancie des générateurs de code. */
 		final IGenerateur generateurMetier = new GenerateurMetier();
 		final IGenerateur generateurDao = new GenerateurDao();
 		

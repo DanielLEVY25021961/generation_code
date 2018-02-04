@@ -9,7 +9,7 @@ import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.
 
 
 /**
- * CLASSE ABSTRAITE <b>AbstractEcriveurFichiersJava</b> :<br/>
+ * CLASSE ABSTRAITE <b>AbstractEcriveurResources</b> :<br/>
  * <ul>
  * </ul>
  * <br/>
@@ -26,41 +26,40 @@ import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.
  *
  * @author dan Lévy
  * @version 1.0
- * @since 28 janv. 2018
+ * @since 4 févr. 2018
  *
  */
-public abstract class AbstractEcriveurFichiersJava 
-							extends AbstractEcriveur {
+public abstract class AbstractEcriveurResources extends AbstractEcriveur {
 
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * CLASSE_ABSTRACT_ECRIVEUR_FICHIERS_JAVA : String :<br/>
-	 * "Classe AbstractEcriveurFichiersJava".<br/>
+	 * CLASSE_ABSTRACT_ECRIVEUR_RESOURCES : String :<br/>
+	 * "Classe AbstractEcriveurResources".<br/>
 	 */
-	public static final String CLASSE_ABSTRACT_ECRIVEUR_FICHIERS_JAVA 
-		= "Classe AbstractEcriveurFichiersJava";
-
+	public static final String CLASSE_ABSTRACT_ECRIVEUR_RESOURCES 
+		= "Classe AbstractEcriveurResources";
 	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(AbstractEcriveurFichiersJava.class);
+		= LogFactory.getLog(AbstractEcriveurResources.class);
+	
 
 	// *************************METHODES************************************/
-
+	
 	 /**
-	 * method CONSTRUCTEUR AbstractEcriveurFichiersJava() :<br/>
+	 * method CONSTRUCTEUR AbstractEcriveurResources() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <br/>
 	 */
-	public AbstractEcriveurFichiersJava() {
+	public AbstractEcriveurResources() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
-	
-	
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -69,6 +68,5 @@ public abstract class AbstractEcriveurFichiersJava
 	public abstract void ecrireCode(
 			File pFile, GenerateurMetier pGenerateurMetier);
 
-	
 
-} // FIN DE LA CLASSE AbstractEcriveurFichiersJava.--------------------------
+} // FIN DE LA CLASSE AbstractEcriveurResources.-----------------------------
