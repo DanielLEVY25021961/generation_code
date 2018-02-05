@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
+import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierAbstractClass;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass;
@@ -75,7 +75,7 @@ public class GenerateurMetierToutAbstract
 	 * <ul>
 	 * <li>alimente this.pathPackage en demandant le chemin 
 	 * du package <b>model.metier</b> au 
-	 * <b>BundleConfigurationProjetManager</b>.</li>
+	 * <b>GestionnaireProjet</b>.</li>
 	 * </ul>
 	 * <br/>
 	 */
@@ -86,7 +86,7 @@ public class GenerateurMetierToutAbstract
 		try {
 			
 			this.pathPackage 
-				= BundleConfigurationProjetManager.getPathMetier();
+				= GestionnaireProjet.getPathMetierMainJavaString();
 		}
 		catch (Exception e) {
 			this.pathPackage = null;

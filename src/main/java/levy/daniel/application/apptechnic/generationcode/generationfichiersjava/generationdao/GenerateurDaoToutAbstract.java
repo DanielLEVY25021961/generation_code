@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
+import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.AbstractGenerateurToutAbstract;
 
 /**
@@ -54,7 +54,7 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 	 * <ul>
 	 * <li>alimente this.pathPackage en demandant le chemin 
 	 * du package <b>model.dao.metier</b> au 
-	 * <b>BundleConfigurationProjetManager</b>.</li>
+	 * <b>GestionnaireProjet</b>.</li>
 	 * </ul>
 	 * <br/>
 	 */
@@ -65,7 +65,7 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 		try {
 			
 			this.pathPackage 
-				= BundleConfigurationProjetManager.getPathDao() 
+				= GestionnaireProjet.getPathDaoMainJavaString() 
 				+ "/metier";
 		}
 		catch (Exception e) {
