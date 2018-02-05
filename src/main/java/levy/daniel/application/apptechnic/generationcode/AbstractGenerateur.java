@@ -72,19 +72,33 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	
 	/**
 	 * conceptModelise : String :<br/>
-	 * <b>concept modélisé par ce générateur</b>.<br/>
-	 * nom du package à créer dans chaque couche 
-	 * avec une majuscule en première position.<br/>
-	 * Par exemple : Profil pour le nomPackage "profil".<br/>
+	 * <ul>
+	 * <li><b>concept modélisé par ce générateur</b>.</li>
+	 * <li><b>nom du package à créer dans chaque SOUS-COUCHE</b> 
+	 * (model/metier, model/dao/metier, model/services/metier, ...) 
+	 * avec une <i>majuscule</i> en première position.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>Profil</code> pour le nomPackage "profil".</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
 	 */
 	protected static String conceptModelise;
 	
 	
 	/**
 	 * nomPackage : String :<br/>
-	 * <b>nom du package à créer dans chaque couche</b>.<br/>
-	 * passé en paramètre au générateur.<br/>
-	 * par exemple : "profil".<br/>
+	 * <ul>
+	 * <li><b>nom du package à créer dans chaque SOUS-COUCHE</b> 
+	 * en fonction du concept à modéliser dans le générateur 
+	 * (model/metier/profil, model/dao/metier/profil, 
+	 * model/services/metier/profil, ...pour un concept Profil).</li>
+	 * <li>passé en paramètre au générateur.</li>
+	 * <li>par exemple : <br/>
+	 * <code>profil</code>.</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
 	 */
 	protected static String nomPackage;
 	
@@ -92,7 +106,10 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	
 	/**
 	 * packageMetier : File :<br/>
-	 * Package metier (model.metier).<br/>
+	 * <ul>
+	 * Package metier de la COUCHE <i>model</i> 
+	 * (model.metier).<br/>
+	 * </ul>
 	 */
 	protected static File packageMetier;
 	
@@ -324,6 +341,98 @@ public abstract class AbstractGenerateur implements IGenerateur {
 
 	
 	/**
+	 * method configurerInterfaceSeule(
+	 * String pNomPackage
+	 * , String pNomInterface
+	 * , String pNomObjetMetier
+	 * , Map&lt;String, String&gt; pMapAttributs
+	 * , Map<String, String> pMapAttributsEquals
+	 * , Map&lt;String, List&lt;String&gt;&gt; pMapRg) :<br/>
+	 * <ul>
+	 * </ul>
+	 *
+	 * @param pNomPackage
+	 * @param pNomInterface
+	 * @param pNomObjetMetier
+	 * @param pMapAttributs
+	 * @param pMapAttributsEquals
+	 * @param pMapRg
+	 * 
+	 * @throws Exception
+	 */
+	public static void configurerInterfaceSeule(
+			final String pNomPackage
+				, final String pNomInterface
+					, final String pNomObjetMetier
+			, final Map<String, String> pMapAttributs
+				, final Map<String, String> pMapAttributsEquals
+					, final Map<String, List<String>> pMapRg) 
+								throws Exception {
+				
+		synchronized (AbstractGenerateur.class) {
+			
+			
+			/* retourne si pNomPackage est blank. */
+			if (StringUtils.isAllBlank(pNomPackage)) {
+				return;
+			}
+			
+			/* retourne si pNomInterface est blank. */
+			if (StringUtils.isAllBlank(pNomInterface)) {
+				return;
+			}
+			
+			/* retourne si pNomObjetMetier est blank. */
+			if (StringUtils.isAllBlank(pNomObjetMetier)) {
+				return;
+			}
+			
+			/* retourne si pNomPackage n'est pas conforme. */
+			if (!conformeNomPackage(pNomPackage)) {
+				
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Nom de package non conforme : " 
+							+ pNomPackage);
+				}
+				
+				return;
+			}
+			
+			/* retourne si pNomInterface n'est pas conforme. */
+			if (!conformeNomInterface(pNomInterface)) {
+				
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Nom d'interface non conforme : " 
+							+ pNomInterface);
+				}
+				
+				return;
+			}
+			
+			/* retourne si pNomObjetMetier n'est pas conforme. */
+			if (!conformeNomClasse(pNomObjetMetier)) {
+				
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Nom de classe non conforme : " 
+							+ pNomObjetMetier);
+				}
+				
+				return;
+			}
+
+			/* garnit le packageMetier. */
+			garnirPackageMetier();
+			
+			/* génère et garnit packageDaoMetier. */
+			genererPackageDaoMetier();
+			
+		} // Fin de synchronized.___________________________________
+		
+	} // Fin de configurerInterfaceSeule(...)._____________________________
+	
+	
+	
+	/**
 	 * method configurer(
 	 * String pNomPackage
 	 * , String pNomInterface
@@ -359,78 +468,82 @@ public abstract class AbstractGenerateur implements IGenerateur {
 					, final Map<String, List<String>> pMapRg) 
 								throws Exception {
 		
-		/* retourne si pNomPackage est blank. */
-		if (StringUtils.isAllBlank(pNomPackage)) {
-			return;
-		}
-		
-		/* retourne si pNomInterface est blank. */
-		if (StringUtils.isAllBlank(pNomInterface)) {
-			return;
-		}
-		
-		/* retourne si pNomObjetMetier est blank. */
-		if (StringUtils.isAllBlank(pNomObjetMetier)) {
-			return;
-		}
-		
-		/* retourne si pNomPackage n'est pas conforme. */
-		if (!conformeNomPackage(pNomPackage)) {
+		synchronized (AbstractGenerateur.class) {
 			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Nom de package non conforme : " 
-						+ pNomPackage);
+			/* retourne si pNomPackage est blank. */
+			if (StringUtils.isAllBlank(pNomPackage)) {
+				return;
 			}
 			
-			return;
-		}
-		
-		/* retourne si pNomInterface n'est pas conforme. */
-		if (!conformeNomInterface(pNomInterface)) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Nom d'interface non conforme : " 
-						+ pNomInterface);
+			/* retourne si pNomInterface est blank. */
+			if (StringUtils.isAllBlank(pNomInterface)) {
+				return;
 			}
 			
-			return;
-		}
-		
-		/* retourne si pNomObjetMetier n'est pas conforme. */
-		if (!conformeNomClasse(pNomObjetMetier)) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Nom de classe non conforme : " 
-						+ pNomObjetMetier);
+			/* retourne si pNomObjetMetier est blank. */
+			if (StringUtils.isAllBlank(pNomObjetMetier)) {
+				return;
 			}
 			
-			return;
-		}
-		
-		/* génère packageMetier. */
-		genererPackageMetier();
-		
-		/* génère packageDaoMetier. */
-		genererPackageDaoMetier();
+			/* retourne si pNomPackage n'est pas conforme. */
+			if (!conformeNomPackage(pNomPackage)) {
+				
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Nom de package non conforme : " 
+							+ pNomPackage);
+				}
+				
+				return;
+			}
+			
+			/* retourne si pNomInterface n'est pas conforme. */
+			if (!conformeNomInterface(pNomInterface)) {
+				
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Nom d'interface non conforme : " 
+							+ pNomInterface);
+				}
+				
+				return;
+			}
+			
+			/* retourne si pNomObjetMetier n'est pas conforme. */
+			if (!conformeNomClasse(pNomObjetMetier)) {
+				
+				if (LOG.isFatalEnabled()) {
+					LOG.fatal("Nom de classe non conforme : " 
+							+ pNomObjetMetier);
+				}
+				
+				return;
+			}
+			
+			/* garnit le packageMetier. */
+			garnirPackageMetier();
+			
+			/* génère et garnit packageDaoMetier. */
+			genererPackageDaoMetier();
 
-		/* alimente tous les attributs static des Générateurs. */
-		alimenterAttributsStatic(pNomPackage
-				, pNomInterface
-					, pNomObjetMetier
-						, pMapAttributs
-							, pMapAttributsEquals
-								, pMapRg);
+			/* alimente tous les attributs static des Générateurs. */
+			alimenterAttributsStatic(pNomPackage
+					, pNomInterface
+						, pNomObjetMetier
+							, pMapAttributs
+								, pMapAttributsEquals
+									, pMapRg);
 
-		
+			
+		} // Fin de synchronized.___________________________________
+				
 	} // Fin de configurer(...).___________________________________________
 	
 
 	
 	/**
-	 * method genererPackageMetier() :<br/>
+	 * method garnirPackageMetier() :<br/>
 	 * <ul>
-	 * <li>génère si nécessaire le package métier
-	 * <b>packageMetier</b> (model.metier).</li>
+	 * <li><b>alimente packageMetier</b> avec la valeur fournie 
+	 * par le GestionnaireProjet.</li>
 	 * <li>génère si nécessaire l'interface IExportateurCsv 
 	 * sous model.metier.</li>
 	 * <li>génère si nécessaire l'interface IExportateurJTable 
@@ -439,7 +552,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 *
 	 * @throws Exception
 	 */
-	private static void genererPackageMetier() throws Exception {
+	private static void garnirPackageMetier() throws Exception {
 		
 		synchronized (AbstractGenerateur.class) {
 			
@@ -455,7 +568,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			
 		} // Fin de synchronized._________________________________
 				
-	} // Fin de genererPackageMetier().____________________________________
+	} // Fin de garnirPackageMetier()._____________________________________
 	
 
 	
@@ -626,6 +739,8 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * method genererPackageDaoMetier() :<br/>
 	 * <ul>
+	 * <li><b>alimente packageDaoMetier</b> avec la valeur fournie 
+	 * par le GestionnaireProjet.</li>
 	 * <li>génère si nécessaire le package metier sous DAO
 	 * <b>packageDaoMetier</b> (model.dao.metier).</li>
 	 * <li>génère si nécessaire l'interface IDaoGenericJPASpring.java 
@@ -684,7 +799,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			
 			/* récupération du package des DAOs. */
 			final String pathPackageDao 
-				= BundleConfigurationProjetManager.getPathDao();
+				= GestionnaireProjet.getPathDaoMainJavaString();
 			
 			final File packageDao = new File(pathPackageDao);
 			
@@ -771,7 +886,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			
 			/* récupération du package des DAOs. */
 			final String pathPackageDao 
-				= BundleConfigurationProjetManager.getPathDao();
+				= GestionnaireProjet.getPathDaoMainJavaString();
 			
 			final File packageDao = new File(pathPackageDao);
 			
@@ -2228,11 +2343,20 @@ public abstract class AbstractGenerateur implements IGenerateur {
 
 		
 	/**
-	 * method alimenterNomPackage() :<br/>
-	 * Alimenteur du <b>nom du package à créer dans chaque couche</b>.<br/>
-	 * passé en paramètre au générateur.<br/>
-	 * par exemple : "profil".<br/>
-	 * <br/>
+	 * method alimenterNomPackage(
+	 * String pNomPackage) :<br/>
+	 * <ul>
+	 * <li>ALimente le <b>nom du package à créer 
+	 * dans chaque SOUS-COUCHE</b> 
+	 * en fonction du concept à modéliser dans le générateur 
+	 * (model/metier/profil, model/dao/metier/profil, 
+	 * model/services/metier/profil, ...pour un concept Profil).</li>
+	 * <li>pNomPackage est passé en paramètre au générateur.</li>
+	 * <li>par exemple : <br/>
+	 * <code>profil</code>.</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
 	 * 
 	 * @param pNomPackage : String : 
 	 * nom du package à créer dans chaque couche.<br/>
@@ -2258,11 +2382,16 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 	/**
 	 * method alimenterConceptModelise() :<br/>
-	 * Alimenteur du <b>concept modélisé par ce générateur</b>.<br/>
-	 * nom du package à créer dans chaque couche 
-	 * avec une majuscule en première position.<br/>
-	 * Par exemple : Profil pour le nomPackage "profil".<br/>
-	 * <br/>
+	 * <ul>
+	 * <li>Alimente le <b>concept modélisé par ce générateur</b>.</li>
+	 * <li><b>nom du package à créer dans chaque SOUS-COUCHE</b> 
+	 * (model/metier, model/dao/metier, model/services/metier, ...) 
+	 * avec une <i>majuscule</i> en première position.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>Profil</code> pour le nomPackage "profil".</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
 	 * 
 	 * @param pNomPackage : String : 
 	 * nom du package à créer dans chaque couche.<br/>
@@ -2497,13 +2626,41 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de alimenterMapRg().__________________________________________
 	
 	
+
+	/**
+	 * method getConceptModelise() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>concept modélisé par ce générateur</b>.</li>
+	 * <li><b>nom du package à créer dans chaque SOUS-COUCHE</b> 
+	 * (model/metier, model/dao/metier, model/services/metier, ...) 
+	 * avec une <i>majuscule</i> en première position.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>Profil</code> pour le nomPackage "profil".</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
+	 * 
+	 * @return conceptModelise : String.<br/>
+	 */
+	public static final String getConceptModelise() {
+		return conceptModelise;
+	} // Fin de getConceptModelise().______________________________________
+
+
 	
 	/**
 	 * method getNomPackage() :<br/>
-	 * Getter du <b>nom du package à créer dans chaque couche</b>.<br/>
-	 * passé en paramètre au générateur.<br/>
-	 * par exemple : "profil".<br/>
-	 * <br/>
+	 * <ul>
+	 * <li>Getter du <b>nom du package à créer dans chaque SOUS-COUCHE</b> 
+	 * en fonction du concept à modéliser dans le générateur 
+	 * (model/metier/profil, model/dao/metier/profil, 
+	 * model/services/metier/profil, ...pour un concept Profil).</li>
+	 * <li>passé en paramètre au générateur.</li>
+	 * <li>par exemple : <br/>
+	 * <code>profil</code>.</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
 	 * 
 	 * @return nomPackage : String.<br/>
 	 */
@@ -2515,30 +2672,16 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	
 	/**
 	 * method getPackageMetier() :<br/>
-	 * Getter du Package metier (model.metier).<br/>
-	 * <br/>
+	 * <ul>
+	 * Getter du Package metier de la COUCHE <i>model</i> 
+	 * (model.metier).<br/>
+	 * </ul>
 	 *
 	 * @return packageMetier : File.<br/>
 	 */
 	public static final File getPackageMetier() {	
 		return packageMetier;
 	} // Fin de getPackageMetier().________________________________________
-
-
-
-	/**
-	 * method getConceptModelise() :<br/>
-	 * Getter du <b>concept modélisé par ce générateur</b>.<br/>
-	 * nom du package à créer dans chaque couche 
-	 * avec une majuscule en première position.<br/>
-	 * Par exemple : Profil pour le nomPackage "profil".<br/>
-	 * <br/>
-	 * 
-	 * @return conceptModelise : String.<br/>
-	 */
-	public static final String getConceptModelise() {
-		return conceptModelise;
-	} // Fin de getConceptModelise().______________________________________
 
 
 	

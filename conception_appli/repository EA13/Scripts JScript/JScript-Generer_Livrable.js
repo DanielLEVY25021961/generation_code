@@ -1,6 +1,6 @@
 !INC Local Scripts.EAConstants-JScript
 
-var TEMPLATE = "Template_Package_Note_Diagramme_Linked";
+var TEMPLATE = "Template_Package_Note_Diagramme_Linked"; // NOPMD by daniel.levy on 05/02/18 14:38
 var OUTPUT_FILE = "C:\\Users\\dan\\git\\tuto_web_jee1.8.144.git\\tuto_web_jee1.8.144\\conception_appli\\Documentation g�n�r�e par EA\\Livrable.docx";
 var GUID_MASTER_DOCUMENT = "{4023291D-9BFC-49b0-8ED2-978CA3A4AC8E}";
 

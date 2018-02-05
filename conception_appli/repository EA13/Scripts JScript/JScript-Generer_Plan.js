@@ -1,6 +1,6 @@
 !INC Local Scripts.EAConstants-JScript
 
-var TEMPLATE = "Template_Plan_Activities";
+var TEMPLATE = "Template_Plan_Activities"; // NOPMD by daniel.levy on 05/02/18 14:38
 var OUTPUT_FILE = "C:\\Users\\dan\\git\\tuto_web_jee1.8.144.git\\tuto_web_jee1.8.144\\conception_appli\\Documentation g�n�r�e par EA\\Plan.docx";
 var GUID_MASTER_DOCUMENT = "{01EDB4D9-5BC5-4a44-AF27-0C481F627362}";
 

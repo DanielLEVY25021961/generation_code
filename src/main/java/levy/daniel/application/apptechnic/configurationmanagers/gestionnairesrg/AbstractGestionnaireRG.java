@@ -102,7 +102,9 @@ public abstract class AbstractGestionnaireRG implements IGestionnaireRG {
 			this.bundleExterneRG = this.getBundleExterneRG();
 		}
 		catch (MalformedURLException e) {
-			e.printStackTrace();
+			if (LOG.isFatalEnabled()) {
+				LOG.info("Bundle externe introuvable : ", e);
+			}
 		}
 		
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
