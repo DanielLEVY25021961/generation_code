@@ -1031,14 +1031,17 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * method genererPackageServicesMetier() :<br/>
 	 * <ul>
-	 * <li><b>alimente packageServicesMetier</b> avec la valeur fournie 
+	 * <li><b>alimente packageServicesMetier</b> 
+	 * avec la valeur fournie 
 	 * par le GestionnaireProjet.</li>
 	 * <li>génère si nécessaire le package metier sous SERVICES
 	 * <b>packageServicesMetier</b> (model.services.metier).</li>
-	 * <li>génère si nécessaire l'interface IServicesGenericJPASpring.java 
+	 * <li>génère si nécessaire l'interface 
+	 * IServicesGenericJPASpring.java 
 	 * sous model.services.metier.</li>
 	 * <li>génère si nécessaire la classe abstraite 
-	 * AbstractServicesGenericJPASpring.java sous model.services.metier.</li>
+	 * AbstractServicesGenericJPASpring.java 
+	 * sous model.services.metier.</li>
 	 * </ul>
 	 *
 	 * @throws Exception
@@ -1063,9 +1066,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			genererIServicesGenericJPASpring();
 			
 			genererAbstractServicesGenericJPASpring();
-			
-			genererServicesExceptions();
-			
+						
 		} // Fin de synchronized._________________________________
 						
 	} // Fin de genererPackageServicesMetier()._________________________________
@@ -1155,7 +1156,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 					
 		pListe.addAll(listeLignes);
 				
-	} // Fin de creerLignesIServicesGenericJPASpring(...).______________________
+	} // Fin de creerLignesIServicesGenericJPASpring(...)._________________
 	
 	
 	
@@ -1246,46 +1247,6 @@ public abstract class AbstractGenerateur implements IGenerateur {
 				
 	} // Fin de creerLignesAbstractServicesGenericJPASpring(...)._______________
 	
-
-	
-	/**
-	 * method genererServicesExceptions() :<br/>
-	 * <ul>
-	 * <li>génère le répertoire servicesexceptions 
-	 * dans le projet cible si il n'existe pas.</li>
-	 * <li>recopie tout le contenu de servicesexceptions 
-	 * dans le projet cible si il n'existe pas.</li>
-	 * </ul>
-	 */
-	private static void genererServicesExceptions() {
-		
-		synchronized (AbstractGenerateur.class) {
-			
-			/* répertoire servicesexceptions à recopier. */
-			final File repSource 
-				= new File("./src/main/java/levy/daniel/"
-						+ "application/model/services/servicesexceptions");
-			
-			final Path pathServices 
-				= GestionnaireProjet.getPathServicesMainJava();
-			final Path pathDestination 
-				= pathServices.resolve("servicesexceptions");
-			final File repDestination 
-				= pathDestination.toFile();
-			
-			if (!repDestination.exists()) {
-				
-				/* création du répertoire servicesExceptions 
-				 * dans le projet cible. */
-				GestionnaireFichiers
-					.copierRepertoireSansRemplacement(
-							repSource, repDestination);
-			}
-						
-		} // Fin de synchronized._________________________________
-		
-	} // Fin de genererServicesExceptions().____________________________________
-
 
 	
 	/**

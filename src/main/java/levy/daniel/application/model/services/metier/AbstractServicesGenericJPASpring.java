@@ -1,5 +1,6 @@
 package levy.daniel.application.model.services.metier;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +9,30 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesrg.LigneRG;
+import levy.daniel.application.model.dao.IDaoGenericJPASpring;
+import levy.daniel.application.model.dao.daoexceptions.AbstractDaoException;
 import levy.daniel.application.model.services.valideurs.IValideurGeneric;
 import levy.daniel.application.model.services.valideurs.LigneRapportValidation;
 
 /**
- * class AbstractServicesGenericJPASpring :<br/>
- * .<br/>
+ * CLASSE ABSTRAITE <b<AbstractServicesGenericJPASpring</b> :<br/>
+ * <ul>
+ * <li><b>SERVICE ABSTRAIT GENERIQUE</b> pour <b>SPRING AVEC JPA</b>.</li>
+ * <li>
+ * Comporte l'implémentation des méthodes <b>CRUD</b> valables 
+ * pour <b>tous les objets métier</b>.
+ * </li>
+ * <li>Les transactions sont gérées par le conteneur SPRING.</li>
+ * <br/>
+ * <li>
+ * <img src="../../../../../../../../../javadoc/images/implementation_SERVICEs_1.png" 
+ * alt="implémentation des SERVICEs" border="1" align="center" />
+ * </li>
+ * </ul>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -31,14 +48,49 @@ import levy.daniel.application.model.services.valideurs.LigneRapportValidation;
  * @author dan Lévy
  * @version 1.0
  * @param <T> : Type paramétré : Classe réelle d'un Objet métier.<br/>
+ * @param <ID> : Type paramétré : type de l'ID en base d'un Objet métier 
+ * (Long, Integer, String, ...).<br/>
  * @since 26 août 2017
  *
  */
-public abstract class AbstractServicesGenericJPASpring<T> 
-							implements IServicesGenericJPASpring<T> {
+public abstract class AbstractServicesGenericJPASpring<T, ID extends Serializable> 
+					implements IServicesGenericJPASpring<T, ID> {
 
+	
 	// ************************ATTRIBUTS************************************/
 
+	
+	/**
+	 * CLASS_ABSTRACT_SERVICE_GENERIC : String :<br/>
+	 * "Classe AbstractServicesGenericJPASpring".<br/>
+	 */
+	public static final String CLASS_ABSTRACT_SERVICE_GENERIC 
+		= "Classe AbstractServicesGenericJPASpring";
+
+	
+	/**
+	 * METHODE_CREATE : String :<br/>
+	 * "Méthode create(T pObject)".<br/>
+	 */
+	public static final String METHODE_CREATE 
+		= "Méthode create(T pObject)";
+	
+	
+	/**
+	 * SEPARATEUR_MOINS_AERE : String :<br/>
+	 * " - ".<br/>
+	 */
+	public static final String SEPARATEUR_MOINS_AERE = " - ";
+	
+
+	
+	
+	/**
+	 * dao : IDaoGenericJPASpring&lt;T ,ID&gt; :<br/>
+	 * DAO pour le service.<br/>
+	 */
+	protected IDaoGenericJPASpring<T, ID> dao;
+	
 		
 	/**
 	 * listeRGImplementees : List&lt;LigneRG&gt; :<br/>
@@ -60,6 +112,17 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * Objet métier géré par le présent service.<br/>
 	 */
 	protected transient T objetMetier;
+	
+		
+	/**
+	 * classObjetMetier : Class&lt;T&gt; :<br/>
+	 * Class (.Class Reflexion = Introspection) réelle 
+	 * de l'Objet métier de Type paramétré T 
+	 * concerné par le présent Service.<br/>
+	 */
+	protected transient Class<T> classObjetMetier;
+
+
 
 	
 	/**
@@ -193,6 +256,25 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	
 
 	
+	 /**
+	 * method CONSTRUCTEUR AbstractServiceGenericSpring(
+	 * IDaoGenericJPASpring&lt;T, ID&gt; pDao) :<br/>
+	 * CONSTRUCTEUR AVEC DAO.<br/>
+	 * <br/>
+	 *
+	 * @param pDao : IDaoGenericJPASpring&lt;T, ID&gt; pDao.<br/>
+	 */
+	public AbstractServicesGenericJPASpring(
+			final IDaoGenericJPASpring<T, ID> pDao) {
+		
+		super();
+		
+		this.dao = pDao;
+		
+	} // Fin de CONSTRUCTEUR AVEC DAO._____________________________________
+	
+
+	
 	
 	/* CREATE ************/
 
@@ -200,21 +282,76 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(propagation = Propagation.REQUIRED
+			, readOnly = false)
 	@Override
-	public final T create(
+	public T create(
 			final T pObject) {
+		
+		try {
+			
+			if (this.dao != null) {
+				return this.dao.create(pObject);
+			}
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("DAO null");
+			}
+			
+			
+		}
+		catch (AbstractDaoException e) {
+			System.out.println(CLASS_ABSTRACT_SERVICE_GENERIC 
+					+ SEPARATEUR_MOINS_AERE 
+					+ METHODE_CREATE + SEPARATEUR_MOINS_AERE 
+					+ "MESSAGE UTILISATEUR : " + e.getMessageUtilisateur());
+		}
 		
 		return null;
 		
 	} // Fin de create(...)._______________________________________________
 
 	
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <S extends T> S save(
+			final S pObject) {
+		return null;
+	} // Fin de save(...)._________________________________________________
+	
+
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Long createReturnId(
+	public void persist(
+			final T pObject) {
+		return; // NOPMD by daniel.levy on 05/02/18 16:11
+	} // Fin de persist(...).______________________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <S extends T> void persistSousClasse(
+			final S pObject) {
+		return; // NOPMD by daniel.levy on 05/02/18 16:12
+	} // Fin de persistSousClasse(...).____________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ID createReturnId(
 			final T pObject) {
 		
 		return null;
@@ -222,6 +359,18 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	} // Fin de createReturnId(...)._______________________________________
 
 	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <S extends T> Iterable<S> save(
+			final Iterable<S> pObjects) {
+		return null;
+	} // Fin de save(...)._________________________________________________
+	
+	
+
 	
 	/* READ *************/
 
@@ -231,7 +380,7 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final T retrieve(
+	public T retrieve(
 			final T pObject) {
 		
 		return null;
@@ -244,8 +393,19 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final T getOne(
-			final Long pId) {
+	public T findById(
+			final ID pId) {
+		return null;
+	} // Fin de findById(...)._____________________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public T getOne(
+			final ID pId) {
 		
 		return null;
 		
@@ -257,7 +417,7 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final List<T> findAll() {
+	public List<T> findAll() {
 		
 		return null;
 		
@@ -269,7 +429,7 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final List<T> findAllMax(
+	public List<T> findAllMax(
 			final Long pMax) {
 		
 		return null;
@@ -282,8 +442,8 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Iterable<T> findAll(
-			final Iterable<Long> pIds) {
+	public Iterable<T> findAll(
+			final Iterable<ID> pIds) {
 		
 		return null;
 		
@@ -300,38 +460,12 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final T update(
+	public T update(
 			final T pObject) {
 		
 		return null;
 		
 	} // Fin de update(...)._______________________________________________
-	
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final <S extends T> S save(
-			final S pObject) {
-		
-		return null;
-		
-	} // Fin de save(...)._________________________________________________
-	
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final <S extends T> Iterable<S> save(
-			final Iterable<S> pObjects) {
-		
-		return null;
-		
-	} // Fin de save(...)._________________________________________________
 	
 	
 	
@@ -344,7 +478,7 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean delete(
+	public boolean delete(
 			final T pObject) {
 		
 		return false;
@@ -357,12 +491,12 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void delete(
-			final Long pId) {
+	public void deleteById(
+			final ID pId) {
 		
 		/***/
 		
-	} // Fin de delete(...)._______________________________________________
+	} // Fin de deleteById(...).___________________________________________
 	
 
 	
@@ -370,12 +504,12 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean deleteBoolean(
-			final Long pId) {
+	public boolean deleteByIdBoolean(
+			final ID pId) {
 		
 		return false;
 		
-	} // Fin de deleteBoolean(...).________________________________________
+	} // Fin de deleteByIdBoolean(...).____________________________________
 	
 	
 
@@ -383,7 +517,7 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void deleteAll() {
+	public void deleteAll() {
 		
 		/***/
 		
@@ -395,7 +529,17 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void delete(
+	public boolean deleteAllBoolean() {
+		return false;
+	} // Fin de deleteAllBoolean().________________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void delete(
 			final Iterable<? extends T> pObjects) {
 		
 		/****/
@@ -406,13 +550,25 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	
 	/* TOOLS *************/
 
+
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean exists(
-			final Long pId) {
+	public boolean exists(
+			final T pObject) {
+		return false;
+	} // Fin de exists(...)._______________________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean exists(
+			final ID pId) {
 		
 		return false;
 		
@@ -428,7 +584,7 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	 * @return : Long : the number of entities.<br/>
 	 */
 	@Override
-	public final Long count() {
+	public Long count() {
 		
 		return null;
 		
@@ -587,6 +743,36 @@ public abstract class AbstractServicesGenericJPASpring<T>
 	public final Boolean getValide() {
 		return this.valide;
 	} // Fin de getValide()._______________________________________________
+
+
+	
+	/**
+	 * method getDao() :<br/>
+	 * Getter du DAO pour le service.<br/>
+	 * <br/>
+	 *
+	 * @return dao : 
+	 * IDaoGenericJPASpring&lt;T, ID&gt;.<br/>
+	 */
+	public IDaoGenericJPASpring<T, ID> getDao() {	
+		return this.dao;
+	} // Fin de getDao().__________________________________________________
+
+
+	
+	/**
+	* method setDao(
+	* IDaoGenericJPASpring&lt;T, ID&gt; pDao) :<br/>
+	* Setter du DAO pour le service.<br/>
+	* <br/>
+	*
+	* @param pDao : IDaoGenericJPASpring&lt;T, ID&gt; : 
+	* valeur à passer à dao.<br/>
+	*/
+	public void setDao(
+			final IDaoGenericJPASpring<T, ID> pDao) {	
+		this.dao = pDao;
+	} // Fin de setDao(...)._______________________________________________
 
 		
 	
