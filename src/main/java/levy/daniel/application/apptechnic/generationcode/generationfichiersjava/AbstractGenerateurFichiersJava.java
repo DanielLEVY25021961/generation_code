@@ -1,5 +1,7 @@
 package levy.daniel.application.apptechnic.generationcode.generationfichiersjava;
 
+import java.io.IOException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,7 +27,7 @@ import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
  * @since 22 janv. 2018
  *
  */
-public class AbstractGenerateurFichiersJava extends AbstractGenerateur {
+public abstract class AbstractGenerateurFichiersJava extends AbstractGenerateur {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -68,25 +70,19 @@ public class AbstractGenerateurFichiersJava extends AbstractGenerateur {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void alimenterNomSimpleInterface(
-			final String pConceptModelise) {
-		// TODO Auto-generated method stub
-
-	}
 
 	/**
-	 * {@inheritDoc}
+	 * method genererFichiersJava() :<br/>
+	 * <ul>
+	 * <li>génère et alimente this.interfaceJava.</li>
+	 * <li>génère et alimente this.abstractClass.</li>
+	 * <li>génère et alimente this.concreteClass.</li>
+	 * <li>génère et alimente this.objetMetierForm.</li>
+	 * </ul>
+	 *
+	 * @throws IOException 
 	 */
 	@Override
-	protected void alimenterNomSimpleConcreteClass(
-			final String pNomObjetMetier) {
-		// TODO Auto-generated method stub
-
-	}
-
+	protected abstract void genererFichiersJava() throws IOException;
 	
 } // FIN DE LA CLASSE AbstractGenerateurFichiersJava.----------------------

@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple.GenerateurMetier;
+import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
 
 /**
  * class IEcriveur :<br/>
@@ -912,11 +912,11 @@ public interface IEcriveur {
 	 * <br/>
 	 *
 	 * @param pFile : File : fichier java.<br/>
-	 * @param pGenerateurMetier : GenerateurMetier.<br/>
+	 * @param pGenerateurMetierToutAbstract : GenerateurMetierToutAbstract.<br/>
 	 */
 	void ecrireCode(
 			File pFile
-				, GenerateurMetier pGenerateurMetier);
+				, GenerateurMetierToutAbstract pGenerateurMetierToutAbstract);
 	
 	
 

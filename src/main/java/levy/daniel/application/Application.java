@@ -14,8 +14,8 @@ import org.apache.commons.logging.LogFactory;
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.IGenerateur;
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationdao.GenerateurDao;
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple.GenerateurMetier;
+import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationdao.GenerateurDaoToutAbstract;
+import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
 
 /**
  * class Application :<br/>
@@ -142,8 +142,8 @@ public final class Application {
 		GestionnaireProjet.alimenterAttributs(PROJET_GENERATION_CODE_TEST);
 		
 		/* Instancie des générateurs de code. */
-		final IGenerateur generateurMetier = new GenerateurMetier();
-		final IGenerateur generateurDao = new GenerateurDao();
+		final IGenerateur generateurMetier = new GenerateurMetierToutAbstract();
+		final IGenerateur generateurDao = new GenerateurDaoToutAbstract();
 		
 		MAP_ATTRIBUTS.put("profilString", STRING);
 		MAP_ATTRIBUTS.put("porteeProfil", STRING);

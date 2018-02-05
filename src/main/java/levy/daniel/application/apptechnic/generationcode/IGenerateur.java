@@ -241,9 +241,16 @@ public interface IGenerateur {
 
 	/**
 	 * method getPathPackage() :<br/>
-	 * Getter du path absolu du repertoire visé 
-	 * par this.pathPackage.<br/>
-	 * <br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu de la SOUS-COUCHE (package)</b> 
+	 * contenant les arborescences à générer 
+	 * (model/metier, model/dao/metier
+	 * , model/services/metier, ...).</li>
+	 * <li>par exemple : <br/>
+	 * <code>model/metier</code> pour un GenerateurMetierToutAbstract 
+	 * ou <code>model/dao/metier</code> 
+	 * pour un GenerateurDaoToutAbstract.</li>
+	 * </ul>
 	 *
 	 * @return pathPackage : String.<br/>
 	 */
@@ -253,9 +260,15 @@ public interface IGenerateur {
 
 	/**
 	 * method getPackageSousCouche() :<br/>
-	 * Getter du Package du fichier java à générer.<br/>
-	 * Par exemple : model/metier/profil<br/> 
-	 * <br/>
+	 * <ul>
+	 * <li><b>Package du fichier java à générer</b> 
+	 * sous pathPackage/packageSousCouche.<br/>
+	 * <li>Par exemple : <br/>
+	 * <code>model/metier/profil</code> pour un 
+	 * GenerateurMetierToutAbstract générant un concept Profil
+	 * ou <code>model/dao/metier/profil</code> pour un 
+	 * GenerateurDaoToutAbstract générant un concept Profil.</li> 
+	 * </ul>
 	 *
 	 * @return packageSousCouche : File.<br/>
 	 */
@@ -265,93 +278,93 @@ public interface IGenerateur {
 
 	/**
 	 * method getSousPackageImpl() :<br/>
-	 * Getter du Sous-Package "impl" du fichier java à générer.<br/>
-	 * Par exemple : model/metier/profil/impl<br/>
-	 * <br/>
+	 * <ul>
+	 * <li>Getter du <b>Sous-Package "impl" du Concept à générer</b> 
+	 * sous model/metier/packageSousCouche/sousPackageImpl.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>model/metier/profil/impl</code> 
+	 * pour un GenerateurMetierToutAbstract générant un concept Profil
+	 * ou <code>model/metier/dao/profil/impl</code> pour un 
+	 * GenerateurDaoToutAbstract générant un concept Profil.</li>
+	 * </ul>
 	 *
 	 * @return sousPackageImpl : File.<br/>
 	 */
 	File getSousPackageImpl();
 
 
-
+		
 	/**
-	 * method getNomSimpleInterface() :<br/>
-	 * Getter du Nom simple de l'interface à générer.<br/>
-	 * Par exemple "IProfil".<br/>
-	 * <br/>
-	 *
-	 * @return nomSimpleInterface : String.<br/>
-	 */
+	* method getNomSimpleInterface() :<br/>
+	* <ul>
+	* <li>Getter de this.nomSimpleInterface.</li>
+	* </ul>
+	*
+	* @return this.nomSimpleInterface : String.<br/>
+	*/
 	String getNomSimpleInterface();
+	
 
-
-
+	
 	/**
-	 * method getInterfaceJava() :<br/>
-	 * Getter de l'Interface de l'objet métier à générer.<br/>
-	 * Par exemple : "IProfil.java" pour l'objet métier Profil.java<br/>
-	 * <br/>
-	 *
-	 * @return interfaceJava : File.<br/>
-	 */
+	* method getInterfaceJava() :<br/>
+	* <ul>
+	* <li>Getter de this.interfaceJava.</li>
+	* </ul>
+	*
+	* @return this.interfaceJava : File.<br/>
+	*/
+	
 	File getInterfaceJava();
+	
 
-
-
+	
 	/**
-	 * method getNomSimpleAbstractClass() :<br/>
-	 * Getter du Nom simple de la Classe Abstraite à générer.<br/>
-	 * Par exemple "AbstractProfil".<br/>
-	 * <br/>
-	 *
-	 * @return nomSimpleAbstractClass : String.<br/>
-	 */
+	* method getNomSimpleAbstractClass() :<br/>
+	* <ul>
+	* <li>Getter de this.nomSimpleAbstractClass.</li>
+	* </ul>
+	*
+	* @return this.nomSimpleAbstractClass : String.<br/>
+	*/
 	String getNomSimpleAbstractClass();
 
 
-
+		
 	/**
-	 * method getAbstractClass() :<br/>
-	 * Getter de la Classe Abstraite de l'objet métier à générer.<br/>
-	 * Par exemple : "AbstractProfil.java" pour l'objet métier 
-	 * Profil.java<br/>
-	 * <br/>
-	 *
-	 * @return abstractClass : File.<br/>
-	 */
+	* method getAbstractClass() :<br/>
+	* <ul>
+	* <li>Getter de this.abstractClass.</li>
+	* </ul>
+	*
+	* @return this.abstractClass : File.<br/>
+	*/
 	File getAbstractClass();
 
 
-
+		
 	/**
-	 * method getNomSimpleConcreteClass() :<br/>
-	 * Getter du Nom simple du Fichier Java concret à générer.<br/>
-	 * Par exemple : <br/>
-	 * <code>ProfilSimple</code> dans la couche metier.profil 
-	 * ou <code>DaoProfilSimple</code> dans 
-	 * la couche DAO.metier.profil.<br/>
-	 * <br/>
-	 *
-	 * @return nomSimpleConcreteClass : String.<br/>
-	 */
+	* method getNomSimpleConcreteClass() :<br/>
+	* <ul>
+	* <li>Getter de this.nomSimpleConcreteClass.</li>
+	* </ul>
+	*
+	* @return this.nomSimpleConcreteClass : String.<br/>
+	*/
 	String getNomSimpleConcreteClass();
 
 
-
+	
 	/**
-	 * method getConcreteClass() :<br/>
-	 * Getter du Fichier Java concret à générer.<br/>
-	 * Par exemple : <br/>
-	 * <code>ProfilSimple.java</code> dans la couche metier.profil 
-	 * ou <code>DaoProfilSimple.java</code> dans 
-	 * la couche DAO.metier.profil.<br/>
-	 * <br/>
-	 *
-	 * @return concreteClass : File.<br/>
-	 */
+	* method getConcreteClass() :<br/>
+	* <ul>
+	* <li>Getter de this.concreteClass.</li>
+	* </ul>
+	*
+	* @return this.concreteClass : File.<br/>
+	*/
 	File getConcreteClass();
-
+	
 
 
 } // FIN DE L'INTERFACE IGenerateur.-----------------------------------------

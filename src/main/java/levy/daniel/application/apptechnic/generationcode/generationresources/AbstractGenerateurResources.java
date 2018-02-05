@@ -68,26 +68,6 @@ public abstract class AbstractGenerateurResources extends AbstractGenerateur {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void alimenterNomSimpleInterface(
-			final String pConceptModelise) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void alimenterNomSimpleConcreteClass(
-			final String pNomObjetMetier) {
-		// TODO Auto-generated method stub
-
-	}
-
 	
 
 } // FIN DE LA CLASSE AbstractGenerateurResources.-------------------------

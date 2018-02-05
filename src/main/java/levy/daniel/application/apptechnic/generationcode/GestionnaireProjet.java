@@ -1460,35 +1460,423 @@ public final class GestionnaireProjet {
 	*/
 	private static File fileVuesTestJava;
 	
+			
+	/**
+	* PATH_REL_DAO : String :<br/>
+	* <ul>
+	* <li><b>path relatif du répertoire  "model/dao"</b> 
+	* du projet par rapport 
+	* au path absolu du groupId
+	* (pathGroupIdMainJava pour les sources du main 
+	* et pathGroupIdTestJava pour les sources des tests).</li>
+	* <li>Singleton.</li>
+	* <li>sous forme de String.</li>
+	* <li>Par Exemple : <br/>
+	* <code>"model/dao"</code></li>
+	* </li>
+	* </ul>
+	*/
+	private static final String PATH_REL_DAO 
+		= PATH_REL_MODEL + "/dao";
+	
 	
 	/**
-	 * pathDao : String :<br/>
-	 * path absolu du repertoire model/dao.<br/>
-	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
-	 * projet_users/src/main/java/levy/daniel/application/
-	 * model/dao<br/>
-	 */
-	private static String pathDao;
+	* pathDaoMainJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/dao"</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathDaoMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model/dao</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathDaoMainJavaString;
 	
 	
 	/**
-	 * pathMetier : String :<br/>
-	 * path absolu du repertoire model/metier.<br/>
-	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
-	 * projet_users/src/main/java/levy/daniel/application/
-	 * model/metier<br/>
-	 */
-	private static String pathMetier;
+	* pathDaoMainJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/dao"</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathDaoMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model/dao</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathDaoMainJava;
 	
 	
 	/**
-	 * pathServices : String :<br/>
-	 * path absolu du repertoire model/services.<br/>
-	 * Exemple : D:/Donnees/eclipse/eclipseworkspace_neon/
-	 * projet_users/src/main/java/levy/daniel/application/
-	 * model/services<br/>
-	 */
-	private static String pathServices;
+	* fileDaoMainJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire "model/dao"</b> 
+	* dans les sources Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathDaoMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model/dao</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileDaoMainJava;
+	
+	
+	/**
+	* pathDaoTestJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/dao"</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathDaoTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model/dao</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathDaoTestJavaString;
+	
+	
+	/**
+	* pathDaoTestJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/dao"</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathDaoTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model/dao</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathDaoTestJava;
+	
+	
+	/**
+	* fileDaoTestJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire "model/dao"</b> 
+	* dans les tests Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathDaoTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model/dao</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileDaoTestJava;
+	
+			
+	/**
+	* PATH_REL_METIER : String :<br/>
+	* <ul>
+	* <li><b>path relatif du répertoire  "model/metier"</b> 
+	* du projet par rapport 
+	* au path absolu du groupId
+	* (pathGroupIdMainJava pour les sources du main 
+	* et pathGroupIdTestJava pour les sources des tests).</li>
+	* <li>Singleton.</li>
+	* <li>sous forme de String.</li>
+	* <li>Par Exemple : <br/>
+	* <code>"model/metier"</code></li>
+	* </li>
+	* </ul>
+	*/
+	private static final String PATH_REL_METIER 
+	= PATH_REL_MODEL + "/metier";
+	
+	
+	/**
+	* pathMetierMainJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/metier"</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathMetierMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model/metier</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathMetierMainJavaString;
+	
+	
+	/**
+	* pathMetierMainJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/metier"</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathMetierMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model/metier</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathMetierMainJava;
+	
+	
+	/**
+	* fileMetierMainJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire "model/metier"</b> 
+	* dans les sources Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathMetierMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model/metier</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileMetierMainJava;
+	
+	
+	/**
+	* pathMetierTestJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/metier"</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathMetierTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model/metier</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathMetierTestJavaString;
+	
+	
+	/**
+	* pathMetierTestJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/metier"</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathMetierTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model/metier</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathMetierTestJava;
+	
+	
+	/**
+	* fileMetierTestJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire "model/metier"</b> 
+	* dans les tests Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathMetierTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model/metier</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileMetierTestJava;
+	
+			
+	/**
+	* PATH_REL_SERVICES : String :<br/>
+	* <ul>
+	* <li><b>path relatif du répertoire  "model/services"</b> 
+	* du projet par rapport 
+	* au path absolu du groupId
+	* (pathGroupIdMainJava pour les sources du main 
+	* et pathGroupIdTestJava pour les sources des tests).</li>
+	* <li>Singleton.</li>
+	* <li>sous forme de String.</li>
+	* <li>Par Exemple : <br/>
+	* <code>"model/services"</code></li>
+	* </li>
+	* </ul>
+	*/
+	private static final String PATH_REL_SERVICES 
+	= PATH_REL_MODEL + "/services";
+	
+	
+	/**
+	* pathServicesMainJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/services"</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathServicesMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model/services</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathServicesMainJavaString;
+	
+	
+	/**
+	* pathServicesMainJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/services"</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathServicesMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model/services</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathServicesMainJava;
+	
+	
+	/**
+	* fileServicesMainJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire "model/services"</b> 
+	* dans les sources Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathServicesMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model/services</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileServicesMainJava;
+	
+	
+	/**
+	* pathServicesTestJavaString : String :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/services"</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathServicesTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model/services</code>
+	* </li>
+	* </ul>
+	*/
+	private static String pathServicesTestJavaString;
+	
+	
+	/**
+	* pathServicesTestJava : Path :<br/>
+	* <ul>
+	* <li><b>path absolu du repertoire "model/services"</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathServicesTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model/services</code>
+	* </li>
+	* </ul>
+	*/
+	private static Path pathServicesTestJava;
+	
+	
+	/**
+	* fileServicesTestJava : File :<br/>
+	* <ul>
+	* <li><b>File modélisant le repertoire "model/services"</b> 
+	* dans les tests Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathServicesTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model/services</code>
+	* </li>
+	* </ul>
+	*/
+	private static File fileServicesTestJava;
+	
 
 	
 	/**
@@ -1622,6 +2010,9 @@ public final class GestionnaireProjet {
 			alimenterControllers();
 			alimenterModel();
 			alimenterVues();
+			alimenterDao();
+			alimenterMetier();
+			alimenterServices();
 			
 		} // Fin de synchronized._______________________
 		
@@ -3065,6 +3456,162 @@ public final class GestionnaireProjet {
 		} // Fin de synchronized._______________________
 		
 	} // Fin de alimenterVues().__________________________________________
+	
+
+	
+	/**
+	 * method alimenterDao() :<br/>
+	 * <ul>
+	 * <li>Alimente tous les attributs relatifs à model/dao.</li>
+	 * <li>Crée les répertoires si ils n'existent pas déjà.</li>
+	 * <li>crée le package-info si il n'existe pas déjà.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterDao() throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathDaoMainJava == null) {
+				
+				pathDaoMainJava 
+					= fabriquerPath(
+							pathGroupIdMainJava, PATH_REL_DAO);
+				pathDaoMainJavaString 
+					= pathDaoMainJava.toString();
+				fileDaoMainJava 
+					= pathDaoMainJava.toFile();
+				
+				if (!fileDaoMainJava.exists()) {
+					Files.createDirectories(pathDaoMainJava);
+				}
+				
+				/* crée le package-info si il n'existe pas déjà. */
+				creerPackageInfo(pathDaoMainJava);
+				
+				
+				pathDaoTestJava 
+				= fabriquerPath(
+						pathGroupIdTestJava, PATH_REL_DAO);
+				pathDaoTestJavaString 
+					= pathDaoTestJava.toString();
+				fileDaoTestJava 
+					= pathDaoTestJava.toFile();
+				
+				if (!fileDaoTestJava.exists()) {
+					Files.createDirectories(pathDaoTestJava);
+				}
+				
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterDao().____________________________________________
+
+	
+	
+	/**
+	 * method alimenterMetier() :<br/>
+	 * <ul>
+	 * <li>Alimente tous les attributs relatifs à model/metier.</li>
+	 * <li>Crée les répertoires si ils n'existent pas déjà.</li>
+	 * <li>crée le package-info si il n'existe pas déjà.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterMetier() throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathMetierMainJava == null) {
+				
+				pathMetierMainJava 
+					= fabriquerPath(
+							pathGroupIdMainJava, PATH_REL_METIER);
+				pathMetierMainJavaString 
+					= pathMetierMainJava.toString();
+				fileMetierMainJava 
+					= pathMetierMainJava.toFile();
+				
+				if (!fileMetierMainJava.exists()) {
+					Files.createDirectories(pathMetierMainJava);
+				}
+				
+				/* crée le package-info si il n'existe pas déjà. */
+				creerPackageInfo(pathMetierMainJava);
+				
+				
+				pathMetierTestJava 
+				= fabriquerPath(
+						pathGroupIdTestJava, PATH_REL_METIER);
+				pathMetierTestJavaString 
+					= pathMetierTestJava.toString();
+				fileMetierTestJava 
+					= pathMetierTestJava.toFile();
+				
+				if (!fileMetierTestJava.exists()) {
+					Files.createDirectories(pathMetierTestJava);
+				}
+				
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterMetier()._________________________________________
+	
+
+	
+	/**
+	 * method alimenterServices() :<br/>
+	 * <ul>
+	 * <li>Alimente tous les attributs relatifs à model/services.</li>
+	 * <li>Crée les répertoires si ils n'existent pas déjà.</li>
+	 * <li>crée le package-info si il n'existe pas déjà.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private static void alimenterServices() throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			if (pathServicesMainJava == null) {
+				
+				pathServicesMainJava 
+					= fabriquerPath(
+							pathGroupIdMainJava, PATH_REL_SERVICES);
+				pathServicesMainJavaString 
+					= pathServicesMainJava.toString();
+				fileServicesMainJava 
+					= pathServicesMainJava.toFile();
+				
+				if (!fileServicesMainJava.exists()) {
+					Files.createDirectories(pathServicesMainJava);
+				}
+				
+				/* crée le package-info si il n'existe pas déjà. */
+				creerPackageInfo(pathServicesMainJava);
+				
+				
+				pathServicesTestJava 
+				= fabriquerPath(
+						pathGroupIdTestJava, PATH_REL_SERVICES);
+				pathServicesTestJavaString 
+					= pathServicesTestJava.toString();
+				fileServicesTestJava 
+					= pathServicesTestJava.toFile();
+				
+				if (!fileServicesTestJava.exists()) {
+					Files.createDirectories(pathServicesTestJava);
+				}
+				
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterServices()._______________________________________
 	
 
 	
@@ -5487,6 +6034,525 @@ public final class GestionnaireProjet {
 
 	
 	/**
+	 * method getPathRelDao() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path relatif du répertoire model/dao</b> 
+	 * du projet par rapport 
+	 * au path absolu du groupId
+	 * (pathGroupIdMainJava pour les sources du main 
+	 * et pathGroupIdTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>model/dao</code></li>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return PATH_REL_DAO : String.<br/>
+	 */
+	public static String getPathRelDao() {	
+		return PATH_REL_DAO;
+	} // Fin de getPathRelDao().___________________________________________
+
+
+	
+	/**
+	 * method getPathDaoMainJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/dao</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathDaoMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/dao</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathDaoMainJavaString : String.<br/>
+	 */
+	public static String getPathDaoMainJavaString() {	
+		return pathDaoMainJavaString;
+	} // Fin de getPathDaoMainJavaString().________________________________
+
+
+	
+	/**
+	 * method getPathDaoMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/dao</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathDaoMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/dao</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathDaoMainJava : Path.<br/>
+	 */
+	public static Path getPathDaoMainJava() {
+		return pathDaoMainJava;
+	} // Fin de getPathDaoMainJava().______________________________________
+
+
+		
+	/**
+	 * method getFileDaoMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire model/dao</b> 
+	 * dans les sources Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathDaoMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/dao</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileDaoMainJava : File.<br/>
+	 */
+	public static File getFileDaoMainJava() {	
+		return fileDaoMainJava;
+	} // Fin de getFileDaoMainJava().______________________________________
+
+
+
+	/**
+	 * method getPathDaoTestJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/dao</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathDaoTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * model/dao</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathDaoTestJavaString : String.<br/>
+	 */
+	public static String getPathDaoTestJavaString() {	
+		return pathDaoTestJavaString;
+	} // Fin de getPathDaoTestJavaString().________________________________
+
+
+	
+	/**
+	 * method getPathDaoTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/dao</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathDaoTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * model/dao</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathDaoTestJava : Path.<br/>
+	 */
+	public static Path getPathDaoTestJava() {	
+		return pathDaoTestJava;
+	} // Fin de getPathDaoTestJava().______________________________________
+
+
+	
+	/**
+	 * method getFileDaoTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire model/dao</b> 
+	 * dans les tests Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathDaoTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_DAO.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * model/dao</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileDaoTestJava : File.<br/>
+	 */
+	public static File getFileDaoTestJava() {	
+		return fileDaoTestJava;
+	} // Fin de getFileDaoTestJava().______________________________________
+
+
+	
+	/**
+	 * method getPathRelMetier() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path relatif du répertoire model/metier</b> 
+	 * du projet par rapport 
+	 * au path absolu du groupId
+	 * (pathGroupIdMainJava pour les sources du main 
+	 * et pathGroupIdTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>model/metier</code></li>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return PATH_REL_METIER : String.<br/>
+	 */
+	public static String getPathRelMetier() {	
+		return PATH_REL_METIER;
+	} // Fin de getPathRelMetier().________________________________________
+
+
+	
+	/**
+	 * method getPathMetierMainJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/metier</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathMetierMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/metier</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathMetierMainJavaString : String.<br/>
+	 */
+	public static String getPathMetierMainJavaString() {	
+		return pathMetierMainJavaString;
+	} // Fin de getPathMetierMainJavaString()._____________________________
+
+
+	
+	/**
+	 * method getPathMetierMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/metier</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathMetierMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/metier</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathMetierMainJava : Path.<br/>
+	 */
+	public static Path getPathMetierMainJava() {
+		return pathMetierMainJava;
+	} // Fin de getPathMetierMainJava().___________________________________
+
+
+		
+	/**
+	 * method getFileMetierMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire model/metier</b> 
+	 * dans les sources Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathMetierMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/metier</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileMetierMainJava : File.<br/>
+	 */
+	public static File getFileMetierMainJava() {	
+		return fileMetierMainJava;
+	} // Fin de getFileMetierMainJava().___________________________________
+
+
+
+	/**
+	 * method getPathMetierTestJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/metier</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathMetierTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * model/metier</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathMetierTestJavaString : String.<br/>
+	 */
+	public static String getPathMetierTestJavaString() {	
+		return pathMetierTestJavaString;
+	} // Fin de getPathMetierTestJavaString()._____________________________
+
+
+	
+	/**
+	 * method getPathMetierTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/metier</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathMetierTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * model/metier</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathMetierTestJava : Path.<br/>
+	 */
+	public static Path getPathMetierTestJava() {	
+		return pathMetierTestJava;
+	} // Fin de getPathMetierTestJava().___________________________________
+
+
+	
+	/**
+	 * method getFileMetierTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire model/metier</b> 
+	 * dans les tests Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathMetierTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_METIER.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * model/metier</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileMetierTestJava : File.<br/>
+	 */
+	public static File getFileMetierTestJava() {	
+		return fileMetierTestJava;
+	} // Fin de getFileMetierTestJava().___________________________________
+
+
+	
+	/**
+	 * method getPathRelServices() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path relatif du répertoire model/services</b> 
+	 * du projet par rapport 
+	 * au path absolu du groupId
+	 * (pathGroupIdMainJava pour les sources du main 
+	 * et pathGroupIdTestJava pour les sources des tests).</li>
+	 * <li>Singleton.</li>
+	 * <li>sous forme de String.</li>
+	 * <li>Par Exemple : <br/>
+	 * <code>model/services</code></li>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return PATH_REL_SERVICES : String.<br/>
+	 */
+	public static String getPathRelServices() {	
+		return PATH_REL_SERVICES;
+	} // Fin de getPathRelServices().______________________________________
+
+
+	
+	/**
+	 * method getPathServicesMainJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/services</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathServicesMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/services</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathServicesMainJavaString : String.<br/>
+	 */
+	public static String getPathServicesMainJavaString() {	
+		return pathServicesMainJavaString;
+	} // Fin de getPathServicesMainJavaString().___________________________
+
+
+	
+	/**
+	 * method getPathServicesMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/services</b> 
+	 * dans les sources Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathServicesMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/services</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathServicesMainJava : Path.<br/>
+	 */
+	public static Path getPathServicesMainJava() {
+		return pathServicesMainJava;
+	} // Fin de getPathServicesMainJava()._________________________________
+
+
+		
+	/**
+	 * method getFileServicesMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire model/services</b> 
+	 * dans les sources Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathServicesMainJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	 * + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java/levy/daniel/application/
+	 * model/services</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileServicesMainJava : File.<br/>
+	 */
+	public static File getFileServicesMainJava() {	
+		return fileServicesMainJava;
+	} // Fin de getFileServicesMainJava()._________________________________
+
+
+
+	/**
+	 * method getPathServicesTestJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/services</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>String</b>.</li>
+	 * <li>pathServicesTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * model/services</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathServicesTestJavaString : String.<br/>
+	 */
+	public static String getPathServicesTestJavaString() {	
+		return pathServicesTestJavaString;
+	} // Fin de getPathServicesTestJavaString().___________________________
+
+
+	
+	/**
+	 * method getPathServicesTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du repertoire model/services</b> 
+	 * dans les tests Java.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>pathServicesTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * model/services</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathServicesTestJava : Path.<br/>
+	 */
+	public static Path getPathServicesTestJava() {	
+		return pathServicesTestJava;
+	} // Fin de getPathServicesTestJava()._________________________________
+
+
+	
+	/**
+	 * method getFileServicesTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant le repertoire model/services</b> 
+	 * dans les tests Java.</li>
+	 * <li>java.io.File.</li>
+	 * <li>pathServicesTestJava = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	 * + /pathRelGroupIdString +/PATH_REL_SERVICES.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java/levy/daniel/application/
+	 * model/services</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return fileServicesTestJava : File.<br/>
+	 */
+	public static File getFileServicesTestJava() {	
+		return fileServicesTestJava;
+	} // Fin de getFileServicesTestJava()._________________________________
+
+
+	
+	/**
 	 * method reinitialiserAttributs() :<br/>
 	 * <ul>
 	 * <li>Met à null tous les Singletons en atribut</li>
@@ -5558,6 +6624,27 @@ public final class GestionnaireProjet {
 		pathModelTestJavaString = null;
 		pathModelTestJava = null;
 		fileModelTestJava = null;
+		
+		pathDaoMainJavaString = null;
+		pathDaoMainJava = null;
+		fileDaoMainJava = null;
+		pathDaoTestJavaString = null;
+		pathDaoTestJava = null;
+		fileDaoTestJava = null;
+		
+		pathMetierMainJavaString = null;
+		pathMetierMainJava = null;
+		fileMetierMainJava = null;
+		pathMetierTestJavaString = null;
+		pathMetierTestJava = null;
+		fileMetierTestJava = null;
+		
+		pathServicesMainJavaString = null;
+		pathServicesMainJava = null;
+		fileServicesMainJava = null;
+		pathServicesTestJavaString = null;
+		pathServicesTestJava = null;
+		fileServicesTestJava = null;
 
 	} // Fin de reinitialiserAttributs().__________________________________
 

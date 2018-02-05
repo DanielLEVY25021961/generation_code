@@ -39,7 +39,7 @@ import org.apache.commons.text.WordUtils;
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJava;
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple.GenerateurMetier;
+import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
 
 /**
  * CLASSE ABSTRAITE <b>AbstractEcriveurMetier</b> :<br/>
@@ -387,7 +387,7 @@ public abstract class AbstractEcriveurMetier
 	@Override
 	public void ecrireCode(
 			final File pFile
-				, final GenerateurMetier pGenerateurMetier) {
+				, final GenerateurMetierToutAbstract pGenerateurMetierToutAbstract) {
 		
 		/* ne fait rien si pFile est null. */
 		if (pFile == null) {
@@ -405,7 +405,7 @@ public abstract class AbstractEcriveurMetier
 		}
 		
 		/* alimente this.generateurMetier. */
-		this.generateurCode = pGenerateurMetier;
+		this.generateurCode = pGenerateurMetierToutAbstract;
 		
 		/* alimente this.nomPackage. */
 		this.nomPackage = AbstractGenerateur.getNomPackage();

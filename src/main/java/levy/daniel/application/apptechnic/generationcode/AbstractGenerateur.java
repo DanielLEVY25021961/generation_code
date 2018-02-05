@@ -194,32 +194,49 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	
 	/**
 	 * pathPackage : String :<br/>
-	 * path absolu du repertoire contenant les 
-	 * arborescences à générer.<br/>
-	 * par exemple : model/metier pour un GenerateurMetier 
-	 * ou model/dao/metier pour un GenerateurDao.<br/>
+	 * <ul>
+	 * <li><b>path absolu de la SOUS-COUCHE (package)</b> contenant les 
+	 * arborescences à générer 
+	 * (model/metier, model/dao/metier
+	 * , model/services/metier, ...).</li>
+	 * <li>par exemple : <br/>
+	 * <code>model/metier</code> pour un GenerateurMetierToutAbstract 
+	 * ou <code>model/dao/metier</code> 
+	 * pour un GenerateurDaoToutAbstract.</li>
+	 * </ul>
 	 */
 	protected transient String pathPackage;
 	
 	
 	/**
 	 * packageSousCouche : File :<br/>
-	 * Package du fichier java à générer 
+	 * <ul>
+	 * <li><b>Package du fichier java à générer</b> 
 	 * sous pathPackage/packageSousCouche.<br/>
-	 * Par exemple : model/metier/profil pour un GenerateurMetier 
-	 * ou model/dao/metier/profil pour un GenerateurDao.<br/> 
+	 * <li>Par exemple : <br/>
+	 * <code>model/metier/profil</code> pour un 
+	 * GenerateurMetierToutAbstract générant un concept Profil
+	 * ou <code>model/dao/metier/profil</code> pour un 
+	 * GenerateurDaoToutAbstract générant un concept Profil.</li> 
+	 * </ul>
 	 */
 	protected transient File packageSousCouche;
 	
 	
 	/**
 	 * sousPackageImpl : File :<br/>
-	 * Sous-Package "impl" de l'objet metier à générer 
-	 * sous model/metier/packageSousCouche.<br/>
-	 * Par exemple : model/metier/profil/impl pour un GenerateurMetier 
-	 * ou model/metier/dao/profil/impl pour un GenerateurDao.<br/>
+	 * <ul>
+	 * <li><b>Sous-Package "impl" du Concept à générer</b> 
+	 * sous model/metier/packageSousCouche/sousPackageImpl.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>model/metier/profil/impl</code> 
+	 * pour un GenerateurMetierToutAbstract générant un concept Profil
+	 * ou <code>model/metier/dao/profil/impl</code> pour un 
+	 * GenerateurDaoToutAbstract générant un concept Profil.</li>
+	 * </ul>
 	 */
 	protected transient File sousPackageImpl;
+
 	
 	
 	/**
@@ -281,6 +298,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	
 	
 
+
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -290,7 +308,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	// *************************METHODES************************************/
 	
 	 /**
-	 * method CONSTRUCTEUR GenerateurMetier() :<br/>
+	 * method CONSTRUCTEUR GenerateurMetierToutAbstract() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <ul>
 	 * <li>alimente dans chaque <b>Generateur concret</b> this.pathPackage 
@@ -425,17 +443,10 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 		synchronized (AbstractGenerateur.class) {
 			
-			final String pathModelString 
-			= BundleConfigurationProjetManager.getPathModel();
-		
 			if (packageMetier == null) {
 				
-				final IGestionnaireFiles gestionnaireFiles 
-					= new GestionnaireFiles();
-				
 				packageMetier 
-					= gestionnaireFiles
-						.creerSousPackage(pathModelString, "metier");
+					= GestionnaireProjet.getFileMetierMainJava();
 			}
 			
 			genererInterfaceIExportateurCsv();
@@ -491,19 +502,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			/* *************** */
 			/* ENREGISTREMENT. */
 			/* *************** */
-			for (final String ligne : listeCode) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					ecrireStringDansFile(
-							iExportateurCsv, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					ecrireStringDansFile(
-							iExportateurCsv, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
+			ecrireCode(listeCode, iExportateurCsv);
 
 		} // Fin de synchronized._________________________________
 	
@@ -586,23 +585,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			/* *************** */
 			/* ENREGISTREMENT. */
 			/* *************** */
-			for (final String ligne : listeCode) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					ecrireStringDansFile(
-							iExportateurJTable
-								, ""
-									, CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					ecrireStringDansFile(
-							iExportateurJTable
-								, ligne
-									, CHARSET_UTF8, NEWLINE);
-				}
-			}
+			ecrireCode(listeCode, iExportateurJTable);
 		
 		} // Fin de synchronized._________________________________
 		
@@ -658,7 +641,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		synchronized (AbstractGenerateur.class) {
 			
 			final String pathDaoString 
-			= BundleConfigurationProjetManager.getPathDao();
+			= GestionnaireProjet.getPathDaoMainJavaString();
 		
 			if (packageDaoMetier == null) {
 				
@@ -729,19 +712,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			/* *************** */
 			/* ENREGISTREMENT. */
 			/* *************** */
-			for (final String ligne : listeCode) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					ecrireStringDansFile(
-							iDaoGenericJPASpring, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					ecrireStringDansFile(
-							iDaoGenericJPASpring, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
+			ecrireCode(listeCode, iDaoGenericJPASpring);
 
 		} // Fin de synchronized._________________________________
 	
@@ -829,21 +800,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			/* *************** */
 			/* ENREGISTREMENT. */
 			/* *************** */
-			for (final String ligne : listeCode) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					ecrireStringDansFile(
-							abstractDaoGenericJPASpring
-							, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					ecrireStringDansFile(
-							abstractDaoGenericJPASpring
-							, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
+			ecrireCode(listeCode, abstractDaoGenericJPASpring);
 
 		} // Fin de synchronized._________________________________
 	
@@ -1075,93 +1032,6 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de genererSousPackageImpl().__________________________________
 	
 
-	
-	/**
-	 * method alimenterAttributs() :<br/>
-	 * <ul>
-	 * <li>alimente this.nomSimpleInterface.</li>
-	 * <li>alimente this.nomSimpleAbstractClass.</li>
-	 * <li>alimente this.nomSimpleConcreteClass.</li>
-	 * </ul>
-	 */
-	private void alimenterAttributs() {
-		
-		/* alimente this.nomSimpleInterface. */
-		this.alimenterNomSimpleInterface(conceptModelise);
-		
-		/* alimente this.nomSimpleAbstractClass. */
-		this.alimenterNomSimpleAbstractClass();
-		
-		/* alimente this.nomSimpleConcreteClass. */
-		this.alimenterNomSimpleConcreteClass(nomClassMetier);
-
-	} // Fin de alimenterAttributs().______________________________________
-	
-
-	
-	/**
-	 * method alimenterNomSimpleInterface(
-	 * String pConceptModelise) :<br/>
-	 * <ul>
-	 * <li>Fournit le Nom simple de l'interface à générer.</li>
-	 * <li><b>alimente this.nomSimpleInterface</b>.</li>
-	 * <li>Par exemple "IProfil" pour une interface métier.</li>
-	 * <li>Par exemple "IDaoProfil" pour une interface Dao.</li>
-	 * </ul>
-	 *
-	 * @param pConceptModelise : String.<br/>
-	 */
-	protected abstract void alimenterNomSimpleInterface(
-			String pConceptModelise);
-
-	
-	
-	/**
-	 * method alimenterNomSimpleAbstractClass() :<br/>
-	 * <ul>
-	 * <li>Fournit le Nom simple de la classe abstraite à générer.</li>
-	 * <li><b>alimente this.nomSimpleAbstractClass</b>.</li>
-	 * <li>Par exemple "AbstractProfil" pour 
-	 * une classe abstraite métier.</li>
-	 * <li>Par exemple "AbstractDaoProfil" 
-	 * pour une classe abstraite Dao.</li>
-	 * <li>Déduit le nom de la classe abstraite à partir du nom 
-	 * de l'interface this.nomSimpleInterface.<br/>
-	 * </ul>
-	 * ne fait rien si this.nomSimpleInterface est blank.<br/>
-	 * <br/>
-	 */
-	private void alimenterNomSimpleAbstractClass() {
-		
-		/* ne fait rien si this.nomSimpleInterface est blank. */
-		if (StringUtils.isBlank(this.nomSimpleInterface)) {
-			return;
-		}
-		
-		this.nomSimpleAbstractClass 
-			= genererNomAbstractClass(this.nomSimpleInterface);
-		
-	} // Fin de alimenterNomSimpleAbstractClass()._________________________
-	
-
-	
-	/**
-	 * method alimenterNomSimpleConcreteClass(
-	 * String pNomObjetMetier) :<br/>
-	 * <ul>
-	 * <li>Fournit le Nom simple de la classe concrète à générer.</li>
-	 * <li><b>alimente this.nomSimpleConcreteClass</b>.</li>
-	 * <li>Par exemple "ProfilSimple" pour une classe métier.</li>
-	 * <li>Par exemple "DaoProfilSimple" pour une classe Dao.</li>
-	 * </ul>
-	 *
-	 * @param pNomObjetMetier : String.<br/>
-	 */
-	protected abstract void alimenterNomSimpleConcreteClass(
-			String pNomObjetMetier);
-	
-	
-	
 	/**
 	 * method genererFichiersJava() :<br/>
 	 * <ul>
@@ -1173,115 +1043,21 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 *
 	 * @throws IOException 
 	 */
-	private void genererFichiersJava() throws IOException {
-		
-		/* Génère l'Interface vide de l'objet métier. */
-		this.genererInterfaceJava(this.nomSimpleInterface);
-		
-		/* Génère la classe abstraite vide de l'objet métier. */
-		this.genererAbstractClass();
-		
-		/* Génère la classe vide de l'objet métier. */
-		this.genererConcreteClass(this.nomSimpleConcreteClass);
-		
-	} // Fin de genererFichiersJava()._____________________________________
+	protected abstract void genererFichiersJava() throws IOException;
 	
 	
 	
 	/**
-	 * method genererInterfaceJava(
-	 * String pNomInterface) :<br/>
+	 * method alimenterAttributs() :<br/>
 	 * <ul>
-	 * <li>Génère le fichier vide pNomInterface.java 
-	 * sous packageSousCouche.</li>
-	 * <li>alimente this.iObjetMetier.</li>
-	 * <li>Ne génère le fichier vide que si il n'existe pas déjà.</li>
-	 * <li>Par exemple : genererInterfaceObjetMetier("IProfil") 
-	 * génère model/metier/profil/IProfil.java</li>
+	 * <li>alimente this.nomSimpleInterface.</li>
+	 * <li>alimente this.nomSimpleAbstractClass.</li>
+	 * <li>alimente this.nomSimpleConcreteClass.</li>
 	 * </ul>
-	 *
-	 * @param pNomInterface : String : 
-	 * Nom de l'interface comme "IProfil" pour IProfil.java.<br/>
-	 * 
-	 * @throws IOException
 	 */
-	private void genererInterfaceJava(
-			final String pNomInterface) 
-					throws IOException {
-		
-		final String nomFichier = pNomInterface + ".java";
-		
-		this.interfaceJava 
-			= this.gestionnaireFiles
-			.creerFichierDansPackage(
-					nomFichier, this.packageSousCouche);
-		
-	} // Fin de genererInterfaceJava(...)._________________________________
+	protected abstract void alimenterAttributs();
 	
 
-		
-	/**
-	 * method genererAbstractClass() :<br/>
-	 * <ul>
-	 * <li>Génère le fichier vide abstractClass.java 
-	 * sous packageSousCouche.</li>
-	 * <li>alimente this.AbstractObjetMetier.</li>
-	 * <li>Ne génère le fichier vide que si il n'existe pas déjà.</li>
-	 * <li>Par exemple : genererAbstractObjetMetier() 
-	 * génère model/metier/profil/AbstractProfil.java</li>
-	 * </ul>
-	 *
-	 * @param pNomInterface : String : 
-	 * Nom de l'interface comme "IProfil" pour IProfil.java.<br/>
-	 * 
-	 * @throws IOException
-	 */
-	private void genererAbstractClass() 
-					throws IOException {
-		
-		final String nomFichier 
-			=  this.nomSimpleAbstractClass + ".java";
-		
-		this.abstractClass
-			= this.gestionnaireFiles
-			.creerFichierDansPackage(
-					nomFichier, this.packageSousCouche);
-		
-	} // Fin de genererAbstractClass(...)._________________________________
-	
-
-	
-	/**
-	 * method genererConcreteClass(
-	 * String pNomConcreteClass) :<br/>
-	 * <ul>
-	 * <li>Génère le fichier vide pNomConcreteClass.java 
-	 * sous packageSousCouche.impl.</li>
-	 * <li>alimente this.objetMetier.</li>
-	 * <li>Ne génère le fichier vide que si il n'existe pas déjà.</li>
-	 * <li>Par exemple : genererObjetMetier("ProfilSimple") 
-	 * génère model/metier/profil/impl/ProfilSimple.java</li>
-	 * </ul>
-	 *
-	 * @param pNomConcreteClass : String : 
-	 * Nom de l'objet métier comme "ProfilSimple" 
-	 * pour ProfilSimple.java.<br/>
-	 * 
-	 * @throws IOException
-	 */
-	private void genererConcreteClass(
-			final String pNomConcreteClass) 
-					throws IOException {
-		
-		final String nomFichier = pNomConcreteClass + ".java";
-		
-		this.concreteClass 
-			= this.gestionnaireFiles
-			.creerFichierDansPackage(
-					nomFichier, this.sousPackageImpl);
-		
-	} // Fin de genererConcreteClass(...).___________________________________
-	
 	
 	
 	/**
@@ -1302,7 +1078,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * @return : String : nom de la classe abstraite 
 	 * du type "AbstractObjetMetie"r.<br/>
 	 */
-	private static String genererNomAbstractClass(
+	protected static String genererNomAbstractClass(
 			final String pNomInterface) {
 		
 		/* retourne null si pNomInterface est blank. */
@@ -1610,6 +1386,63 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	
 
 	
+	/**
+	 * method ecrireCode(
+	 * List&lt;String&gt; pList, File pFile) :<br/>
+	 * <ul>
+	 * <li>Ecrit le contenu de la liste pList dans pFile.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas ou pFile n' est 
+	 * pas un fichier simple.<br/>
+	 * ne fait rien si pList == null.<br/>
+	 * <br/>
+	 * 
+	 * @param pList : List&lt;String&gt;.<br/>
+	 * @param pFile : File.<br/>
+	 */
+	protected static final void ecrireCode(
+			final List<String> pList
+				, final File pFile) throws Exception {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			/* ne fait rien si pFile est null. */
+			if (pFile == null) {
+				return;
+			}
+			
+			/* ne fait rien si pFile n'existe pas ou pFile 
+			 * n' est pas un fichier simple. */
+			if (!pFile.exists() || !pFile.isFile()) {
+				return;
+			}
+			
+			/* ne fait rien si pList == null. */
+			if (pList == null) {
+				return;
+			}
+			
+			for (final String ligne : pList) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+			
+		} // Fin de synchronized._________________________________
+				
+	} // Fin de ecrireCode(...).___________________________________________
+
+	
+
 	/**
 	 * method lireStringsDansFile(
 	 * File pFile
@@ -2195,6 +2028,8 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * <li>accepte "IProfil", "IProfilSimple", "IProfil7", ...</li>
 	 * <li>refuse "Profil", "IProfil_Simple", "iProfil", ...</li>
 	 * </ul>
+	 * retourne true si pString est blank.<br/>
+	 * <br/>
 	 *
 	 * @param pString : String.<br/>
 	 * 
@@ -2202,6 +2037,11 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 */
 	private static boolean conformeNomInterface(
 			final String pString) {
+		
+		/* retourne true si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return true;
+		}
 		
 		boolean resultat = false;
 		
@@ -2848,7 +2688,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		return this.sousPackageImpl;
 	} // Fin de getSousPackageImpl().______________________________________
 
-			
+
 		
 	/**
 	 * {@inheritDoc}
@@ -2869,7 +2709,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de getInterfaceJava().________________________________________
 	
 	
-		
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -2907,7 +2747,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	public final File getConcreteClass() {
 		return this.concreteClass;
 	} // Fin de getConcreteClass().________________________________________
-
-
+	
+	
 	
 } // FIN DE LA CLASSE AbstractGenerateur.------------------------------------

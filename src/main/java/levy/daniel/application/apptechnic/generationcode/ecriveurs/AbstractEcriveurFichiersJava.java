@@ -5,7 +5,7 @@ import java.io.File;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationobjetmetier.generationobjetmetiersimple.GenerateurMetier;
+import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
 
 
 /**
@@ -67,7 +67,7 @@ public abstract class AbstractEcriveurFichiersJava
 	 */
 	@Override
 	public abstract void ecrireCode(
-			File pFile, GenerateurMetier pGenerateurMetier);
+			File pFile, GenerateurMetierToutAbstract pGenerateurMetierToutAbstract);
 
 	
 
