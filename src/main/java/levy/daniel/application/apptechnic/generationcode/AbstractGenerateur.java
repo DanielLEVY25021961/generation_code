@@ -28,6 +28,7 @@ import org.apache.commons.text.WordUtils;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.impl.GestionnaireFiles;
+import levy.daniel.application.util.gestionnairesiofichiers.GestionnaireFichiers;
 
 /**
  * CLASSE ABSTRAITE <b>AbstractGenerateur</b> :<br/>
@@ -772,6 +773,8 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			
 			genererAbstractDaoGenericJPASpring();
 			
+			genererDaoExceptions();
+			
 		} // Fin de synchronized._________________________________
 						
 	} // Fin de genererPackageDaoMetier()._________________________________
@@ -952,6 +955,46 @@ public abstract class AbstractGenerateur implements IGenerateur {
 				
 	} // Fin de creerLignesAbstractDaoGenericJPASpring(...)._______________
 	
+
+	
+	/**
+	 * method genererDaoExceptions() :<br/>
+	 * <ul>
+	 * <li>génère le répertoire daoexceptions 
+	 * dans le projet cible si il n'existe pas.</li>
+	 * <li>recopie tout le contenu de daoexceptions 
+	 * dans le projet cible si il n'existe pas.</li>
+	 * </ul>
+	 */
+	private static void genererDaoExceptions() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			/* répertoire daoexceptions à recopier. */
+			final File repSource 
+				= new File("./src/main/java/levy/daniel/"
+						+ "application/model/dao/daoexceptions");
+			
+			final Path pathDao 
+				= GestionnaireProjet.getPathDaoMainJava();
+			final Path pathDestination 
+				= pathDao.resolve("daoexceptions");
+			final File repDestination 
+				= pathDestination.toFile();
+			
+			if (!repDestination.exists()) {
+				
+				/* création du répertoire daoExceptions 
+				 * dans le projet cible. */
+				GestionnaireFichiers
+					.copierRepertoireSansRemplacement(
+							repSource, repDestination);
+			}
+						
+		} // Fin de synchronized._________________________________
+		
+	} // Fin de genererDaoExceptions().____________________________________
+
 	
 	
 	/**
