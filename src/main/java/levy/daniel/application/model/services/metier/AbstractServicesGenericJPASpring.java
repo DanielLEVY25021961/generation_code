@@ -14,7 +14,7 @@ import levy.daniel.application.model.services.valideurs.IValideurGeneric;
 import levy.daniel.application.model.services.valideurs.LigneRapportValidation;
 
 /**
- * class AbstractServiceGeneric :<br/>
+ * class AbstractServicesGenericJPASpring :<br/>
  * .<br/>
  * <br/>
  *
@@ -34,7 +34,8 @@ import levy.daniel.application.model.services.valideurs.LigneRapportValidation;
  * @since 26 août 2017
  *
  */
-public abstract class AbstractServiceGeneric<T> implements IServiceGeneric<T> {
+public abstract class AbstractServicesGenericJPASpring<T> 
+							implements IServicesGenericJPASpring<T> {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -176,17 +177,17 @@ public abstract class AbstractServiceGeneric<T> implements IServiceGeneric<T> {
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(AbstractServiceGeneric.class);
+		= LogFactory.getLog(AbstractServicesGenericJPASpring.class);
 
 	// *************************METHODES************************************/
 	
 	
 	 /**
-	 * method CONSTRUCTEUR AbstractServiceGeneric() :<br/>
+	 * method CONSTRUCTEUR AbstractServicesGenericJPASpring() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <br/>
 	 */
-	public AbstractServiceGeneric() {
+	public AbstractServicesGenericJPASpring() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
@@ -589,4 +590,4 @@ public abstract class AbstractServiceGeneric<T> implements IServiceGeneric<T> {
 
 		
 	
-} // FIN DE LA CLASSE AbstractServiceGeneric.--------------------------------
+} // FIN DE LA CLASSE AbstractServicesGenericJPASpring.----------------------

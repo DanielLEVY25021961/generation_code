@@ -9,7 +9,7 @@ import levy.daniel.application.model.services.valideurs.IValideurGeneric;
 import levy.daniel.application.model.services.valideurs.LigneRapportValidation;
 
 /**
- * class IServiceGeneric :<br/>
+ * class IServicesGenericJPASpring :<br/>
  * .<br/>
  * <br/>
  * - Exemple d'utilisation :<br/>
@@ -25,7 +25,7 @@ import levy.daniel.application.model.services.valideurs.LigneRapportValidation;
  * @param <T> : Type paramétré : Classe réelle d'un Objet métier.<br/>
  * @since 25 août 2017
  */
-public interface IServiceGeneric<T> {
+public interface IServicesGenericJPASpring<T> {
 
 	
 	/* CREATE ************/
@@ -545,4 +545,4 @@ public interface IServiceGeneric<T> {
 	 */
 	Boolean getValide();
 
-} // FIN DE L'INTERFACE IServiceGeneric<T>.--------------------------------
+} // FIN DE L'INTERFACE IServicesGenericJPASpring<T>.------------------------

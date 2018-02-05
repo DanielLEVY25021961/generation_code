@@ -173,6 +173,13 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	protected static File packageDaoMetier;
 	
 	
+	/**
+	 * packageServicesMetier : File :<br/>
+	 * package services sous la couche SERVICES (model.services.metier).<br/>
+	 */
+	protected static File packageServicesMetier;
+	
+	
 	
 	/**
 	 * mapAttributs : Map&lt;String,String&gt; :<br/>
@@ -422,10 +429,8 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			}
 
 			/* garnit le packageMetier. */
-			garnirPackageMetier();
-			
 			/* génère et garnit packageDaoMetier. */
-			genererPackageDaoMetier();
+			genererEtGarnirPackages();
 			
 		} // Fin de synchronized.___________________________________
 		
@@ -520,11 +525,10 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			}
 			
 			/* garnit le packageMetier. */
-			garnirPackageMetier();
-			
 			/* génère et garnit packageDaoMetier. */
-			genererPackageDaoMetier();
-
+			genererEtGarnirPackages();
+			
+			
 			/* alimente tous les attributs static des Générateurs. */
 			alimenterAttributsStatic(pNomPackage
 					, pNomInterface
@@ -539,6 +543,33 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de configurer(...).___________________________________________
 	
 
+	
+	/**
+	 * method genererEtGarnirPackages() :<br/>
+	 * <ul>
+	 * <li><b>génère et garnit le cas échéant 
+	 * tous les packages du projet cible</b>.</li>
+	 * <li>garnit éventuellement le packageMetier 
+	 * avec les interfaces IExportateurCsv et IExportateurJTable.</li>
+	 * <li>génère éventuellement le packageDaoMetier et le garnit éventuellement avec IDaoGenericJPASpring et AbstractDAOGenericJPASpring.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererEtGarnirPackages() throws Exception {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			/* garnit le packageMetier. */
+			garnirPackageMetier();
+			
+			/* génère et garnit packageDaoMetier. */
+			genererPackageDaoMetier();
+			
+		} // Fin de synchronized._________________________________
+		
+	}
+	
 	
 	/**
 	 * method garnirPackageMetier() :<br/>
@@ -995,7 +1026,267 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 	} // Fin de genererDaoExceptions().____________________________________
 
+
 	
+	/**
+	 * method genererPackageServicesMetier() :<br/>
+	 * <ul>
+	 * <li><b>alimente packageServicesMetier</b> avec la valeur fournie 
+	 * par le GestionnaireProjet.</li>
+	 * <li>génère si nécessaire le package metier sous SERVICES
+	 * <b>packageServicesMetier</b> (model.services.metier).</li>
+	 * <li>génère si nécessaire l'interface IServicesGenericJPASpring.java 
+	 * sous model.services.metier.</li>
+	 * <li>génère si nécessaire la classe abstraite 
+	 * AbstractServicesGenericJPASpring.java sous model.services.metier.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererPackageServicesMetier() throws Exception {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			final String pathServicesString 
+			= GestionnaireProjet.getPathServicesMainJavaString();
+		
+			if (packageServicesMetier == null) {
+				
+				final IGestionnaireFiles gestionnaireFiles 
+					= new GestionnaireFiles();
+				
+				packageServicesMetier 
+					= gestionnaireFiles
+						.creerSousPackage(pathServicesString, "metier");
+			}
+			
+			genererIServicesGenericJPASpring();
+			
+			genererAbstractServicesGenericJPASpring();
+			
+			genererServicesExceptions();
+			
+		} // Fin de synchronized._________________________________
+						
+	} // Fin de genererPackageServicesMetier()._________________________________
+	
+
+	
+	/**
+	 * method genererIServicesGenericJPASpring() :<br/>
+	 * <ul>
+	 * <li>génère si nécessaire l'interface 
+	 * IServicesGenericJPASpring sous model.services.metier.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererIServicesGenericJPASpring() 
+			throws Exception {
+
+		synchronized (AbstractGenerateur.class) {
+						
+			final String nomFichier = "IServicesGenericJPASpring.java";
+			
+			final IGestionnaireFiles gestionnaireFiles 
+				= new GestionnaireFiles();
+			
+			/* récupération du package des DAOs. */
+			final String pathPackageServices 
+				= GestionnaireProjet.getPathServicesMainJavaString();
+			
+			final File packageServices = new File(pathPackageServices);
+			
+			/* création du fichier vide. */
+			final File iServicesGenericJPASpring 
+				= gestionnaireFiles
+				.creerFichierDansPackage(
+						nomFichier, packageServices);
+			
+			final List<String> listeCode = new ArrayList<String>();
+			
+			/* ENREGISTREMENT *********/
+			creerLignesIServicesGenericJPASpring(listeCode);
+			
+			/* Recherche la ligne identifiant le code de l'interface. */
+			final String ligneIdentifiant 
+				= "public interface IServicesGenericJPASpring";
+			
+			/* Ne fait rien si le code est déjà existant. */
+			if (existLigneCommencant(
+					iServicesGenericJPASpring, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			ecrireCode(listeCode, iServicesGenericJPASpring);
+
+		} // Fin de synchronized._________________________________
+	
+	} // Fin de genererIServicesGenericJPASpring()._____________________________
+	
+
+	
+	/**
+	 * method creerLignesIServicesGenericJPASpring(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>Crée le code de l'interface IServicesGenericJPASpring.</li>
+	 * <li>Insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; pListe.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private static void creerLignesIServicesGenericJPASpring(
+			final List<String> pListe) throws Exception {
+		
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/services/interface_iservicesgenericjpaspring.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= lireStringsDansFile(fichier, CHARSET_UTF8);
+					
+		pListe.addAll(listeLignes);
+				
+	} // Fin de creerLignesIServicesGenericJPASpring(...).______________________
+	
+	
+	
+	/**
+	 * method genererAbstractServicesGenericJPASpring() :<br/>
+	 * <ul>
+	 * <li>génère si nécessaire la classe abstraite 
+	 * AbstractServicesGenericJPASpring.java sous model.services.metier.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererAbstractServicesGenericJPASpring() 
+			throws Exception {
+
+		synchronized (AbstractGenerateur.class) {
+						
+			final String nomFichier = "AbstractServicesGenericJPASpring.java";
+			
+			final IGestionnaireFiles gestionnaireFiles 
+				= new GestionnaireFiles();
+			
+			/* récupération du package des DAOs. */
+			final String pathPackageServices 
+				= GestionnaireProjet.getPathServicesMainJavaString();
+			
+			final File packageServices = new File(pathPackageServices);
+			
+			/* création du fichier vide. */
+			final File abstractServicesGenericJPASpring 
+				= gestionnaireFiles
+				.creerFichierDansPackage(
+						nomFichier, packageServices);
+			
+			final List<String> listeCode = new ArrayList<String>();
+			
+			/* ENREGISTREMENT *********/
+			creerLignesAbstractServicesGenericJPASpring(listeCode);
+			
+			/* Recherche la ligne identifiant le code de l'interface. */
+			final String ligneIdentifiant 
+				= "public abstract class AbstractServicesGenericJPASpring";
+			
+			/* Ne fait rien si le code est déjà existant. */
+			if (existLigneCommencant(
+					abstractServicesGenericJPASpring
+						, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			ecrireCode(listeCode, abstractServicesGenericJPASpring);
+
+		} // Fin de synchronized._________________________________
+	
+	} // Fin de genererAbstractServicesGenericJPASpring().______________________
+	
+
+	
+	/**
+	 * method creerLignesAbstractServicesGenericJPASpring(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * <ul>
+	 * <li>Crée le code de la classe abstraite 
+	 * AbstractServicesGenericJPASpring.</li>
+	 * <li>Insère le code généré dans pListe.</li>
+	 * </ul>
+	 *
+	 * @param pListe : List&lt;String&gt; pListe.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private static void creerLignesAbstractServicesGenericJPASpring(
+			final List<String> pListe) throws Exception {
+		
+		final String cheminFichier 
+			= BundleConfigurationProjetManager.getRacineMainResources() 
+			+ "/templates/services/abstractclass_abstractservicesgenericjpaspring.txt";
+		
+		final File fichier = new File(cheminFichier);
+		
+		final List<String> listeLignes 
+			= lireStringsDansFile(fichier, CHARSET_UTF8);
+					
+		pListe.addAll(listeLignes);
+				
+	} // Fin de creerLignesAbstractServicesGenericJPASpring(...)._______________
+	
+
+	
+	/**
+	 * method genererServicesExceptions() :<br/>
+	 * <ul>
+	 * <li>génère le répertoire servicesexceptions 
+	 * dans le projet cible si il n'existe pas.</li>
+	 * <li>recopie tout le contenu de servicesexceptions 
+	 * dans le projet cible si il n'existe pas.</li>
+	 * </ul>
+	 */
+	private static void genererServicesExceptions() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			/* répertoire servicesexceptions à recopier. */
+			final File repSource 
+				= new File("./src/main/java/levy/daniel/"
+						+ "application/model/services/servicesexceptions");
+			
+			final Path pathServices 
+				= GestionnaireProjet.getPathServicesMainJava();
+			final Path pathDestination 
+				= pathServices.resolve("servicesexceptions");
+			final File repDestination 
+				= pathDestination.toFile();
+			
+			if (!repDestination.exists()) {
+				
+				/* création du répertoire servicesExceptions 
+				 * dans le projet cible. */
+				GestionnaireFichiers
+					.copierRepertoireSansRemplacement(
+							repSource, repDestination);
+			}
+						
+		} // Fin de synchronized._________________________________
+		
+	} // Fin de genererServicesExceptions().____________________________________
+
+
 	
 	/**
 	 * method alimenterAttributsStatic(
