@@ -294,13 +294,16 @@ public final class ManagerPaths {
 				/* calcule le parent du path du présent projet. */
 				final Path pathWorkspace = pathPresentProjet.getParent();
 				
-				/* passage de Path à String. */
-				final String cheminWindowsString = pathWorkspace.toString();
-				
-				/* remplacement des antislash par des slash. */
-				pathPresentWorkspaceString 
-					= retournerPathGenerique(cheminWindowsString);
-												
+				if (pathWorkspace != null) {
+					
+					/* passage de Path à String. */
+					final String cheminWindowsString = pathWorkspace.toString();
+					
+					/* remplacement des antislash par des slash. */
+					pathPresentWorkspaceString 
+						= retournerPathGenerique(cheminWindowsString);
+				}
+																				
 			}
 			
 			return pathPresentWorkspaceString;
