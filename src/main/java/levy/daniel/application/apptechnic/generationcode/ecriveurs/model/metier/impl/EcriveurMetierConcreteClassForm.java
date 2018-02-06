@@ -1737,9 +1737,9 @@ public class EcriveurMetierConcreteClassForm extends AbstractEcriveurMetier {
 		
 		final String ligneIdentifiant 
 		= PUBLIC
-				+ pTypeAttribut 
+				+ STRING 
 				+ SEP_ESPACE 
-				+ this.fournirGetter(pNomAttribut);
+				+ this.fournirGetter(pNomAttribut + STRING);
 		
 		return ligneIdentifiant;
 		
@@ -1759,7 +1759,7 @@ public class EcriveurMetierConcreteClassForm extends AbstractEcriveurMetier {
 		= PUBLIC
 				+ "void" 
 				+ SEP_ESPACE 
-				+ this.fournirSetter(pNomAttribut);
+				+ this.fournirSetter(pNomAttribut + STRING);
 		
 		return ligneIdentifiant;
 		

@@ -2021,14 +2021,17 @@ public final class GestionnaireProjet {
 			alimenterDao();
 			alimenterMetier();
 			alimenterServices();
-			
+
+			/* Crée tous les répertoires directement sous projet. */
+			creerRepertoiresSousProjet();
+						
 			copierSousMainResources(FILE_LOG4J_XML);
 			
 		} // Fin de synchronized._______________________
 		
 	} // Fin de alimenterAttributs(...).___________________________________
 	
-	
+
 	
 	/**
 	 * method alimenterPathWorkspaceString(
@@ -3626,6 +3629,143 @@ public final class GestionnaireProjet {
 
 	
 	/**
+	 * method creerRepertoiresSousProjet() :<br/>
+	 * <ul>
+	 * <li><b>Crée tous les répertoires directement 
+	 * sous le projet</b>.</li>
+	 * <li>conception_appli</li>
+	 * <li>data</li>
+	 * <li>javadoc</li>
+	 * <li>rapports_controle</li>
+	 * <li>ressources_externes</li>
+	 * </ul>
+	 *
+	 * @throws IOException
+	 */
+	private static void creerRepertoiresSousProjet() 
+			throws IOException {
+		
+		creerRepertoireConceptionAppli();
+		creerRepertoireData();
+		creerRepertoireJavadoc();
+		creerRepertoireRapportsControle();
+		creerRepertoireRessourcesExternes();
+		
+	} // Fin de creerRepertoiresSousProjet().______________________________
+
+	
+	
+	/**
+	 * method creerRepertoireConceptionAppli() :<br/>
+	 * <ul>
+	 * <li>Crée le répertoire conception_appli 
+	 * directement sous le projet.</li>
+	 * <li>crée également ses sous répertoires et sous-fichiers.</li>
+	 * </ul>
+	 *
+	 * @throws IOException
+	 */
+	private static void creerRepertoireConceptionAppli() 
+				throws IOException {
+		
+		creerRepertoireSousProjet("conception_appli");			
+		final Path pathConceptionAppli 
+			= pathProjet.resolve("conception_appli");
+		creerRepertoireSousRepertoire(
+				pathConceptionAppli, "docs");
+		creerRepertoireSousRepertoire(
+				pathConceptionAppli, "repostory EA13");
+		final Path pathDocs = pathConceptionAppli.resolve("docs");
+		copierFichierSousRepertoire(pathDocs
+				, new File("./conception_appli/docs/docs.TXT"));
+		
+	} // Fin de creerRepertoireConceptionAppli().__________________________
+	
+
+	
+	/**
+	 * method creerRepertoireData() :<br/>
+	 * <ul>
+	 * <li>Crée le répertoire data 
+	 * directement sous le projet.</li>
+	 * <li>crée également ses sous répertoires et sous-fichiers.</li>
+	 * </ul>
+	 *
+	 * @throws IOException
+	 */
+	private static void creerRepertoireData() 
+			throws IOException {
+		
+		creerRepertoireSousProjet("data");
+		final Path pathData = pathProjet.resolve("data");
+		creerRepertoireSousRepertoire(pathData, "scripts_sql");
+		copierFichierSousRepertoire(pathData
+				, new File("./data/data.TXT"));
+		
+	} // Fin de creerRepertoireData()._____________________________________
+	
+
+	
+	/**
+	 * method creerRepertoireJavadoc() :<br/>
+	 * <ul>
+	 * <li>Crée le répertoire javadoc 
+	 * directement sous le projet.</li>
+	 * <li>crée également ses sous répertoires et sous-fichiers.</li>
+	 * </ul>
+	 *
+	 * @throws IOException
+	 */
+	private static void creerRepertoireJavadoc() 
+			throws IOException {
+		
+		creerRepertoireSousProjet("javadoc");
+		final Path pathJavadoc = pathProjet.resolve("javadoc");
+		creerRepertoireSousRepertoire(pathJavadoc, "images");
+		
+	} // Fin de creerRepertoireJavadoc().__________________________________
+	
+
+	
+	/**
+	 * method creerRepertoireRapportsControle() :<br/>
+	 * <ul>
+	 * <li>Crée le répertoire rapports_controle 
+	 * directement sous le projet.</li>
+	 * <li>crée également ses sous répertoires et sous-fichiers.</li>
+	 * </ul>
+	 *
+	 * @throws IOException
+	 */
+	private static void creerRepertoireRapportsControle() 
+			throws IOException {
+		
+		creerRepertoireSousProjet("rapports_controle");
+		
+	} // Fin de creerRepertoireRapportsControle()._________________________
+	
+
+	
+	/**
+	 * method creerRepertoireRessourcesExternes() :<br/>
+	 * <ul>
+	 * <li>Crée le répertoire ressources_externes 
+	 * directement sous le projet.</li>
+	 * <li>crée également ses sous répertoires et sous-fichiers.</li>
+	 * </ul>
+	 *
+	 * @throws IOException
+	 */
+	private static void creerRepertoireRessourcesExternes() 
+			throws IOException {
+		
+		creerRepertoireSousProjet("ressources_externes");
+		
+	} // Fin de creerRepertoireRessourcesExternes()._______________________
+	
+	
+	
+	/**
 	 * method creerPackageInfo(
 	 * Path pPath) :<br/>
 	 * <ul>
@@ -3931,6 +4071,162 @@ public final class GestionnaireProjet {
 		} // Fin de synchronized._________________________
 		
 	} // Fin de copierSousMainResources(...).______________________________
+	
+
+	
+	/**
+	 * method copierFichierSousRepertoire(
+	 * Path pRepPath
+	 * , File pFile) :<br/>
+	 * <ul>
+	 * <li>recopie le fichier pFile sous pRepPath.</li>
+	 * <li>crée le répertoire pRepPath si il n'existe pas déjà.</li>
+	 * </ul>
+	 * ne fait rien si pRepPath == null.<br/>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * <br/>
+	 *
+	 * @param pRepPath : Path : 
+	 * Path du répertoire sous lequel copier le fichier.<br/>
+	 * @param pFile : File : 
+	 * fichier à copier sous le répertoire pRepPath.<br/>
+	 * @throws IOException 
+	 */
+	private static void copierFichierSousRepertoire(
+			final Path pRepPath, final File pFile) throws IOException {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* ne fait rien si pRepPath == null. */
+			if (pRepPath == null) {
+				return;
+			}
+			
+			/* ne fait rien si pFile est null. */
+			if (pFile == null) {
+				return;
+			}
+			
+			/* ne fait rien si pFile n'existe pas. */
+			if (!pFile.exists()) {
+				return;
+			}
+			
+			final File fileRepPath = pRepPath.toFile();
+			
+			/* crée le répertoire à pRepPath si il n'existe pas déjà. */
+			if (!fileRepPath.exists()) {
+				Files.createDirectories(pRepPath);
+			}
+			
+			final Path pathDestination 
+				= pRepPath.resolve(pFile.getName());
+			
+			final File fileDestination = pathDestination.toFile();
+			
+			GestionnaireFichiers
+				.copierFichierSansRemplacement(pFile, fileDestination);
+			
+		} // Fin de synchronized._________________________
+		
+	}
+	
+	
+	
+	/**
+	 * method creerRepertoireSousProjet(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Crée le répertoire pString vide 
+	 * directement sous le projet cible.</li>
+	 * <li>ne crée le répertoire pString que 
+	 * si il n'existe pas déjà.</li>
+	 * </ul>
+	 * ne fait rien si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : nom du répertoire à créer.<br/>
+	 * 
+	 * @throws IOException 
+	 */
+	private static void creerRepertoireSousProjet(
+			final String pString) throws IOException {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* ne fait rien si pString est blank. */
+			if (StringUtils.isBlank(pString)) {
+				return;
+			}
+			
+			final Path pathRepACreer = pathProjet.resolve(pString);
+			final File fileRepACreer = pathRepACreer.toFile();
+			
+			if (!fileRepACreer.exists()) {
+				Files.createDirectories(pathRepACreer);
+			}
+						
+		} // Fin de synchronized._________________________
+		
+	} // Fin de creerRepertoireSousProjet(...).____________________________
+	
+
+	
+	/**
+	 * method creerRepertoireSousRepertoire(
+	 * Path pRepPath
+	 * , String pString) :<br/>
+	 * <ul>
+	 * <li>Crée le répertoire pString vide 
+	 * directement sous le répertoire pRepPAth.</li>
+	 * <li>crée le répertoire pRepPath si il n'existe pas déjà.</li>
+	 * <li>ne crée le répertoire pString que 
+	 * si il n'existe pas déjà.</li>
+	 * </ul>
+	 * ne fait rien si pRepPath == null.<br/>
+	 * ne fait rien si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pRepPath : Path : 
+	 * Path du répertoire sous lequel copier le fichier.<br/>
+	 * @param pString : String : nom du répertoire à créer.<br/>
+	 * 
+	 * @throws IOException
+	 */
+	private static void creerRepertoireSousRepertoire(
+			final Path pRepPath
+				, final String pString) throws IOException {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* ne fait rien si pRepPath == null. */
+			if (pRepPath == null) {
+				return;
+			}
+
+			/* ne fait rien si pString est blank. */
+			if (StringUtils.isBlank(pString)) {
+				return;
+			}
+			
+			final File fileRepPath = pRepPath.toFile();
+			
+			/* crée le répertoire pRepPath si il n'existe pas déjà. */
+			if (!fileRepPath.exists()) {
+				Files.createDirectories(pRepPath);
+			}
+			
+			final Path pathRepACreer = pRepPath.resolve(pString);
+			final File fileRepACreer = pathRepACreer.toFile();
+			
+			if (!fileRepACreer.exists()) {
+				Files.createDirectories(pathRepACreer);
+			}
+						
+		} // Fin de synchronized._________________________
+		
+	} // Fin de creerRepertoireSousRepertoire(...).________________________
 	
 	
 	
@@ -4435,6 +4731,177 @@ public final class GestionnaireProjet {
 		
 	} // Fin de ecrireStringDansFile(...)._________________________________
 	
+
+
+	/**
+	 * method lireRessource(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li><b>Lit le contenu d'une ressource pString</b> 
+	 * sous src/main/resources dans le présent projet 
+	 * et injecte le contenu dans une List&lt;String&gt;.</li>
+	 * <li>lit le contenu en CHARSET_UTF8.</li>
+	 * <li>retourne le contenu de la ressource 
+	 * sous forme de List&lt;String&gt;</li>
+	 * <li>Par exemple :<br/>
+	 * <code>lireRessource("configuration_ressources
+	 * _externes_fr_FR.properties")</code> injecte 
+	 * le contenu de la ressource dans la liste retournée.
+	 * </li>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * nom d'une ressource sous src/main/resources.<br/>
+	 * 
+	 * @return List&lt;String&gt; : 
+	 * contenu de la ressourcce sous forme de liste.<br/>
+	 *  
+	 * @throws Exception
+	 */
+	private static List<String> lireRessource(
+			final String pString) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* retourne null si pString est blank. */
+			if (StringUtils.isBlank(pString)) {
+				return null;
+			}
+			
+			final String stringRessourceBase 
+				= "/src/main/resources/";
+			final String stringRessource 
+				= stringRessourceBase + pString;
+			final File fileRessource = new File(stringRessource);
+			
+			/* retourne null si la ressource n'existe pas. */
+			if (!fileRessource.exists()) {
+				return null;
+			}
+			
+			final List<String> listeLignes 
+				= lireStringsDansFile(fileRessource, CHARSET_UTF8);
+			
+			return listeLignes;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de lireRessource(...).________________________________________
+	
+
+
+	/**
+	 * method lireTemplate(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li><b>Lit le contenu d'un template pString</b> 
+	 * sous src/main/resources/templates dans le présent projet 
+	 * et injecte le contenu dans une List&lt;String&gt;.</li>
+	 * <li>lit le contenu en CHARSET_UTF8.</li>
+	 * <li>retourne le contenu du template
+	 * sous forme de List&lt;String&gt;</li>
+	 * <li>Par exemple :<br/>
+	 * <code>lireTemplate("model/javadoc_getter
+	 * _classform.txt")</code> injecte 
+	 * le contenu de la ressource dans la liste retournée.
+	 * </li>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * nom d'une ressource sous src/main/resources/template.<br/>
+	 * 
+	 * @return List&lt;String&gt; : 
+	 * contenu de la ressourcce sous forme de liste.<br/>
+	 *  
+	 * @throws Exception
+	 */
+	private static List<String> lireTemplate(
+			final String pString) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* retourne null si pString est blank. */
+			if (StringUtils.isBlank(pString)) {
+				return null;
+			}
+			
+			final String stringRessourceBase 
+				= "/src/main/resources/templates/";
+			final String stringRessource 
+				= stringRessourceBase + pString;
+			final File fileRessource = new File(stringRessource);
+			
+			/* retourne null si la ressource n'existe pas. */
+			if (!fileRessource.exists()) {
+				return null;
+			}
+			
+			final List<String> listeLignes 
+				= lireStringsDansFile(fileRessource, CHARSET_UTF8);
+			
+			return listeLignes;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de lireTemplate(...)._________________________________________
+	
+
+	
+	/**
+	 * method ecrireCode(
+	 * List&lt;String&gt; pList, File pFile) :<br/>
+	 * <ul>
+	 * <li>Ecrit le contenu de la liste pList dans pFile.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas ou pFile n' est 
+	 * pas un fichier simple.<br/>
+	 * ne fait rien si pList == null.<br/>
+	 * <br/>
+	 * 
+	 * @param pList : List&lt;String&gt;.<br/>
+	 * @param pFile : File.<br/>
+	 */
+	private static void ecrireCode(
+			final List<String> pList
+				, final File pFile) throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* ne fait rien si pFile est null. */
+			if (pFile == null) {
+				return;
+			}
+			
+			/* ne fait rien si pFile n'existe pas ou pFile 
+			 * n' est pas un fichier simple. */
+			if (!pFile.exists() || !pFile.isFile()) {
+				return;
+			}
+			
+			/* ne fait rien si pList == null. */
+			if (pList == null) {
+				return;
+			}
+			
+			for (final String ligne : pList) {
+				
+				if (StringUtils.isBlank(ligne)) {
+					
+					ecrireStringDansFile(
+							pFile, "", CHARSET_UTF8, NEWLINE);					
+				}				
+				else {
+					
+					ecrireStringDansFile(
+							pFile, ligne, CHARSET_UTF8, NEWLINE);
+				}
+			}
+			
+		} // Fin de synchronized._________________________________
+				
+	} // Fin de ecrireCode(...).___________________________________________
+
 
 	
 	/**
