@@ -227,6 +227,9 @@ public class EcriveurMetierConcreteClassForm extends AbstractEcriveurMetier {
 		
 		/* écrit le constructeur complet. */
 		this.ecrireConstructeurComplet(pFile);
+		
+		/* écrit les getters-setters. */
+		this.ecrireAccesseurs(pFile);
 						
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
@@ -1513,6 +1516,7 @@ public class EcriveurMetierConcreteClassForm extends AbstractEcriveurMetier {
 
 	}
 
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -1521,9 +1525,36 @@ public class EcriveurMetierConcreteClassForm extends AbstractEcriveurMetier {
 			final String pNomAttribut
 				, final String pTypeAttribut
 					, final List<String> pListe) throws Exception {
-		// TODO Auto-generated method stub
+		
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/model/javadoc_getter_classform.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+					, "{$MajnomAttribut}"
+					, this.mettrePremiereEnMajusculeEtGarder(
+							pNomAttribut));
+		
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+					listeSubst1
+				, VARIABLE_NOMATTRIBUT
+				, pNomAttribut); 
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeSubst2);
 
-	}
+	} // Fin de creerJavadocGetter(...).___________________________________
+
+
 
 	/**
 	 * {@inheritDoc}
@@ -1532,11 +1563,13 @@ public class EcriveurMetierConcreteClassForm extends AbstractEcriveurMetier {
 	protected final void creerCodeEntityGetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeGetter)
-			throws Exception {
-		// TODO Auto-generated method stub
+					, final List<String> pListe) throws Exception {
 
-	}
+		// TODO Auto-generated method stub
+		
+	} // Fin de creerCodeEntityGetter(...).________________________________
+
+
 
 	/**
 	 * {@inheritDoc}
@@ -1545,22 +1578,52 @@ public class EcriveurMetierConcreteClassForm extends AbstractEcriveurMetier {
 	protected final void creerCodeGetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeGetter)
-			throws Exception {
-		// TODO Auto-generated method stub
+					, final List<String> pListe) throws Exception {
 
-	}
+		/* signature. */
+		final String signature 
+		= PUBLIC 
+		+ pTypeAttribut 
+		+ SEP_ESPACE 
+		+ this.fournirGetter(pNomAttribut + STRING) + " {";
+	
+		pListe.add(signature);
+		
+		/* code. */
+		final String code 
+			= DECALAGE_CODE 
+			+ "return this." + pNomAttribut + STRING + POINT_VIRGULE;
+		
+		pListe.add(code);
+		
+		/* ligne de fin. */
+		String ligneFin = null;
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append(DECALAGE_METHODE);
+		stb.append(CROCHET_FERMANT);
+		stb.append(" // Fin de ");
+		stb.append(this.fournirGetter(pNomAttribut + STRING));
+		stb.append(POINT);
+		
+		final String provisoire = stb.toString();
+		final int longueurProvisoire = provisoire.length();
+		
+		final int nombreTirets 
+			= 74 - longueurProvisoire - DECALAGE_CODE.length();
+		
+		for (int i=0; i < nombreTirets; i++) {
+			stb.append('_');
+		}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final String fournirLigneIdentifianteGetter(
-			final String pNomAttribut
-				, final String pTypeAttribut) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		ligneFin = stb.toString();
+		
+		pListe.add(ligneFin);
+		
+	} // Fin de creerCodeGetter(...).______________________________________
+
+
 
 	/**
 	 * {@inheritDoc}
@@ -1569,11 +1632,37 @@ public class EcriveurMetierConcreteClassForm extends AbstractEcriveurMetier {
 	protected final void creerJavadocSetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeSetter)
-			throws Exception {
-		// TODO Auto-generated method stub
+					, final List<String> pListe) throws Exception {
 
-	}
+		/* Création des lignes. */
+		final String cheminFichierDebut 
+		= BundleConfigurationProjetManager.getRacineMainResources() 
+		+ "/templates/model/javadoc_setter_classform.txt";
+	
+		final File fichierDebut = new File(cheminFichierDebut);
+	
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fichierDebut, CHARSET_UTF8);
+		
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+					, "{$MajnomAttribut}"
+					, this.mettrePremiereEnMajusculeEtGarder(
+							pNomAttribut));
+		
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+					listeSubst1
+				, VARIABLE_NOMATTRIBUT
+				, pNomAttribut); 
+		
+		/* Ajout des lignes. */
+		pListe.addAll(listeSubst2);
+		
+	} // Fin de creerJavadocSetter(...).___________________________________
+
+
 
 	/**
 	 * {@inheritDoc}
@@ -1582,24 +1671,99 @@ public class EcriveurMetierConcreteClassForm extends AbstractEcriveurMetier {
 	protected final void creerCodeSetter(
 			final String pNomAttribut
 				, final String pTypeAttribut
-					, final List<String> pListeSetter)
-			throws Exception {
-		// TODO Auto-generated method stub
+					, final List<String> pListe) throws Exception {
 
-	}
+		/* signature. */
+		final String signature1 
+			= PUBLIC + "void " 
+						+ this.fournirSetter(pNomAttribut) + "String(";
+		
+		final String signature2 
+			= DECALAGE_CODE + "\t" 
+					+ FINAL + STRING 
+					+ SEP_ESPACE 
+					+ this.fournirParametre(pNomAttribut) + "String) {";
+		
+		pListe.add(signature1);
+		pListe.add(signature2);
+		
+		/* code. */
+		final String code 
+			= DECALAGE_CODE 
+			+ "this." + pNomAttribut + STRING 
+			+ EGAL 
+			+ this.fournirParametre(pNomAttribut) + STRING + POINT_VIRGULE;
+		
+		pListe.add(code);
+		
+		/* ligne de fin. */
+		String ligneFin = null;
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append(DECALAGE_METHODE);
+		stb.append(CROCHET_FERMANT);
+		stb.append(" // Fin de ");
+		stb.append(this.fournirSetter(pNomAttribut));
+		stb.append(STRING);
+		stb.append("()");
+		stb.append(POINT);
+		
+		final String provisoire = stb.toString();
+		final int longueurProvisoire = provisoire.length();
+		
+		final int nombreTirets 
+			= 74 - longueurProvisoire - DECALAGE_CODE.length();
+		
+		for (int i=0; i < nombreTirets; i++) {
+			stb.append('_');
+		}
 
-	
-	
+		ligneFin = stb.toString();
+		
+		pListe.add(ligneFin);
+		
+	} // Fin de creerCodeSetter(...).______________________________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final String fournirLigneIdentifianteSetter(
+	protected String fournirLigneIdentifianteGetter(
 			final String pNomAttribut
 				, final String pTypeAttribut) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		final String ligneIdentifiant 
+		= PUBLIC
+				+ pTypeAttribut 
+				+ SEP_ESPACE 
+				+ this.fournirGetter(pNomAttribut);
+		
+		return ligneIdentifiant;
+		
+	} // Fin de fournirLigneIdentifianteGetter(...)._______________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String fournirLigneIdentifianteSetter(
+			final String pNomAttribut
+				, final String pTypeAttribut) {
+		
+		final String ligneIdentifiant 
+		= PUBLIC
+				+ "void" 
+				+ SEP_ESPACE 
+				+ this.fournirSetter(pNomAttribut);
+		
+		return ligneIdentifiant;
+		
+	} // Fin de fournirLigneIdentifianteSetter(...)._______________________
 
 
 	

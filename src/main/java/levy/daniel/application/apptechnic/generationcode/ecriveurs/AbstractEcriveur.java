@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.text.WordUtils;
 
 import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.IGenerateur;
@@ -162,6 +163,40 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	 // List<String> pListe).______________________________________________
 
 	
+	
+	/**
+	 * method mettrePremiereEnMajusculeEtGarder(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Met la première lettre de chaque mots séparés 
+	 * par des espaces en majuscule.</li>
+	 * <li>Conserve les autres lettres de chaque mots séparés 
+	 * par un espace.</li>
+	 * <li>Par exemple : "premier" est transformé en "Premier".</li>
+	 * <li>"PREMIER" est transformé en "PREMIER".</li>
+	 * <li>WordUtils.capitalize("i am FINE") = "I Am FINE"</li>
+	 * </ul>
+	 * retourne null si pString == null.<br/>
+	 * <br/>
+	 * 
+	 *
+	 * @param pString : String. <br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	public final String mettrePremiereEnMajusculeEtGarder(
+			final String pString) {
+		
+		/* retourne null si pString == null. */
+		if (pString == null) {
+			return null;
+		}
+		
+		return WordUtils.capitalize(pString);
+		
+	} // Fin de mettrePremiereEnMajusculeEtGarder(...).____________________
+	
+
 	
 	/**
 	 * method getPathMainJava() :<br/>

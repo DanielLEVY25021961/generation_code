@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.configurationmanagers.ManagerPaths;
+import levy.daniel.application.util.gestionnairesiofichiers.GestionnaireFichiers;
 
 /**
  * CLASSE <b>GestionnaireProjet</b> :<br/>
@@ -1878,6 +1879,13 @@ public final class GestionnaireProjet {
 	private static File fileServicesTestJava;
 	
 
+	/**
+	 * FILE_LOG4J_XML : File :<br/>
+	 * log4j2.xml.<br/>
+	 */
+	private static final File FILE_LOG4J_XML 
+		= new File("./src/main/resources/log4j2.xml");
+
 	
 	/**
 	 * LOG : Log : 
@@ -2013,6 +2021,8 @@ public final class GestionnaireProjet {
 			alimenterDao();
 			alimenterMetier();
 			alimenterServices();
+			
+			copierSousMainResources(FILE_LOG4J_XML);
 			
 		} // Fin de synchronized._______________________
 		
@@ -3879,6 +3889,48 @@ public final class GestionnaireProjet {
 		return resultat;
 		
 	} // Fin de fabriquerPath(...).________________________________________
+	
+
+	
+	/**
+	 * method copierSousMainResources(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>copie pFile sous src/main/resources dans le projet cible.</li>
+	 * <li>conserve le nom de pFile dans le projet cible.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 */
+	private static void copierSousMainResources(
+			final File pFile) {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* ne fait rien si pFile est null. */
+			if (pFile == null) {
+				return;
+			}
+			
+			/* ne fait rien si pFile n'existe pas. */
+			if (!pFile.exists()) {
+				return;
+			}
+			
+			final Path pathDestination 
+				= pathMainResources.resolve(pFile.getName());
+			
+			final File fileDestination = pathDestination.toFile();
+			
+			GestionnaireFichiers
+				.copierFichierSansRemplacement(pFile, fileDestination);
+			
+		} // Fin de synchronized._________________________
+		
+	} // Fin de copierSousMainResources(...).______________________________
 	
 	
 	

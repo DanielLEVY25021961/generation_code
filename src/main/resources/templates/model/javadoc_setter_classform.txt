@@ -1,0 +1,9 @@
+	/**
+	 * method set{$MajnomAttribut}String(
+	 * String p{$MajnomAttribut}String) :<br/>
+	 * Setter de {$nomAttribut}String.<br/>
+	 * <br/>
+	 *
+	 * @param p{$MajnomAttribut}String : String : 
+	 * valeur à passer à this.{$nomAttribut}String.<br/>
+	 */

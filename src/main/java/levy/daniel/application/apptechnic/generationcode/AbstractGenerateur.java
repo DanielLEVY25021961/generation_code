@@ -569,7 +569,9 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * tous les packages du projet cible</b>.</li>
 	 * <li>garnit éventuellement le packageMetier 
 	 * avec les interfaces IExportateurCsv et IExportateurJTable.</li>
-	 * <li>génère éventuellement le packageDaoMetier et le garnit éventuellement avec IDaoGenericJPASpring et AbstractDAOGenericJPASpring.</li>
+	 * <li>génère éventuellement le packageDaoMetier 
+	 * et le garnit éventuellement avec 
+	 * IDaoGenericJPASpring et AbstractDAOGenericJPASpring.</li>
 	 * </ul>
 	 *
 	 * @throws Exception

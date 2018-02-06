@@ -1,0 +1,7 @@
+	/**
+	 * method get{$MajnomAttribut}String() :<br/>
+	 * Getter de {$nomAttribut}String.<br/>
+	 * <br/>
+	 *
+	 * @return : String : this.{$nomAttribut}String.<br/>
+	 */

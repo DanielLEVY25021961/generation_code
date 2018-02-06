@@ -4710,7 +4710,7 @@ public abstract class AbstractEcriveurMetier
 		
 		/* récupère le chemin absolu vers model/metier. */
 		final String pathAbsoluMetierString 
-			= BundleConfigurationProjetManager.getPathMetier();
+			= GestionnaireProjet.getPathMetierMainJavaString();
 		
 		/* transformation du chemin String en Path. */
 		final Path pathAbsoluMetier = Paths.get(pathAbsoluMetierString);
@@ -8026,39 +8026,6 @@ public abstract class AbstractEcriveurMetier
 		return WordUtils.capitalizeFully(pString);
 		
 	} // Fin de mettrePremiereEnMajuscule(...).____________________________
-	
-	
-	/**
-	 * method mettrePremiereEnMajusculeEtGarder(
-	 * String pString) :<br/>
-	 * <ul>
-	 * <li>Met la première lettre de chaque mots séparés 
-	 * par des espaces en majuscule.</li>
-	 * <li>Conserve les autres lettres de chaque mots séparés 
-	 * par un espace.</li>
-	 * <li>Par exemple : "premier" est transformé en "Premier".</li>
-	 * <li>"PREMIER" est transformé en "PREMIER".</li>
-	 * <li>WordUtils.capitalize("i am FINE") = "I Am FINE"</li>
-	 * </ul>
-	 * retourne null si pString == null.<br/>
-	 * <br/>
-	 * 
-	 *
-	 * @param pString : String. <br/>
-	 * 
-	 * @return : String.<br/>
-	 */
-	private String mettrePremiereEnMajusculeEtGarder(
-			final String pString) {
-		
-		/* retourne null si pString == null. */
-		if (pString == null) {
-			return null;
-		}
-		
-		return WordUtils.capitalize(pString);
-		
-	} // Fin de mettrePremiereEnMajusculeEtGarder(...).____________________
 	
 	
 	
