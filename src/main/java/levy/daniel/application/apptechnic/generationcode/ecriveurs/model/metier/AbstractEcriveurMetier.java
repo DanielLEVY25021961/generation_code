@@ -38,6 +38,7 @@ import org.apache.commons.text.WordUtils;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
+import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJava;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
 
@@ -356,7 +357,7 @@ public abstract class AbstractEcriveurMetier
 			/* D:\Donnees\eclipse\eclipseworkspace_neon\
 			 * generation_code\src\main\java */
 			this.pathRacineMainJavaString 
-				= BundleConfigurationProjetManager.getRacineMainJava();
+				= GestionnaireProjet.getPathMainJavaString();
 			
 			/* Récupère le path absolu des sources Java 
 			 * sous forme de Path. */

@@ -70,6 +70,24 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	protected final transient IGestionnaireFiles gestionnaireFiles 
 		= new GestionnaireFiles();
 
+	/**
+	 * PATH_MAIN_JAVA : Path :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>PATH_MAIN_JAVA = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 */
+	protected static final Path PATH_MAIN_JAVA 
+		= GestionnaireProjet.getPathMainJava();
+	
 	
 	/**
 	 * conceptModelise : String :<br/>
@@ -1359,10 +1377,6 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * method genererPackages(
 	 * String pNomPackage) :<br/>
 	 * <ul>
-	 * <li>génère si nécessaire l'interface IExportateurCsv 
-	 * sous model.metier.</li>
-	 * <li>génère si nécessaire l'interface IExportateurJTable 
-	 * sous model.metier.</li>
 	 * <li>génère le package <b>this.packageSousCouche</b>.<br/>
 	 * Par exemple model.metier.profil pour un concept Profil.</li>
 	 * <li>génère le package <b>sousPackageImpl</b>.<br/>
@@ -2921,7 +2935,31 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de alimenterMapRg().__________________________________________
 	
 	
+	
+	/**
+	 * method getPathMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la 
+	 * RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>PATH_MAIN_JAVA = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return PATH_MAIN_JAVA : Path.<br/>
+	 */
+	public static Path getPathMainJava() {
+		return PATH_MAIN_JAVA;
+	} // Fin de getPathMainJava()._________________________________________
 
+
+	
 	/**
 	 * method getConceptModelise() :<br/>
 	 * <ul>

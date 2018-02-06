@@ -1,11 +1,13 @@
 package levy.daniel.application.apptechnic.generationcode.ecriveurs;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.IGenerateur;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
 
@@ -40,7 +42,26 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	public static final String CLASSE_ABSTRACT_ECRIVEUR 
 		= "Classe AbstractEcriveur";
 
+
+	/**
+	 * PATH_MAIN_JAVA : Path :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>PATH_MAIN_JAVA = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 */
+	protected static final Path PATH_MAIN_JAVA 
+		= GestionnaireProjet.getPathMainJava();
 	
+
 	/**
 	 * generateurCode : IGenerateur :<br/>
 	 * Generateur de code 
@@ -51,16 +72,33 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	
 	/**
 	 * nomPackage : String :<br/>
-	 * <b>nom du package à créer dans chaque couche</b>.<br/>
-	 * passé en paramètre au générateur.<br/>
-	 * par exemple : "profil".<br/>
+	 * <ul>
+	 * <li><b>nom du package à créer dans chaque SOUS-COUCHE</b> 
+	 * en fonction du concept à modéliser dans le générateur 
+	 * (model/metier/profil, model/dao/metier/profil, 
+	 * model/services/metier/profil, ...pour un concept Profil).</li>
+	 * <li>passé en paramètre au générateur.</li>
+	 * <li>par exemple : <br/>
+	 * <code>profil</code>.</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
 	 */
 	protected transient String nomPackage;
 	
 	
 	/**
 	 * conceptModelise : String :<br/>
-	 * concept modélisé.<br/>
+	 * <ul>
+	 * <li><b>concept modélisé par ce générateur</b>.</li>
+	 * <li><b>nom du package à créer dans chaque SOUS-COUCHE</b> 
+	 * (model/metier, model/dao/metier, model/services/metier, ...) 
+	 * avec une <i>majuscule</i> en première position.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>Profil</code> pour le nomPackage "profil".</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
 	 */
 	protected transient String conceptModelise;
 	
@@ -124,5 +162,72 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	 // List<String> pListe).______________________________________________
 
 	
+	
+	/**
+	 * method getPathMainJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la 
+	 * RACINE des sources .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>PATH_MAIN_JAVA = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelMainJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/main/java
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return PATH_MAIN_JAVA : Path.<br/>
+	 */
+	public static Path getPathMainJava() {
+		return PATH_MAIN_JAVA;
+	} // Fin de getPathMainJava()._________________________________________
+
+
+	
+	/**
+	 * method getConceptModelise() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>concept modélisé par ce générateur</b>.</li>
+	 * <li><b>nom du package à créer dans chaque SOUS-COUCHE</b> 
+	 * (model/metier, model/dao/metier, model/services/metier, ...) 
+	 * avec une <i>majuscule</i> en première position.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>Profil</code> pour le nomPackage "profil".</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
+	 * 
+	 * @return conceptModelise : String.<br/>
+	 */
+	public final String getConceptModelise() {
+		return this.conceptModelise;
+	} // Fin de getConceptModelise().______________________________________
+
+
+	
+	/**
+	 * method getNomPackage() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>nom du package à créer dans chaque SOUS-COUCHE</b> 
+	 * en fonction du concept à modéliser dans le générateur 
+	 * (model/metier/profil, model/dao/metier/profil, 
+	 * model/services/metier/profil, ...pour un concept Profil).</li>
+	 * <li>passé en paramètre au générateur.</li>
+	 * <li>par exemple : <br/>
+	 * <code>profil</code>.</li>
+	 * <li>RG-CONCEPT-01 : le conceptModelise est déduit 
+	 * du nomPackage passé en paramètre.</li>
+	 * </ul>
+	 * 
+	 * @return nomPackage : String.<br/>
+	 */
+	public final String getNomPackage() {
+		return this.nomPackage;
+	} // Fin de getNomPackage().___________________________________________
+
+
 
 } // FIN DE LA CLASSE AbstractEcriveur.--------------------------------------
