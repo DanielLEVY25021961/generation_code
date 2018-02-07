@@ -371,8 +371,8 @@ public final class ManagerPaths {
 			
 			if (pathPresentProjetString == null) {
 				
-				/* File situé sous le projet courant. */
-				final File fileSousProjet = new File("");
+				/* File désignant le projet courant. */
+				final File fileSousProjet = new File(".");
 				final Path pathWindowsProjet = fileSousProjet.toPath();
 				final Path realPath = pathWindowsProjet.toRealPath();
 				

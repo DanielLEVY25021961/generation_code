@@ -1,10 +1,14 @@
 package levy.daniel.application.apptechnic.generationcode;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
@@ -116,6 +120,22 @@ public final class GestionnaireProjet {
 	public static final String METHODE_ECRIRESTRINGDANSFILE 
 		= "méthode ecrireStringDansFile(File pFile, ....)";
 
+	
+	/**
+	 * METHODE_EXISTLIGNEDANSFICHIER : String :<br/>
+	 * "méthode existLigneDansFichier(...)".<br/>
+	 */
+	public static final String METHODE_EXISTLIGNEDANSFICHIER 
+		= "méthode existLigneDansFichier(...)";
+	
+	
+	/**
+	 * METHODE_EXISTLIGNECOMMENCANT : String :<br/>
+	 * "méthode existLigneCommencant(...)".<br/>
+	 */
+	public static final String METHODE_EXISTLIGNECOMMENCANT 
+		= "méthode existLigneCommencant(...)";
+	
 
 	//*****************************************************************/
 	//**************************** BOM_UTF-8 **************************/
@@ -165,7 +185,20 @@ public final class GestionnaireProjet {
 	
 	//*****************************************************************/
 	//************************** SEPARATEURS **************************/
-	//*****************************************************************/		
+	//*****************************************************************/
+
+	/**
+	 * SEPARATEUR_FICHIERS : String :<br/>
+	 * <ul>
+	 * <li>Séparateur de fichiers de la plateforme.</li>
+	 * <li>fourni par System.getProperty("file.separator").</li>
+	 * <li>antislash '\' sur la plateforme Windows.</li>
+	 * </ul>
+	 */
+	public static final String SEPARATEUR_FICHIERS 
+		= System.getProperty("file.separator");
+	
+
 	/**
 	 * SEP_ESPACE : String :<br/>
 	 * " ".<br/>
@@ -306,11 +339,28 @@ public final class GestionnaireProjet {
 	/**
 	 * VARIABLE_PACKAGE : String :<br/>
 	 * "{$chemin.package}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
 	 */
 	public static final String VARIABLE_PACKAGE 
 		= "{$chemin.package}";
 	
 	
+	/**
+	 * VARIABLE_PATH_PROJET : String :<br/>
+	 * "{$pathProjet}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	public static final String VARIABLE_PATH_PROJET 
+		= "{$pathProjet}";
+
+	
+	/**
+	 * VARIABLE_NOM_PROJET : String :<br/>
+	 * "{$nomProjet}".<br/>
+	 */
+	public static final String VARIABLE_NOM_PROJET 
+		= "{$nomProjet}";
+
 	
 	/**
 	 * pathWorkspaceString : String :<br/>
@@ -2024,7 +2074,11 @@ public final class GestionnaireProjet {
 
 			/* Crée tous les répertoires directement sous projet. */
 			creerRepertoiresSousProjet();
-						
+			
+			/* Génère tous les fichiers de ressources. */
+			genererFichiersRessources();
+			
+			/* copie de Log4j2.xml. */
 			copierSousMainResources(FILE_LOG4J_XML);
 			
 		} // Fin de synchronized._______________________
@@ -3763,6 +3817,159 @@ public final class GestionnaireProjet {
 		
 	} // Fin de creerRepertoireRessourcesExternes()._______________________
 	
+
+	
+	/**
+	 * method genererFichiersRessources() :<br/>
+	 * <ul>
+	 * <li><b>Génère toutes les ressources du projet cible</b>.</li>
+	 * <li>configuration_ressources_externes_fr_FR.properties</li>
+	 * <li>application_fr_FR.properties</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererFichiersRessources() throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* configuration_ressources_externes_fr_FR.properties */
+			genererFichierConfigRessourcesExternes();
+			
+			/* application_fr_FR.properties */
+			genererFichierApplicationProp();
+			
+		} // Fin de synchronized.___________________________________
+				
+	} // Fin de genererFichiersRessources()._______________________________
+
+	
+	
+	/**
+	 * method genererFichierConfigRessourcesExternes() :<br/>
+	 * <ul>
+	 * <li>génère le fichier 
+	 * configuration_ressources_externes_fr_FR.properties 
+	 * dans le projet cible.</li>
+	 * <li>ne génère ce fichier que si il n'existe pas déjà.<br/>
+	 * <li>ne fait rien si le code a déjà été généré 
+	 * dans le fichier cible.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererFichierConfigRessourcesExternes() 
+			throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			final String cheminFichier 
+			= "./src/main/resources/configuration_"
+					+ "ressources_externes_fr_FR.properties";
+			
+			final String cheminTemplate 
+			= "main_resources/configuration_ressources_externes.txt";
+			
+			final String ligneIdentifiante = "ressourcesexternes=";
+		
+			final File fileConfigRessourcesExt 
+			= new File(cheminFichier);
+		
+			/* crée le fichier vide dans le projet cible. */
+			final File fileACreer 
+				= creerFichierVideDansProjetCible(
+						fileConfigRessourcesExt);
+			
+			/* ne fait rien si le code a déjà été généré 
+			 * dans le fichier cible. */
+			if (existLigneCommencant(
+					fileACreer
+						, CHARSET_UTF8
+							, ligneIdentifiante)) {
+				return;
+			}
+			
+			/* lit le template. */
+			final List<String> listTemplate 
+				= lireTemplate(cheminTemplate);
+			
+			/* substitue les variables dans le template. */
+			final List<String> listSubst1 
+				= substituerVariablesDansLigne(
+					listTemplate
+						, VARIABLE_PATH_PROJET
+							, retournerPathGenerique(pathProjetString));
+			
+			/* écrit le template substitué dans le fichier cible vide. */
+			ecrireCode(listSubst1, fileACreer);
+			
+		} // Fin de synchronized.___________________________________
+
+	} // Fin de genererFichierConfigRessourcesExternes().___________________
+	
+	
+
+	/**
+	 * method genererFichierApplicationProp() :<br/>
+	 * <ul>
+	 * <li>génère le fichier 
+	 * application_fr_FR.properties 
+	 * dans le projet cible.</li>
+	 * <li>ne génère ce fichier que si il n'existe pas déjà.<br/>
+	 * <li>ne fait rien si le code a déjà été généré 
+	 * dans le fichier cible.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	private static void genererFichierApplicationProp() 
+			throws Exception {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			final String cheminFichier 
+			= "./src/main/resources/application_fr_FR.properties";
+			
+			final String cheminTemplate 
+			= "main_resources/application.txt";
+			
+			final String ligneIdentifiante = "application.titre";
+		
+			final File fileConfigRessourcesExt 
+			= new File(cheminFichier);
+		
+			/* crée le fichier vide dans le projet cible. */
+			final File fileACreer 
+				= creerFichierVideDansProjetCible(
+						fileConfigRessourcesExt);
+			
+			/* ne fait rien si le code a déjà été généré 
+			 * dans le fichier cible. */
+			if (existLigneCommencant(
+					fileACreer
+						, CHARSET_UTF8
+							, ligneIdentifiante)) {
+				return;
+			}
+			
+			/* lit le template. */
+			final List<String> listTemplate 
+				= lireTemplate(cheminTemplate);
+			
+			/* substitue les variables dans le template. */
+			final List<String> listSubst1 
+				= substituerVariablesDansLigne(
+					listTemplate
+						, VARIABLE_NOM_PROJET
+							, nomProjet);
+			
+			/* écrit le template substitué dans le fichier cible vide. */
+			ecrireCode(listSubst1, fileACreer);
+			
+		} // Fin de synchronized.___________________________________
+
+	} // Fin de genererFichierApplicationProp().___________________________
+	
 	
 	
 	/**
@@ -4227,6 +4434,72 @@ public final class GestionnaireProjet {
 		} // Fin de synchronized._________________________
 		
 	} // Fin de creerRepertoireSousRepertoire(...).________________________
+	
+
+	
+	/**
+	 * method creerFichierVideDansProjetCible(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>Crée dans le projet cible un fichier vide</b> 
+	 * portant le même nom et au même endroit relatif que pFile.</li>
+	 * <li>retourne le fichier créé si il n'existait pas 
+	 * ou le fichier existant.</li>
+	 * <li>Ne crée ce fichier vide que si il n'existe pas 
+	 * déjà dans le projet cible.</li>
+	 * </ul>
+	 * retourne null si pFile == null.<br/>
+	 * retourne null si pFile n'existe pas.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : 
+	 * fichier du présent projet à créer dans le projet cible.<br/>
+	 * 
+	 * @return : File : fichier créé dans le projet cible.<br/>
+	 * 
+	 * @throws IOException 
+	 */
+	private static File creerFichierVideDansProjetCible(
+			final File pFile) throws IOException {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* retourne null si pFile == null. */
+			if (pFile == null) {
+				return null;
+			}
+			
+			/* retourne null si pFile n'existe pas. */
+			if (!pFile.exists()) {
+				return null;
+			}
+			
+			final Path pathACopier = pFile.toPath();
+			
+			/* File désignant le projet courant. */
+			final File filePresentProjet = new File(".");
+			final Path pathPresentProjet 
+				= filePresentProjet.toPath();
+			
+			/* RELATIVIZE : calcul du path relatif. */
+			final Path pathACopierRelatif 
+				= pathPresentProjet.relativize(pathACopier);
+			
+			/* RESOLVE : calcul du path dans le projet cible. */
+			final Path pathDestination 
+				= pathProjet.resolve(pathACopierRelatif);
+			
+			final File resultat = pathDestination.toFile();
+			
+			if (!resultat.exists()) {
+				Files.createFile(pathDestination);
+			}
+						
+			return resultat;
+			
+		} // Fin de synchronized._________________________
+		
+	} // Fin de creerFichierVideDansProjetCible(...).______________________
 	
 	
 	
@@ -4732,7 +5005,364 @@ public final class GestionnaireProjet {
 	} // Fin de ecrireStringDansFile(...)._________________________________
 	
 
+	
+	/**
+	 * method existLigneDansFichier(
+	 * File pFile
+	 * , Charset pCharsetLecture
+	 * , String pLigne) :<br/>
+	 * <ul>
+	 * <li><b>Détermine si la ligne pLigne existe dans pFile</b>.</li>
+	 * <li>Retourne true si c'est le cas.</li>
+	 * <li>Lit le fichier textuel simple 
+	 * pFile avec l'encodage pCharsetLecture.</li>
+	 * <li>Utilise automatiquement le CHARSET_UTF8 pour la lecture 
+	 * si pCharsetLecture est null.</li>
+	 * </ul>
+	 * Retourne false si pFile est null.<br/>
+	 * Retourne false si pFile n'existe pas sur le disque.<br/>
+	 * Retourne false si pFile est un répertoire.<br/>
+	 * Retourne false si pLigne est null.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier textuel simple dans lequel 
+	 * on veut savoir si la ligne pLigne existe.<br/>
+	 * @param pCharsetLecture : Charset : Charset dans lequel 
+	 * le fichier simple textuel pFile est encodé. 
+	 * On le lit donc avec ce Charset.<br/>
+	 * @param pLigne : String : ligne à rechercher.<br/>
+	 * 
+	 * @return : boolean : true si la ligne existe.<br/>
+	 */
+	private static boolean existLigneDansFichier(
+			final File pFile
+				, final Charset pCharsetLecture
+					, final String pLigne) {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* Retourne false si pFile est null. */
+			if (pFile == null) {
+				return false;
+			}
+			
+			/* Retourne false si pFile n'existe pas sur le disque. */
+			if (!pFile.exists()) {
+				return false;
+			}
+			
+			/* Retourne false si pFile est un répertoire. */
+			if (pFile.isDirectory()) {
+				return false;
+			}
+			
+			/* Retourne false si pLigne est null. */
+			if (pLigne == null) {
+				return false;
+			}
 
+			Charset charsetLecture = null;
+			
+			/* Utilise automatiquement le CHARSET_UTF8 si 
+			 * pCharsetLecture est null. */			
+			if (pCharsetLecture == null) {
+				charsetLecture = CHARSET_UTF8;
+			}
+			else {
+				charsetLecture = pCharsetLecture;
+			}
+			
+			// ****************************************************
+			/* LECTURE. */
+			InputStream inputStream = null;
+			InputStreamReader inputStreamReader = null;
+			BufferedReader bufferedReader = null;
+			
+			boolean resultat = false;
+			
+			try {
+
+				/* LECTURE DU FICHIER AVEC CHARSET charsetLecture. */
+				inputStream = new FileInputStream(pFile);
+				inputStreamReader 
+					= new InputStreamReader(inputStream, charsetLecture);
+				bufferedReader = new BufferedReader(inputStreamReader);
+
+
+				String ligneLue = null;
+				
+				/* BOUCLE SUR LES LIGNES DE pFile. */
+				while (true) {
+															
+					/* Lecture de la ligne. */
+					ligneLue = bufferedReader.readLine();
+					
+					/* Fin de boucle à la fin du fichier. */
+					if (ligneLue == null) {
+						break;
+					}
+					
+					/* capture le numéro de ligne si pLigne est trouvée. */
+					if (StringUtils.equals(pLigne, ligneLue)) {
+						resultat = true;
+						break;
+					}
+
+				} // Fin de BOUCLE SUR LES LIGNES DE pFile._____
+				
+			} catch (FileNotFoundException e) {
+				
+				/* LOG de niveau ERROR. */
+				loggerError(
+						fournirNomClasse()
+						, METHODE_EXISTLIGNEDANSFICHIER
+						, e);
+				
+				/* retourne false. */
+				return false;
+				
+			} catch (IOException e) {
+				
+				/* LOG de niveau ERROR. */
+				loggerError(
+						fournirNomClasse()
+						, METHODE_EXISTLIGNEDANSFICHIER
+						, e);
+				
+				/* retourne false. */
+				return false;
+				
+			}
+			
+			finally {
+				
+				/* Fermeture des flux de lecture. */
+				if (bufferedReader != null) {
+					try {
+						bufferedReader.close();
+					} catch (IOException e) {
+						
+						/* LOG de niveau ERROR. */
+						loggerError(
+								fournirNomClasse()
+								, METHODE_EXISTLIGNEDANSFICHIER
+								, e);
+					}
+				}
+				if (inputStreamReader != null) {
+					try {
+						inputStreamReader.close();
+					} catch (IOException e) {
+						
+						/* LOG de niveau ERROR. */
+						loggerError(
+								fournirNomClasse()
+								, METHODE_EXISTLIGNEDANSFICHIER
+								, e);
+					}
+				}
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e) {
+						
+						/* LOG de niveau ERROR. */
+						loggerError(
+								fournirNomClasse()
+								, METHODE_EXISTLIGNEDANSFICHIER
+								, e);
+					}
+				}
+												
+			} // Fin du finally._______________________________
+
+			return resultat;
+			
+		} // Fin de synchronized._____________________________
+		
+	} // Fin de existLigneDansFichier(...).________________________________
+	
+	
+	
+	/**
+	 * method existLigneCommencant(
+	 * File pFile
+	 * , Charset pCharsetLecture
+	 * , String pLigne) :<br/>
+	 * <ul>
+	 * <li><b>Détermine si une ligne commençant par pLigne 
+	 * existe dans pFile</b>.</li>
+	 * <li>Retourne true si c'est le cas.</li>
+	 * <li>Lit le fichier textuel simple 
+	 * pFile avec l'encodage pCharsetLecture.</li>
+	 * <li>Utilise automatiquement le CHARSET_UTF8 pour la lecture 
+	 * si pCharsetLecture est null.</li>
+	 * </ul>
+	 * Retourne false si pFile est null.<br/>
+	 * Retourne false si pFile n'existe pas sur le disque.<br/>
+	 * Retourne false si pFile est un répertoire.<br/>
+	 * Retourne false si pLigne est null.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier textuel simple dans lequel 
+	 * on veut savoir si la ligne commençant par pLigne existe.<br/>
+	 * @param pCharsetLecture : Charset : Charset dans lequel 
+	 * le fichier simple textuel pFile est encodé. 
+	 * On le lit donc avec ce Charset.<br/>
+	 * @param pLigne : String : ligne à rechercher.<br/>
+	 * 
+	 * @return : boolean : true si la ligne existe.<br/>
+	 */
+	private static boolean existLigneCommencant(
+			final File pFile
+				, final Charset pCharsetLecture
+					, final String pLigne) {
+		
+		synchronized (GestionnaireProjet.class) {
+			
+			/* Retourne false si pFile est null. */
+			if (pFile == null) {
+				return false;
+			}
+			
+			/* Retourne false si pFile n'existe pas sur le disque. */
+			if (!pFile.exists()) {
+				return false;
+			}
+			
+			/* Retourne false si pFile est un répertoire. */
+			if (pFile.isDirectory()) {
+				return false;
+			}
+			
+			/* Retourne false si pLigne est null. */
+			if (pLigne == null) {
+				return false;
+			}
+
+			Charset charsetLecture = null;
+			
+			/* Utilise automatiquement le CHARSET_UTF8 si 
+			 * pCharsetLecture est null. */			
+			if (pCharsetLecture == null) {
+				charsetLecture = CHARSET_UTF8;
+			}
+			else {
+				charsetLecture = pCharsetLecture;
+			}
+			
+			// ****************************************************
+			/* LECTURE. */
+			InputStream inputStream = null;
+			InputStreamReader inputStreamReader = null;
+			BufferedReader bufferedReader = null;
+			
+			boolean resultat = false;
+			
+			try {
+
+				/* LECTURE DU FICHIER AVEC CHARSET charsetLecture. */
+				inputStream = new FileInputStream(pFile);
+				inputStreamReader 
+					= new InputStreamReader(inputStream, charsetLecture);
+				bufferedReader = new BufferedReader(inputStreamReader);
+
+
+				String ligneLue = null;
+				
+				/* BOUCLE SUR LES LIGNES DE pFile. */
+				while (true) {
+															
+					/* Lecture de la ligne. */
+					ligneLue = bufferedReader.readLine();
+					
+					/* Fin de boucle à la fin du fichier. */
+					if (ligneLue == null) {
+						break;
+					}
+					
+					/* capture le numéro de ligne si pLigne est trouvée. */
+					if (StringUtils.startsWith(ligneLue, pLigne)) {
+						resultat = true;
+						break;
+					}
+
+				} // Fin de BOUCLE SUR LES LIGNES DE pFile._____
+				
+			} catch (FileNotFoundException e) {
+				
+				/* LOG de niveau ERROR. */
+				loggerError(
+						fournirNomClasse()
+						, METHODE_EXISTLIGNECOMMENCANT
+						, e);
+				
+				/* retourne false. */
+				return false;
+				
+			} catch (IOException e) {
+				
+				/* LOG de niveau ERROR. */
+				loggerError(
+						fournirNomClasse()
+						, METHODE_EXISTLIGNECOMMENCANT
+						, e);
+				
+				/* retourne false. */
+				return false;
+				
+			}
+			
+			finally {
+				
+				/* Fermeture des flux de lecture. */
+				if (bufferedReader != null) {
+					try {
+						bufferedReader.close();
+					} catch (IOException e) {
+						
+						/* LOG de niveau ERROR. */
+						loggerError(
+								fournirNomClasse()
+								, METHODE_EXISTLIGNECOMMENCANT
+								, e);
+					}
+				}
+				if (inputStreamReader != null) {
+					try {
+						inputStreamReader.close();
+					} catch (IOException e) {
+						
+						/* LOG de niveau ERROR. */
+						loggerError(
+								fournirNomClasse()
+								, METHODE_EXISTLIGNECOMMENCANT
+								, e);
+					}
+				}
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e) {
+						
+						/* LOG de niveau ERROR. */
+						loggerError(
+								fournirNomClasse()
+								, METHODE_EXISTLIGNECOMMENCANT
+								, e);
+					}
+				}
+												
+			} // Fin du finally._______________________________
+
+			return resultat;
+			
+		} // Fin de synchronized._____________________
+				
+	} // Fin de existLigneCommencant(...)._________________________________
+	
+
+	
 	/**
 	 * method lireRessource(
 	 * String pString) :<br/>
@@ -4795,8 +5425,11 @@ public final class GestionnaireProjet {
 	 * String pString) :<br/>
 	 * <ul>
 	 * <li><b>Lit le contenu d'un template pString</b> 
-	 * sous src/main/resources/templates dans le présent projet 
+	 * sous ./src/main/resources/templates dans le présent projet 
 	 * et injecte le contenu dans une List&lt;String&gt;.</li>
+	 * <li>pString ne doit contenir que le <i>path relatif 
+	 * sous templates</i> comme 
+	 * <code>hashcode/debut_hashcode.txt</code>.</li>
 	 * <li>lit le contenu en CHARSET_UTF8.</li>
 	 * <li>retourne le contenu du template
 	 * sous forme de List&lt;String&gt;</li>
@@ -4808,7 +5441,7 @@ public final class GestionnaireProjet {
 	 * </ul>
 	 *
 	 * @param pString : String : 
-	 * nom d'une ressource sous src/main/resources/template.<br/>
+	 * nom d'une ressource sous ./src/main/resources/template.<br/>
 	 * 
 	 * @return List&lt;String&gt; : 
 	 * contenu de la ressourcce sous forme de liste.<br/>
@@ -4826,7 +5459,7 @@ public final class GestionnaireProjet {
 			}
 			
 			final String stringRessourceBase 
-				= "/src/main/resources/templates/";
+				= "./src/main/resources/templates/";
 			final String stringRessource 
 				= stringRessourceBase + pString;
 			final File fileRessource = new File(stringRessource);
@@ -4852,6 +5485,11 @@ public final class GestionnaireProjet {
 	 * List&lt;String&gt; pList, File pFile) :<br/>
 	 * <ul>
 	 * <li>Ecrit le contenu de la liste pList dans pFile.</li>
+	 * <li>Ecrit pList à la fin du contenu de pFile.</li>
+	 * <li>Ne contrôle pas si le contenu de pList a déjà 
+	 * été injecté dans pFile. 
+	 * Rajoute pList à la fin de pFile à chaque 
+	 * appel de la méthode.</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas ou pFile n' est 
@@ -5029,6 +5667,44 @@ public final class GestionnaireProjet {
 	} // Fin de substituerVariablesDansLigne.______________________________
 	
 
+
+	/**
+	 * method retournerPathGenerique(
+	 * String pPathString) :<br/>
+	 * <ul>
+	 * <li><b>Remplace les séparateurs de fichier antislash</b> 
+	 * dans pPath par des <b>séparateurs génériques slash '/'</b>.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>retournerPathGenerique("D:\Donnees
+	 * \eclipse\eclipseworkspace_neon\generation_code")</code> 
+	 * retourne 
+	 * <code>
+	 * "D:/Donnees/eclipse/eclipseworkspace_neon/generation_code"
+	 * </code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @param pPathString : String.<br/>
+	 * 
+	 * @return : String : String avec des slashes
+	 *  à la place des antislash.<br/>
+	 */
+	private static String retournerPathGenerique(
+			final String pPathString) {
+		
+		/* retourne null si pPathString est blank. */
+		if (StringUtils.isBlank(pPathString)) {
+			return null;
+		}
+		
+		final String resultat 
+			= StringUtils.replaceChars(pPathString, '\\', SLASH);
+		
+		return resultat;
+		
+	} // Fin de retournerPathGenerique(...)._______________________________
+	
+	
 	
 	/**
 	 * method afficherDateDuJour() :<br/>
