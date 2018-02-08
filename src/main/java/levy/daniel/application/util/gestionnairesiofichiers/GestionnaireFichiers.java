@@ -785,6 +785,14 @@ public final class GestionnaireFichiers {
 	 * '.'.<br/>
 	 */
 	public static final char POINT = '.';
+
+	
+	/**
+	 * FILE_SEPARATOR : String :<br/>
+	 * "file.separator".<br/>
+	 */
+	public static final String FILE_SEPARATOR 
+		= "file.separator";
 	
 	
 	/**
@@ -6019,7 +6027,7 @@ public final class GestionnaireFichiers {
 			/* Récupère le séparateur de fichiers auprès de la plateforme 
 			 * avec la méthode System.getProperty("file.separator"). */
 			final String separateurFichiers 
-				= System.getProperty("file.separator");
+				= System.getProperty(FILE_SEPARATOR);
 			String nomBase = null;
 			String extension = null;
 			String nomSuffixe = null;
@@ -6133,7 +6141,7 @@ public final class GestionnaireFichiers {
 			/* Récupère le séparateur de fichiers auprès de la plateforme 
 			 * avec la méthode System.getProperty("file.separator"). */
 			final String separateurFichiers 
-				= System.getProperty("file.separator");
+				= System.getProperty(FILE_SEPARATOR);
 			String nomBase = null;
 			String extension = null;
 			String nomSuffixe = null;
@@ -6222,7 +6230,7 @@ public final class GestionnaireFichiers {
 			/* Récupère le séparateur de fichiers auprès de la plateforme 
 			 * avec la méthode System.getProperty("file.separator"). */
 			final String separateurFichiers 
-				= System.getProperty("file.separator");
+				= System.getProperty(FILE_SEPARATOR);
 			
 			final String cheminRepertoireACreer 
 				= filePere.getAbsolutePath() 
@@ -6313,7 +6321,7 @@ public final class GestionnaireFichiers {
 			/* Récupère le séparateur de fichiers auprès de la plateforme 
 			 * avec la méthode System.getProperty("file.separator"). */
 			final String separateurFichiers 
-				= System.getProperty("file.separator");
+				= System.getProperty(FILE_SEPARATOR);
 			
 			final String cheminRepertoireACreer 
 				= fileGrandPere.getAbsolutePath() 
