@@ -55,6 +55,206 @@ public interface IGenerateur {
 	String METHODE_ECRIRESTRINGDANSFILE 
 		= "méthode ecrireStringDansFile(File pFile, ....)";
 
+	
+	// ****************************************************/
+	// VARIABLES DE TEMPLATES.
+	// ****************************************************/
+	
+	/**
+	 * VARIABLE_PATHMETIER : String :<br/>
+	 * "{$pathMetier}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_PATHMETIER 
+		= "{$pathMetier}";
+
+	
+	/**
+	 * VARIABLE_NOMPACKAGE : String :<br/>
+	 * "{$nomPackage}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOMPACKAGE 
+		= "{$nomPackage}";
+
+	
+	/**
+	 * VARIABLE_NOM_INTERFACE_METIER : String :<br/>
+	 * "{$nomInterfaceMetier}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOM_INTERFACE_METIER 
+		= "{$nomInterfaceMetier}";
+
+	
+	/**
+	 * VARIABLE_NOM_ABSTRACT_METIER : String :<br/>
+	 * "{$nomAbstractClassMetier}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOM_ABSTRACT_METIER 
+		= "{$nomAbstractClassMetier}";
+
+	
+	/**
+	 * VARIABLE_NOM_CLASSE_METIER : String :<br/>
+	 * "{$nomClassMetier}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOM_CLASSE_METIER 
+		= "{$nomClassMetier}";
+	
+	
+	/**
+	 * VARIABLE_PATH_REL_CONCEPT : String :<br/>
+	 * "{$pathRelConceptString}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_PATH_REL_CONCEPT 
+		= "{$pathRelConceptString}";
+	
+	
+	/**
+	 * VARIABLE_PATH_REL_CONCEPT_IMPL : String :<br/>
+	 * "{$pathRelConceptImplString}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_PATH_REL_CONCEPT_IMPL 
+		= "{$pathRelConceptImplString}";
+
+		
+	/**
+	 * VARIABLE_NOMSIMPLEFICHIERJAVA : String :<br/>
+	 * "{$nomSimpleFichierJava}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOMSIMPLEFICHIERJAVA 
+		= "{$nomSimpleFichierJava}";
+	
+	
+	/**
+	 * VARIABLE_NOMSIMPLEINTERFACE : String :<br/>
+	 * "{$nomSimpleInterface}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOMSIMPLEINTERFACE 
+		= "{$nomSimpleInterface}";
+
+	
+	/**
+	 * VARIABLE_NOMSIMPLEABSTRACTCLASS : String :<br/>
+	 * "{$nomSimpleAbstractClass}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOMSIMPLEABSTRACTCLASS 
+		= "{$nomSimpleAbstractClass}";
+	
+	
+	/**
+	 * VARIABLE_CONCEPT_MODELISE : String :<br/>
+	 * "{$conceptModelise}".<br/>
+	 */
+	String VARIABLE_CONCEPT_MODELISE 
+		= "{$conceptModelise}";
+	
+	
+	/**
+	 * VARIABLE_NOMATTRIBUT : String :<br/>
+	 * "{$nomAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOMATTRIBUT 
+		= "{$nomAttribut}";
+	
+	
+	/**
+	 * VARIABLE_TYPEATTRIBUT : String :<br/>
+	 * "{$typeAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_TYPEATTRIBUT 
+		= "{$typeAttribut}";
+	
+	
+	/**
+	 * VARIABLE_PARAMATTRIBUT : String :<br/>
+	 * "{$paramAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_PARAMATTRIBUT 
+		= "{$paramAttribut}";
+	
+	
+	/**
+	 * VARIABLE_GETTER : String :<br/>
+	 * "{$getterNomAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_GETTER 
+		= "{$getterNomAttribut}";
+	
+	
+	/**
+	 * VARIABLE_SETTER : String :<br/>
+	 * "{$setterNomAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_SETTER 
+		= "{$setterNomAttribut}";
+	
+	
+	/**
+	 * VARIABLE_ENTIER_COMPARE : String :<br/>
+	 * "{$compareNomAttribut}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_ENTIER_COMPARE 
+		= "{$compareNomAttribut}";
+	
+	
+	/**
+	 * VARIABLE_NOMBRE_RGS : String :<br/>
+	 * "{$nombreRgs}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOMBRE_RGS 
+		= "{$nombreRgs}";
+	
+	
+	/**
+	 * VARIABLE_TITRE_RG : String :<br/>
+	 * "{$titreRg}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_TITRE_RG 
+		= "{$titreRg}";
+	
+	
+	/**
+	 * VARIABLE_MESSAGE_RG : String :<br/>
+	 * "{$messageRg}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_MESSAGE_RG 
+		= "{$messageRg}";
+	
+	
+	/**
+	 * VARIABLE_DATEDUJOUR : String :<br/>
+	 * "{$date}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_DATEDUJOUR 
+		= "{$date}";
+	
+	
+	/**
+	 * VARIABLE_LIGNECSV : String :<br/>
+	 * "{$ligneCsv}".<br/>
+	 */
+	String VARIABLE_LIGNECSV 
+		= "{$ligneCsv}";
+
 
 	
 	// ****************************************************/

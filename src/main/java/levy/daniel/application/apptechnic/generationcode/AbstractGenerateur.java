@@ -126,12 +126,65 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * packageMetier : File :<br/>
 	 * <ul>
-	 * Package metier de la COUCHE <i>model</i> 
-	 * (model.metier).<br/>
+	 * <li>Package metier de la COUCHE <i>model</i> 
+	 * (model.metier).</li>
 	 * </ul>
 	 */
 	protected static File packageMetier;
+
 	
+	/**
+	 * pathPackageConcept : Path :<br/>
+	 * <ul>
+	 * <li><b>path du package concept</b> 
+	 * sous la COUCHE METIER.<br/> 
+	 * <code>(model.metier.concept)</code>.</li>
+	 * </ul>
+	 */
+	protected static Path pathPackageConcept;
+	
+	
+	/**
+	 * pathRelConceptString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.model.metier.profil
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected static String pathRelConceptString;
+	
+	
+	/**
+	 * pathPackageConceptImpl : Path :<br/>
+	 * <ul>
+	 * <li><b>path du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.<br/> 
+	 * <code>(model.metier.concept.impl)</code>.</li>
+	 * </ul>
+	 */
+	protected static Path pathPackageConceptImpl;
+	
+
+	/**
+	 * pathRelConceptImplString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.model.metier.profil.impl
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected static String pathRelConceptImplString;
 
 	
 	/**
@@ -541,12 +594,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 				
 				return;
 			}
-			
-			/* garnit le packageMetier. */
-			/* génère et garnit packageDaoMetier. */
-			genererEtGarnirPackages();
-			
-			
+						
 			/* alimente tous les attributs static des Générateurs. */
 			alimenterAttributsStatic(pNomPackage
 					, pNomInterface
@@ -555,6 +603,9 @@ public abstract class AbstractGenerateur implements IGenerateur {
 								, pMapAttributsEquals
 									, pMapRg);
 
+			/* garnit le packageMetier. */
+			/* génère et garnit packageDaoMetier. */
+			genererEtGarnirPackages();
 			
 		} // Fin de synchronized.___________________________________
 				
@@ -596,6 +647,14 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * <ul>
 	 * <li><b>alimente packageMetier</b> avec la valeur fournie 
 	 * par le GestionnaireProjet.</li>
+	 * <li><b>alimente pathPackageConcept</b> à partir 
+	 * de packageMetier et nomPackage.</li>
+	 * <li><b>alimente pathRelConceptString</b> à partir 
+	 * de PATH_MAIN_JAVA et pathPackageConcept.</li>
+	 * <li><b>alimente pathPackageConceptImpl</b> à partir 
+	 * de packageMetier et nomPackage.</li>
+	 * <li><b>alimente pathRelConceptImplString</b> à partir 
+	 * de PATH_MAIN_JAVA et pathPackageConceptImpl.</li>
 	 * <li>génère si nécessaire l'interface IExportateurCsv 
 	 * sous model.metier.</li>
 	 * <li>génère si nécessaire l'interface IExportateurJTable 
@@ -610,8 +669,21 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			
 			if (packageMetier == null) {
 				
+				/* alimente packageMetier. */
 				packageMetier 
 					= GestionnaireProjet.getFileMetierMainJava();
+				
+				/* alimente pathPackageConcept. */
+				alimenterPathPackageConcept();
+				
+				/* alimente pathRelConceptString. */
+				alimenterPathRelConceptString();
+				
+				/* alimente pathPackageConceptImpl. */
+				alimenterPathPackageConceptImpl();
+				
+				/* alimente pathPackageConceptImpl. */
+				alimenterPathRelConceptImplString();
 			}
 			
 			genererInterfaceIExportateurCsv();
@@ -623,6 +695,109 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de garnirPackageMetier()._____________________________________
 	
 
+	
+	/**
+	 * method alimenterPathPackageConcept() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathPackageConcept</b> à partir 
+	 * de packageMetier et nomPackage.</li>
+	 * </ul>
+	 */
+	private static void alimenterPathPackageConcept() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			final Path pathPackageMetier 
+				= packageMetier.toPath();
+			
+			pathPackageConcept 
+				= pathPackageMetier.resolve(nomPackage);
+						
+		} // Fin de synchronized._________________________________
+					
+	} // Fin de alimenterPathPackageConcept()._____________________________
+	
+	
+
+	/**
+	 * method alimenterPathRelConceptString() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathRelConceptString</b> à partir 
+	 * de PATH_MAIN_JAVA et pathPackageConcept.</li>
+	 * </ul>
+	 */
+	private static void alimenterPathRelConceptString() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			final Path pathRelConcept 
+				= PATH_MAIN_JAVA.relativize(pathPackageConcept);
+			
+			final String pathRelConceptStringAntiSlash 
+				= pathRelConcept.toString();
+						
+			pathRelConceptString 
+				= remplacerAntiSlashparPoint(
+						pathRelConceptStringAntiSlash);
+			
+		} // Fin de synchronized._________________________________
+		
+	} // Fin de alimenterPathRelConceptString().___________________________
+
+
+	
+	/**
+	 * method alimenterPathPackageConceptImpl() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathPackageConceptImpl</b> à partir 
+	 * de packageMetier et nomPackage.</li>
+	 * </ul>
+	 */
+	private static void alimenterPathPackageConceptImpl() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			final Path pathPackageMetier 
+				= packageMetier.toPath();
+			
+			final Path pathPackageMetierConcept 
+				= pathPackageMetier.resolve(nomPackage);
+			
+			pathPackageConceptImpl 
+				= pathPackageMetierConcept.resolve("impl");
+			
+		} // Fin de synchronized._________________________________
+					
+	} // Fin de alimenterPathPackageConceptImpl()._________________________
+	
+
+
+	/**
+	 * method alimenterPathRelConceptImplString() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathRelConceptImplString</b> à partir 
+	 * de PATH_MAIN_JAVA et pathPackageConceptImpl.</li>
+	 * </ul>
+	 */
+	private static void alimenterPathRelConceptImplString() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			final Path pathRelConceptImpl 
+				= PATH_MAIN_JAVA.relativize(pathPackageConceptImpl);
+			
+			final String pathRelConceptImplStringAntiSlash 
+				= pathRelConceptImpl.toString();
+						
+			pathRelConceptImplString 
+				= remplacerAntiSlashparPoint(
+						pathRelConceptImplStringAntiSlash);
+			
+		} // Fin de synchronized._________________________________
+		
+	} // Fin de alimenterPathRelConceptImplString()._______________________
+
+	
 	
 	/**
 	 * method genererInterfaceIExportateurCsv() :<br/>
@@ -2241,6 +2416,86 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 // , String pSautLigne).______________________________________________
 	
 
+
+	/**
+	 * method retournerPathGenerique(
+	 * String pPathString) :<br/>
+	 * <ul>
+	 * <li><b>Remplace les séparateurs de fichier antislash</b> 
+	 * dans pPath par des <b>séparateurs génériques slash '/'</b>.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>retournerPathGenerique("D:\Donnees
+	 * \eclipse\eclipseworkspace_neon\generation_code")</code> 
+	 * retourne 
+	 * <code>
+	 * "D:/Donnees/eclipse/eclipseworkspace_neon/generation_code"
+	 * </code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @param pPathString : String.<br/>
+	 * 
+	 * @return : String : String avec des slashes
+	 *  à la place des antislash.<br/>
+	 */
+	protected static final String retournerPathGenerique(
+			final String pPathString) {
+		
+		/* retourne null si pPathString est blank. */
+		if (StringUtils.isBlank(pPathString)) {
+			return null;
+		}
+		
+		final String resultat 
+			= StringUtils.replaceChars(pPathString, '\\', SLASH);
+		
+		return resultat;
+		
+	} // Fin de retournerPathGenerique(...)._______________________________
+	
+	
+		
+	/**
+	 * method remplacerAntiSlashparPoint(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Remplace les antislashs '\' dans pString par des points '.'.</li>
+	 * <li>Exemple : "levy\daniel\application" 
+	 * remplacé par "levy.daniel.application".</li>
+	 * <li>ATTENTION : antislash est un caractère spécial 
+	 * qui doit être échappé en Java ('\\')</li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : String : String dans laquelle les antislashs 
+	 * ont été remplacés par des points.<br/>
+	 */
+	protected static final String remplacerAntiSlashparPoint(
+			final String pString) {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			/* retourne null si pString est blank. */
+			if (StringUtils.isBlank(pString)) {
+				return null;
+			}
+			
+			String resultat = null;
+			
+			resultat = StringUtils.replaceChars(
+					pString, ANTISLASH, POINT);
+			
+			return resultat;
+	
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de remplacerAntiSlashparPoint(...)._______________________________
+	
+
 	
 	/**
 	 * method loggerInfo(
@@ -3019,7 +3274,81 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de getPackageMetier().________________________________________
 
 
+		
+	/**
+	 * method getPathPackageConcept() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.<br/> 
+	 * <code>(model.metier.concept.impl)</code>.</li>
+	 * </ul>
+	 *
+	 * @return pathPackageConcept : Path.<br/>
+	 */
+	public static final Path getPathPackageConcept() {
+		return pathPackageConcept;
+	} // Fin de getPathPackageConcept().___________________________________
+
+
+		
+	/**
+	 * method getPathRelConceptString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.model.metier.profil
+	 * </code>.</li>
+	 * </ul>
+	 *
+	 * @return pathRelConceptString : String.<br/>
+	 */
+	public static final String getPathRelConceptString() {
+		return pathRelConceptString;
+	} // Fin de getPathRelConceptString()._________________________________
+
+
+
+	/**
+	 * method getPathPackageConceptImpl() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER<br/> 
+	 * <code>(model.metier.concept.impl)</code>.</li>
+	 * </ul>
+	 *
+	 * @return pathPackageConceptImpl : Path.<br/>
+	 */
+	public static final Path getPathPackageConceptImpl() {
+		return pathPackageConceptImpl;
+	} // Fin de getPathPackageConceptImpl()._______________________________
+
+
 	
+	/**
+	 * method getPathRelConceptImplString() :<br/>
+	 *<ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.model.metier.profil.impl
+	 * </code>.</li>
+	 * </ul>
+	 *
+	 * @return pathRelConceptImplString : String.<br/>
+	 */
+	public static final String getPathRelConceptImplString() {
+		return pathRelConceptImplString;
+	} // Fin de getPathRelConceptImplString()._____________________________
+
+
+
 	/**
 	 * method getNomInterfaceMetier() :<br/>
 	 * Getter du <b>nom de l'interface de l'Objet metier 
