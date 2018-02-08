@@ -87,6 +87,25 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 */
 	protected static final Path PATH_MAIN_JAVA 
 		= GestionnaireProjet.getPathMainJava();
+
+	
+	/**
+	 * PATH_TEST_JAVA : Path :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des tests .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>PATH_TEST_JAVA = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java
+	 * </code></li>
+	 * </ul>
+	 */
+	protected static final Path PATH_TEST_JAVA 
+		= GestionnaireProjet.getPathTestJava();
 	
 	
 	/**
@@ -136,12 +155,30 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * pathPackageConcept : Path :<br/>
 	 * <ul>
-	 * <li><b>path du package concept</b> 
-	 * sous la COUCHE METIER.<br/> 
-	 * <code>(model.metier.concept)</code>.</li>
+	 * <li><b>path absolu du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>Par exemple :<br/> 
+	 * <code>./src/main/java/levy/daniel/application/model/metier/profil/
+	 * </code>.</li>
 	 * </ul>
 	 */
 	protected static Path pathPackageConcept;
+	
+	
+	/**
+	 * pathRelConcept : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy/daniel/application/model/metier/profil
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected static Path pathRelConcept;
 	
 	
 	/**
@@ -159,18 +196,37 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 */
 	protected static String pathRelConceptString;
 	
-	
+		
 	/**
 	 * pathPackageConceptImpl : Path :<br/>
 	 * <ul>
-	 * <li><b>path du sous-package impl du package concept</b> 
-	 * sous la COUCHE METIER.<br/> 
-	 * <code>(model.metier.concept.impl)</code>.</li>
+	 * <li><b>path absolu du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>Par exemple :<br/> 
+	 * <code>./src/main/java/levy/daniel/application/model/metier/profil/impl/
+	 * </code></li>
 	 * </ul>
 	 */
 	protected static Path pathPackageConceptImpl;
 	
 
+	/**
+	 * pathRelConceptImpl : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy/daniel/application/model/metier/profil/impl
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected static Path pathRelConceptImpl;
+	
+	
+	
 	/**
 	 * pathRelConceptImplString : String :<br/>
 	 * <ul>
@@ -649,10 +705,14 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * par le GestionnaireProjet.</li>
 	 * <li><b>alimente pathPackageConcept</b> à partir 
 	 * de packageMetier et nomPackage.</li>
+	 * <li><b>alimente pathRelConcept</b> à partir 
+	 * de PATH_MAIN_JAVA et pathPackageConcept.</li>
 	 * <li><b>alimente pathRelConceptString</b> à partir 
 	 * de PATH_MAIN_JAVA et pathPackageConcept.</li>
 	 * <li><b>alimente pathPackageConceptImpl</b> à partir 
 	 * de packageMetier et nomPackage.</li>
+	 * <li><b>alimente pathRelConceptImpl</b> à partir 
+	 * de PATH_MAIN_JAVA et pathPackageConceptImpl.</li>
 	 * <li><b>alimente pathRelConceptImplString</b> à partir 
 	 * de PATH_MAIN_JAVA et pathPackageConceptImpl.</li>
 	 * <li>génère si nécessaire l'interface IExportateurCsv 
@@ -676,11 +736,17 @@ public abstract class AbstractGenerateur implements IGenerateur {
 				/* alimente pathPackageConcept. */
 				alimenterPathPackageConcept();
 				
+				/* alimente pathRelConcept. */
+				alimenterPathRelConcept();
+				
 				/* alimente pathRelConceptString. */
 				alimenterPathRelConceptString();
 				
 				/* alimente pathPackageConceptImpl. */
 				alimenterPathPackageConceptImpl();
+				
+				/* alimente pathRelConceptImpl. */
+				alimenterPathRelConceptImpl();
 				
 				/* alimente pathPackageConceptImpl. */
 				alimenterPathRelConceptImplString();
@@ -718,7 +784,26 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de alimenterPathPackageConcept()._____________________________
 	
 	
-
+	/**
+	 * method alimenterPathRelConcept() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathRelConcept</b> à partir 
+	 * de PATH_MAIN_JAVA et pathPackageConcept.</li>
+	 * </ul>
+	 */
+	private static void alimenterPathRelConcept() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			pathRelConcept 
+				= PATH_MAIN_JAVA.relativize(pathPackageConcept);
+			
+		} // Fin de synchronized._________________________________
+		
+	} // Fin de alimenterPathRelConcept()._________________________________
+	
+	
+	
 	/**
 	 * method alimenterPathRelConceptString() :<br/>
 	 * <ul>
@@ -729,9 +814,6 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	private static void alimenterPathRelConceptString() {
 		
 		synchronized (AbstractGenerateur.class) {
-			
-			final Path pathRelConcept 
-				= PATH_MAIN_JAVA.relativize(pathPackageConcept);
 			
 			final String pathRelConceptStringAntiSlash 
 				= pathRelConcept.toString();
@@ -771,7 +853,27 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de alimenterPathPackageConceptImpl()._________________________
 	
 
+	
+	/**
+	 * method alimenterPathRelConceptImpl() :<br/>
+	 * <ul>
+	 * <li><b>alimente pathRelConceptImpl</b> à partir 
+	 * de PATH_MAIN_JAVA et pathPackageConceptImpl.</li>
+	 * </ul>
+	 */
+	private static void alimenterPathRelConceptImpl() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			pathRelConceptImpl 
+				= PATH_MAIN_JAVA.relativize(pathPackageConceptImpl);
+			
+		} // Fin de synchronized._________________________________
+		
+	} // Fin de alimenterPathRelConceptImpl()._____________________________
 
+	
+	
 	/**
 	 * method alimenterPathRelConceptImplString() :<br/>
 	 * <ul>
@@ -782,10 +884,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	private static void alimenterPathRelConceptImplString() {
 		
 		synchronized (AbstractGenerateur.class) {
-			
-			final Path pathRelConceptImpl 
-				= PATH_MAIN_JAVA.relativize(pathPackageConceptImpl);
-			
+						
 			final String pathRelConceptImplStringAntiSlash 
 				= pathRelConceptImpl.toString();
 						
@@ -3216,7 +3315,30 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de getPathMainJava()._________________________________________
 
 
-	
+		
+	/**
+	 * method getPathTestJava() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path du répertoire de la RACINE des tests .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>PATH_TEST_JAVA = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java
+	 * </code></li>
+	 * </ul>
+	 *
+	 * @return PATH_TEST_JAVA : Path.<br/>
+	 */
+	public static final Path getPathTestJava() {
+		return PATH_TEST_JAVA;
+	} // Fin de getPathTestJava()._________________________________________
+
+
+
 	/**
 	 * method getConceptModelise() :<br/>
 	 * <ul>
@@ -3278,9 +3400,11 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * method getPathPackageConcept() :<br/>
 	 * <ul>
-	 * <li>Getter du <b>path du sous-package impl du package concept</b> 
-	 * sous la COUCHE METIER.<br/> 
-	 * <code>(model.metier.concept.impl)</code>.</li>
+	 * <li>Getter du <b>path absolu du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>Par exemple :<br/> 
+	 * <code>./src/main/java/levy/daniel/application/model/metier/profil/
+	 * </code>.</li>
 	 * </ul>
 	 *
 	 * @return pathPackageConcept : Path.<br/>
@@ -3289,8 +3413,29 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		return pathPackageConcept;
 	} // Fin de getPathPackageConcept().___________________________________
 
+	
+	
+	/**
+	 * method getPathRelConcept() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy/daniel/application/model/metier/profil
+	 * </code>.</li>
+	 * </ul>
+	 *
+	 * @return pathRelConcept : Path.<br/>
+	 */
+	public static final Path getPathRelConcept() {
+		return pathRelConcept;
+	} // Fin de getPathRelConcept()._______________________________________
 
-		
+
+
 	/**
 	 * method getPathRelConceptString() :<br/>
 	 * <ul>
@@ -3315,9 +3460,12 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * method getPathPackageConceptImpl() :<br/>
 	 * <ul>
-	 * <li>Getter du <b>path du sous-package impl du package concept</b> 
-	 * sous la COUCHE METIER<br/> 
-	 * <code>(model.metier.concept.impl)</code>.</li>
+	 * <li>Getter du 
+	 * <b>path absolu du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>Par exemple :<br/> 
+	 * <code>./src/main/java/levy/daniel/application/model/metier/profil/impl/
+	 * </code></li>
 	 * </ul>
 	 *
 	 * @return pathPackageConceptImpl : Path.<br/>
@@ -3328,6 +3476,27 @@ public abstract class AbstractGenerateur implements IGenerateur {
 
 
 	
+	/**
+	 * method getPathRelConceptImpl() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy/daniel/application/model/metier/profil/impl
+	 * </code>.</li>
+	 * </ul>
+	 *
+	 * @return pathRelConceptImpl : Path.<br/>
+	 */
+	public static final Path getPathRelConceptImpl() {
+		return pathRelConceptImpl;
+	} // Fin de getPathRelConceptImpl().___________________________________
+
+
+
 	/**
 	 * method getPathRelConceptImplString() :<br/>
 	 *<ul>
