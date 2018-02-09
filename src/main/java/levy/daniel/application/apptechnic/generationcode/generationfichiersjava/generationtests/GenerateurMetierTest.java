@@ -73,12 +73,11 @@ public class GenerateurMetierTest
 	} // Fin de genererHook()._____________________________________________
 
 	
-		
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void genererFichiersJava() throws IOException {
+	protected final void alimenterPathPackage() throws Exception {
 		
 		final Path pathRelatif 
 		= Paths.get(getPathRelConceptImpl().toString());
@@ -87,8 +86,16 @@ public class GenerateurMetierTest
 			= PATH_TEST_JAVA.resolve(pathRelatif);
 		
 		this.pathPackage = pathPackagePath.toString();
+		
+	}
 
 		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void genererFichiersJava() throws IOException {
+			
 		this.alimenterAttributs();
 		
 		this.creerConcreteClasseVide();

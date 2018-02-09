@@ -83,14 +83,14 @@ public class GenerateurMetierToutAbstract
 		
 		super();
 		
-		try {
-			
-			this.pathPackage 
-				= GestionnaireProjet.getPathMetierMainJavaString();
-		}
-		catch (Exception e) {
-			this.pathPackage = null;
-		}
+//		try {
+//			
+//			this.pathPackage 
+//				= GestionnaireProjet.getPathMetierMainJavaString();
+//		}
+//		catch (Exception e) {
+//			this.pathPackage = null;
+//		}
 		
 		this.ecriveurInterface = new EcriveurMetierInterface();
 		this.ecriveurAbstractClass = new EcriveurMetierAbstractClass();
@@ -153,6 +153,17 @@ public class GenerateurMetierToutAbstract
 		
 	} // Fin de genererClassMetierForm(...)._______________________________
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void alimenterPathPackage() throws Exception {
+		
+		this.pathPackage 
+			= GestionnaireProjet.getPathMetierMainJavaString();
+		
+	}
 	
 	
 	/**

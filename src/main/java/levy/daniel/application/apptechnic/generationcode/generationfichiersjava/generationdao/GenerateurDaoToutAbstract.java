@@ -62,15 +62,15 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 		
 		super();
 		
-		try {
-			
-			this.pathPackage 
-				= GestionnaireProjet.getPathDaoMainJavaString() 
-				+ "/metier";
-		}
-		catch (Exception e) {
-			this.pathPackage = null;
-		}
+//		try {
+//			
+//			this.pathPackage 
+//				= GestionnaireProjet.getPathDaoMainJavaString() 
+//				+ "/metier";
+//		}
+//		catch (Exception e) {
+//			this.pathPackage = null;
+//		}
 		
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
@@ -86,7 +86,19 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 		
 	} // Fin de genererObjetMetier(...).___________________________________
 
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void alimenterPathPackage() throws Exception {
+		
+		this.pathPackage 
+		= GestionnaireProjet.getPathDaoMainJavaString() 
+		+ "/metier";
+		
+	}
+
 	
 	/**
 	 * {@inheritDoc}

@@ -442,14 +442,20 @@ public interface IGenerateur {
 	/**
 	 * method getPathPackage() :<br/>
 	 * <ul>
-	 * <li>Getter du <b>path absolu de la SOUS-COUCHE (package)</b> 
-	 * contenant les arborescences à générer 
+	 * <li>Getter du <b>path absolu de la 
+	 * SOUS-COUCHE METIER (package metier)</b> 
+	 * contenant les arborescences à générer pour un Concept
 	 * (model/metier, model/dao/metier
 	 * , model/services/metier, ...).</li>
 	 * <li>par exemple : <br/>
-	 * <code>model/metier</code> pour un GenerateurMetierToutAbstract 
-	 * ou <code>model/dao/metier</code> 
-	 * pour un GenerateurDaoToutAbstract.</li>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
 	 * </ul>
 	 *
 	 * @return pathPackage : String.<br/>

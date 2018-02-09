@@ -14,6 +14,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -347,14 +348,19 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * pathPackage : String :<br/>
 	 * <ul>
-	 * <li><b>path absolu de la SOUS-COUCHE (package)</b> contenant les 
-	 * arborescences à générer 
+	 * <li><b>path absolu de la SOUS-COUCHE METIER (package metier)</b> 
+	 * contenant les arborescences à générer pour un Concept
 	 * (model/metier, model/dao/metier
 	 * , model/services/metier, ...).</li>
 	 * <li>par exemple : <br/>
-	 * <code>model/metier</code> pour un GenerateurMetierToutAbstract 
-	 * ou <code>model/dao/metier</code> 
-	 * pour un GenerateurDaoToutAbstract.</li>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
 	 * </ul>
 	 */
 	protected transient String pathPackage;
@@ -1653,10 +1659,33 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * method genererPackages(
 	 * String pNomPackage) :<br/>
 	 * <ul>
-	 * <li>génère le package <b>this.packageSousCouche</b>.<br/>
-	 * Par exemple model.metier.profil pour un concept Profil.</li>
+	 * <li><b>alimente this.pathPackage</b>.</li>
+	 * <li>crée pathPackage sur disque si nécessaire.<br/>
+	 * Par exemple :<br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </li>
+	 * <li>génère le package <b>this.packageSousCouche</b> 
+	 * correspondant au concept.<br/>
+	 * Par exemple :<br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier/profil</code> pour un concept Profil et un GenerateurMetier.</li>
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier/profil</code> pour un concept Profil et un GenerateurDao.</li>
+	 * </ul>
+	 * </li>
 	 * <li>génère le package <b>sousPackageImpl</b>.<br/>
-	 * Par exemple model.metier.profil.impl pour un concept Profil.</li>
+	 * Par exemple :<br/> 
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier/profil/impl</code> pour un concept Profil et un GenerateurMetier.</li>
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier/profil/impl</code> pour un concept Profil et un GenerateurDao.</li>
+	 * </ul>
+	 * </li>
 	 * </ul>
 	 * 
 	 * @throws Exception 
@@ -1664,6 +1693,12 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	private void genererPackages(
 			final String pNomPackage) 
 					throws Exception {
+		
+		/* alimente this.pathPackage. */
+		this.alimenterPathPackage();
+		
+		/* crée pathPackage sur disque si nécessaire. */
+		this.creerPathPackage();
 		
 		/* génère le package this.packageSousCouche. */
 		this.genererPackageSousCouche(pNomPackage);
@@ -1673,7 +1708,66 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 	} // Fin de genererPackages(...).______________________________________
 	
+
+	
+	/**
+	 * method alimenterPathPackage() :<br/>
+	 * <ul>
+	 * <li><b>alimente this.pathPackage</b>.</li>
+	 * <li><b>A PRECISER DANS CHAQUE GENERATEUR CONCRET</b></li>
+	 * <li><b>path absolu de la SOUS-COUCHE METIER (package metier)</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier, model/dao/metier
+	 * , model/services/metier, ...).</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </li>
+	 *
+	 * @throws Exception
+	 */
+	protected abstract void alimenterPathPackage() throws Exception;
+
+	
+	
+	/**
+	 * method creerPathPackage() :<br/>
+	 * <ul>
+	 * <li><b>crée sur disque le package correspondant 
+	 * à this.pathPackage</b>.</li>
+	 * <li>Ne crée this.pathPackage que si il n'existe pas déjà.</li>
+	 * <li>En principe, ce package à déjà été créé par 
+	 * le GestionnaireProjet.</li>
+	 * </ul>
+	 * ne fait rien si this.pathPackage == null.<br/>
+	 * <br/>
+	 * 
+	 * @throws IOException 
+	 */
+	private void creerPathPackage() 
+			throws IOException {
 		
+		/* ne fait rien si this.pathPackage == null. */
+		if (this.pathPackage == null) {
+			return;
+		}
+		
+		final Path pathPackagePath = Paths.get(this.pathPackage);
+		final File filePackage = pathPackagePath.toFile();
+		
+		if (!filePackage.exists()) {
+			Files.createDirectories(pathPackagePath);
+		}
+		
+	} // Fin de creerPathPackage().________________________________________
+	
+	
 	
 	/**
 	 * method genererPackageSousCouche(

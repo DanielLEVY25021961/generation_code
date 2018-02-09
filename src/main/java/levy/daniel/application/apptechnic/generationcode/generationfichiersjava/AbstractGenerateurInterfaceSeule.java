@@ -76,6 +76,15 @@ public class AbstractGenerateurInterfaceSeule
 		// TODO Auto-generated method stub
 		
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void alimenterPathPackage() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	
