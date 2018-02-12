@@ -181,7 +181,7 @@ public abstract class AbstractGenerateurToutAbstract
 	 * </ul>
 	 */
 	@Override
-	protected void genererFichiersJava() throws IOException {
+	protected final void genererFichiersJava() throws IOException {
 		
 		/* Génère l'Interface vide de l'objet métier. */
 		this.genererInterfaceJava(this.nomSimpleInterface);
@@ -207,6 +207,8 @@ public abstract class AbstractGenerateurToutAbstract
 	 * <li>Par exemple : genererInterfaceObjetMetier("IProfil") 
 	 * génère model/metier/profil/IProfil.java</li>
 	 * </ul>
+	 * Ne fait rien si pNomInterface est blank.<br/>
+	 * <br/>
 	 *
 	 * @param pNomInterface : String : 
 	 * Nom de l'interface comme "IProfil" pour IProfil.java.<br/>
@@ -217,12 +219,16 @@ public abstract class AbstractGenerateurToutAbstract
 			final String pNomInterface) 
 					throws IOException {
 		
-		final String nomFichier = pNomInterface + ".java";
-		
-		this.interfaceJava 
-			= this.gestionnaireFiles
-			.creerFichierDansPackage(
-					nomFichier, this.packageSousCouche);
+		/* Ne fait rien si pNomInterface est blank. */
+		if (!StringUtils.isBlank(pNomInterface)) {
+			
+			final String nomFichier = pNomInterface + ".java";
+			
+			this.interfaceJava 
+				= this.gestionnaireFiles
+				.creerFichierDansPackage(
+						nomFichier, this.packageSousCouche);
+		}		
 		
 	} // Fin de genererInterfaceJava(...)._________________________________
 	
@@ -238,6 +244,8 @@ public abstract class AbstractGenerateurToutAbstract
 	 * <li>Par exemple : genererAbstractObjetMetier() 
 	 * génère model/metier/profil/AbstractProfil.java</li>
 	 * </ul>
+	 * ne fait rien si this.nomSimpleAbstractClass est blank.<br/>
+	 * <br/>
 	 *
 	 * @param pNomInterface : String : 
 	 * Nom de l'interface comme "IProfil" pour IProfil.java.<br/>
@@ -247,14 +255,18 @@ public abstract class AbstractGenerateurToutAbstract
 	private void genererAbstractClass() 
 					throws IOException {
 		
-		final String nomFichier 
+		/* ne fait rien si this.nomSimpleAbstractClass est blank. */
+		if (!StringUtils.isBlank(this.nomSimpleAbstractClass)) {
+			
+			final String nomFichier 
 			=  this.nomSimpleAbstractClass + ".java";
 		
 		this.abstractClass
 			= this.gestionnaireFiles
 			.creerFichierDansPackage(
 					nomFichier, this.packageSousCouche);
-		
+		}
+				
 	} // Fin de genererAbstractClass(...)._________________________________
 	
 
@@ -265,11 +277,13 @@ public abstract class AbstractGenerateurToutAbstract
 	 * <ul>
 	 * <li>Génère le fichier vide pNomConcreteClass.java 
 	 * sous packageSousCouche.impl.</li>
-	 * <li>alimente this.objetMetier.</li>
+	 * <li>alimente this.concreteClass.</li>
 	 * <li>Ne génère le fichier vide que si il n'existe pas déjà.</li>
-	 * <li>Par exemple : genererObjetMetier("ProfilSimple") 
+	 * <li>Par exemple : genererConcreteClass("ProfilSimple") 
 	 * génère model/metier/profil/impl/ProfilSimple.java</li>
 	 * </ul>
+	 * ne fait rien si pNomConcreteClass est blank.<br/>
+	 * <br/>
 	 *
 	 * @param pNomConcreteClass : String : 
 	 * Nom de l'objet métier comme "ProfilSimple" 
@@ -281,13 +295,17 @@ public abstract class AbstractGenerateurToutAbstract
 			final String pNomConcreteClass) 
 					throws IOException {
 		
-		final String nomFichier = pNomConcreteClass + ".java";
-		
-		this.concreteClass 
-			= this.gestionnaireFiles
-			.creerFichierDansPackage(
-					nomFichier, this.sousPackageImpl);
-		
+		/* ne fait rien si pNomConcreteClass est blank. */
+		if (!StringUtils.isBlank(pNomConcreteClass)) {
+			
+			final String nomFichier = pNomConcreteClass + ".java";
+			
+			this.concreteClass 
+				= this.gestionnaireFiles
+				.creerFichierDansPackage(
+						nomFichier, this.sousPackageImpl);
+		}
+				
 	} // Fin de genererConcreteClass(...).___________________________________
 	
 

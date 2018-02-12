@@ -1,7 +1,5 @@
 package levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationdao;
 
-import java.io.IOException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -62,16 +60,6 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 		
 		super();
 		
-//		try {
-//			
-//			this.pathPackage 
-//				= GestionnaireProjet.getPathDaoMainJavaString() 
-//				+ "/metier";
-//		}
-//		catch (Exception e) {
-//			this.pathPackage = null;
-//		}
-		
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 	
@@ -87,6 +75,7 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 	} // Fin de genererObjetMetier(...).___________________________________
 
 
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -97,7 +86,8 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 		= GestionnaireProjet.getPathDaoMainJavaString() 
 		+ "/metier";
 		
-	}
+	} // Fin de alimenterPathPackage().____________________________________
+	
 
 	
 	/**
@@ -121,29 +111,5 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 	} // Fin de alimenterNomSimpleConcreteClass(...).______________________
 
 
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void genererFichiersJava() throws IOException {
-
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void alimenterAttributs() {
-
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 	
 } // FIN DE LA CLASSE GenerateurDaoToutAbstract.-----------------------------------------

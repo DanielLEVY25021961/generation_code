@@ -1,10 +1,6 @@
 package levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationtests;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -73,76 +69,33 @@ public class GenerateurMetierTest
 	} // Fin de genererHook()._____________________________________________
 
 	
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected final void alimenterPathPackage() throws Exception {
 		
-		final Path pathRelatif 
-		= Paths.get(getPathRelConceptImpl().toString());
-	
 		final Path pathPackagePath 
-			= PATH_TEST_JAVA.resolve(pathRelatif);
+			= PATH_TEST_JAVA.resolve(getPathRelMetier());
 		
 		this.pathPackage = pathPackagePath.toString();
 		
-	}
-
-		
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void genererFichiersJava() throws IOException {
-			
-		this.alimenterAttributs();
-		
-		this.creerConcreteClasseVide();
-
-	} // Fin de genererFichiersJava()._____________________________________
-
+	} // Fin de alimenterPathPackage().____________________________________
 	
+
+		
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void alimenterAttributs() {
+	protected final void alimenterNomSimpleConcreteClass(
+			final String pNomObjetMetier) {
 		
-		this.nomSimpleInterface = null;
-		this.nomSimpleAbstractClass = null;
 		this.nomSimpleConcreteClass = nomClassMetier + "Test";
-
-	} // Fin de alimenterAttributs().______________________________________
+		
+	} // Fin de alimenterNomSimpleConcreteClass(...).______________________
 	
-
-	
-	/**
-	 * method creerConcreteClasseVide() :<br/>
-	 * .<br/>
-	 * <br/>
-	 *
-	 * @throws IOException
-	 */
-	private void creerConcreteClasseVide() throws IOException {
-		
-		final Path pathPackageTest 
-			= Paths.get(this.pathPackage);
-		
-		final String nomFichierJava 
-			= this.nomSimpleConcreteClass + ".java";
-		
-		final Path pathConcreteClass 
-			= pathPackageTest.resolve(nomFichierJava);
-		
-		final File fileConcreteClass = pathConcreteClass.toFile();
-		
-		if (!fileConcreteClass.exists()) {
-			Files.createFile(pathConcreteClass);
-		}
-		
-	} // Fin de genererConcreteClasseVide()._______________________________
-
 
 	
 } // FIN DE LA CLASSE GenerateurMetierTest.----------------------------------

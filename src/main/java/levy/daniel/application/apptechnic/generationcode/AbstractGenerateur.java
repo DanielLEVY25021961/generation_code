@@ -151,6 +151,51 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * </ul>
 	 */
 	protected static File packageMetier;
+	
+	
+	/**
+	 * pathPackageMetier : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu du package metier</b> 
+	 * de la COUCHE <i>MODEL</i>.</li>
+	 * <li>Par exemple :<br/> 
+	 * <code>./src/main/java/levy/daniel/application/model/metier
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected static Path pathPackageMetier;
+	
+	
+	/**
+	 * pathRelMetier : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package metier</b> 
+	 *  (sous model).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy/daniel/application/model/metier
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected static Path pathRelMetier;
+	
+	
+	/**
+	 * pathRelMetierString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package metier</b> 
+	 * (sous model).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.model.metier
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected static String pathRelMetierString;
 
 	
 	/**
@@ -709,6 +754,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * <ul>
 	 * <li><b>alimente packageMetier</b> avec la valeur fournie 
 	 * par le GestionnaireProjet.</li>
+	 * <li>alimente pathPackageMetier.</li>
 	 * <li><b>alimente pathPackageConcept</b> à partir 
 	 * de packageMetier et nomPackage.</li>
 	 * <li><b>alimente pathRelConcept</b> à partir 
@@ -735,9 +781,12 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			
 			if (packageMetier == null) {
 				
-				/* alimente packageMetier. */
-				packageMetier 
-					= GestionnaireProjet.getFileMetierMainJava();
+				/* alimente packageMetier avec la valeur fournie 
+				 * par le GestionnaireProjet. */
+				/* alimente pathPackageMetier. */
+				/* alimente pathRelMetier. */
+				/* alimente pathRelMetierString. */
+				alimenterMetier();
 				
 				/* alimente pathPackageConcept. */
 				alimenterPathPackageConcept();
@@ -769,8 +818,52 @@ public abstract class AbstractGenerateur implements IGenerateur {
 
 	
 	/**
+	 * method alimenterMetier() :<br/>
+	 * <ul>
+	 * <li><b>alimente packageMetier avec la valeur fournie 
+	 * par le GestionnaireProjet</b>.</li>
+	 * <li><b>alimente pathPackageMetier</b>.</li>
+	 * <li><b>alimente pathRelMetier</b> à partir 
+	 * de PATH_MAIN_JAVA et pathPackageMetier.</li>
+	 * <li><b>alimente pathRelMetierString</b>.</li>
+	 * </ul>
+	 */
+	private static void alimenterMetier() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			/* alimente packageMetier avec la valeur fournie 
+			 * par le GestionnaireProjet. */
+			packageMetier 
+				= GestionnaireProjet.getFileMetierMainJava();
+			
+			/* alimente pathPackageMetier. */
+			pathPackageMetier 
+				= packageMetier.toPath();
+			
+			/* alimente pathRelMetier. */
+			pathRelMetier 
+				= PATH_MAIN_JAVA.relativize(pathPackageMetier);
+			
+			/* alimente pathRelMetierString. */
+			final String pathRelMetierStringAntiSlash 
+				= pathRelMetier.toString();
+					
+			pathRelMetierString 
+				= remplacerAntiSlashparPoint(
+						pathRelMetierStringAntiSlash);
+			
+		} // Fin de synchronized._________________________________
+		
+	} // Fin de alimenterMetier()._________________________________________
+
+	
+	
+	/**
 	 * method alimenterPathPackageConcept() :<br/>
 	 * <ul>
+	 * <li><b>alimente pathPackageMetier</b> 
+	 * à partir de packageMetier.</li>
 	 * <li><b>alimente pathPackageConcept</b> à partir 
 	 * de packageMetier et nomPackage.</li>
 	 * </ul>
@@ -778,10 +871,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	private static void alimenterPathPackageConcept() {
 		
 		synchronized (AbstractGenerateur.class) {
-			
-			final Path pathPackageMetier 
-				= packageMetier.toPath();
-			
+						
 			pathPackageConcept 
 				= pathPackageMetier.resolve(nomPackage);
 						
@@ -789,6 +879,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 					
 	} // Fin de alimenterPathPackageConcept()._____________________________
 	
+
 	
 	/**
 	 * method alimenterPathRelConcept() :<br/>
@@ -838,16 +929,13 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * method alimenterPathPackageConceptImpl() :<br/>
 	 * <ul>
 	 * <li><b>alimente pathPackageConceptImpl</b> à partir 
-	 * de packageMetier et nomPackage.</li>
+	 * de pathPackageMetier et nomPackage.</li>
 	 * </ul>
 	 */
 	private static void alimenterPathPackageConceptImpl() {
 		
 		synchronized (AbstractGenerateur.class) {
-			
-			final Path pathPackageMetier 
-				= packageMetier.toPath();
-			
+						
 			final Path pathPackageMetierConcept 
 				= pathPackageMetier.resolve(nomPackage);
 			
@@ -1623,9 +1711,13 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	public void generer() 
 			throws Exception {
 		
-		/* GENERATION DES PACKAGES. */		
-		/* génère le package this.packageSousCouche. */
-		/* génère le package sousPackageImpl. */
+		/* GENERATION DES PACKAGES. */	
+		/* génère le package this.pathPackage 
+		 * (model.metier, model.dao.metier, ...). */
+		/* génère le package this.packageSousCouche 
+		 * (model.metier.concept, model.dao.metier.concept, ...). */
+		/* génère le package sousPackageImpl 
+		 * (model.metier.concept.impl, model.dao.metier.concept.impl, ...). */
 		this.genererPackages(nomPackage);
 		
 		/* ALIMENTATION DES ATTRIBUTS D'INSTANCE. */
@@ -3491,6 +3583,66 @@ public abstract class AbstractGenerateur implements IGenerateur {
 
 
 		
+	/**
+	 * method getPathPackageMetier() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu du package metier</b> 
+	 * de la COUCHE <i>MODEL</i>.</li>
+	 * <li>Par exemple :<br/> 
+	 * <code>./src/main/java/levy/daniel/application/model/metier
+	 * </code>.</li>
+	 * </ul>
+	 *
+	 * @return pathPackageMetier : Path.<br/>
+	 */
+	public static final Path getPathPackageMetier() {
+		return pathPackageMetier;
+	} // Fin de getPathPackageMetier().____________________________________
+
+
+	
+	/**
+	 * method getPathRelMetier() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package metier</b> 
+	 *  (sous model).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy/daniel/application/model/metier
+	 * </code>.</li>
+	 * </ul>
+	 *
+	 * @return pathRelMetier : Path.<br/>
+	 */
+	public static final Path getPathRelMetier() {
+		return pathRelMetier;
+	} // Fin de getPathRelMetier().________________________________________
+
+
+	
+	/**
+	 * method getPathRelMetierString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package metier</b> 
+	 * (sous model).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.model.metier
+	 * </code>.</li>
+	 * </ul>
+	 *
+	 * @return pathRelMetierString : String.<br/>
+	 */
+	public static final String getPathRelMetierString() {
+		return pathRelMetierString;
+	} // Fin de getPathRelMetierString().__________________________________
+
+
+
 	/**
 	 * method getPathPackageConcept() :<br/>
 	 * <ul>

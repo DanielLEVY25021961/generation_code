@@ -85,4 +85,6 @@ public abstract class AbstractGenerateurFichiersJava extends AbstractGenerateur 
 	@Override
 	protected abstract void genererFichiersJava() throws IOException;
 	
+	
+	
 } // FIN DE LA CLASSE AbstractGenerateurFichiersJava.----------------------

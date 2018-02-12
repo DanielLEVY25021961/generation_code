@@ -153,6 +153,7 @@ public class GenerateurMetierToutAbstract
 		
 	} // Fin de genererClassMetierForm(...)._______________________________
 
+
 	
 	/**
 	 * {@inheritDoc}
@@ -163,8 +164,9 @@ public class GenerateurMetierToutAbstract
 		this.pathPackage 
 			= GestionnaireProjet.getPathMetierMainJavaString();
 		
-	}
+	} // Fin de alimenterPathPackage().____________________________________
 	
+
 	
 	/**
 	 * {@inheritDoc}
