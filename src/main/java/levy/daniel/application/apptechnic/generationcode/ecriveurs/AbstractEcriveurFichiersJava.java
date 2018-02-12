@@ -1,11 +1,7 @@
 package levy.daniel.application.apptechnic.generationcode.ecriveurs;
 
-import java.io.File;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
 
 
 /**
@@ -63,11 +59,16 @@ public abstract class AbstractEcriveurFichiersJava
 	
 	
 	/**
-	 * {@inheritDoc}
+	 * method fournirTypeFichierJava() :<br/>
+	 * <ul>
+	 * <li>Fournit le type de fichier Java pour la ligne finale.</li>
+	 * <li>Par exemple "L'INTERFACE " pour une interface java.</li>
+	 * <li>Par exemple "LA CLASSE " pour une classe java.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
 	 */
-	@Override
-	public abstract void ecrireCode(
-			File pFile, GenerateurMetierToutAbstract pGenerateurMetierToutAbstract);
+	protected abstract String fournirTypeFichierJava();
 
 	
 

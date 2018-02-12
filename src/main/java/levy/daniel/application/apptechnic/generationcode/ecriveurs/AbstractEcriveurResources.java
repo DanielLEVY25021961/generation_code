@@ -5,7 +5,7 @@ import java.io.File;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
+import levy.daniel.application.apptechnic.generationcode.IGenerateur;
 
 
 /**
@@ -65,8 +65,8 @@ public abstract class AbstractEcriveurResources extends AbstractEcriveur {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public abstract void ecrireCode(
-			File pFile, GenerateurMetierToutAbstract pGenerateurMetierToutAbstract);
+	public abstract void ecrireCodeGenerique(
+			File pFile, IGenerateur pGenerateur);
 
 
 } // FIN DE LA CLASSE AbstractEcriveurResources.-----------------------------

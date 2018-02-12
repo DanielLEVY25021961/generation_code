@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.IEcriveur;
+
 /**
  * CLASSE ABSTRAITE <b>AbstractGenerateurClasseSeule</b> :<br/>
  * .<br/>
@@ -36,6 +38,14 @@ public abstract class AbstractGenerateurClasseSeule
 	 */
 	public static final String CLASSE_ABSTRACT_GENERATEUR_CLASSE_SEULE 
 		= "Classe AbstractGenerateurClasseSeule";
+
+
+	/**
+	 * ecriveurConcreteClass : IEcriveur :<br/>
+	 * EcriveurMetierConcreteClass.<br/>
+	 */
+	protected transient IEcriveur ecriveurConcreteClass;
+
 
 	/**
 	 * LOG : Log : 

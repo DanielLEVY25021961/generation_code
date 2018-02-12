@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.test.EcriveurMetierTest;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.AbstractGenerateurClasseSeule;
 
 /**
@@ -54,6 +55,8 @@ public class GenerateurMetierTest
 	public GenerateurMetierTest() {
 		
 		super();
+		
+		this.ecriveurConcreteClass = new EcriveurMetierTest();
 						
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
@@ -64,7 +67,10 @@ public class GenerateurMetierTest
 	 */
 	@Override
 	protected final void genererHook() throws Exception {
-		/**/
+		
+		/* génère le code de la classe concrète 
+		 * dans this.concreteClass. */
+		this.ecriveurConcreteClass.ecrireCode(this.concreteClass, this);
 	
 	} // Fin de genererHook()._____________________________________________
 

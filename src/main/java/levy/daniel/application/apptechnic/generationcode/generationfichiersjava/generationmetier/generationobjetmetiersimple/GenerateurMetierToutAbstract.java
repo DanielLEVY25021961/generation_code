@@ -82,16 +82,7 @@ public class GenerateurMetierToutAbstract
 	public GenerateurMetierToutAbstract() {
 		
 		super();
-		
-//		try {
-//			
-//			this.pathPackage 
-//				= GestionnaireProjet.getPathMetierMainJavaString();
-//		}
-//		catch (Exception e) {
-//			this.pathPackage = null;
-//		}
-		
+				
 		this.ecriveurInterface = new EcriveurMetierInterface();
 		this.ecriveurAbstractClass = new EcriveurMetierAbstractClass();
 		this.ecriveurConcreteClass = new EcriveurMetierConcreteClass();
