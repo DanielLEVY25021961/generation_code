@@ -17,10 +17,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -208,6 +214,186 @@ public abstract class AbstractEcriveur implements IEcriveur {
 
 	
 	/**
+	 * packageMetier : File :<br/>
+	 * <ul>
+	 * <li>Package metier de la COUCHE <i>model</i> 
+	 * (model.metier).</li>
+	 * </ul>
+	 */
+	protected transient File packageMetier;
+	
+	
+	/**
+	 * pathPackageMetier : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu du package metier</b> 
+	 * de la COUCHE <i>MODEL</i>.</li>
+	 * <li>Par exemple :<br/> 
+	 * <code>./src/main/java/levy/daniel/application/model/metier
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected transient Path pathPackageMetier;
+	
+	
+	/**
+	 * pathRelMetier : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package metier</b> 
+	 *  (sous model).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy/daniel/application/model/metier
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected transient Path pathRelMetier;
+	
+	
+	/**
+	 * pathRelMetierString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package metier</b> 
+	 * (sous model).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.model.metier
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected transient String pathRelMetierString;
+
+	
+	/**
+	 * pathPackageConcept : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>Par exemple :<br/> 
+	 * <code>./src/main/java/levy/daniel/application/model/metier/profil/
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected transient Path pathPackageConcept;
+	
+	
+	/**
+	 * pathRelConcept : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy/daniel/application/model/metier/profil
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected transient Path pathRelConcept;
+	
+	
+	/**
+	 * pathRelConceptString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.model.metier.profil
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected transient String pathRelConceptString;
+	
+		
+	/**
+	 * pathPackageConceptImpl : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>Par exemple :<br/> 
+	 * <code>./src/main/java/levy/daniel/application/model/metier/profil/impl/
+	 * </code></li>
+	 * </ul>
+	 */
+	protected transient Path pathPackageConceptImpl;
+	
+
+	/**
+	 * pathRelConceptImpl : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy/daniel/application/model/metier/profil/impl
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected transient Path pathRelConceptImpl;
+	
+		
+	/**
+	 * pathRelConceptImplString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du sous-package impl du package concept</b> 
+	 * sous la COUCHE METIER.</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <code>levy.daniel.application.model.metier.profil.impl
+	 * </code>.</li>
+	 * </ul>
+	 */
+	protected transient String pathRelConceptImplString;
+
+	
+	/**
+	 * nomInterfaceMetier : String :<br/>
+	 * <b>nom de l'interface de l'Objet metier 
+	 * à créer dans la  couche metier</b> 
+	 * (sous model.metier.nomPackage).<br/>
+	 * passé en paramètre au générateur.<br/>
+	 * par exemple : "IProfil".<br/>
+	 */
+	protected transient String nomInterfaceMetier;
+	
+	
+	/**
+	 * nomAbstractClassMetier : String :<br/>
+	 * <b>nom de la classe abstraite de l'Objet metier 
+	 * à créer dans la  couche metier</b> 
+	 * (sous model.metier.nomPackage).<br/>
+	 * déduit du nom de l'interface metier 
+	 * passé en paramètre au générateur.<br/>
+	 * par exemple : "AbstractProfil".<br/>
+	 */
+	protected transient String nomAbstractClassMetier;
+	
+	
+	/**
+	 * nomClassMetier : String :<br/>
+	 * <b>nom de la classe concrète de l'Objet metier 
+	 * à créer dans la  couche metier</b> 
+	 * (sous model.metier.impl).<br/>
+	 * passé en paramètre au générateur.<br/>
+	 * par exemple : "Profil".<br/>
+	 */
+	protected transient String nomClassMetier;
+	
+
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -235,7 +421,7 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	@Override
 	public final void ecrireCode(
 			final File pFile
-				, final IGenerateur pGenerateur) {
+				, final IGenerateur pGenerateur) throws Exception {
 				
 		/* ne fait rien si pFile est null. */
 		if (pFile == null) {
@@ -292,21 +478,73 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		 * et alimente this.pathMetier. */
 		this.fournirPathMetier();
 		
+		/* alimente this.packageMetier. */
+		this.packageMetier = AbstractGenerateur.getPackageMetier();
+		
+		/* alimente this.pathPackageMetier. */
+		this.pathPackageMetier 
+			= AbstractGenerateur.getPathPackageMetier();
+		
+		/* alimente this.pathRelMetier. */
+		this.pathRelMetier = AbstractGenerateur.getPathRelMetier();
+		
+		/* alimente this.pathRelMetierString. */
+		this.pathRelMetierString 
+			= AbstractGenerateur.getPathRelMetierString();
+		
+		/* alimente this.pathPackageConcept. */
+		this.pathPackageConcept 
+			= AbstractGenerateur.getPathPackageConcept();
+		
+		/* alimente this.pathRelConcept. */
+		this.pathRelConcept = AbstractGenerateur.getPathRelConcept();
+		
+		/* alimente this.pathRelConceptString. */
+		this.pathRelConceptString 
+			= AbstractGenerateur.getPathRelConceptString();
+		
+		/* alimente this.pathPackageConceptImpl. */
+		this.pathPackageConceptImpl 
+			= AbstractGenerateur.getPathPackageConceptImpl();
+		
+		/* alimente this.pathRelConceptImpl. */
+		this.pathRelConceptImpl 
+			= AbstractGenerateur.getPathRelConceptImpl();
+		
+		/* alimente this.pathRelConceptImplString. */
+		this.pathRelConceptImplString 
+			= AbstractGenerateur.getPathRelConceptImplString();
+		
+		/* alimente this.nomInterfaceMetier. */
+		this.nomInterfaceMetier 
+			= AbstractGenerateur.getNomInterfaceMetier();
+		
+		/* alimente this.nomAbstractClassMetier. */
+		this.nomAbstractClassMetier 
+			= AbstractGenerateur.getNomAbstractClassMetier();
+		
+		/* alimente this.nomClassMetier. */
+		this.nomClassMetier 
+			= AbstractGenerateur.getNomClassMetier();
+		
+		this.ecrireCodeGenerique(pFile, pGenerateur);
+		
 	} // Fin de ecrireCode(...).___________________________________________
 
 
-	
+		
 	/**
 	 * method ecrireCodeGenerique() :<br/>
 	 * .<br/>
 	 * <br/>
 	 *
 	 * @param pFile
-	 * @param pGenerateur : void :  .<br/>
+	 * @param pGenerateur
+	 * @throws Exception : void :  .<br/>
 	 */
 	protected abstract void ecrireCodeGenerique(
 			File pFile
-				, IGenerateur pGenerateur);
+				, IGenerateur pGenerateur) throws Exception;
 	
 	
 	
@@ -1707,6 +1945,173 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	
 	
 	/**
+	 * method lireRessource(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li><b>Lit le contenu d'une ressource pString</b> 
+	 * sous src/main/resources dans le présent projet 
+	 * et injecte le contenu dans une List&lt;String&gt;.</li>
+	 * <li>lit le contenu en CHARSET_UTF8.</li>
+	 * <li>retourne le contenu de la ressource 
+	 * sous forme de List&lt;String&gt;</li>
+	 * <li>Par exemple :<br/>
+	 * <code>lireRessource("configuration_ressources
+	 * _externes_fr_FR.properties")</code> injecte 
+	 * le contenu de la ressource dans la liste retournée.
+	 * </li>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * nom d'une ressource sous src/main/resources.<br/>
+	 * 
+	 * @return List&lt;String&gt; : 
+	 * contenu de la ressourcce sous forme de liste.<br/>
+	 *  
+	 * @throws Exception
+	 */
+	protected final List<String> lireRessource(
+			final String pString) throws Exception {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		final String stringRessourceBase 
+			= "./src/main/resources/";
+		final String stringRessource 
+			= stringRessourceBase + pString;
+		final File fileRessource = new File(stringRessource);
+		
+		/* retourne null si la ressource n'existe pas. */
+		if (!fileRessource.exists()) {
+			return null;
+		}
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fileRessource, CHARSET_UTF8);
+		
+		return listeLignes;
+			
+	} // Fin de lireRessource(...).________________________________________
+	
+
+
+	/**
+	 * method lireTemplate(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li><b>Lit le contenu d'un template pString</b> 
+	 * sous ./src/main/resources/templates dans le présent projet 
+	 * et injecte le contenu dans une List&lt;String&gt;.</li>
+	 * <li>pString ne doit contenir que le <i>path relatif 
+	 * sous templates</i> comme 
+	 * <code>hashcode/debut_hashcode.txt</code>.</li>
+	 * <li>lit le contenu en CHARSET_UTF8.</li>
+	 * <li>retourne le contenu du template
+	 * sous forme de List&lt;String&gt;</li>
+	 * <li>Par exemple :<br/>
+	 * <code>lireTemplate("model/javadoc_getter
+	 * _classform.txt")</code> injecte 
+	 * le contenu de la ressource dans la liste retournée.
+	 * </li>
+	 * </ul>
+	 *
+	 * @param pString : String : 
+	 * nom d'une ressource sous ./src/main/resources/template.<br/>
+	 * 
+	 * @return List&lt;String&gt; : 
+	 * contenu de la ressourcce sous forme de liste.<br/>
+	 *  
+	 * @throws Exception
+	 */
+	protected final List<String> lireTemplate(
+			final String pString) throws Exception {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		final String stringRessourceBase 
+			= "./src/main/resources/templates/";
+		final String stringRessource 
+			= stringRessourceBase + pString;
+		final File fileRessource = new File(stringRessource);
+		
+		/* retourne null si la ressource n'existe pas. */
+		if (!fileRessource.exists()) {
+			return null;
+		}
+		
+		final List<String> listeLignes 
+			= this.lireStringsDansFile(fileRessource, CHARSET_UTF8);
+		
+		return listeLignes;
+			
+	} // Fin de lireTemplate(...)._________________________________________
+	
+
+	
+	/**
+	 * method ecrireCode(
+	 * List&lt;String&gt; pList, File pFile) :<br/>
+	 * <ul>
+	 * <li>Ecrit le contenu de la liste pList dans pFile.</li>
+	 * <li>Ecrit pList à la fin du contenu de pFile.</li>
+	 * <li>Ne contrôle pas si le contenu de pList a déjà 
+	 * été injecté dans pFile. 
+	 * Rajoute pList à la fin de pFile à chaque 
+	 * appel de la méthode.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas ou pFile n' est 
+	 * pas un fichier simple.<br/>
+	 * ne fait rien si pList == null.<br/>
+	 * <br/>
+	 * 
+	 * @param pList : List&lt;String&gt;.<br/>
+	 * @param pFile : File.<br/>
+	 */
+	protected final void ecrireCode(
+			final List<String> pList
+				, final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas ou pFile 
+		 * n' est pas un fichier simple. */
+		if (!pFile.exists() || !pFile.isFile()) {
+			return;
+		}
+		
+		/* ne fait rien si pList == null. */
+		if (pList == null) {
+			return;
+		}
+		
+		for (final String ligne : pList) {
+			
+			if (StringUtils.isBlank(ligne)) {
+				
+				this.ecrireStringDansFile(
+						pFile, "", CHARSET_UTF8, NEWLINE);					
+			}				
+			else {
+				
+				this.ecrireStringDansFile(
+						pFile, ligne, CHARSET_UTF8, NEWLINE);
+			}
+		}
+			
+	} // Fin de ecrireCode(...).___________________________________________
+
+
+	
+	/**
 	 * method insererLigneDansFichier(
 	 * File pFile
 	 * , Charset pCharsetLecture
@@ -2990,6 +3395,613 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	
 	
 	/**
+	 * method afficherDateDuJour() :<br/>
+	 * <ul>
+	 * <li>Retourne une String pour l'affichage de la date du jour.</li>
+	 * <li>Par exemple : 12 janvier 2018.</li>
+	 * </ul>
+	 *
+	 * @return : String : Date du jour.<br/>
+	 */
+	protected final String afficherDateDuJour() {
+		
+		final Date dateDuJour = new Date();
+		
+		final Locale localeFr = new Locale("fr", "FR");
+		
+		/* 12 janvier 2018. */
+		final DateFormat dfDateFrancaise 
+		= new SimpleDateFormat("dd MMMM yyyy", localeFr);
+		
+		return dfDateFrancaise.format(dateDuJour);
+			
+	} // Fin de afficherDateDuJour().______________________________________
+
+	
+	
+	/**
+	 * method afficherDateEnFrançais(
+	 * Date pDate) :<br/>
+	 * Prend en paramètre une Date et retourne une String
+	 * au format français complet comme 'samedi 25 février 1961'.<br/>
+	 * <br/>
+	 *
+	 * @param pDate : Date : la Date à afficher.<br/>
+	 * 
+	 * @return String : 'samedi 25 février 1961' par exemple.<br/>
+	 */
+	protected final String afficherDateEnFrancais(
+												final Date pDate) {
+		
+		final Locale localeFr = new Locale("fr", "FR");
+		
+		final DateFormat dfDateCompleteFrancaise 
+		= new SimpleDateFormat("EEEE' 'dd' 'MMMM' 'yyyy"
+			, localeFr);
+		
+		return dfDateCompleteFrancaise.format(pDate);
+		
+	} // Fin de afficherDateEnFrançais(
+	 // Date pDate)._______________________________________________________
+	
+
+	
+	/**
+	 * method fournirDate(
+	 * String pDateString) :<br/>
+	 * Prend en paramètre une String compatible avec une Date
+	 * au format "dd/MM/yyyy" ('25/02/1961' par exemple) et
+	 * retourne une String.<br/>
+	 * <br/>
+	 *
+	 * @param pDateString : la Date sous forme de String
+	 * au format '25/02/1961'.<br/>
+	 * 
+	 * @return Date.<br/>
+	 * 
+	 * @throws ParseException : lorsque la date rentrée
+	 * sous forme de String ne respecte pas le format
+	 * "dd/MM/yyyy" ou n'est pas compatible avec une date
+	 * (45/122/2012 par exemple).<br/>
+	 */
+	protected final Date fournirDate(
+							final String pDateString) 
+												throws ParseException {
+		
+		final Locale localeFr = new Locale("fr", "FR");
+		
+		final DateFormat dfDateFrancaise 
+		= new SimpleDateFormat("dd/MM/yyyy", localeFr);
+				
+		/* Indispensable pour générer une exception si la chaine
+		 * de caractères ne peut être une date comme 322/47/2011. */
+		dfDateFrancaise.setLenient(false);
+		
+		return dfDateFrancaise.parse(pDateString);
+		
+	} // Fin de fournirDate(
+	 // String pDateString)._______________________________________________
+	
+
+	
+	/**
+	 * method fabriquerNomClasse(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>fabrique le stringClasse.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>fabriquerNomClasse("AbstractProfilSimple") 
+	 * retourne ABSTRACT_PROFIL_SIMPLE</code>.</li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas CamelCase.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : nom d'une Classe.<br/>
+	 * 
+	 * @return : String : stringClasse.<br/>
+	 */
+	protected final String fabriquerNomClasse(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pString n'est pas CamelCase. */
+		if (!conformeNomClasse(pString)) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		stb.append("CLASSE_");
+		
+		int tailleListe = 0;
+		int compteur = 0;
+		
+		/* récupère chaque mot dans le nom de la classe. */
+		final List<String> liste = trouverCamel(pString);
+		tailleListe = liste.size();
+		
+		for (final String mot : liste) {
+			
+			compteur++;
+			
+			final String motMajuscule = this.mettreEnMajuscules(mot);
+			
+			stb.append(motMajuscule);
+			
+			if (compteur < tailleListe) {
+				stb.append(UNDERSCORE);
+			}
+		}
+		
+		return stb.toString();
+		
+	} // Fin de fabriquerNomClasse(...).___________________________________
+	
+	
+	
+	/**
+	 * method conformeNomPackage(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms de package java
+	 * , à savoir que des lettres minuscules et des chiffres 
+	 * (pas de majuscules ou de caractères spéciaux).</li>
+	 * <li>accepte "profil", "profil7", ...</li>
+	 * <li>refuse "Profil", "profil_7", ...</li>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	protected final boolean conformeNomPackage(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par I
+		 * - poursuit par une Majuscule
+		 * - poursuit CamelCase. */
+		final String patternString = "([a-z0-9]*)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeNomPackage(...).___________________________________
+	
+	
+	
+	/**
+	 * method conformeNomInterface(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms des Interfaces
+	 * , à savoir I, puis une majuscule, puis une suite camelCase 
+	 * sans caractères spéciaux.</li>
+	 * <li>accepte "IProfil", "IProfilSimple", "IProfil7", ...</li>
+	 * <li>refuse "Profil", "IProfil_Simple", "iProfil", ...</li>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	protected final boolean conformeNomInterface(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par I
+		 * - poursuit par une Majuscule
+		 * - poursuit camelCase. */
+		final String patternString = "(^I)([A-Z][a-z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeNomInterface(...)._________________________________
+	
+	
+	
+	/**
+	 * method conformeNomClasse(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms des Classes
+	 * , à savoir une majuscule, puis une suite camelCase 
+	 * sans caractères spéciaux.</li>
+	 * <li>accepte "Profil", "ProfilSimple", "ProfilSimple7", ...</li>
+	 * <li>refuse "IProfil", "profil", "ProfilSimple_7", ...</li>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	protected final boolean conformeNomClasse(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par une Majuscule
+		 * - poursuit camelCase. */
+		final String patternString = "(^[A-Z][a-z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeNomClasse(...).____________________________________
+	
+
+	
+	/**
+	 * method conformeNomAttribut(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms des attributs
+	 * , à savoir une minuscule, puis une suite camelCase 
+	 * sans caractères spéciaux.</li>
+	 * <li>accepte "profil", "profilSimple", "profilSimple7", ...</li>
+	 * <li>refuse "IProfil", "Profil", "ProfilSimple_7", ...</li>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	protected final boolean conformeNomAttribut(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par une minuscule
+		 * - poursuit camelCase. */
+		final String patternString = "(^[a-z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeNomAttribut(...).__________________________________
+	
+
+	
+	
+	/**
+	 * method conformeRg(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Contrôle que pString est conforme aux noms des RG
+	 * , à savoir 
+	 * <ul>
+	 * <li>"RG_"</li>
+	 * <li>suivi par des majuscules 
+	 * (éventuellement séparées par des _ ou -), </li>
+	 * <li>puis un séparateur " : "</li>
+	 * <li>puis un ensemble de caractères quelconques.</li>
+	 * </ul>
+	 * <li>Par exemple :<br/> 
+	 * "RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : 
+	 * le profilString du Profil doit respecter 
+	 * un ensemble fini de valeurs (nomenclature)"</li>
+	 * </ul>
+	 * 
+	 * "RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)";
+	 * 
+	 * NOMBRE DE MATCHES : 4
+	 * GROUP(0) : RG_PROFIL_PROFILSTRING_NOMENCLATURE_02 : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)
+	 * GROUP(1) : PROFIL_PROFILSTRING_NOMENCLATURE_02
+	 * GROUP(2) : PROFIL_PROFILSTRING_NOMENCLATURE_
+	 * GROUP(3) : 02
+	 * GROUP(4) : le profilString du Profil doit respecter un ensemble fini de valeurs (nomenclature)
+	 * 
+	 * RESULTAT : true
+	 * 
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : boolean : true si conforme.<br/>
+	 */
+	protected final boolean conformeRg(
+			final String pString) {
+		
+		boolean resultat = false;
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par "RG_" (^RG_)
+		 * - poursuit par des majusculres séparées par des _ ou - ([A-Z-_]*).
+		 * - poursuit par des chiffres (\\d+) 
+		 * - séparateur " : ".
+		 * - poursuit par n'importe quels caractères
+		 * */
+		final String patternString = "^RG_(([A-Z_-]*)(\\d+)) : (.+)$";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.matches();
+		
+		if (trouve) {
+			resultat = true;
+		}
+		
+		return resultat;
+		
+	} // Fin de conformeRg(...).___________________________________________
+	
+
+
+	/**
+	 * method trouverCamel(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li><b>Décompose un mot camelCase</b> et retourne une liste 
+	 * des sous-mots le composant</li>
+	 * <ul>
+	 * <li>trouverCamel("abel") retourne "abel".</li>
+	 * <li>trouverCamel("Abel") retourne "Abel".</li>
+	 * <li>trouverCamel("abel7Medard") retourne "abel7" 
+	 * et "Medard".</li>
+	 * <li>trouverCamel("AbelMedardGoro") retourne "Abel"
+	 * , "Medard", "Goro".</li>
+	 * <li>trouverCamel("AbstractProfilSimple") retourne "Abstract"
+	 * , "Profil", "Simple".</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 * 
+	 * @return : List&lt;String&gt; : Liste des "bosses" du chameau.<br/>
+	 */
+	protected final List<String> trouverCamel(
+			final String pString) {
+		
+		final List<String> resultat = new ArrayList<String>();
+		
+		/* Pattern sous forme de String. */
+		/* - Commence par une Majuscule ou une minuscule
+		 * - poursuit par des minuscules. */
+		final String patternStringDebut = "^([A-Z][a-z0-9]*|[a-z0-9]*)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern patternDebut = Pattern.compile(patternStringDebut);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcherDebut = patternDebut.matcher(pString);
+		
+		String suite = null;
+		
+		/* Recherche des ocurrences du Pattern. */
+		while (matcherDebut.find()) {
+			
+			final String lu = matcherDebut.group();
+			resultat.add(lu);
+			suite = StringUtils.removeStart(pString, lu);
+			
+		}
+		
+		if (!StringUtils.isBlank(suite)) {
+			
+			/* Pattern sous forme de String. */
+			/* - Commence par I
+			 * - poursuit par une Majuscule
+			 * - poursuit CamelCase. */
+			final String patternString = "([A-Z][a-z0-9]*)";
+			
+			/* Instanciation d'un Pattern. */
+			final Pattern pattern = Pattern.compile(patternString);
+			
+			/* Instanciation d'un moteur de recherche Matcher. */
+			final Matcher matcher = pattern.matcher(suite);
+			
+			/* Recherche des ocurrences du Pattern. */
+			while (matcher.find()) {
+				
+				final String lu = matcher.group();
+				resultat.add(lu);		
+				
+			}
+			
+		}
+				
+		return resultat;
+	
+	} // Fin de trouverCamel(...)._________________________________________
+	
+
+	
+	/**
+	 * method mettreEnMajuscules(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>passe tous les caractères de pString en <b>majuscules</b>.</li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : chaine à passer 
+	 * intégralement en majuscules.<br/>
+	 * 
+	 * @return : String : chaine entièrement en majuscules.<br/>
+	 */
+	protected final String mettreEnMajuscules(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		String resultat = null;
+		
+		/* Met en majuscules. */
+		resultat = pString.toUpperCase(Locale.getDefault());
+		
+		return resultat;
+		
+	} // Fin de mettreEnMajuscules(...).___________________________________
+
+
+	
+	/**
+	 * method mettrePremiereEnMajuscule() :<br/>
+	 * <ul>
+	 * <li>Met la première lettre de chaque mots séparés 
+	 * par des espaces en majuscule.</li>
+	 * <li>Met les autres lettres de chaque mots séparés 
+	 * par un espace en minuscule.</li>
+	 * <li>Par exemple : "premier" est transformé en "Premier".</li>
+	 * <li>"PREMIER" est transformé en "Premier".</li>
+	 * <li>WordUtils.capitalizeFully("i am FINE") = "I Am Fine"</li>
+	 * </ul>
+	 * retourne null si pString == null.<br/>
+	 * <br/>
+	 * 
+	 *
+	 * @param pString : String. <br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	protected final String mettrePremiereEnMajuscule(
+			final String pString) {
+		
+		/* retourne null si pString == null. */
+		if (pString == null) {
+			return null;
+		}
+		
+		return WordUtils.capitalizeFully(pString);
+		
+	} // Fin de mettrePremiereEnMajuscule(...).____________________________
+	
+	
+	
+	/**
+	 * method mettreEnMinuscules(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>passe tous les caractères de pString en <b>minuscules</b>.</li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : chaine à passer 
+	 * intégralement en minuscules.<br/>
+	 * 
+	 * @return : String : chaine entièrement en minuscules.<br/>
+	 */
+	protected final String mettreEnMinuscules(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		String resultat = null;
+		
+		/* Met en minuscules. */
+		resultat = pString.toLowerCase(Locale.getDefault());
+		
+		return resultat;
+		
+	} // Fin de mettreEnMinuscules(...).___________________________________
+	
+
+	
+	/**
+	 * method mettrePremiereEnMajusculeEtGarder(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>Met la première lettre de chaque mots séparés 
+	 * par des espaces en majuscule.</li>
+	 * <li>Conserve les autres lettres de chaque mots séparés 
+	 * par un espace.</li>
+	 * <li>Par exemple : "premier" est transformé en "Premier".</li>
+	 * <li>"PREMIER" est transformé en "PREMIER".</li>
+	 * <li>WordUtils.capitalize("i am FINE") = "I Am FINE"</li>
+	 * </ul>
+	 * retourne null si pString == null.<br/>
+	 * <br/>
+	 * 
+	 *
+	 * @param pString : String. <br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	protected final String mettrePremiereEnMajusculeEtGarder(
+			final String pString) {
+		
+		/* retourne null si pString == null. */
+		if (pString == null) {
+			return null;
+		}
+		
+		return WordUtils.capitalize(pString);
+		
+	} // Fin de mettrePremiereEnMajusculeEtGarder(...).____________________
+	
+
+	
+	/**
 	 * method fournirNomClasse() :<br/>
 	 * Fournit le nom de la classe concrète 
 	 * pour les messages des logs.<br/>
@@ -3029,40 +4041,6 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	 // List<String> pListe).______________________________________________
 
 	
-	
-	/**
-	 * method mettrePremiereEnMajusculeEtGarder(
-	 * String pString) :<br/>
-	 * <ul>
-	 * <li>Met la première lettre de chaque mots séparés 
-	 * par des espaces en majuscule.</li>
-	 * <li>Conserve les autres lettres de chaque mots séparés 
-	 * par un espace.</li>
-	 * <li>Par exemple : "premier" est transformé en "Premier".</li>
-	 * <li>"PREMIER" est transformé en "PREMIER".</li>
-	 * <li>WordUtils.capitalize("i am FINE") = "I Am FINE"</li>
-	 * </ul>
-	 * retourne null si pString == null.<br/>
-	 * <br/>
-	 * 
-	 *
-	 * @param pString : String. <br/>
-	 * 
-	 * @return : String.<br/>
-	 */
-	public final String mettrePremiereEnMajusculeEtGarder(
-			final String pString) {
-		
-		/* retourne null si pString == null. */
-		if (pString == null) {
-			return null;
-		}
-		
-		return WordUtils.capitalize(pString);
-		
-	} // Fin de mettrePremiereEnMajusculeEtGarder(...).____________________
-	
-
 	
 	/**
 	 * method getPathMainJava() :<br/>

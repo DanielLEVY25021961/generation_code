@@ -5368,7 +5368,7 @@ public final class GestionnaireProjet {
 	 * String pString) :<br/>
 	 * <ul>
 	 * <li><b>Lit le contenu d'une ressource pString</b> 
-	 * sous src/main/resources dans le présent projet 
+	 * sous ./src/main/resources dans le présent projet 
 	 * et injecte le contenu dans une List&lt;String&gt;.</li>
 	 * <li>lit le contenu en CHARSET_UTF8.</li>
 	 * <li>retourne le contenu de la ressource 
@@ -5399,7 +5399,7 @@ public final class GestionnaireProjet {
 			}
 			
 			final String stringRessourceBase 
-				= "/src/main/resources/";
+				= "./src/main/resources/";
 			final String stringRessource 
 				= stringRessourceBase + pString;
 			final File fileRessource = new File(stringRessource);

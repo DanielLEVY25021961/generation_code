@@ -1,6 +1,7 @@
 package levy.daniel.application.apptechnic.generationcode.ecriveurs.test;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,8 +71,36 @@ public class EcriveurMetierTest extends AbstractEcriveurFichiersJava {
 	@Override
 	protected void ecrireCodeGenerique(
 			final File pFile
-				, final IGenerateur pGenerateur) {
-		// TODO Auto-generated method stub
+				, final IGenerateur pGenerateur) throws Exception {
+		
+		final List<String> templateList 
+			= this.lireTemplate("test_java/test_junit.txt");
+		
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+					templateList
+						, VARIABLE_PATH_REL_CONCEPT_IMPL
+							, this.pathRelConceptImplString);
+		
+		final List<String> listSubst2 
+		= this.substituerVariablesDansLigne(
+				listSubst1
+					, VARIABLE_PATH_REL_CONCEPT
+						, this.pathRelConceptString);
+		
+		final List<String> listSubst3 
+		= this.substituerVariablesDansLigne(
+				listSubst2
+					, VARIABLE_NOM_INTERFACE_METIER
+						, this.nomInterfaceMetier);
+		
+		final List<String> listSubst4 
+		= this.substituerVariablesDansLigne(
+				listSubst3
+					, VARIABLE_NOM_CLASSE_METIER
+						, this.nomClassMetier);
+		
+		this.ecrireCode(listSubst4, pFile);
 
 	} // Fin de ecrireCodeGenerique(...).__________________________________
 	

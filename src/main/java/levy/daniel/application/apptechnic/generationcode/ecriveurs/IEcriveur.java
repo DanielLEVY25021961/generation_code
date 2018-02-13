@@ -206,6 +206,51 @@ public interface IEcriveur {
 	
 	
 	/**
+	 * VARIABLE_NOM_INTERFACE_METIER : String :<br/>
+	 * "{$nomInterfaceMetier}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOM_INTERFACE_METIER 
+		= "{$nomInterfaceMetier}";
+
+	
+	/**
+	 * VARIABLE_NOM_ABSTRACT_METIER : String :<br/>
+	 * "{$nomAbstractClassMetier}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOM_ABSTRACT_METIER 
+		= "{$nomAbstractClassMetier}";
+
+	
+	/**
+	 * VARIABLE_NOM_CLASSE_METIER : String :<br/>
+	 * "{$nomClassMetier}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_NOM_CLASSE_METIER 
+		= "{$nomClassMetier}";
+	
+	
+	/**
+	 * VARIABLE_PATH_REL_CONCEPT : String :<br/>
+	 * "{$pathRelConceptString}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_PATH_REL_CONCEPT 
+		= "{$pathRelConceptString}";
+	
+	
+	/**
+	 * VARIABLE_PATH_REL_CONCEPT_IMPL : String :<br/>
+	 * "{$pathRelConceptImplString}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_PATH_REL_CONCEPT_IMPL 
+		= "{$pathRelConceptImplString}";
+
+	
+	/**
 	 * VARIABLE_NOMATTRIBUT : String :<br/>
 	 * "{$nomAttribut}".<br/>
 	 * Variable à utiliser dans les templates.<br/>
@@ -914,10 +959,12 @@ public interface IEcriveur {
 	 *
 	 * @param pFile : File : fichier java.<br/>
 	 * @param pGenerateur : IGenerateur.<br/>
+	 * 
+	 * @throws Exception 
 	 */
 	void ecrireCode(
 			File pFile
-				, IGenerateur pGenerateur);
+				, IGenerateur pGenerateur) throws Exception;
 	
 	
 
