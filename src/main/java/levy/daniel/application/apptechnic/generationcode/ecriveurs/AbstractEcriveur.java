@@ -441,6 +441,24 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		/* alimente this.generateur. */
 		this.generateurCode = pGenerateur;
 		
+		/* alimente tous les attributs généraux de la classe. */
+		this.alimenterAttributsGeneraux();
+		
+		this.ecrireCodeGenerique(pFile, pGenerateur);
+		
+	} // Fin de ecrireCode(...).___________________________________________
+
+
+	
+	/**
+	 * method alimenterAttributsGeneraux() :<br/>
+	 * <ul>
+	 * <li>alimente tous les attributs généraux de la classe 
+	 * avec les éléments fournis par le Generateur.</li>
+	 * </ul>
+	 */
+	private void alimenterAttributsGeneraux() {
+		
 		/* alimente this.nomPackage. */
 		this.nomPackage = AbstractGenerateur.getNomPackage();
 		
@@ -527,11 +545,9 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		this.nomClassMetier 
 			= AbstractGenerateur.getNomClassMetier();
 		
-		this.ecrireCodeGenerique(pFile, pGenerateur);
-		
-	} // Fin de ecrireCode(...).___________________________________________
-
-
+	} // Fin de alimenterAttributsGeneraux().______________________________
+	
+	
 		
 	/**
 	 * method ecrireCodeGenerique() :<br/>

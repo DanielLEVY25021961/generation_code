@@ -4,10 +4,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.dao.impl.EcriveurDaoInterface;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.AbstractGenerateurToutAbstract;
 
 /**
- * class GenerateurDaoToutAbstract :<br/>
+ * CLASSE <b>GenerateurDaoToutAbstract</b> :<br/>
  * Générateur pour les DAOs.<br/>
  * <br/>
  *
@@ -50,31 +51,22 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 	 * method CONSTRUCTEUR GenerateurDaoToutAbstract() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <ul>
-	 * <li>alimente this.pathPackage en demandant le chemin 
-	 * du package <b>model.dao.metier</b> au 
-	 * <b>GestionnaireProjet</b>.</li>
+	 * <li>instancie this.ecriveurInterface.</li>
+	 * <li>instancie this.ecriveurAbstractClass.</li>
+	 * <li>instancie this.ecriveurConcreteClass.</li>
 	 * </ul>
-	 * <br/>
 	 */
 	public GenerateurDaoToutAbstract() {
 		
 		super();
 		
+		this.ecriveurInterface = new EcriveurDaoInterface();
+		this.ecriveurAbstractClass = null;
+		this.ecriveurConcreteClass = null;
+		
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 	
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final void genererHook() throws Exception {
-						
-		/**/
-		
-	} // Fin de genererObjetMetier(...).___________________________________
-
-
 	
 	/**
 	 * {@inheritDoc}
@@ -82,9 +74,12 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 	@Override
 	protected final void alimenterPathPackage() throws Exception {
 		
-		this.pathPackage 
-		= GestionnaireProjet.getPathDaoMainJavaString() 
-		+ "/metier";
+		final String pathBaseAntislash 
+			= GestionnaireProjet.getPathDaoMainJavaString();
+		
+		final String pathBase = retournerPathGenerique(pathBaseAntislash);
+		
+		this.pathPackage =  pathBase + "/metier";
 		
 	} // Fin de alimenterPathPackage().____________________________________
 	

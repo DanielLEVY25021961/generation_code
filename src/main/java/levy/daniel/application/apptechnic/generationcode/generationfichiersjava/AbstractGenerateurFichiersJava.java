@@ -60,24 +60,14 @@ public abstract class AbstractGenerateurFichiersJava extends AbstractGenerateur 
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void genererHook() throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
 
 	/**
 	 * method genererFichiersJava() :<br/>
 	 * <ul>
-	 * <li>génère et alimente this.interfaceJava.</li>
-	 * <li>génère et alimente this.abstractClass.</li>
-	 * <li>génère et alimente this.concreteClass.</li>
-	 * <li>génère et alimente this.objetMetierForm.</li>
+	 * <li>crée le fichier vide et alimente this.interfaceJava.</li>
+	 * <li>crée le fichier vide et alimente this.abstractClass.</li>
+	 * <li>crée le fichier vide et alimente this.concreteClass.</li>
+	 * <li>crée le fichier vide et alimente this.objetMetierForm.</li>
 	 * </ul>
 	 *
 	 * @throws IOException 

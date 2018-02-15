@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille;
 
 /**
  * CLASSE <b>EcriveurMetierInterface</b> :<br/>
@@ -33,7 +33,8 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.
  * @since 5 janv. 2018
  *
  */
-public class EcriveurMetierInterface extends AbstractEcriveurMetier {
+public class EcriveurMetierInterface 
+			extends AbstractEcriveurFichiersJavaDetaille {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -1470,6 +1471,10 @@ public class EcriveurMetierInterface extends AbstractEcriveurMetier {
 	
 	/**
 	 * {@inheritDoc}
+	 * <br/>
+	 * retourne pour un EcriveurMetierInterface : 
+	 * "L'INTERFACE ".<br/>
+	 * <br/>
 	 */
 	@Override
 	protected final String fournirTypeFichierJava() {	
@@ -1480,6 +1485,10 @@ public class EcriveurMetierInterface extends AbstractEcriveurMetier {
 	
 	/**
 	 * {@inheritDoc}
+	 * <br/>
+	 * retourne pour un EcriveurMetierInterface : 
+	 * "Classe EcriveurMetierInterface".<br/>
+	 * <br/>
 	 */
 	@Override
 	protected final String fournirNomClasse() {

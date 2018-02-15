@@ -82,7 +82,40 @@ public abstract class AbstractGenerateurToutAbstract
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void genererHook() throws Exception {
 		
+		/* Génère le code de l'interface 
+		 * dans this.interfaceJava. */
+		if (this.ecriveurInterface != null) {
+			this.ecriveurInterface
+				.ecrireCode(this.interfaceJava, this);
+		}
+		
+		
+		/* génère le code de la classe abstraite 
+		 * dans this.abstractClass. */
+		if (this.ecriveurAbstractClass != null) {
+			this.ecriveurAbstractClass
+				.ecrireCode(this.abstractClass, this);
+		}
+		
+		
+		/* génère le code de la classe concrète 
+		 * dans this.concreteClass. */
+		if (this.ecriveurConcreteClass != null) {
+			this.ecriveurConcreteClass
+				.ecrireCode(this.concreteClass, this);
+		}
+		
+	} // Fin de genererHook()._____________________________________________
+
+	
+	
 	/**
 	 * {@inheritDoc}
 	 * <ul>

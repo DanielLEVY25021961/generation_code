@@ -108,6 +108,10 @@ public class EcriveurMetierTest extends AbstractEcriveurFichiersJava {
 	
 	/**
 	 * {@inheritDoc}
+	 * <br/>
+	 * retourne pour un EcriveurMetierTest : 
+	 * "LA CLASSE ".<br/>
+	 * <br/>
 	 */
 	@Override
 	protected final String fournirTypeFichierJava() {	
@@ -119,7 +123,8 @@ public class EcriveurMetierTest extends AbstractEcriveurFichiersJava {
 	/**
 	 * {@inheritDoc}
 	 * <br/>
-	 * retourne pour un EcriveurMetierTest : "Classe EcriveurMetierTest".<br/>
+	 * retourne pour un EcriveurMetierTest : 
+	 * "Classe EcriveurMetierTest".<br/>
 	 * <br/>
 	 */
 	@Override

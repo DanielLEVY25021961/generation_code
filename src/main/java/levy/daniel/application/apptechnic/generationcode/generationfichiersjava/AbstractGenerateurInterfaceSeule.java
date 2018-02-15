@@ -85,6 +85,15 @@ public class AbstractGenerateurInterfaceSeule
 		// TODO Auto-generated method stub
 		
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void genererHook() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

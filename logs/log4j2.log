@@ -143,152 +143,152 @@ java.lang.NullPointerException: null
 	at levy.daniel.application.apptechnic.generationcode.AbstractEcriveur.ecrireCode(AbstractEcriveur.java:1121) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererObjetMetier(GenerateurMetier.java:367) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:152) [classes/:?]
-2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la méthode clone()
+2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la méthode clone()
 java.lang.ArrayIndexOutOfBoundsException: -1
 	at java.util.ArrayList.elementData(ArrayList.java:418) ~[?:1.8.0_144]
 	at java.util.ArrayList.get(ArrayList.java:431) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireClone(AbstractEcriveur.java:3213) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireClone(AbstractEcriveur.java:3213) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireBlocMethodes(EcriveurConcreteClass.java:260) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireCodeHook(EcriveurConcreteClass.java:113) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:125) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la méthode toString()
+2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la méthode toString()
 java.lang.ArrayIndexOutOfBoundsException: -1
 	at java.util.ArrayList.elementData(ArrayList.java:418) ~[?:1.8.0_144]
 	at java.util.ArrayList.get(ArrayList.java:431) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireToString(AbstractEcriveur.java:3337) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireToString(AbstractEcriveur.java:3337) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireBlocMethodes(EcriveurConcreteClass.java:263) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireCodeHook(EcriveurConcreteClass.java:113) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:125) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la méthode getEnTeteCsv()
+2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la méthode getEnTeteCsv()
 java.lang.ArrayIndexOutOfBoundsException: -1
 	at java.util.ArrayList.elementData(ArrayList.java:418) ~[?:1.8.0_144]
 	at java.util.ArrayList.get(ArrayList.java:431) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireGetEnTeteCsv(AbstractEcriveur.java:3461) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireGetEnTeteCsv(AbstractEcriveur.java:3461) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireBlocMethodes(EcriveurConcreteClass.java:266) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireCodeHook(EcriveurConcreteClass.java:113) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:125) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la méthode toStringCsv()
+2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la méthode toStringCsv()
 java.lang.ArrayIndexOutOfBoundsException: -1
 	at java.util.ArrayList.elementData(ArrayList.java:418) ~[?:1.8.0_144]
 	at java.util.ArrayList.get(ArrayList.java:431) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireToStringCsv(AbstractEcriveur.java:3585) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireToStringCsv(AbstractEcriveur.java:3585) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireBlocMethodes(EcriveurConcreteClass.java:269) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireCodeHook(EcriveurConcreteClass.java:113) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:125) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la méthode getEnTeteColonne()
+2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la méthode getEnTeteColonne()
 java.lang.ArrayIndexOutOfBoundsException: -1
 	at java.util.ArrayList.elementData(ArrayList.java:418) ~[?:1.8.0_144]
 	at java.util.ArrayList.get(ArrayList.java:431) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireGetEnTeteColonne(AbstractEcriveur.java:3709) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireGetEnTeteColonne(AbstractEcriveur.java:3709) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireBlocMethodes(EcriveurConcreteClass.java:272) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireCodeHook(EcriveurConcreteClass.java:113) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:125) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la méthode getValeurColonne()
+2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la méthode getValeurColonne()
 java.lang.ArrayIndexOutOfBoundsException: -1
 	at java.util.ArrayList.elementData(ArrayList.java:418) ~[?:1.8.0_144]
 	at java.util.ArrayList.get(ArrayList.java:431) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireGetValeurColonne(AbstractEcriveur.java:3833) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireGetValeurColonne(AbstractEcriveur.java:3833) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireBlocMethodes(EcriveurConcreteClass.java:275) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireCodeHook(EcriveurConcreteClass.java:113) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:125) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la méthode getId()
+2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la méthode getId()
 java.lang.ArrayIndexOutOfBoundsException: -1
 	at java.util.ArrayList.elementData(ArrayList.java:418) ~[?:1.8.0_144]
 	at java.util.ArrayList.get(ArrayList.java:431) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireGetId(AbstractEcriveur.java:3958) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireGetId(AbstractEcriveur.java:3958) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireBlocMethodes(EcriveurConcreteClass.java:278) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireCodeHook(EcriveurConcreteClass.java:113) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:125) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la méthode setId()
+2018-janvier-18 17:23:52 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la méthode setId()
 java.lang.ArrayIndexOutOfBoundsException: -1
 	at java.util.ArrayList.elementData(ArrayList.java:418) ~[?:1.8.0_144]
 	at java.util.ArrayList.get(ArrayList.java:431) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireSetId(AbstractEcriveur.java:4099) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.fournirDerniereLigneListe(AbstractEcriveur.java:7257) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireSetId(AbstractEcriveur.java:4099) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireBlocMethodes(EcriveurConcreteClass.java:281) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierConcreteClass.ecrireCodeHook(EcriveurConcreteClass.java:113) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:484) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:125) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 18:52:46 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la javadoc
+2018-janvier-18 18:52:46 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la javadoc
 java.lang.NullPointerException: null
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierAbstractClass.creerLignesJavaDoc(EcriveurAbstractClass.java:350) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireJavaDoc(AbstractEcriveur.java:781) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireJavaDoc(AbstractEcriveur.java:781) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:122) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 18:54:59 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la javadoc
+2018-janvier-18 18:54:59 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la javadoc
 java.lang.NullPointerException: null
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierAbstractClass.creerLignesJavaDoc(EcriveurAbstractClass.java:350) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireJavaDoc(AbstractEcriveur.java:781) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireJavaDoc(AbstractEcriveur.java:781) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:122) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 19:03:46 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la javadoc
-java.lang.NullPointerException: null
-	at java.util.ArrayList.addAll(ArrayList.java:577) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierAbstractClass.creerLignesJavaDoc(EcriveurAbstractClass.java:350) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireJavaDoc(AbstractEcriveur.java:783) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:122) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
-	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 19:09:20 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la javadoc
+2018-janvier-18 19:03:46 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la javadoc
 java.lang.NullPointerException: null
 	at java.util.ArrayList.addAll(ArrayList.java:577) ~[?:1.8.0_144]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierAbstractClass.creerLignesJavaDoc(EcriveurAbstractClass.java:350) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireJavaDoc(AbstractEcriveur.java:783) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireJavaDoc(AbstractEcriveur.java:783) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:122) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-18 19:10:24 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la javadoc
+2018-janvier-18 19:09:20 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la javadoc
 java.lang.NullPointerException: null
 	at java.util.ArrayList.addAll(ArrayList.java:577) ~[?:1.8.0_144]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierAbstractClass.creerLignesJavaDoc(EcriveurAbstractClass.java:350) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireJavaDoc(AbstractEcriveur.java:783) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireJavaDoc(AbstractEcriveur.java:783) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:122) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
-2018-janvier-20 11:01:21 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier - Impossible de créer la javadoc
+2018-janvier-18 19:10:24 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la javadoc
+java.lang.NullPointerException: null
+	at java.util.ArrayList.addAll(ArrayList.java:577) ~[?:1.8.0_144]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierAbstractClass.creerLignesJavaDoc(EcriveurAbstractClass.java:350) ~[classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireJavaDoc(AbstractEcriveur.java:783) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveur.java:474) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:122) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
+	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]
+2018-janvier-20 11:01:21 [main] FATAL levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille - Impossible de créer la javadoc
 java.lang.NullPointerException: null
 	at java.util.ArrayList.addAll(ArrayList.java:577) ~[?:1.8.0_144]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierInterface.creerLignesJavaDocDiagrammes(EcriveurInterface.java:455) ~[classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.impl.EcriveurMetierInterface.creerLignesJavaDoc(EcriveurInterface.java:245) ~[classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireJavaDoc(AbstractEcriveurMetier.java:789) [classes/:?]
-	at levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier.ecrireCode(AbstractEcriveurMetier.java:480) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireJavaDoc(AbstractEcriveurMetier.java:789) [classes/:?]
+	at levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille.ecrireCode(AbstractEcriveurMetier.java:480) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract.genererHook(GenerateurMetier.java:119) [classes/:?]
 	at levy.daniel.application.apptechnic.generationcode.AbstractGenerateur.generer(AbstractGenerateur.java:458) [classes/:?]
 	at levy.daniel.application.Application.main(Application.java:165) [classes/:?]

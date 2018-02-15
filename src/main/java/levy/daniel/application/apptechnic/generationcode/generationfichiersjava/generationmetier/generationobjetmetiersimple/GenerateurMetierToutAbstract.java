@@ -73,11 +73,10 @@ public class GenerateurMetierToutAbstract
 	 * method CONSTRUCTEUR GenerateurMetierToutAbstract() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <ul>
-	 * <li>alimente this.pathPackage en demandant le chemin 
-	 * du package <b>model.metier</b> au 
-	 * <b>GestionnaireProjet</b>.</li>
+	 * <li>instancie this.ecriveurInterface.</li>
+	 * <li>instancie this.ecriveurAbstractClass.</li>
+	 * <li>instancie this.ecriveurConcreteClass.</li>
 	 * </ul>
-	 * <br/>
 	 */
 	public GenerateurMetierToutAbstract() {
 		
@@ -96,19 +95,15 @@ public class GenerateurMetierToutAbstract
 	 */
 	@Override
 	protected final void genererHook() throws Exception {
-						
+		
 		/* Génère le code de l'interface 
 		 * dans this.interfaceJava. */
-		this.ecriveurInterface.ecrireCode(this.interfaceJava, this);
-		
 		/* génère le code de la classe abstraite 
 		 * dans this.abstractClass. */
-		this.ecriveurAbstractClass.ecrireCode(this.abstractClass, this);
-		
 		/* génère le code de la classe concrète 
 		 * dans this.concreteClass. */
-		this.ecriveurConcreteClass.ecrireCode(this.concreteClass, this);
-
+		super.genererHook();
+		
 		/* génère le fichier vide classMetierForm. */
 		this.genererClassMetierForm();
 
