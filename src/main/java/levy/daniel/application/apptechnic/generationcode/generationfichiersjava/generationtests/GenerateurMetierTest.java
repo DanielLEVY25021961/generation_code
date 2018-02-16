@@ -85,7 +85,7 @@ public class GenerateurMetierTest
 		final Path pathPackagePath 
 			= PATH_TEST_JAVA.resolve(getPathRelMetier());
 		
-		this.pathPackage = pathPackagePath.toString();
+		this.pathPackageString = pathPackagePath.toString();
 		
 	} // Fin de alimenterPathPackage().____________________________________
 	

@@ -147,7 +147,7 @@ public class GenerateurMetierToutAbstract
 	@Override
 	protected final void alimenterPathPackage() throws Exception {
 		
-		this.pathPackage 
+		this.pathPackageString 
 			= GestionnaireProjet.getPathMetierMainJavaString();
 		
 	} // Fin de alimenterPathPackage().____________________________________

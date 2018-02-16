@@ -79,7 +79,7 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 		
 		final String pathBase = retournerPathGenerique(pathBaseAntislash);
 		
-		this.pathPackage =  pathBase + "/metier";
+		this.pathPackageString =  pathBase + "/metier";
 		
 	} // Fin de alimenterPathPackage().____________________________________
 	

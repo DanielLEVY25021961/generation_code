@@ -2,6 +2,7 @@ package levy.daniel.application.apptechnic.generationcode;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 
 /**
  * INTERFACE <b>IGenerateur</b> :<br/>
@@ -438,12 +439,12 @@ public interface IGenerateur {
 	void generer() throws Exception;
 
 
-
+	
 	/**
-	 * method getPathPackage() :<br/>
+	 * method getFilePackage() :<br/>
 	 * <ul>
-	 * <li>Getter du <b>path absolu de la 
-	 * SOUS-COUCHE METIER (package metier)</b> 
+	 * <li>Getter du <b>File modélisant la SOUS-COUCHE METIER 
+	 * (package metier)</b> 
 	 * contenant les arborescences à générer pour un Concept
 	 * (model/metier, model/dao/metier
 	 * , model/services/metier, ...).</li>
@@ -458,22 +459,135 @@ public interface IGenerateur {
 	 * </ul>
 	 * </ul>
 	 *
-	 * @return pathPackage : String.<br/>
+	 * @return filePackage : File.<br/>
 	 */
-	String getPathPackage();
+	File getFilePackage();
+	
+	
+	
+	/**
+	 * method getPathPackageString()() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu de la 
+	 * SOUS-COUCHE METIER (package metier)</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier, model/dao/metier
+	 * , model/services/metier, ...).</li>
+	 * <li>path sous forme de String.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @return pathPackageString : String.<br/>
+	 */
+	String getPathPackageString();
 	
 
+	
+	/**
+	 * method getPathPackage() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu de la SOUS-COUCHE 
+	 * METIER (package metier)</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier, model/dao/metier
+	 * , model/services/metier, ...).</li>
+	 * <li>path sous forme de java.nio.file.Path.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @return pathPackage : Path.<br/>
+	 */
+	Path getPathPackage();
+	
 
+	
+	/**
+	 * method getPathRelPackage() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathPackage</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @return pathRelPackage : Path.<br/>
+	 */
+	Path getPathRelPackage();
+	
+
+	
+	/**
+	 * method getPathRelPackageJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathPackage</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy.daniel.application.model.metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>levy.daniel.application.model.dao.metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>levy.daniel.application.model.metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @return pathRelPackageJavaString : String.<br/>
+	 */
+	String getPathRelPackageJavaString();
+	
+	
+	
 	/**
 	 * method getPackageSousCouche() :<br/>
 	 * <ul>
-	 * <li><b>Package du fichier java à générer</b> 
-	 * sous pathPackage/packageSousCouche.<br/>
-	 * <li>Par exemple : <br/>
-	 * <code>model/metier/profil</code> pour un 
-	 * GenerateurMetierToutAbstract générant un concept Profil
-	 * ou <code>model/dao/metier/profil</code> pour un 
-	 * GenerateurDaoToutAbstract générant un concept Profil.</li> 
+	 * <li>Getter du <b>Package du fichier java à générer</b> 
+	 * sous pathPackageString/packageSousCouche.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
 	 * </ul>
 	 *
 	 * @return packageSousCouche : File.<br/>
@@ -481,25 +595,276 @@ public interface IGenerateur {
 	File getPackageSousCouche();
 
 
+	
+	/**
+	 * method getPathSousCoucheString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu de la SOUS-COUCHE CONCEPT</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier/concept, model/dao/metier/concept
+	 * , model/services/metier/concept, ...).</li>
+	 * <li>path sous forme de String.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathSousCoucheString : String.<br/>
+	 */
+	String getPathSousCoucheString();
+	
 
+	
+	/**
+	 * method getPathSousCouche() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu de la SOUS-COUCHE CONCEPT</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier/concept, model/dao/metier/concept
+	 * , model/services/metier/concept, ...).</li>
+	 * <li>path sous forme de java.nio.file.Path.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathSousCouche : Path.<br/>
+	 */
+	Path getPathSousCouche();
+	
+
+	
+	/**
+	 * method getPathRelSousCouche() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathSousCouche</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>levy/daniel/application/model/dao/metier/profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierTest et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathRelSousCouche : Path.<br/>
+	 */
+	Path getPathRelSousCouche();
+	
+
+	
+	/**
+	 * method getPathRelSousCoucheJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathSousCouche</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy.daniel.application.model.metier.profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>levy.daniel.application.model.dao.metier.profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>levy.daniel.application.model.metier.profil
+	 * </code> pour un GenerateurMetierTest et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathRelSousCoucheJavaString : String.<br/>
+	 */
+	String getPathRelSousCoucheJavaString();
+	
+	
+	
 	/**
 	 * method getSousPackageImpl() :<br/>
 	 * <ul>
-	 * <li>Getter du <b>Sous-Package "impl" du Concept à générer</b> 
-	 * sous model/metier/packageSousCouche/sousPackageImpl.</li>
-	 * <li>Par exemple : <br/>
-	 * <code>model/metier/profil/impl</code> 
-	 * pour un GenerateurMetierToutAbstract générant un concept Profil
-	 * ou <code>model/metier/dao/profil/impl</code> pour un 
-	 * GenerateurDaoToutAbstract générant un concept Profil.</li>
+	 * <li>Getter du <b>Package du fichier java à générer</b> 
+	 * sous pathPackageString/packageSousCouche/impl.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil/impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
 	 * </ul>
 	 *
 	 * @return sousPackageImpl : File.<br/>
 	 */
 	File getSousPackageImpl();
 
+	
+	
+	/**
+	 * method getPathSousPackageImplString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu de la SOUS-COUCHE CONCEPT/impl</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier/concept/impl, model/dao/metier/concept/impl
+	 * , model/services/metier/concept/impl, ...).</li>
+	 * <li>path sous forme de String.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil/impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathSousPackageImplString : String.<br/>
+	 */
+	String getPathSousPackageImplString();
 
-		
+
+	
+	/**
+	 * method getPathSousPackageImpl() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu de la SOUS-COUCHE CONCEPT/impl</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier/concept/impl, model/dao/metier/concept/impl
+	 * , model/services/metier/concept/impl, ...).</li>
+	 * <li>path sous forme de java.nio.file.Path.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil/impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathSousPackageImpl : Path.<br/>
+	 */
+	Path getPathSousPackageImpl();
+	
+
+	
+	/**
+	 * method getPathRelSousPackageImpl() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathSousPackageImpl</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>levy/daniel/application/model/dao/metier/profil/impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierTest et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathRelSousPackageImpl : Path.<br/>
+	 */
+	Path getPathRelSousPackageImpl();
+	
+	
+	
+	/**
+	 * method getPathRelSousPackageImplJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathSousPackageImpl</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy.daniel.application.model.metier.profil.impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>levy.daniel.application.model.dao.metier.profil.impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>levy.daniel.application.model.metier.profil.impl
+	 * </code> pour un GenerateurMetierTest et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathRelSousPackageImplJavaString : String.<br/>
+	 */
+	String getPathRelSousPackageImplJavaString();
+	
+	
+	
 	/**
 	* method getNomSimpleInterface() :<br/>
 	* <ul>

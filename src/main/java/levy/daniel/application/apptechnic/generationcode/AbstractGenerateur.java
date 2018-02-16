@@ -271,8 +271,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 */
 	protected static Path pathRelConceptImpl;
 	
-	
-	
+		
 	/**
 	 * pathRelConceptImplString : String :<br/>
 	 * <ul>
@@ -390,10 +389,11 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	protected static Map<String, List<String>> mapRg;
 
 	
+	
 	/**
-	 * pathPackage : String :<br/>
+	 * filePackage : File :<br/>
 	 * <ul>
-	 * <li><b>path absolu de la SOUS-COUCHE METIER (package metier)</b> 
+	 * <li><b>File modélisant la SOUS-COUCHE METIER (package metier)</b> 
 	 * contenant les arborescences à générer pour un Concept
 	 * (model/metier, model/dao/metier
 	 * , model/services/metier, ...).</li>
@@ -408,38 +408,366 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * </ul>
 	 * </ul>
 	 */
-	protected transient String pathPackage;
+	protected transient File filePackage;
+	
+	
+	/**
+	 * pathPackageString : String :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la SOUS-COUCHE METIER (package metier)</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier, model/dao/metier
+	 * , model/services/metier, ...).</li>
+	 * <li>path sous forme de String.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected transient String pathPackageString;
+	
+	
+	/**
+	 * pathPackage : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la SOUS-COUCHE METIER (package metier)</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier, model/dao/metier
+	 * , model/services/metier, ...).</li>
+	 * <li>path sous forme de java.nio.file.Path.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected transient Path pathPackage;
+
+	
+	/**
+	 * pathRelPackage : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathPackage</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>levy/daniel/application/model/dao/metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>levy/daniel/application/model/metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+	protected transient Path pathRelPackage;
+	
+	
+	/**
+	 * pathRelPackageJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathPackage</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy.daniel.application.model.metier
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>levy.daniel.application.model.dao.metier
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>levy.daniel.application.model.metier
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected transient String pathRelPackageJavaString;
+	
 	
 	
 	/**
 	 * packageSousCouche : File :<br/>
 	 * <ul>
 	 * <li><b>Package du fichier java à générer</b> 
-	 * sous pathPackage/packageSousCouche.<br/>
-	 * <li>Par exemple : <br/>
-	 * <code>model/metier/profil</code> pour un 
-	 * GenerateurMetierToutAbstract générant un concept Profil
-	 * ou <code>model/dao/metier/profil</code> pour un 
-	 * GenerateurDaoToutAbstract générant un concept Profil.</li> 
+	 * sous pathPackageString/packageSousCouche.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
 	 * </ul>
 	 */
 	protected transient File packageSousCouche;
 	
 	
 	/**
+	 * pathSousCoucheString : String :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la SOUS-COUCHE CONCEPT</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier/concept, model/dao/metier/concept
+	 * , model/services/metier/concept, ...).</li>
+	 * <li>path sous forme de String.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+	protected transient String pathSousCoucheString;
+	
+	
+	/**
+	 * pathSousCouche : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la SOUS-COUCHE CONCEPT</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier/concept, model/dao/metier/concept
+	 * , model/services/metier/concept, ...).</li>
+	 * <li>path sous forme de java.nio.file.Path.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+	protected transient Path pathSousCouche;
+	
+	
+	/**
+	 * pathRelSousCouche : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathSousCouche</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>levy/daniel/application/model/dao/metier/profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>levy/daniel/application/model/metier/profil
+	 * </code> pour un GenerateurMetierTest et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+	protected transient Path pathRelSousCouche;
+	
+	
+	/**
+	 * pathRelSousCoucheJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathSousCouche</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy.daniel.application.model.metier.profil
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>levy.daniel.application.model.dao.metier.profil
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>levy.daniel.application.model.metier.profil
+	 * </code> pour un GenerateurMetierTest et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+	protected transient String pathRelSousCoucheJavaString;
+
+	
+	/**
 	 * sousPackageImpl : File :<br/>
 	 * <ul>
-	 * <li><b>Sous-Package "impl" du Concept à générer</b> 
-	 * sous model/metier/packageSousCouche/sousPackageImpl.</li>
-	 * <li>Par exemple : <br/>
-	 * <code>model/metier/profil/impl</code> 
-	 * pour un GenerateurMetierToutAbstract générant un concept Profil
-	 * ou <code>model/metier/dao/profil/impl</code> pour un 
-	 * GenerateurDaoToutAbstract générant un concept Profil.</li>
+	 * <li><b>Package du fichier java à générer</b> 
+	 * sous pathPackageString/packageSousCouche/impl.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil/impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
 	 * </ul>
 	 */
 	protected transient File sousPackageImpl;
 
+	
+	/**
+	 * pathSousPackageImplString : String :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la SOUS-COUCHE CONCEPT/impl</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier/concept/impl, model/dao/metier/concept/impl
+	 * , model/services/metier/concept/impl, ...).</li>
+	 * <li>path sous forme de String.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil/impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+	protected transient String pathSousPackageImplString;
+	
+	
+	/**
+	 * pathSousPackageImpl : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la SOUS-COUCHE CONCEPT/impl</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model/metier/concept/impl, model/dao/metier/concept/impl
+	 * , model/services/metier/concept/impl, ...).</li>
+	 * <li>path sous forme de java.nio.file.Path.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>./src/main/java/
+	 * levy/daniel/application/model/dao/metier/profil/impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>./src/test/java/
+	 * levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierTest 
+	 * et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+	protected transient Path pathSousPackageImpl;
+	
+	
+	/**
+	 * pathRelSousPackageImpl : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathSousPackageImpl</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>levy/daniel/application/model/dao/metier/profil/impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>levy/daniel/application/model/metier/profil/impl
+	 * </code> pour un GenerateurMetierTest et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+	protected transient Path pathRelSousPackageImpl;
+	
+	
+	/**
+	 * pathRelSousPackageImplJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathSousPackageImpl</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy.daniel.application.model.metier.profil.impl
+	 * </code> pour un GenerateurMetierToutAbstract 
+	 * et un Concept Profil.</li> 
+	 * <li><code>levy.daniel.application.model.dao.metier.profil.impl
+	 * </code> pour un GenerateurDaoToutAbstract 
+	 * et un Concept Profil.</li>
+	 * <li><code>levy.daniel.application.model.metier.profil.impl
+	 * </code> pour un GenerateurMetierTest et un Concept Profil.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+	protected transient String pathRelSousPackageImplJavaString;
+	
 	
 	
 	/**
@@ -1711,7 +2039,8 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	public void generer() 
 			throws Exception {
 		
-		/* GENERATION DES PACKAGES. */	
+		/* GENERATION DES PACKAGES. */
+		/* ALIMENTE this.pathPackageString. */
 		/* génère le package this.pathPackage 
 		 * (model.metier, model.dao.metier, ...). */
 		/* génère le package this.packageSousCouche 
@@ -1752,7 +2081,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * String pNomPackage) :<br/>
 	 * <ul>
 	 * <li><b>alimente this.pathPackage</b>.</li>
-	 * <li>crée pathPackage sur disque si nécessaire.<br/>
+	 * <li>crée pathPackageString sur disque si nécessaire.<br/>
 	 * Par exemple :<br/>
 	 * <ul>
 	 * <li><code>./src/main/java/levy/daniel/application/model/metier
@@ -1789,7 +2118,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		/* alimente this.pathPackage. */
 		this.alimenterPathPackage();
 		
-		/* crée pathPackage sur disque si nécessaire. */
+		/* crée pathPackageString sur disque si nécessaire. */
 		this.creerPathPackage();
 		
 		/* génère le package this.packageSousCouche. */
@@ -1831,6 +2160,10 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * method creerPathPackage() :<br/>
 	 * <ul>
+	 * <li>alimente this.pathPackage.</li>
+	 * <li>alimente this.filePackage.</li>
+	 * <li>alimente this.pathRelPackage.</li>
+	 * <li>alimente this.pathRelPackageJavaString.</li>
 	 * <li><b>crée sur disque le package correspondant 
 	 * à this.pathPackage</b>.</li>
 	 * <li>Ne crée this.pathPackage que si il n'existe pas déjà.</li>
@@ -1846,15 +2179,29 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			throws IOException {
 		
 		/* ne fait rien si this.pathPackage == null. */
-		if (this.pathPackage == null) {
+		if (this.pathPackageString == null) {
 			return;
 		}
 		
-		final Path pathPackagePath = Paths.get(this.pathPackage);
-		final File filePackage = pathPackagePath.toFile();
+		/* alimente this.pathPackage. */
+		this.pathPackage = Paths.get(this.pathPackageString);
+		/* alimente this.filePackage. */
+		this.filePackage = this.pathPackage.toFile();
+		/* alimente this.pathRelPackage. */
+		if (this.pathPackage.startsWith(PATH_TEST_JAVA)) {
+			this.pathRelPackage 
+				= PATH_TEST_JAVA.relativize(this.pathPackage);
+		} else {
+			this.pathRelPackage 
+			= PATH_MAIN_JAVA.relativize(this.pathPackage);
+		}
 		
-		if (!filePackage.exists()) {
-			Files.createDirectories(pathPackagePath);
+		/* alimente this.pathRelPackageJavaString. */
+		this.pathRelPackageJavaString 
+			= remplacerAntiSlashparPoint(this.pathRelPackage.toString());
+		
+		if (!this.filePackage.exists()) {
+			Files.createDirectories(this.pathPackage);
 		}
 		
 	} // Fin de creerPathPackage().________________________________________
@@ -1865,9 +2212,13 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * method genererPackageSousCouche(
 	 * String pNomPackage) :<br/>
 	 * <ul>
+	 * <li>alimente this.pathSousCoucheString.</li>
+	 * <li>alimente this.pathSousCouche.</li>
+	 * <li>alimente this.pathRelSousCouche.</li>
+	 * <li>alimente this.pathRelSousCoucheJavaString.</li>
 	 * <li>Génère le package pNomPackage devant 
 	 * contenir le fichier java généré sous 
-	 * pathPackage/packageSousCouche.</li>
+	 * pathPackageString/packageSousCouche.</li>
 	 * <li><b>alimente this.packageSousCouche</b> 
 	 * avec le package généré.</li>
 	 * <li>Par exemple : genererPackageSousCouche("profil") 
@@ -1884,9 +2235,31 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			final String pNomPackage) 
 					throws IOException {
 		
+		/* alimente this.packageSousCouche. */
 		this.packageSousCouche 
 			= this.gestionnaireFiles
-				.creerSousPackage(this.pathPackage, pNomPackage);
+				.creerSousPackage(this.pathPackageString, pNomPackage);
+		
+		/* alimente this.pathSousCoucheString. */
+		this.pathSousCoucheString 
+			= retournerPathGenerique(
+					this.packageSousCouche.getAbsolutePath());
+		
+		/* alimente this.pathSousCouche. */
+		this.pathSousCouche = Paths.get(this.pathSousCoucheString);
+		
+		/* alimente this.pathRelSousCouche. */
+		if (this.pathSousCouche.startsWith(PATH_TEST_JAVA)) {
+			this.pathRelSousCouche 
+				= PATH_TEST_JAVA.relativize(this.pathSousCouche);
+		} else {
+			this.pathRelSousCouche 
+			= PATH_MAIN_JAVA.relativize(this.pathSousCouche);
+		}
+		
+		/* alimente this.pathRelSousCoucheJavaString. */
+		this.pathRelSousCoucheJavaString 
+			= remplacerAntiSlashparPoint(this.pathSousCouche.toString());
 		
 	} // Fin de genererPackageSousCouche(...)._____________________________
 	
@@ -1895,9 +2268,13 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	/**
 	 * method genererSousPackageImpl() :<br/>
 	 * <ul>
+	 * <li>alimente this.pathSousPackageImplString.</li>
+	 * <li>alimente this.pathSousPackageImpl.</li>
+	 * <li>alimente this.pathRelSousPackageImpl.</li>
+	 * <li>alimente this.pathRelSousPackageImplJavaString.</li>
 	 * <li>Génère le package "impl" devant 
 	 * contenir l'objet métier généré concret sous 
-	 * pathPackage/packageSousCouche.</li>
+	 * pathPackageString/packageSousCouche.</li>
 	 * <li><b>alimente this.sousPackageImpl</b> 
 	 * avec le package généré.</li>
 	 * <li>Par exemple : genererSousPackageImpl() 
@@ -1911,9 +2288,33 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	private void genererSousPackageImpl() 
 			throws IOException {
 		
+		/* alimente this.sousPackageImpl. */
 		this.sousPackageImpl 
 			= this.gestionnaireFiles
 				.creerSousPackage(this.packageSousCouche, "impl");
+		
+		/* alimente this.pathSousPackageImplString. */
+		this.pathSousPackageImplString 
+			= retournerPathGenerique(
+					this.sousPackageImpl.getAbsolutePath());
+		
+		/* alimente this.pathSousPackageImpl. */
+		this.pathSousPackageImpl 
+			= Paths.get(this.pathSousPackageImplString);
+		
+		/* alimente this.pathRelSousPackageImpl. */
+		if (this.pathSousPackageImpl.startsWith(PATH_TEST_JAVA)) {
+			this.pathRelSousPackageImpl
+				= PATH_TEST_JAVA.relativize(this.pathSousPackageImpl);
+		} else {
+			this.pathRelSousPackageImpl 
+				= PATH_MAIN_JAVA.relativize(this.pathSousPackageImpl);
+		}
+		
+		/* alimente this.pathRelSousPackageImplJavaString. */
+		this.pathRelSousPackageImplJavaString 
+			= remplacerAntiSlashparPoint(
+					this.pathSousPackageImpl.toString());
 		
 	} // Fin de genererSousPackageImpl().__________________________________
 	
@@ -3881,12 +4282,32 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	} // Fin de getMapRg().________________________________________________
 
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final File getFilePackage() {
+		return this.filePackage;
+	} // Fin de getFilePackage().__________________________________________
+
+
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final String getPathPackage() {
+	public final String getPathPackageString() {
+		return this.pathPackageString;
+	} // Fin de getPathPackage().__________________________________________
+
+
+		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Path getPathPackage() {
 		return this.pathPackage;
 	} // Fin de getPathPackage().__________________________________________
 
@@ -3896,12 +4317,73 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public final Path getPathRelPackage() {
+		return this.pathRelPackage;
+	} // Fin de getPathRelPackage()._______________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String getPathRelPackageJavaString() {
+		return this.pathRelPackageJavaString;
+	} // Fin de getPathRelPackageJavaString()._____________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final File getPackageSousCouche() {
 		return this.packageSousCouche;
 	} // Fin de getPackageSousCouche().____________________________________
 
 
+		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String getPathSousCoucheString() {
+		return this.pathSousCoucheString;
+	} // Fin de getPathSousCoucheString()._________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Path getPathSousCouche() {
+		return this.pathSousCouche;
+	} // Fin de getPathSousCouche()._______________________________________
+
+
+
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Path getPathRelSousCouche() {
+		return this.pathRelSousCouche;
+	} // Fin de getPathRelSousCouche().____________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String getPathRelSousCoucheJavaString() {
+		return this.pathRelSousCoucheJavaString;
+	} // Fin de getPathRelSousCoucheJavaString().__________________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -3912,6 +4394,46 @@ public abstract class AbstractGenerateur implements IGenerateur {
 
 
 		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String getPathSousPackageImplString() {
+		return this.pathSousPackageImplString;
+	} // Fin de getPathSousPackageImplString().____________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Path getPathSousPackageImpl() {
+		return this.pathSousPackageImpl;
+	} // Fin de getPathSousPackageImpl().__________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Path getPathRelSousPackageImpl() {
+		return this.pathRelSousPackageImpl;
+	} // Fin de getPathRelSousPackageImpl()._______________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String getPathRelSousPackageImplJavaString() {
+		return this.pathRelSousPackageImplJavaString;
+	} // Fin de getPathRelSousPackageImplJavaString()._____________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */
