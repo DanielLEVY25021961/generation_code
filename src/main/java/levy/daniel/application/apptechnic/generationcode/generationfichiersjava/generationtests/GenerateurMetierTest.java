@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.test.EcriveurMetierTest;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.AbstractGenerateurClasseSeule;
 
@@ -82,10 +83,25 @@ public class GenerateurMetierTest
 	@Override
 	protected final void alimenterPathPackage() throws Exception {
 		
+		this.pathCouche = GestionnaireProjet.getPathModelTestJava();
+		
+		final String pathBaseAntislash 
+			= GestionnaireProjet.getPathModelTestJavaString();
+		
+		this.pathCoucheString = retournerPathGenerique(pathBaseAntislash);
+		
+		this.fileCouche = this.pathCouche.toFile();
+		
+		this.pathRelCouche = PATH_TEST_JAVA.relativize(this.pathCouche);
+		
+		this.pathRelCoucheJavaString 
+			= remplacerAntiSlashparPoint(this.pathRelCouche.toString());
+		
 		final Path pathPackagePath 
 			= PATH_TEST_JAVA.resolve(getPathRelMetier());
 		
-		this.pathPackageString = pathPackagePath.toString();
+		this.pathPackageString 
+			= retournerPathGenerique(pathPackagePath.toString());
 		
 	} // Fin de alimenterPathPackage().____________________________________
 	

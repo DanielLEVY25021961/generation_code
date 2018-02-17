@@ -7054,7 +7054,180 @@ public final class GestionnaireProjet {
 	} // Fin de getFileControllersTestJava().______________________________
 
 
+
+	/**
+	 * method getPathRelModel() :<br/>
+	 * <ul>
+	* <li>Getter du <b>path relatif du répertoire model</b> 
+	* du projet par rapport 
+	* au path absolu du groupId
+	* (pathGroupIdMainJava pour les sources du main 
+	* et pathGroupIdTestJava pour les sources des tests).</li>
+	* <li>Singleton.</li>
+	* <li>sous forme de String.</li>
+	* <li>Par Exemple : <br/>
+	* <code>model</code></li>
+	* </li>
+	* </ul>
+	 *
+	 * @return PATH_REL_MODEL : String.<br/>
+	 */
+	public static String getPathRelModel() {	
+		return PATH_REL_MODEL;
+	} // Fin de getPathModelMainJavaString().______________________________
+
 	
+	
+	/**
+	 * method getPathModelMainJavaString() :<br/>
+	 * <ul>
+	* <li>Getter du <b>path absolu du repertoire model</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathModelMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	 *
+	 * @return pathModelMainJavaString : String.<br/>
+	 */
+	public static String getPathModelMainJavaString() {	
+		return pathModelMainJavaString;
+	} // Fin de getPathModelMainJavaString().______________________________
+
+
+	
+	/**
+	 * method getPathModelMainJava() :<br/>
+	 * <ul>
+	* <li>Getter du <b>path absolu du repertoire model</b> 
+	* dans les sources Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathModelMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	 *
+	 * @return pathModelMainJava : Path.<br/>
+	 */
+	public static Path getPathModelMainJava() {	
+		return pathModelMainJava;
+	} // Fin de getPathModelMainJava().____________________________________
+
+
+
+	/**
+	 * method getFileModelMainJava() :<br/>
+	 * <ul>
+	* <li>Getter du <b>File modélisant le repertoire model</b> 
+	* dans les sources Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathModelMainJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelMainJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/main/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	 *
+	 * @return fileModelMainJava : File.<br/>
+	 */
+	public static File getFileModelMainJava() {	
+		return fileModelMainJava;
+	} // Fin de getFileModelMainJava().____________________________________
+
+
+
+	/**
+	 * method getPathModelTestJavaString() :<br/>
+	 * <ul>
+	* <li>Getter du <b>path absolu du repertoire model</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>String</b>.</li>
+	* <li>pathModelTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	 *
+	 * @return pathModelTestJavaString : String.<br/>
+	 */
+	public static String getPathModelTestJavaString() {	
+		return pathModelTestJavaString;
+	} // Fin de getPathModelTestJavaString().______________________________
+
+
+	
+	/**
+	 * method getPathModelTestJava() :<br/>
+	 * <ul>
+	* <li>Getter du <b>path absolu du repertoire model</b> 
+	* dans les tests Java.</li>
+	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	* <li>pathModelTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	 *
+	 * @return pathModelTestJava : Path.<br/>
+	 */
+	public static Path getPathModelTestJava() {	
+		return pathModelTestJava;
+	} // Fin de getPathModelTestJava().____________________________________
+
+	
+		
+	/**
+	 * method getFileModelTestJava() :<br/>
+	 * <ul>
+	* <li>Getter du <b>File modélisant le repertoire model</b> 
+	* dans les tests Java.</li>
+	* <li>java.io.File.</li>
+	* <li>pathModelTestJava = pathWorkspace 
+	* + /nomProjet + /nomRepertoireSrc + /pathRelTestJava 
+	* + /pathRelGroupIdString +/PATH_REL_MODEL.</li>
+	* <li>Singleton.</li>
+	* <li>Par exemple : <br/>
+	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	* projet_users/src/test/java/levy/daniel/application/
+	* model</code>
+	* </li>
+	* </ul>
+	 *
+	 * @return fileModelTestJava : File.<br/>
+	 */
+	public static File getFileModelTestJava() {	
+		return fileModelTestJava;
+	} // Fin de getFileModelTestJava().____________________________________
+
+
+
 	/**
 	 * method getPathRelVues() :<br/>
 	 * <ul>

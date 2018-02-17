@@ -147,6 +147,20 @@ public class GenerateurMetierToutAbstract
 	@Override
 	protected final void alimenterPathPackage() throws Exception {
 		
+		this.pathCouche = GestionnaireProjet.getPathModelMainJava();
+		
+		final String pathBaseAntislash 
+			= GestionnaireProjet.getPathModelMainJavaString();
+	
+		this.pathCoucheString = retournerPathGenerique(pathBaseAntislash);
+		
+		this.fileCouche = this.pathCouche.toFile();
+		
+		this.pathRelCouche = PATH_MAIN_JAVA.relativize(this.pathCouche);
+		
+		this.pathRelCoucheJavaString 
+			= remplacerAntiSlashparPoint(this.pathRelCouche.toString());
+		
 		this.pathPackageString 
 			= GestionnaireProjet.getPathMetierMainJavaString();
 		

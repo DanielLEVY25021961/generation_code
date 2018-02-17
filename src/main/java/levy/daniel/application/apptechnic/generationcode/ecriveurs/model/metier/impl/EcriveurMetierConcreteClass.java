@@ -34,7 +34,8 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriv
  * @since 18 janv. 2018
  *
  */
-public class EcriveurMetierConcreteClass extends AbstractEcriveurFichiersJavaDetaille {
+public class EcriveurMetierConcreteClass 
+		extends AbstractEcriveurFichiersJavaDetaille {
 
 	// ************************ATTRIBUTS************************************/
 	/**
@@ -226,15 +227,11 @@ public class EcriveurMetierConcreteClass extends AbstractEcriveurFichiersJavaDet
 	@Override
 	protected final List<String> creerLignesImport() throws Exception {
 		
-		final String cheminFichier 
-		= BundleConfigurationProjetManager.getRacineMainResources() 
-		+ "/templates/imports_concreteclass.txt";
-	
-		final File fichier = new File(cheminFichier);
-		
+		/* Lecture du template. */
 		final List<String> listeLignes 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+			= this.lireTemplate("imports_concreteclass.txt");
 		
+		/* substitutions. */
 		final List<String> listeLignesSubst1 
 			= this.substituerVariablesDansLigne(
 					listeLignes

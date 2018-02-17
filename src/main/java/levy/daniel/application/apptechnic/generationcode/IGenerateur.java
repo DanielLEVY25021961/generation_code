@@ -439,12 +439,142 @@ public interface IGenerateur {
 	void generer() throws Exception;
 
 
+	/**
+	 * method getFileCouche() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>File modélisant la COUCHE 
+	 * au dessus du package metier 
+	 * (model, model.dao, model.services, vues, ...)</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model, model/dao
+	 * , model/services, ...).</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @return fileCouche : File.<br/>
+	 */
+	File getFileCouche();
+	
+
+	
+	/**
+	 * method getPathCoucheString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu de la COUCHE 
+	 * au dessus du package metier
+	 * (model, model.dao, model.services, vues ...)</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model, model/dao
+	 * , model/services, ...).</li>
+	 * <li>path sous forme de String.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @return pathCoucheString : String.<br/>
+	 */
+	String getPathCoucheString();
+	
+
+	
+	/**
+	 * method getPathCouche() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path absolu de la COUCHE 
+	 * au dessus du package metier 
+	 * (model, model.dao, model.services, vues, ...)</b> 
+	 * contenant les arborescences à générer pour un Concept
+	 * (model, model/dao
+	 * , model/services, ...).</li>
+	 * <li>path sous forme de java.nio.file.Path.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>./src/test/java/levy/daniel/application/model
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @return pathCouche : Path.<br/>
+	 */
+	Path getPathCouche();
+	
+
+	
+	/**
+	 * method getPathRelCouche() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathCouche</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy/daniel/application/model
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>levy/daniel/application/model/dao
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>levy/daniel/application/model
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @return pathRelCouche : Path.<br/>
+	 */
+	Path getPathRelCouche();
+	
+
+	
+	/**
+	 * method getPathRelCoucheJavaString() :<br/>
+	 * <ul>
+	 * <li>Getter du <b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathCouche</b> 
+	 *  (sous la couche voulue).</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy.daniel.application.model
+	 * </code> pour un GenerateurMetierToutAbstract.</li> 
+	 * <li><code>levy.daniel.application.model.dao
+	 * </code> pour un GenerateurDaoToutAbstract.</li>
+	 * <li><code>levy.daniel.application.model
+	 * </code> pour un GenerateurMetierTest.</li>
+	 * </ul>
+	 * </ul>
+	 *
+	 * @return pathRelCoucheJavaString : String.<br/>
+	 */
+	String getPathRelCoucheJavaString();
+	
+	
 	
 	/**
 	 * method getFilePackage() :<br/>
 	 * <ul>
 	 * <li>Getter du <b>File modélisant la SOUS-COUCHE METIER 
-	 * (package metier)</b> 
+	 * (package metier) 
+	 * sous la COUCHE (model, model.dao, model.services, ...)</b> 
 	 * contenant les arborescences à générer pour un Concept
 	 * (model/metier, model/dao/metier
 	 * , model/services/metier, ...).</li>
@@ -469,7 +599,8 @@ public interface IGenerateur {
 	 * method getPathPackageString()() :<br/>
 	 * <ul>
 	 * <li>Getter du <b>path absolu de la 
-	 * SOUS-COUCHE METIER (package metier)</b> 
+	 * SOUS-COUCHE METIER (package metier) 
+	 * sous la COUCHE (model, model.dao, model.services, ...)</b> 
 	 * contenant les arborescences à générer pour un Concept
 	 * (model/metier, model/dao/metier
 	 * , model/services/metier, ...).</li>
@@ -495,7 +626,8 @@ public interface IGenerateur {
 	 * method getPathPackage() :<br/>
 	 * <ul>
 	 * <li>Getter du <b>path absolu de la SOUS-COUCHE 
-	 * METIER (package metier)</b> 
+	 * METIER (package metier) 
+	 * sous la COUCHE (model, model.dao, model.services, ...)</b> 
 	 * contenant les arborescences à générer pour un Concept
 	 * (model/metier, model/dao/metier
 	 * , model/services/metier, ...).</li>

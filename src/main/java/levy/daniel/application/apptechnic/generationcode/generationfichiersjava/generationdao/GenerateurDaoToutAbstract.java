@@ -74,12 +74,21 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 	@Override
 	protected final void alimenterPathPackage() throws Exception {
 		
+		this.pathCouche = GestionnaireProjet.getPathDaoMainJava();
+		
 		final String pathBaseAntislash 
 			= GestionnaireProjet.getPathDaoMainJavaString();
 		
-		final String pathBase = retournerPathGenerique(pathBaseAntislash);
+		this.pathCoucheString = retournerPathGenerique(pathBaseAntislash);
 		
-		this.pathPackageString =  pathBase + "/metier";
+		this.fileCouche = this.pathCouche.toFile();
+		
+		this.pathRelCouche = PATH_MAIN_JAVA.relativize(this.pathCouche);
+		
+		this.pathRelCoucheJavaString 
+			= remplacerAntiSlashparPoint(this.pathRelCouche.toString());
+		
+		this.pathPackageString =  this.pathCoucheString + "/metier";
 		
 	} // Fin de alimenterPathPackage().____________________________________
 	
