@@ -1,0 +1,24 @@
+	/**
+	 * method retrieveByIdMetier(
+	 * {$nomInterfaceMetier} pObjet) :<br/>
+	 * <ul>
+	 * <li>Recherche un {$nomInterfaceMetier} pObjet en base 
+	 * via son identifiant métier.</li>
+	 * <li>Retourne {$nomInterfaceMetier} trouvé en base.</li>
+	 * </ul> 
+	 * <br/>
+	 *
+	 * @param pObjet : {$nomInterfaceMetier} : 
+	 * Objet à rechercher en base.<br/>
+	 * 
+	 * @return : {$nomInterfaceMetier} : 
+	 * L'Objet trouvé en base.<br/>
+	 * 
+	 * @throws AbstractDaoException 
+	 */
+	{$nomInterfaceMetier} 
+		retrieveByIdMetier({$nomInterfaceMetier} pObjet) 
+				throws AbstractDaoException;
+
+				
+

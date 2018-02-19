@@ -639,19 +639,8 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 			/* *************** */
 			/* ENREGISTREMENT. */
 			/* *************** */
-			for (final String ligne : this.javadoc) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
+			this.ecrireCode(this.javadoc, pFile);
+			
 		}
 		catch (Exception e) {
 			

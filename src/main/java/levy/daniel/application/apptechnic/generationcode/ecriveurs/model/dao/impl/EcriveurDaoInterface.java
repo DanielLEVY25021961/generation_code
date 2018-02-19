@@ -67,7 +67,7 @@ public class EcriveurDaoInterface
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> creerLignesImport() throws Exception {
+	protected final List<String> creerLignesImport() throws Exception {
 		
 		/* Lecture du template. */
 		final List<String> listeLignes 
@@ -105,7 +105,7 @@ public class EcriveurDaoInterface
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> creerLignesJavaDoc(
+	protected final List<String> creerLignesJavaDoc(
 			final File pFile) throws Exception {
 		
 		/* Lecture du template. */
@@ -145,10 +145,9 @@ public class EcriveurDaoInterface
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String fournirDebutJavaDoc() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected final String fournirDebutJavaDoc() {
+		return " * INTERFACE";
+	} // Fin de fournirDebutJavaDoc()._____________________________________
 
 	
 	
@@ -167,48 +166,194 @@ public class EcriveurDaoInterface
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String creerLigneDeclaration(File pFile) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected final String creerLigneDeclaration(
+			final File pFile) {
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append(INTERFACE);
+		stb.append(this.nomSimpleFichierJava);
+		stb.append('\n');
+		stb.append(DECALAGE_CODE);
+		stb.append("extends IDaoGenericJPASpring<");
+		stb.append(this.nomInterfaceMetier);
+		stb.append(", Long> {");
+		
+		this.ligneDeclaration = stb.toString();
+		
+		return this.ligneDeclaration;
+		
+	} // Fin de creerLigneDeclaration(...).________________________________
+	
+	
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected String fournirDebutDeclaration() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected final String fournirDebutDeclaration() {
+		return INTERFACE;
+	} // Fin de fournirDebutDeclaration()._________________________________
 
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void ecrireCodeHook(File pFile) {
-		// TODO Auto-generated method stub
+	protected final void ecrireCodeHook(
+			final File pFile) {
+		
+		try {
+			
+			/* crée tout le bloc comprenant les METHODES. */
+			this.ecrireBlocMethodes(pFile);
+			
+		} catch (Exception e) {
+					
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible d'écrire les méthodes", e);
+			}
+		}		
 
-	}
+	} // Fin de ecrireCodeHook(...)._______________________________________
+	
+	
+	
+	/**
+	 * method ecrireBlocMethodes(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li><b>Crée tout le bloc comprenant les methodes</b>.</li>
+	 * <ul>
+	 * <li>Ecrit la méthode compareTo().</li>
+	 * <li>Ecrit la méthode clone().</li>
+	 * <li>Ecrit la méthode getEnTeteCsv().</li>
+	 * <li>Ecrit la méthode toStringCsv().</li>
+	 * <li>Ecrit la méthode getEnTeteColonne().</li>
+	 * <li>Ecrit la méthode getValeurColonne().</li>
+	 * <li>Ecrit la méthode getId().</li>
+	 * <li>Ecrit la méthode setId().</li>
+	 * <li>écrit les getters-setters.</li>
+	 * </ul>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireBlocMethodes(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
 
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Insère 3 lignes vides sous la ligne 
+		 * de déclaration.*/
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append(DECALAGE_CODE);
+		stb.append("extends IDaoGenericJPASpring<");
+		stb.append(this.nomInterfaceMetier);
+		stb.append(", Long> {");
+		
+		final String ligneDec = stb.toString();
+		
+		this.insererLignesVidesSousLigneDansFichier(
+				pFile, ligneDec, 3, CHARSET_UTF8);
+		
+		/* crée la méthode retrieveByIdMetier(...) */
+		this.creerMethodeRetrieveById(pFile);
+						
+	} // Fin de ecrireBlocMethodes(...).___________________________________
+	
+
+	
+	/**
+	 * method creerMethodeRetrieveById(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>Crée la Javadoc de la méthode retrieveByIdMetier(...)</li>
+	 * <li>Crée le code de la méthode retrieveByIdMetier(...)</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void creerMethodeRetrieveById(
+			final File pFile) throws Exception {
+		
+		/* Lecture du template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/interface_dao_retrievebyidmetier");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOM_INTERFACE_METIER
+						, this.nomInterfaceMetier);
+				
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		final String ligneIdentifiant 
+			= "		retrieveByIdMetier";
+		
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+		
+		this.ecrireCode(listSubst1, pFile);
+
+	} // Fin de creerMethodeRetrieveById(...)._____________________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void creerAttributId(List<String> pListe) throws Exception {
-		// TODO Auto-generated method stub
+	protected final void creerAttributId(
+			final List<String> pListe) throws Exception {
+		return;
+	} // Fin de creerAttributId(...).______________________________________
 
-	}
-
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void creerJavadocAttribut(List<String> pListe, String pNomAttribut, String pTypeAttribut)
-			throws Exception {
-		// TODO Auto-generated method stub
+	protected final void creerJavadocAttribut(
+			final List<String> pListe
+				, final String pNomAttribut
+					, final String pTypeAttribut)
+									throws Exception {
+		return;
+	} // Fin de creerJavadocAttribut(._____________________________________
 
-	}
-
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
