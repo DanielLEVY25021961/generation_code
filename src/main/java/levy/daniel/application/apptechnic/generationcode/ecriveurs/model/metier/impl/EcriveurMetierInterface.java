@@ -198,19 +198,16 @@ public class EcriveurMetierInterface
 	@Override
 	protected final List<String> creerLignesImport() throws Exception {
 		
-		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/imports_interface.txt";
-		
-		final File fichier = new File(cheminFichier);
-		
+		/* Lecture du template. */
 		final List<String> listeLignes 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+			= this.lireTemplate("imports_interface.txt");
 		
+		/* substitutions. */
 		final List<String> listeLignesSubstitue 
 		= this.substituerVariablesDansLigne(
 				listeLignes, "{$pathmetier}", this.pathMetier);
 		
+		/* alimentation de this.imports. */
 		this.imports = listeLignesSubstitue;
 		
 		return this.imports;

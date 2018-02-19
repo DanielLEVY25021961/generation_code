@@ -50,24 +50,96 @@ public class EcriveurDaoInterface
 	
 
 	// *************************METHODES************************************/
+
+	
+	 /**
+	 * method CONSTRUCTEUR EcriveurDaoInterface() :<br/>
+	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 * <br/>
+	 */
+	public EcriveurDaoInterface() {
+		super();
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+	
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected List<String> creerLignesImport() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		/* Lecture du template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/imports_interface_idao.txt");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_PATH_REL_COUCHE_JAVA_STRING
+							, this.pathRelCoucheJavaString);
+		
+		final List<String> listSubst2 
+			= this.substituerVariablesDansLigne(
+				listSubst1
+					, VARIABLE_PATH_REL_CONCEPT
+						, this.pathRelConceptString);
+		
+		final List<String> listSubst3 
+			= this.substituerVariablesDansLigne(
+				listSubst2
+					, VARIABLE_NOM_INTERFACE_METIER
+						, this.nomInterfaceMetier);
+		
+		/* alimentation de this.imports. */
+		this.imports = listSubst3;
+		
+		return this.imports;
+		
+	} // Fin de creerLignesImport()._______________________________________
 
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> creerLignesJavaDoc(File pFile) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected List<String> creerLignesJavaDoc(
+			final File pFile) throws Exception {
+		
+		/* Lecture du template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/javadoc_interface_idao.txt");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOMSIMPLEFICHIERJAVA
+						, this.nomSimpleFichierJava);
+		
+		final List<String> listSubst2 
+			= this.substituerVariablesDansLigne(
+				listSubst1
+					, VARIABLE_CONCEPT_MODELISE
+						, this.conceptModelise);
+
+		
+		final List<String> listSubst3 
+		= this.substituerVariablesDansLigne(
+				listSubst2
+					, VARIABLE_DATEDUJOUR
+						, this.afficherDateDuJour());
+		
+		/* alimentation de this.javadoc. */
+		this.javadoc = listSubst3;
+		
+		return this.javadoc;
+		
+	} // Fin de creerLignesJavaDoc(...).___________________________________
+	
+	
 
 	/**
 	 * {@inheritDoc}
@@ -78,14 +150,18 @@ public class EcriveurDaoInterface
 		return null;
 	}
 
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> creerLignesEntity(File pFile) throws Exception {
-		// TODO Auto-generated method stub
+	protected final List<String> creerLignesEntity(
+			final File pFile) throws Exception {
 		return null;
-	}
+	} // Fin de creerLignesEntity(...).____________________________________
+	
+	
 
 	/**
 	 * {@inheritDoc}

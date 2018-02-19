@@ -200,6 +200,9 @@ public interface IEcriveur {
 	/**
 	 * VARIABLE_CONCEPT_MODELISE : String :<br/>
 	 * "{$conceptModelise}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 * à substituer par <b>this.conceptModelise</b>.<br/>
+	 * Exemple : <code>Profil</code>
 	 */
 	String VARIABLE_CONCEPT_MODELISE 
 		= "{$conceptModelise}";
@@ -249,6 +252,13 @@ public interface IEcriveur {
 	String VARIABLE_PATH_REL_CONCEPT_IMPL 
 		= "{$pathRelConceptImplString}";
 
+	/**
+	 * VARIABLE_PATH_REL_COUCHE_JAVA_STRING : String :<br/>
+	 * "{$pathRelCoucheJavaString}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 */
+	String VARIABLE_PATH_REL_COUCHE_JAVA_STRING 
+		= "{$pathRelCoucheJavaString}";
 	
 	/**
 	 * VARIABLE_NOMATTRIBUT : String :<br/>
@@ -335,6 +345,8 @@ public interface IEcriveur {
 	 * VARIABLE_DATEDUJOUR : String :<br/>
 	 * "{$date}".<br/>
 	 * Variable à utiliser dans les templates.<br/>
+	 * à substituer par <b>this.afficherDateDuJour()</b>.<br/>
+	 * Exemple : <code>19 février 2018</code>
 	 */
 	String VARIABLE_DATEDUJOUR 
 		= "{$date}";

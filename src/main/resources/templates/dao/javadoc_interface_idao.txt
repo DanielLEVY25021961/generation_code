@@ -1,0 +1,39 @@
+/**
+ * INTERFACE <b>{$nomSimpleFichierJava}</b> :<br/>
+ * <ul>
+ * <li>Interface des DAOs pour les <b>{$conceptModelise}</b>.</li>
+ * <li>
+ * HERITE DE L'INTERFACE GENERIQUE 
+ * IDaoGenericJPASpring&lt;T, ID extends Serializable&gt;.
+ * </li>
+ * <li>
+ * Définit les méthodes <i>spécifiques</i> aux {$conceptModelise}.
+ * </li>
+ * <li>
+ * Définit en particulier la méthode de <b>recherche 
+ * par identifiant métier</b>.
+ * </li>
+ * <br/>
+ * <li>
+ * <img src="../../../../../../../../../../javadoc/images/implementation_Dao_{$conceptModelise}.png" 
+ * alt="implémentation des DAOs des {$conceptModelise}" border="1" align="center" />
+ * </li>
+ * </ul>
+ * <br/>
+ * 
+ *
+ * - Exemple d'utilisation :<br/>
+ *<br/>
+ * 
+ * - Mots-clé :<br/>
+ * <br/>
+ *
+ * - Dépendances :<br/>
+ * <br/>
+ *
+ *
+ * @author dan Lévy
+ * @version 1.0
+ * @since {$date}
+ *
+ */

@@ -67,11 +67,22 @@ public class EcriveurMetierTest extends AbstractEcriveurFichiersJava {
 	
 	/**
 	 * {@inheritDoc}
+	 * <br/>
+	 * ne fait rien si le test a déjà été écrit.<br/>
+	 * <br/>
 	 */
 	@Override
 	protected void ecrireCodeGenerique(
 			final File pFile
 				, final IGenerateur pGenerateur) throws Exception {
+		
+		final String ligneIdentifiant = "public class";
+		
+		/* ne fait rien si le test a déjà été écrit. */
+		if (existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+		
 		
 		final List<String> templateList 
 			= this.lireTemplate("test_java/test_junit.txt");

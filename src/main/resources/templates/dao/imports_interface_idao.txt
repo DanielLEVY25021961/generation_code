@@ -1,5 +1,3 @@
-import levy.daniel.application.model.dao.IDaoGenericJPASpring;
-import levy.daniel.application.model.dao.daoexceptions.AbstractDaoException;
-import levy.daniel.application.model.metier.personne.nommage.INommage;
-
-
+import {$pathRelCoucheJavaString}.IDaoGenericJPASpring;
+import {$pathRelCoucheJavaString}.daoexceptions.AbstractDaoException;
+import {$pathRelConceptString}.{$nomInterfaceMetier};

@@ -249,6 +249,7 @@ public class EcriveurMetierConcreteClass
 				, VARIABLE_NOMPACKAGE
 					, this.nomPackage);
 		
+		/* alimentation de this.imports. */
 		this.imports = listeLignesSubst3;
 		
 		return this.imports;

@@ -279,15 +279,13 @@ public class EcriveurMetierAbstractClass extends AbstractEcriveurFichiersJavaDet
 	@Override
 	protected final List<String> creerLignesImport() throws Exception {
 		
-		final String cheminFichier 
-			= BundleConfigurationProjetManager.getRacineMainResources() 
-			+ "/templates/imports_abstractclass.txt";
-		
-		final File fichier = new File(cheminFichier);
-		
+		/* Lecture du template. */
 		final List<String> listeLignes 
-			= this.lireStringsDansFile(fichier, CHARSET_UTF8);
+			= this.lireTemplate("imports_abstractclass.txt");
 		
+		/* substitutions. */
+		
+		/* alimentation de this.imports. */
 		this.imports = listeLignes;
 		
 		return this.imports;
