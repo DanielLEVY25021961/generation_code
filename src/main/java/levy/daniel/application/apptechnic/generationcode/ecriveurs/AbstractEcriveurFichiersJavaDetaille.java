@@ -51,30 +51,6 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 
 	
 	/**
-	 * nomSimpleInterface : String :<br/>
-	 * Nom simple de l'interface à générer.<br/>
-	 * Par exemple "IProfil".<br/>
-	 */
-	protected transient String nomSimpleInterface;
-	
-	
-	/**
-	 * nomSimpleAbstractClass : String :<br/>
-	 * Nom simple de la Classe Abstraite à générer.<br/>
-	 * Par exemple "AbstractProfil".<br/>
-	 */
-	protected transient String nomSimpleAbstractClass;
-
-	
-	/**
-	 * nomSimpleConcreteClass : String :<br/>
-	 * Nom simple de la classe concrète à générer.<br/>
-	 * Par exemple "ProfilSimple"ou "DaoProfilSimple".<br/>
-	 */
-	protected transient String nomSimpleConcreteClass;
-
-	
-	/**
 	 * lignePackage : String :<br/>
 	 * ligne de code pour le package.<br/>
 	 * Par exemple : <br/>
@@ -104,13 +80,7 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 	 */
 	protected transient List<String> javadoc;
 	
-	
-	/**
-	 * entity : List&lt;String&gt; :<br/>
-	 * entity du fichier Java.<br/>
-	 */
-	protected transient List<String> entity;
-	
+
 	
 	/**
 	 * ligneDeclaration : String :<br/>
@@ -255,14 +225,6 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 			final File pFile
 				, final IGenerateur pGenerateur) {
 		
-		/* alimente this.nomSimpleInterface. */
-		/* alimente this.nomSimpleAbstractClass. */
-		/* alimente this.nomSimpleConcreteClass. */
-		/* alimente this.fichierJava. */
-		/* alimente this.nomSimpleFichierJava. */
-		this.alimenterAttributsFichiersAEcrire(pFile);
-		
-
 		/* ********** */
 		/* ECRITURES. */
 		/* écrit la ligne de code PACKAGE (1ère ligne). */
@@ -302,43 +264,6 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 	} // Fin de ecrireCodeGenerique(...).__________________________________
 	
 
-	
-	/**
-	 * method alimenterAttributsFichiersAEcrire(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Alimente tous les attributs de la classe relatifs 
-	 * aux fichiers à écrire 
-	 * (nomSimpleInterface, nomSimpleAbstractClass, ...).</li>
-	 * </ul>
-	 *
-	 * @param pFile : File.<br/>
-	 */
-	private void alimenterAttributsFichiersAEcrire(
-			final File pFile) {
-		
-		/* alimente this.nomSimpleInterface. */
-		this.nomSimpleInterface 
-			= this.generateurCode.getNomSimpleInterface();
-		
-		/* alimente this.nomSimpleAbstractClass. */
-		this.nomSimpleAbstractClass 
-			= this.generateurCode.getNomSimpleAbstractClass();
-		
-		/* alimente this.nomSimpleConcreteClass. */
-		this.nomSimpleConcreteClass 
-			= this.generateurCode.getNomSimpleConcreteClass();
-
-		/* alimente this.fichierJava. */
-		this.fichierJava = pFile;
-		
-		/* alimente this.nomSimpleFichierJava. */
-		this.nomSimpleFichierJava 
-			= this.fournirNomFichierSansExtension(this.fichierJava);
-		
-	} // Fin de alimenterAttributsFichiersAEcrire(...).____________________
-	
-	
 	
 	/**
 	 * method ecrireLignePackage(
@@ -681,107 +606,6 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 	 */
 	protected abstract String fournirDebutJavaDoc();
 
-	
-	
-	/**
-	 * method ecrireEntity(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li><b>écriture</b> dans le fichier java.</li>
-	 * <li>Insère les lignes de <b>Entity</b> (JPA)
-	 * à la suite de la javadoc.</li>
-	 * <li>N'insère les lignes que si elles n'existent pas déjà</li>
-	 * </ul>
-	 * ne fait rien si pFile est null.<br/>
-	 * ne fait rien si pFile n'existe pas.<br/>
-	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
-	 * <br/>
-	 * 
-	 *
-	 * @param pFile : File : fichier java.<br/>
-	 */
-	private void ecrireEntity(
-			final File pFile) {
-						
-		/* ne fait rien si pFile est null. */
-		if (pFile == null) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'existe pas. */
-		if (!pFile.exists()) {
-			return;
-		}
-		
-		/* ne fait rien si pFile n'est pas un fichier simple. */
-		if (!pFile.isFile()) {
-			return;
-		}
-		
-		try {
-			
-			/* Crée la javadoc. */
-			this.creerLignesEntity(pFile);
-			
-			if (this.entity == null) {
-				return;
-			}
-			
-			/* Recherche la ligne identifiant Entity. */
-			final String ligneEntity 
-				= "@Entity";
-			
-			/* Ne fait rien si Entity a déjà été écrite. */
-			if (this.existLigneCommencant(
-					pFile, CHARSET_UTF8, ligneEntity)) {
-				return;
-			}
-
-			
-			/* *************** */
-			/* ENREGISTREMENT. */
-			/* *************** */
-			for (final String ligne : this.entity) {
-				
-				if (StringUtils.isBlank(ligne)) {
-					
-					this.ecrireStringDansFile(
-							pFile, "", CHARSET_UTF8, NEWLINE);					
-				}				
-				else {
-					
-					this.ecrireStringDansFile(
-							pFile, ligne, CHARSET_UTF8, NEWLINE);
-				}
-			}
-		}
-		catch (Exception e) {
-			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Impossible de créer Entity", e);
-			}
-		}
-								
-	} // Fin de ecrireEntity(...).________________________________________
-	
-
-	
-	/**
-	 * method creerLignesEntity(
-	 * File pFile) :<br/>
-	 * <ul>
-	 * <li>Crée la liste des lignes de l'Entity.</li>
-	 * <li>alimente this.entity</li>
-	 * </ul>
-	 *
-	 * @param pFile : File : fichier java.<br/>
-	 * 
-	 * @return : List&lt;String&gt; : this.entity.<br/>
-	 * 
-	 * @throws Exception
-	 */
-	protected abstract List<String> creerLignesEntity(File pFile) 
-			throws Exception;
 	
 	
 	

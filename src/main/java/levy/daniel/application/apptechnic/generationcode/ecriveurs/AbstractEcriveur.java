@@ -143,6 +143,29 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	 */
 	protected transient String nomSimpleFichierJava;
 		
+	
+	/**
+	 * nomSimpleInterface : String :<br/>
+	 * Nom simple de l'interface à générer.<br/>
+	 * Par exemple "IProfil".<br/>
+	 */
+	protected transient String nomSimpleInterface;
+	
+	
+	/**
+	 * nomSimpleAbstractClass : String :<br/>
+	 * Nom simple de la Classe Abstraite à générer.<br/>
+	 * Par exemple "AbstractProfil".<br/>
+	 */
+	protected transient String nomSimpleAbstractClass;
+
+	
+	/**
+	 * nomSimpleConcreteClass : String :<br/>
+	 * Nom simple de la classe concrète à générer.<br/>
+	 * Par exemple "ProfilSimple"ou "DaoProfilSimple".<br/>
+	 */
+	protected transient String nomSimpleConcreteClass;
 
 	
 	/**
@@ -941,6 +964,14 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		/* alimente tous les attributs généraux de la classe. */
 		this.alimenterAttributsGeneraux();
 		
+		/* alimente this.nomSimpleInterface. */
+		/* alimente this.nomSimpleAbstractClass. */
+		/* alimente this.nomSimpleConcreteClass. */
+		/* alimente this.fichierJava. */
+		/* alimente this.nomSimpleFichierJava. */
+		this.alimenterAttributsFichiersAEcrire(pFile);
+
+		
 		this.ecrireCodeGenerique(pFile, pGenerateur);
 		
 	} // Fin de ecrireCode(...).___________________________________________
@@ -1116,6 +1147,43 @@ public abstract class AbstractEcriveur implements IEcriveur {
 			= AbstractGenerateur.getNomClassMetier();
 		
 	} // Fin de alimenterAttributsGeneraux().______________________________
+	
+	
+	
+	/**
+	 * method alimenterAttributsFichiersAEcrire(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>Alimente tous les attributs de la classe relatifs 
+	 * aux fichiers à écrire 
+	 * (nomSimpleInterface, nomSimpleAbstractClass, ...).</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 */
+	private void alimenterAttributsFichiersAEcrire(
+			final File pFile) {
+		
+		/* alimente this.nomSimpleInterface. */
+		this.nomSimpleInterface 
+			= this.generateurCode.getNomSimpleInterface();
+		
+		/* alimente this.nomSimpleAbstractClass. */
+		this.nomSimpleAbstractClass 
+			= this.generateurCode.getNomSimpleAbstractClass();
+		
+		/* alimente this.nomSimpleConcreteClass. */
+		this.nomSimpleConcreteClass 
+			= this.generateurCode.getNomSimpleConcreteClass();
+
+		/* alimente this.fichierJava. */
+		this.fichierJava = pFile;
+		
+		/* alimente this.nomSimpleFichierJava. */
+		this.nomSimpleFichierJava 
+			= this.fournirNomFichierSansExtension(this.fichierJava);
+		
+	} // Fin de alimenterAttributsFichiersAEcrire(...).____________________
 	
 	
 		
