@@ -1,0 +1,40 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Long createReturnId(
+			final {$nomInterfaceMetier} pObject) throws AbstractDaoException {
+		
+		/* retourne null si pObject == null. */
+		if (pObject == null) {
+			return null;
+		}
+		
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+						
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return null;
+		}
+		
+		/* retourne null si pObject est un doublon. */
+		if (this.exists(pObject)) {
+			return null;
+		}
+		
+		/* Crée l'Objet en base ou jette une AbstractDaoException. */
+		final {$nomInterfaceMetier} objetPersistant 
+			= this.create(pObject);
+		
+		/* retourne null si l'objet pObject n'a pu être créé en base. */
+		if (objetPersistant == null) {
+			return null;
+		}
+		
+		/* retourne l'ID de l'objet persistant. */
+		return objetPersistant.getId();	
+
+	} // Fin de createReturnId(...)._______________________________________

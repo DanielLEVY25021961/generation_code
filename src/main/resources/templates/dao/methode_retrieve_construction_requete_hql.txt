@@ -1,0 +1,4 @@
+		/* Construction de la requête HQL. */
+		final Query requete 
+			= this.entityManager.createQuery(requeteString);
+		

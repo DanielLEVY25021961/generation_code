@@ -1,0 +1,14 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public {$nomInterfaceMetier} retrieve(
+			final {$nomInterfaceMetier} pObject) throws AbstractDaoException {
+
+		/* return null si pObject == null. */
+		if (pObject == null) {
+			return null;
+		}
+		
+		{$nomInterfaceMetier} objetResultat = null;
+		

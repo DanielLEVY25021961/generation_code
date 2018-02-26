@@ -2,7 +2,10 @@ package levy.daniel.application.apptechnic.generationcode.ecriveurs.model.dao.im
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -341,6 +344,10 @@ public class EcriveurDaoAbstract
 	 * <li>écrit l'attribut SELECT_OBJET dans pFile.</li>
 	 * <li>ajoute 2 lignes vides sous l'attribut.</li>
 	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
 	 *
 	 * @param pFile : File.<br/>
 	 * 
@@ -426,6 +433,9 @@ public class EcriveurDaoAbstract
 	 * <li><b>Crée tout le bloc comprenant les methodes</b>.</li>
 	 * <ul>
 	 * <li>écrit le constructeur d'arité nulle.</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode createReturnId(...).</li>
+	 * <li>écrit la Javadoc et le code de la méthode retrieve(...).</li>
 	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -457,7 +467,20 @@ public class EcriveurDaoAbstract
 
 		/* écrit le constructeur d'arité nulle. */
 		this.ecrireConstructeurNull(pFile);
-						
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode createReturnId(...). */
+		this.ecrireMethodeCreateReturnId(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode retrieve(...). */
+		this.ecrireMethodeRetrieve(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode retrieveByIdMetier(...). */
+		this.ecrireMethodeRetrieveByIdMetier(pFile);
+		
+		
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
 
@@ -585,6 +608,7 @@ public class EcriveurDaoAbstract
 	* <ul>
 	* <li><b>écriture</b> dans le fichier java.</li>
 	* <li>génère le <b>code du constructeur d'arite nulle</b>.</li>
+	* <li>rajoute 3 lignes vides à la suite.</li>
 	* </ul>
 	* ne fait rien si pFile est null.<br/>
 	* ne fait rien si pFile n'existe pas.<br/>
@@ -657,6 +681,488 @@ public class EcriveurDaoAbstract
 		}
 		
 	} // Fin de ecrireCodeConstructeurNull(...).____________________
+	
+
+	
+	/**
+	 * method ecrireMethodeCreateReturnId(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode createReturnId(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeCreateReturnId(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeCreateReturnId();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_createreturnid.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst1);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireMethodeCreateReturnId(...).__________________________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeCreateReturnId() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * createReturnId(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeCreateReturnId() {
+		return "	public final Long createReturnId";
+	} // Fin de fournirIdentifiantDebutMethodeCreateReturnId().____________
+	
+
+	
+	/**
+	 * method ecrireMethodeRetrieve(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>ecrit la méthode retrieve(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected final void ecrireMethodeRetrieve(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeRetrieve();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+		
+		/* écrit le début de la méthode. */
+		this.ecrireDebutMethodeRetrieve(pFile);
+		
+		/* écrit la requête HQL. */
+		this.ecrireRequeteHQL(pFile);
+		
+		/* construit la requête HQL. */
+		this.ecrireConstructionRequeteHql(pFile);
+		
+		/* passe les paramètres à la requête HQL. */
+		this.ecrirePassageParametresHQL(pFile);
+		
+		/* écrit la fin de la méthode retrieve(...). */
+		this.ecrireFinMethodeRetrieve(pFile);
+		
+	} // Fin de ecrireMethodeRetrieve(...).________________________________
+	
+
+	
+	/**
+	 * method ecrireDebutMethodeRetrieve(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit le début de la méthode retrieve(...) dans pFile.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 */
+	private void ecrireDebutMethodeRetrieve(
+			final File pFile) throws Exception {
+		
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_retrieve_debut.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireDebutMethodeRetrieve(...).___________________________
+	
+
+	
+	/**
+	 * method ecrireRequeteHQL(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la requête HQL en listant les attributs de equals.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireRequeteHQL(
+			final File pFile) throws Exception {
+		
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_retrieve_clause_hql.txt");
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		if (this.mapAttributsEquals == null) {
+			return;
+		}
+		
+		final int tailleMap = this.mapAttributsEquals.size();
+		int compteur = 0;
+		
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributsEquals.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			
+			stb.append(this.nomPackage);
+			stb.append(POINT);
+			stb.append(nomAttribut);
+			stb.append(EGAL);
+			stb.append(':');
+			stb.append(this.fournirParametre(nomAttribut));
+			
+			if (compteur < tailleMap) {
+				stb.append(" and ");
+			} else {
+				stb.append(';');
+			}
+			
+		}
+		
+		final String clause = stb.toString();
+		
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, "{$clause}"
+							, clause);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireRequeteHQL(...)._____________________________________
+	
+
+	
+	/**
+	 * method ecrireConstructionRequeteHql(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la construction de la requete dans retrieve(...) dans pFile.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 */
+	private void ecrireConstructionRequeteHql(
+			final File pFile) throws Exception {
+		
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_retrieve_construction_requete_hql.txt");
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeLignes, pFile);
+		
+	} // Fin de ecrireConstructionRequeteHql(...).___________________________
+
+
+	
+	/**
+	 * method ecrirePassageParametresHQL(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>passe les paramètres de la requête HQL 
+	 * en listant les attributs de equals.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrirePassageParametresHQL(
+			final File pFile) throws Exception {
+				
+		if (this.mapAttributsEquals == null) {
+			return;
+		}
+		
+		final List<String> listeLignes = new ArrayList<String>();
+		
+		final StringBuilder stb = new StringBuilder();
+		stb.append(DECALAGE_CODE);
+		stb.append("/* Passage des paramètres de la requête HQL. */");
+		listeLignes.add(stb.toString());
+				
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributsEquals.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			final StringBuilder stb1 = new StringBuilder();
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			
+			stb1.append(DECALAGE_CODE);
+			stb1.append("requete.setParameter(\"");
+			stb1.append(this.fournirParametre(nomAttribut));
+			stb1.append("\", pObject.");
+			stb1.append(this.fournirGetter(nomAttribut));
+			stb1.append(");");
+
+			listeLignes.add(stb1.toString());
+		}
+		
+		listeLignes.add("");
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeLignes, pFile);
+		
+	} // Fin de ecrireRequeteHQL(...)._____________________________________
+	
+
+	
+	/**
+	 * method ecrireFinMethodeRetrieve(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la fin de la méthode retrieve(...) dans pFile.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 */
+	private void ecrireFinMethodeRetrieve(
+			final File pFile) throws Exception {
+		
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_retrieve_fin.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		final List<String> listeSubst2 
+		= this.substituerVariablesDansLigne(
+				listeSubst1
+					, "{$NOM_CLASSE}"
+						, this.fabriquerNomClasse(
+								this.nomSimpleFichierJava));
+		
+		/* ajoute 3 lignes vides. */
+		this.ajouterLignesVides(3, listeSubst2);
+
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst2, pFile);
+		
+	} // Fin de ecrireFinMethodeRetrieve(...)._____________________________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeRetrieve() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * retrieve(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeRetrieve() {
+		return "	public " + this.nomInterfaceMetier + " retrieve";
+	} // Fin de fournirIdentifiantDebutMethodeRetrieve().__________________
+	
+
+	
+	/**
+	 * method ecrireMethodeRetrieveByIdMetier(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode retrieveByIdMetier(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeRetrieveByIdMetier(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeRetrieveByIdMetier();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_retrievebyidmetier.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst1);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireMethodeRetrieveByIdMetier(...).______________________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeRetrieveByIdMetier() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * retrieveByIdMetier(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeRetrieveByIdMetier() {
+		return "	public final " + this.nomInterfaceMetier + " retrieveByIdMetier";
+	} // Fin de fournirIdentifiantDebutMethodeRetrieveByIdMetier().________
 	
 
 	

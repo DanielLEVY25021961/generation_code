@@ -1,0 +1,8 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final {$nomInterfaceMetier} retrieveByIdMetier(
+			final {$nomInterfaceMetier} pObjet) throws AbstractDaoException {
+		return this.retrieve(pObjet);	
+	} // Fin de retrieveByIdMetier(...).___________________________________

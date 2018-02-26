@@ -1,0 +1,5 @@
+		/* REQUETE HQL PARMETREE. */
+		final String requeteString 
+			= SELECT_OBJET
+				+ "where {$clause}";
+		

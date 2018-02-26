@@ -4156,7 +4156,7 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	 * <li>fabrique le stringClasse.</li>
 	 * <li>Par exemple : <br/>
 	 * <code>fabriquerNomClasse("AbstractProfilSimple") 
-	 * retourne ABSTRACT_PROFIL_SIMPLE</code>.</li>
+	 * retourne CLASSE_ABSTRACT_PROFIL_SIMPLE</code>.</li>
 	 * </ul>
 	 * retourne null si pString est blank.<br/>
 	 * retourne null si pString n'est pas CamelCase.<br/>
