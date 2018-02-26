@@ -117,8 +117,6 @@ public class EcriveurMetierConcreteClass
 	 * <ul>
 	 * <li>écrit le séparateur attributs.</li>
 	 * <li>écrit la stringClasse.</li>
-	 * <li>écrit attributId.</li>
-	 * <li>écrit tous les attributs.</li>
 	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -161,8 +159,14 @@ public class EcriveurMetierConcreteClass
 		this.insererLignesVidesSousLigneDansFichier(
 				pFile, derniereLigneStringClasse, 2, CHARSET_UTF8);
 		
+		/* écrit l'attribut serialVersionUID et insère 2 lignes vides. */
+		this.ecrireAttributSerialVersionUid(pFile);
 		
-	} // Fin de creerAttributs(...)._______________________________________
+		/* écrit l'attribut LOG et insère 2 lignes vides. */
+		this.ecrireAttributLog(pFile);
+		
+		
+	} // Fin de ecrireBlocAttributs(...).__________________________________
 	
 
 	
@@ -176,9 +180,6 @@ public class EcriveurMetierConcreteClass
 	 * <li>écrit le constructeur d'arité nulle.</li>
 	 * <li>écrit le constructeur complet.</li>
 	 * <li>écrit le constructeur complet base.</li>
-	 * <li>écrit la méthode hashcode().</li>
-	 * <li>écrit la méthode equals().</li>
-	 * <li>écrit la méthode compareTo().</li>
 	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>

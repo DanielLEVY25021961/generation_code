@@ -195,10 +195,10 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 		/* Ecrit l'ENTITY à la suite. */
 		this.ecrireEntity(pFile);
 		
-		/* Ecrit la ligne de DECLARATION à la suite. */
+		/* Ecrit la ligne de DECLARATION de la classe à la suite. */
 		this.ecrireLigneDeclaration(pFile);
 
-		/* Appelle un HOOK pour terminer la génération 
+		/* Appelle un HOOK this.ecrireCodeHook(....) pour terminer la génération 
 		 * du code dans un Ecriveur concret. */
 		this.ecrireCodeHook(this.fichierJava);
 		
@@ -895,6 +895,577 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 		return this.ligneFinale;
 		
 	} // Fin de creerLigneFinale(...)._____________________________________
+	
+
+		
+	/**
+	 * method ecrireLignesSepAttributs() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit les <b>lignes de séparation des attributs</b>.</li>
+	 * <li>Ne fait rien si les lignes existent déjà.</li>
+	 * <li>
+	 * Par exemple : <br/>
+	 * <code>************************ATTRIBUTS*********
+	 * ***************************</code>
+	 * </li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireLignesSepAttributs(
+			final File pFile) {
+	
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		try {
+	
+			/* Crée le Séparateur d'attributs. */
+			this.creerSepAttributs();
+			
+			if (this.sepAttributs == null) {
+				return;
+			}
+	
+			/* Recherche la ligne identifiant sepAttributs. */
+			final String ligneAttributs 
+				= this.fournirDebutSepAttributs();
+	
+			/* Ne fait rien si sepAttributs a déjà été écrit. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneAttributs)) {
+				return;
+			}
+	
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			this.ecrireCode(this.sepAttributs, pFile);
+			
+		} catch (Exception e) {
+	
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer "
+						+ "le séparateur d'attributs", e);
+			}
+		}
+	
+	} // Fin de ecrireLignesSepAttributs().________________________________
+	
+	
+	
+	/**
+	 * method creerSepAttributs() :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes du séparateur Attributs.</li>
+	 * <li>alimente this.sepAttributs</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : this.sepAttributs.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private List<String> creerSepAttributs() 
+					throws Exception {
+				
+		final List<String> listeLignes 
+			= this.lireTemplate("sep_attributs.txt");
+				
+		this.sepAttributs = listeLignes;
+		
+		return this.sepAttributs;
+					
+	} // Fin de creerSepAttributs(...).____________________________________
+	
+	
+	
+	/**
+	 * method fournirDebutSepAttributs() :<br/>
+	 * retourne le début du séparateur attributs.<br/>
+	 * "	// ************************ATTRIBUTS"<br/>
+	 *
+	 * @return : String : "	// ************************ATTRIBUTS".<br/>
+	 */
+	private String fournirDebutSepAttributs() {
+		return "	// ************************ATTRIBUTS";
+	} // Fin de fournirDebutSepAttributs().________________________________
+	
+	
+	
+	/**
+	 * method ecrireLignesStringClasse(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit les lignes <b>stringClasse</b>.</li>
+	 * <li>ecrit la javadoc et la ligne de code.</li>
+	 * <li>Ne fait rien si les ligne existent déjà.</li>
+	 * <li>
+	 * par exemple : <br/>
+	 * <code>public static final String CLASSE_ABSTRACT_PROFIL <br/>
+	 * = "Classe AbstractProfil";</code>
+	 * </li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireLignesStringClasse(
+			final File pFile) {
+	
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		try {
+	
+			/* Crée le stringClasse. */
+			this.creerStringClasse();
+			
+			if (this.stringClasse == null) {
+				return;
+			}
+	
+			/* Recherche la ligne identifiant stringClasse. */
+			final String ligneIdentifiant = this.fournirDebutStringClasse();
+	
+			/* Ne fait rien si stringClasse a déjà été écrit. */
+			if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+				return;
+			}
+	
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			this.ecrireCode(this.stringClasse, pFile);
+			
+		} catch (Exception e) {
+	
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Impossible de créer le StringClasse", e);
+			}
+		}
+	
+	} // Fin de ecrireStringClasse().______________________________________
+	
+	
+	
+	/**
+	 * method creerStringClasse() :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes du séparateur Attributs.</li>
+	 * <li>alimente this.stringClasse</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : this.stringClasse.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private List<String> creerStringClasse() 
+					throws Exception {
+		
+		/* Lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("string_classe.txt");
+		
+		/* substitutions. */
+		final List<String> listeLignesSubst1 
+			= substituerVariablesDansLigne(
+					listeLignes
+					, "{$NOM_CLASSE}"
+					, this.fabriquerNomClasse(
+							this.nomSimpleFichierJava));
+		
+		final List<String> listeLignesSubst2 
+			= substituerVariablesDansLigne(
+					listeLignesSubst1
+					, VARIABLE_NOMSIMPLEFICHIERJAVA
+						, this.nomSimpleFichierJava);
+				
+		this.stringClasse = listeLignesSubst2;
+		
+		return this.stringClasse;
+					
+	} // Fin de creerStringClasse(...).____________________________________
+	
+	
+	
+	/**
+	 * method fournirDebutStringClasse() :<br/>
+	 * retourne le début de la ligne stringClasse.<br/>
+	 * "	public static final String CLASSE"<br/>
+	 *
+	 * @return : String : "	public static final String CLASSE".<br/>
+	 */
+	private String fournirDebutStringClasse() {
+		return "	public static final String CLASSE";
+	} // Fin de fournirDebutStringClasse().________________________________
+	
+
+	
+	/**
+	 * method ecrireSautLigneJava(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit l'attribut SAUT_LIGNE_JAVA dans pFile.</li>
+	 * <li>ajoute 2 lignes vides sous l'attribut.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected final void ecrireSautLigneJava(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("attribut_saut_ligne_java.txt");
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutSautLigneJava();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+		
+		/* ajoute 2 lignes vides sous l'attribut. */
+		listeLignes.add("");
+		listeLignes.add("");
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeLignes, pFile);
+		
+	} // Fin de ecrireSautLigneJava(...).__________________________________
+	
+
+	
+	/**
+	 * method fournirIdentifiantDebutSautLigneJava() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant l'attribut 
+	 * SAUT_LIGNE_JAVA pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutSautLigneJava() {
+		return "	public static final char SAUT_LIGNE_JAVA";
+	} // Fin de fournirIdentifiantDebutSautLigneJava().____________________
+	
+	
+	
+	/**
+	 * method ecrireAttributSerialVersionUid(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit l'attribut serialVersionUID dans pFile.</li>
+	 * <li>ajoute 2 lignes vides sous l'attribut.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected final void ecrireAttributSerialVersionUid(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("attribut_serialversionuid.txt");
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutSerialVersionUid();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+		
+		/* ajoute 2 lignes vides sous l'attribut. */
+		listeLignes.add("");
+		listeLignes.add("");
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeLignes, pFile);
+		
+	} // Fin de ecrireSautLigneJava(...).__________________________________
+	
+
+	
+	/**
+	 * method fournirIdentifiantDebutSerialVersionUid() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant l'attribut 
+	 * serialVersionUid pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutSerialVersionUid() {
+		return "	private static final long serialVersionUID";
+	} // Fin de fournirIdentifiantDebutSerialVersionUid()._________________
+	
+
+	
+	
+	/**
+	 * method ecrireAttributLog(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit l'attribut LOG dans pFile.</li>
+	 * <li>ajoute 2 lignes vides sous l'attribut.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected final void ecrireAttributLog(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("attribut_log.txt");
+		
+		/* substitution. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOMSIMPLEFICHIERJAVA
+							, this.nomSimpleFichierJava);
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutAttributLog();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+		
+		/* ajoute 2 lignes vides sous l'attribut. */
+		listeSubst1.add("");
+		listeSubst1.add("");
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireAttributLog(...).____________________________________
+	
+
+	
+	/**
+	 * method fournirIdentifiantDebutAttributLog() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant l'attribut 
+	 * LOG pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutAttributLog() {
+		return "	private static final Log LOG";
+	} // Fin de fournirIdentifiantDebutAttributLog().______________________
+	
+	
+	
+	/**
+	 * method ecrireLignesSepMethodes(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la ligne de séparation des methodes.</li>
+	 * <li>rajoute 2 lignes vides sous le séparateur.</li>
+	 * <li>Ne fait rien si les lignes existent déjà.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * ne fait rien si this.mapAttributs == null.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 */
+	protected final void ecrireLignesSepMethodes(
+			final File pFile) {
+	
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+	
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		try {
+	
+			/* Crée le Séparateur de méthodes. */
+			this.creerSepMethodes();
+			
+			if (this.sepMethodes == null) {
+				return;
+			}
+	
+			/* Recherche la ligne identifiant sepMethodes. */
+			final String ligneMethodes = this.fournirDebutSepMethodes();
+	
+			/* Ne fait rien si sepMethodes a déjà été écrit. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneMethodes)) {
+				return;
+			}
+	
+			/* rajoute 2 lignes vides sous le séparateur. */
+			this.sepMethodes.add("");
+			this.sepMethodes.add("");
+			
+			/* *************** */
+			/* ENREGISTREMENT. */
+			/* *************** */
+			this.ecrireCode(this.sepMethodes, pFile);
+			
+		} catch (Exception e) {
+	
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(
+						"Impossible de créer le séparateur de méthodes"
+							, e);
+			}
+		}
+	
+	} // Fin de ecrireLignesSepMethodes()._________________________________
+	
+	
+	
+	/**
+	 * method creerSepMethodes() :<br/>
+	 * <ul>
+	 * <li>Crée la liste des lignes du séparateur Methodes.</li>
+	 * <li>alimente this.sepMethodes</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : this.sepMethodes.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private List<String> creerSepMethodes() 
+					throws Exception {
+		
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("sep_methodes.txt");
+						
+		this.sepMethodes = listeLignes;
+		
+		return this.sepMethodes;
+					
+	} // Fin de creerSepMethodes(...)._____________________________________
+	
+
+	
+	/**
+	 * method fournirDebutSepMethodes() :<br/>
+	 * retourne le début du séparateur méthodes.<br/>
+	 * "	// *************************METHODES"<br/>
+	 *
+	 * @return : String : "	// *************************METHODES".<br/>
+	 */
+	private String fournirDebutSepMethodes() {
+		return "	// *************************METHODES";
+	} // Fin de fournirDebutSepMethodes()._________________________________
 	
 
 	

@@ -178,7 +178,13 @@ public class EcriveurMetierAbstractClass extends AbstractEcriveurMetier {
 			}
 		}
 		
-	} // Fin de creerAttributs(...)._______________________________________
+		/* écrit l'attribut serialVersionUID et insère 2 lignes vides. */
+		this.ecrireAttributSerialVersionUid(pFile);
+		
+		/* écrit l'attribut LOG et insère 2 lignes vides. */
+		this.ecrireAttributLog(pFile);
+
+	} // Fin de ecrireBlocAttributs(...).__________________________________
 	
 
 	

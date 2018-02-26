@@ -227,15 +227,7 @@ public class EcriveurDaoInterface
 	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li><b>Crée tout le bloc comprenant les methodes</b>.</li>
 	 * <ul>
-	 * <li>Ecrit la méthode compareTo().</li>
-	 * <li>Ecrit la méthode clone().</li>
-	 * <li>Ecrit la méthode getEnTeteCsv().</li>
-	 * <li>Ecrit la méthode toStringCsv().</li>
-	 * <li>Ecrit la méthode getEnTeteColonne().</li>
-	 * <li>Ecrit la méthode getValeurColonne().</li>
-	 * <li>Ecrit la méthode getId().</li>
-	 * <li>Ecrit la méthode setId().</li>
-	 * <li>écrit les getters-setters.</li>
+	 * <li>Ecrit la méthode retrieveByIdMetier().</li>
 	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>

@@ -165,6 +165,7 @@ public interface IEcriveur {
 	/**
 	 * VARIABLE_NOMPACKAGE : String :<br/>
 	 * "{$nomPackage}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
 	 */
 	String VARIABLE_NOMPACKAGE 
 		= "{$nomPackage}";

@@ -1189,12 +1189,23 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		
 	/**
 	 * method ecrireCodeGenerique() :<br/>
-	 * .<br/>
-	 * <br/>
+	 * <ul>
+	 * <li>écrit la ligne de code PACKAGE (1ère ligne).</li>
+	 * <li>Insère 1 ligne vide sous la ligne de code package.</li>
+	 * <li>Ecrit les IMPORTS à partir de la 3ème ligne.</li>
+	 * <li>Insère 3 lignes vides sous la dernière ligne d'imports.</li>
+	 * <li>Ecrit la JAVADOC à la suite.</li>
+	 * <li>Ecrit l'ENTITY à la suite.</li>
+	 * <li>Ecrit la ligne de DECLARATION de la classe à la suite.</li>
+	 * <li>Appelle un HOOK this.ecrireCodeHook(....) pour terminer 
+	 * la génération du code dans un Ecriveur concret.</li>
+	 * <li>Ecrit la ligne FINALE.</li>
+	 * </ul>
 	 *
-	 * @param pFile
-	 * @param pGenerateur
-	 * @throws Exception : void :  .<br/>
+	 * @param pFile : File : fixhier dans lequel on génère le code.<br/>
+	 * @param pGenerateur : IGenerateur.<br/>
+	 * 
+	 * @throws Exception<br/>
 	 */
 	protected abstract void ecrireCodeGenerique(
 			File pFile

@@ -1,0 +1,5 @@
+	/**
+	 * SAUT_LIGNE_JAVA : char :<br/>
+	 * '\n'.<br/>
+	 */
+	public static final char SAUT_LIGNE_JAVA = '\n';

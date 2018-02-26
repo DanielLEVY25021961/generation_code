@@ -1,0 +1,5 @@
+	/**
+	 * serialVersionUID : long :<br/>
+	 * serialVersionUID = 1L.<br/>
+	 */
+	private static final long serialVersionUID = 1L;
