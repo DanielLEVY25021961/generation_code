@@ -12,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier;
 
 /**
  * class EcriveurMetierConcreteClassForm :<br/>
@@ -34,7 +34,8 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriv
  * @since 18 janv. 2018
  *
  */
-public class EcriveurMetierConcreteClassForm extends AbstractEcriveurFichiersJavaDetaille {
+public class EcriveurMetierConcreteClassForm 
+	extends AbstractEcriveurMetier {
 
 	// ************************ATTRIBUTS************************************/
 	/**

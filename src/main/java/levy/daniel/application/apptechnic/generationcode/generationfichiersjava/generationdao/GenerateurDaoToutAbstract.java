@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.dao.impl.EcriveurDaoAbstract;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.dao.impl.EcriveurDaoInterface;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.AbstractGenerateurToutAbstract;
 
@@ -61,7 +62,7 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 		super();
 		
 		this.ecriveurInterface = new EcriveurDaoInterface();
-		this.ecriveurAbstractClass = null;
+		this.ecriveurAbstractClass = new EcriveurDaoAbstract();
 		this.ecriveurConcreteClass = null;
 		
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________

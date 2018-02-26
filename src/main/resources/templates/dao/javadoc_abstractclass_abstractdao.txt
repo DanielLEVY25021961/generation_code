@@ -1,0 +1,62 @@
+/**
+ * CLASSE ABSTRAITE <b>{$nomSimpleFichierJava}</b> :<br/>
+ * <p>
+ * <span style="text-decoration: underline;">CONCEPT 
+ * CONCERNE PAR CE DAO</span>
+ * </p>
+ * <p>
+ * <b>{$nomInterfaceMetier}</b> Modélise un <i>concept</i> de <b>{$conceptModelise}</b>, 
+ * *********** 
+ * associé de manière ***** à une <b>******</b>.
+ * </p>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">DESCRIPTION DE 
+ * {$nomSimpleFichierJava}</span>
+ * </p>
+ * <ul>
+ * <li>
+ * DAO ABSTRAIT SPRING pour les <b>{$nomInterfaceMetier}</b>.
+ * </li>
+ * <li>
+ * Comporte l'implémentation des méthodes <b>spécifiques</b> aux 
+ * {$nomInterfaceMetier}.
+ * </li>
+ * <li>IMPLEMENTE L'INTERFACE {$nomSimpleInterface}.</li>
+ * <li>
+ * HERITE DE LA CLASSE ABSTRAITE 
+ * AbstractDaoGenericJPASpring&lt;{$nomInterfaceMetier}, Long&gt;.
+ * </li>
+ * <li>
+ * <b>FACTORISE</b> les attributs et comportements 
+ * des <i>descendants concrets</i>.
+ * </li>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">IMPLEMENTATION DES {$nomSimpleFichierJava}</span>
+ * </p>
+ * <ul>
+ * <li>
+ * <img src="../../../../../../../../../../../javadoc/images/implementation_DAO_{$conceptModelise}.png" 
+ * alt="implémentation des DAOs {$conceptModelise}" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 
+ * <br/>
+ *
+ * - Exemple d'utilisation :<br/>
+ *<br/>
+ * 
+ * - Mots-clé :<br/>
+ * <br/>
+ *
+ * - Dépendances :<br/>
+ * <br/>
+ *
+ *
+ * @author dan Lévy
+ * @version 1.0
+ * @since {$date}
+ *
+ */

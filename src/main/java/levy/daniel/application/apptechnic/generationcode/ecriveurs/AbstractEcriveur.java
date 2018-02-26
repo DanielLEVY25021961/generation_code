@@ -4656,6 +4656,44 @@ public abstract class AbstractEcriveur implements IEcriveur {
 
 	
 	/**
+	 * method retournerStringAPartirDeListe(
+	 * List&lt;String&gt; pList) :<br/>
+	 * <ul>
+	 * <li>Transforme une liste de String pList en String.</li>
+	 * <li>Incorpore les sauts de lignes dans la String à 
+	 * chaque élément de la liste.</li>
+	 * </ul>
+	 * retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;String&gt;.<br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	protected final String retournerStringAPartirDeListe(
+			final List<String> pList) {
+		
+		/* retourne null si pList == null. */
+		if (pList == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		for (final String string : pList) {
+			
+			stb.append(string);
+			stb.append('\n');
+			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de retournerStringAPartirDeListe(...).________________________
+	
+
+	
+	/**
 	 * method fournirNomClasse() :<br/>
 	 * Fournit le nom de la classe concrète 
 	 * pour les messages des logs.<br/>

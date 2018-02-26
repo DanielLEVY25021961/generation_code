@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier;
 
 /**
  * CLASSE <b>EcriveurMetierInterface</b> :<br/>
@@ -34,7 +34,7 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriv
  *
  */
 public class EcriveurMetierInterface 
-			extends AbstractEcriveurFichiersJavaDetaille {
+			extends AbstractEcriveurMetier {
 
 	// ************************ATTRIBUTS************************************/
 
