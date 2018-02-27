@@ -1,0 +1,5 @@
+	 * 
+	 * @return {$nomInterfaceMetier}.<br/>
+	 * 
+	 * @throws AbstractDaoException
+	 */

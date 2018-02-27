@@ -19,6 +19,3 @@
 	{$nomInterfaceMetier} 
 		retrieveByIdMetier({$nomInterfaceMetier} pObjet) 
 				throws AbstractDaoException;
-
-				
-

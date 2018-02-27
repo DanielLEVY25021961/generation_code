@@ -1,0 +1,9 @@
+	 * <ul>
+	 * <li>Recherche en base un {$nomInterfaceMetier} ayant 
+	 * pour attributs ceux passés en paramètre.</li>
+	 * <li>Les attributs sont ceux de equals(...) et doivent 
+	 * identifier un objet unique.</li>
+	 * </ul>
+	 * return null si l'un des paramètres est blank.<br/>
+	 * <br/>
+	 *
