@@ -480,6 +480,9 @@ public class EcriveurDaoAbstract
 		 * méthode retrieveByIdMetier(...). */
 		this.ecrireMethodeRetrieveByIdMetier(pFile);
 		
+		/* écrit la Javadoc et le code de la 
+		 * méthode retrieveByAttributs(...). */
+		this.ecrireMethodeRetrieveByAttributs(pFile);
 		
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
@@ -1165,6 +1168,320 @@ public class EcriveurDaoAbstract
 	} // Fin de fournirIdentifiantDebutMethodeRetrieveByIdMetier().________
 	
 
+	
+	/**
+	 * method ecrireMethodeRetrieveByAttributs(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la javadoc de la méthode retrieveByAttributs(...).</li>
+	 * <li>écrit le code de la méthode retrieveByAttributs(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected final void ecrireMethodeRetrieveByAttributs(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeRetrieveByAttributs();
+	
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+				
+		/* écrit la Javadoc. */
+		this.ecrireJavadocMethodeRetrieveByAttributs(pFile);
+
+		/* écrit le code. */
+		this.ecrireCodeMethodeRetrieveByAttributs(pFile);
+		
+	} // Fin de ecrireMethodeRetrieveByAttributs(...)._____________________
+	
+
+	
+	/**
+	 * method ecrireJavadocMethodeRetrieveByAttributs(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la javadoc de la méthode retrieveByAttributs(...).</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * ne fait rien si les attributs du equals ne sont pas définis 
+	 * (this.mapAttributsEquals == null).<br/>
+	 * <br/>
+	 *
+	 *  @param pFile : File.<br/>
+	 *  
+	 * @throws Exception
+	 */
+	private void ecrireJavadocMethodeRetrieveByAttributs(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* ne fait rien si les attributs du equals ne sont pas définis 
+		 * (this.mapAttributsEquals == null). */
+		if (this.mapAttributsEquals == null) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("javadoc_inherit_override.txt");
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */		
+		this.ecrireCode(listeLignes, pFile);
+		
+	} // Fin de ecrireJavadocMethodeRetrieveByAttributs(...).______________
+	
+
+	
+	/**
+	 * method ecrireCodeMethodeRetrieveByAttributs(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit le code de la méthode retrieveByAttributs(...).</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 *  @param pFile : File.<br/>
+	 *  
+	 * @throws Exception
+	 */
+	private void ecrireCodeMethodeRetrieveByAttributs(
+			final File pFile) throws Exception {
+				
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* ne fait rien si les attributs du equals ne sont pas définis 
+		 * (this.mapAttributsEquals == null). */
+		if (this.mapAttributsEquals == null) {
+			return;
+		}
+		
+		/* écrit la déclaration de la méthode. */
+		this.ecrireDeclarationMethodeRetrieveByAttributs(pFile);
+		
+		/* écrit le début de la méthode. */
+		this.ecrireDebutMethodeRetrieveByAttributs(pFile);
+		
+		/* écrit la requête HQL. */
+		this.ecrireRequeteHQL(pFile);
+		
+		/* construit la requête HQL. */
+		this.ecrireConstructionRequeteHql(pFile);
+		
+		/* passe les paramètres à la requête HQL. */
+		this.ecrirePassageParametresHQL(pFile);
+		
+		/* écrit la fin de la méthode retrieve(...). */
+		this.ecrireFinMethodeRetrieve(pFile);
+
+		
+	} // Fin de ecrireCodeMethodeRetrieveByAttributs(...)._________________
+	
+
+	
+	/**
+	 * method ecrireDeclarationMethodeRetrieveByAttributs(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la ligne de déclaration de la 
+	 * méthode retrieveByAttributs(...).</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireDeclarationMethodeRetrieveByAttributs(
+			final File pFile) throws Exception {
+						
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* ne fait rien si les attributs du equals ne sont pas définis 
+		 * (this.mapAttributsEquals == null). */
+		if (this.mapAttributsEquals == null) {
+			return;
+		}
+		
+		final List<String> listeCode = new ArrayList<String>();
+		final StringBuilder stb = new StringBuilder();
+		
+		final StringBuilder decalageParametreStb = new StringBuilder();
+		decalageParametreStb.append(DECALAGE_CODE);
+				
+		final int tailleMap = this.mapAttributsEquals.size();
+		int compteur = 0;
+		
+		stb.append(DECALAGE_METHODE);
+		stb.append("public ");
+		stb.append(this.nomInterfaceMetier);
+		stb.append(SEP_ESPACE);
+		stb.append("retrieveByAttributs(");
+		
+		listeCode.add(stb.toString());
+		
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributsEquals.entrySet();
+		
+		final Iterator<Entry<String, String>> ite 
+			= entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			decalageParametreStb.append(TAB);
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			String ligneParametre = null;
+			
+			if (compteur == 1) {
+				
+				ligneParametre 
+					= decalageParametreStb.toString() 
+					+ FINAL
+					+ typeAttribut 
+					+ SEP_ESPACE 
+					+ fournirParametre(nomAttribut);
+				
+				listeCode.add(ligneParametre);
+				
+			} else if (compteur > 1 && compteur < tailleMap) {
+				
+				ligneParametre 
+				= decalageParametreStb.toString()
+				+ ", "
+				+ FINAL
+				+ typeAttribut 
+				+ SEP_ESPACE 
+				+ fournirParametre(nomAttribut);
+				
+				listeCode.add(ligneParametre);
+				
+			} else {
+				
+				ligneParametre 
+				= decalageParametreStb.toString()
+				+ ", "
+				+ FINAL
+				+ typeAttribut 
+				+ SEP_ESPACE 
+				+ fournirParametre(nomAttribut) + ")";
+				
+				listeCode.add(ligneParametre);
+				
+				decalageParametreStb.append(TAB);
+				
+				final String ligneThrowsException 
+					= decalageParametreStb.toString() 
+					+ "throws AbstractDaoException {";
+				
+				listeCode.add(ligneThrowsException);
+				
+			}
+			
+		}
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */		
+		this.ecrireCode(listeCode, pFile);
+						
+	} // Fin de ecrireDeclarationMethodeRetrieveByAttributs(...).__________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeRetrieveByAttributs() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * retrieveByAttributs(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeRetrieveByAttributs() {
+		return "	public final " + this.nomInterfaceMetier + " retrieveByAttributs";
+	} // Fin de fournirIdentifiantDebutMethodeRetrieveByAttributs()._______
+	
+	
 	
 	/**
 	 * {@inheritDoc}

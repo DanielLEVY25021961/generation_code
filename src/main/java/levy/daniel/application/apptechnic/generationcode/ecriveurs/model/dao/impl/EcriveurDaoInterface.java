@@ -639,6 +639,7 @@ public class EcriveurDaoInterface
 			
 			final String ligneParametre 
 				= DEBUT_LIGNE_JAVADOC_MEMBRE 
+					+ "@param "
 					+ this.fournirParametre(nomAttribut) 
 					+ SEP_2PTS_AERE 
 					+ typeAttribut 
@@ -727,7 +728,98 @@ public class EcriveurDaoInterface
 		if (!pFile.isFile()) {
 			return;
 		}
+		
+		/* ne fait rien si les attributs du equals ne sont pas définis 
+		 * (this.mapAttributsEquals == null). */
+		if (this.mapAttributsEquals == null) {
+			return;
+		}
+		
+		final List<String> listeCode = new ArrayList<String>();
+		final StringBuilder stb = new StringBuilder();
+		
+		final StringBuilder decalageParametreStb = new StringBuilder();
+		decalageParametreStb.append(DECALAGE_CODE);
+				
+		final int tailleMap = this.mapAttributsEquals.size();
+		int compteur = 0;
+		
+		stb.append(DECALAGE_METHODE);
+		stb.append(this.nomInterfaceMetier);
+		stb.append(SEP_ESPACE);
+		stb.append("retrieveByAttributs(");
+		
+		listeCode.add(stb.toString());
+		
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributsEquals.entrySet();
+		
+		final Iterator<Entry<String, String>> ite 
+			= entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			compteur++;
+			decalageParametreStb.append(TAB);
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			String ligneParametre = null;
+			
+			if (compteur == 1) {
+				
+				ligneParametre 
+					= decalageParametreStb.toString() 
+					+ typeAttribut 
+					+ SEP_ESPACE 
+					+ fournirParametre(nomAttribut);
+				
+				listeCode.add(ligneParametre);
+				
+			} else if (compteur > 1 && compteur < tailleMap) {
+				
+				ligneParametre 
+				= decalageParametreStb.toString()
+				+ ", "
+				+ typeAttribut 
+				+ SEP_ESPACE 
+				+ fournirParametre(nomAttribut);
+				
+				listeCode.add(ligneParametre);
+				
+			} else {
+				
+				ligneParametre 
+				= decalageParametreStb.toString()
+				+ ", "
+				+ typeAttribut 
+				+ SEP_ESPACE 
+				+ fournirParametre(nomAttribut) + ")";
+				
+				listeCode.add(ligneParametre);
+				
+				decalageParametreStb.append(TAB);
+				
+				final String ligneThrowsException 
+					= decalageParametreStb.toString() 
+					+ "throws AbstractDaoException;";
+				
+				listeCode.add(ligneThrowsException);
+				
+			}
+			
+		}
 
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeCode);
+
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */		
+		this.ecrireCode(listeCode, pFile);
 		
 	} // Fin de ecrireCodeMethodeRetrieveByAttributs(...)._________________
 	
