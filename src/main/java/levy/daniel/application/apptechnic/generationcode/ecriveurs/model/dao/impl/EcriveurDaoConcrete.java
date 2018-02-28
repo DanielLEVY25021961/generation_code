@@ -1,6 +1,7 @@
 package levy.daniel.application.apptechnic.generationcode.ecriveurs.model.dao.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -193,20 +194,32 @@ public class EcriveurDaoConcrete
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> creerLignesEntity(File pFile) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected final List<String> creerLignesEntity(
+			final File pFile) throws Exception {
+				
+		this.entity = new ArrayList<String>();
+		
+		final String repository 
+			= "@Repository(value=\"" + this.nomSimpleFichierJava + "\")";
+	
+		this.entity.add(repository);
+		
+		return this.entity;
+		
+	} // Fin de creerLignesEntity(...).____________________________________
+	
+	
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected String creerLigneDeclaration(File pFile) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return null;		
 	}
 
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
