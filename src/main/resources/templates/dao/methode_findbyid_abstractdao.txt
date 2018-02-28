@@ -1,0 +1,6 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public abstract {$nomInterfaceMetier} findById(Long pId) 
+				throws AbstractDaoException;

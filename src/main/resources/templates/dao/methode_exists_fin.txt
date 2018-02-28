@@ -1,0 +1,34 @@
+		try {
+			
+			/* Execution de la requete HQL. */
+			objetResultat 
+			= ({$nomInterfaceMetier}) requete.getSingleResult();
+			
+			/* retourne true si l'objet existe en base. */
+			if (objetResultat != null) {
+				resultat = true;
+			}
+			
+		}
+		catch (NoResultException noResultExc) {
+			
+			/* retourne false si l'Objet métier n'existe pas en base. */
+			return false;
+			
+		}
+		catch (Exception e) {
+			
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+			
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException({$NOM_CLASSE}
+						, "Méthode exists({$nomInterfaceMetier} pObject)", e);
+		}
+				
+		return resultat;
+		
+	} // Fin de exists(...)._______________________________________________

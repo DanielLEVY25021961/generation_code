@@ -1,0 +1,22 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String afficherListe(
+			final List<{$nomInterfaceMetier}> pListe) {
+		
+		/* retourne null si pListe == null. */
+		if (pListe == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		for (final {$nomInterfaceMetier} objet : pListe) {
+			stb.append(objet.toString());
+			stb.append(SAUT_LIGNE_JAVA);
+		}
+				
+		return stb.toString();			
+
+	} // Fin de afficherListe(...).________________________________________

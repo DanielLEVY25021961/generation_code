@@ -1,0 +1,63 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deleteById(
+			final Long pId) throws AbstractDaoException {
+		
+		/* ne fait rien si pId == null. */
+		if (pId == null) {
+			return;
+		}
+
+		{$nomInterfaceMetier} objetPersistant = null;
+
+		/* REQUETE HQL PARAMETREE. */
+		final String requeteString 
+		= SELECT_OBJET 
+		+ "where {$nomPackage}.id = :pId";
+
+		/* Construction de la requête HQL. */
+		final Query requete 
+			= this.entityManager.createQuery(requeteString);
+
+		/* Passage des paramètres de la requête HQL. */
+		requete.setParameter("pId", pId);
+
+		try {
+			/* Execution de la requete HQL. */
+			objetPersistant 
+			= ({$nomInterfaceMetier}) requete.getSingleResult();
+		}
+		catch (NoResultException noResultExc) {
+			objetPersistant = null;
+		}
+
+		
+		try {
+			
+			if (objetPersistant != null) {
+				
+				/* Merge avant destruction. */
+				this.entityManager.merge(objetPersistant);
+				
+				/* DESTRUCTION. */
+				this.entityManager.remove(objetPersistant);
+				
+			}
+
+		}
+		catch (Exception e) {
+			
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException({$NOM_CLASSE}
+						, "Méthode deleteById(Long pId)", e);
+		}
+		
+	} // Fin de deleteById(...).___________________________________________

@@ -436,7 +436,20 @@ public class EcriveurDaoAbstract
 	 * <li>écrit le constructeur d'arité nulle.</li>
 	 * <li>écrit la Javadoc et le code de la 
 	 * méthode createReturnId(...).</li>
-	 * <li>écrit la Javadoc et le code de la méthode retrieve(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode retrieve(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode retrieveByAttributs(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode findById(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode deleteById(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode deleteByIdBoolean(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode exists(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode afficherListe(...).</li>
 	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -484,6 +497,30 @@ public class EcriveurDaoAbstract
 		/* écrit la Javadoc et le code de la 
 		 * méthode retrieveByAttributs(...). */
 		this.ecrireMethodeRetrieveByAttributs(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode findById(...). */
+		this.ecrireMethodeFindById(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode deleteById(...). */
+		this.ecrireMethodeDeleteById(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode deleteByIdBoolean(...). */
+		this.ecrireMethodeDeleteByIdBoolean(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode exists(...). */
+		this.ecrireMethodeExists(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode exists(Long..). */
+		this.ecrireMethodeExistsLong(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode afficherListe(...). */
+		this.ecrireMethodeAfficherListe(pFile);
 		
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
@@ -1713,7 +1750,594 @@ public class EcriveurDaoAbstract
 		return "	public final " + this.nomInterfaceMetier + " retrieveByAttributs";
 	} // Fin de fournirIdentifiantDebutMethodeRetrieveByAttributs()._______
 	
+
 	
+	/**
+	 * method ecrireMethodeFindById(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode findById(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeFindById(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeFindById();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_findbyid_abstractdao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst1);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireMethodeFindById(...).________________________________
+	
+
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeFindById() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * findById(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeFindById() {
+		return "	public abstract " + this.nomInterfaceMetier + " findById";
+	} // Fin de fournirIdentifiantDebutMethodeFindById().__________________
+
+
+	
+	/**
+	 * method ecrireMethodeDeleteById(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode deleteById(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeDeleteById(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeDeleteById();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_deletebyid_abstractdao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+					listeSubst1
+						, VARIABLE_NOMPACKAGE
+							, this.nomPackage);
+		
+		final List<String> listeSubst3 
+		= this.substituerVariablesDansLigne(
+				listeSubst2
+					, "{$NOM_CLASSE}"
+						, this.fabriquerNomClasse(
+								this.nomSimpleFichierJava));
+		
+		
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst3);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst3, pFile);
+		
+	} // Fin de ecrireMethodeDeleteById(...).______________________________
+	
+
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeDeleteById() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * deleteById(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeDeleteById() {
+		return DECALAGE_METHODE + "public void deleteById";
+	} // Fin de fournirIdentifiantDebutMethodeDeleteById().________________
+
+
+	
+	/**
+	 * method ecrireMethodeDeleteByIdBoolean(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode deleteByIdBoolean(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeDeleteByIdBoolean(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeDeleteByIdBoolean();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_deletebyidboolean_abstractdao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+					listeSubst1
+						, VARIABLE_NOMPACKAGE
+							, this.nomPackage);
+		
+		final List<String> listeSubst3 
+		= this.substituerVariablesDansLigne(
+				listeSubst2
+					, "{$NOM_CLASSE}"
+						, this.fabriquerNomClasse(
+								this.nomSimpleFichierJava));
+		
+		
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst3);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst3, pFile);
+		
+	} // Fin de ecrireMethodeDeleteByIdBoolean(...)._______________________
+	
+
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeDeleteByIdBoolean() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * deleteByIdBoolean(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeDeleteByIdBoolean() {
+		return DECALAGE_METHODE + "public boolean deleteByIdBoolean";
+	} // Fin de fournirIdentifiantDebutMethodeDeleteByIdBoolean()._________
+
+
+	
+	/**
+	 * method ecrireMethodeExists(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>ecrit la méthode exists(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	protected final void ecrireMethodeExists(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeExists();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+		
+		/* écrit le début de la méthode. */
+		this.ecrireDebutMethodeExists(pFile);
+		
+		/* écrit la requête HQL. */
+		this.ecrireRequeteHQL(pFile);
+		
+		/* construit la requête HQL. */
+		this.ecrireConstructionRequeteHql(pFile);
+		
+		/* passe les paramètres à la requête HQL. */
+		this.ecrirePassageParametresHQL(pFile);
+		
+		/* écrit la fin de la méthode exists(...). */
+		this.ecrireFinMethodeExists(pFile);
+		
+	} // Fin de ecrireMethodeExists(...).________________________________
+	
+
+	
+	/**
+	 * method ecrireDebutMethodeExists(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit le début de la méthode exists(...) dans pFile.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 */
+	private void ecrireDebutMethodeExists(
+			final File pFile) throws Exception {
+		
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_exists_debut.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireDebutMethodeExists(...).___________________________
+	
+
+	
+	/**
+	 * method ecrireFinMethodeExists(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la fin de la méthode exists(...) dans pFile.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 */
+	private void ecrireFinMethodeExists(
+			final File pFile) throws Exception {
+		
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_exists_fin.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		final List<String> listeSubst2 
+		= this.substituerVariablesDansLigne(
+				listeSubst1
+					, "{$NOM_CLASSE}"
+						, this.fabriquerNomClasse(
+								this.nomSimpleFichierJava));
+		
+		/* ajoute 3 lignes vides. */
+		this.ajouterLignesVides(3, listeSubst2);
+
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst2, pFile);
+		
+	} // Fin de ecrireFinMethodeExists(...)._______________________________
+	
+
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeExists() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * exists(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeExists() {
+		return DECALAGE_METHODE + "public boolean exists";
+	} // Fin de fournirIdentifiantDebutMethodeExists().____________________
+
+
+	
+	/**
+	 * method ecrireMethodeExistsLong(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode exists(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeExistsLong(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= "	} // Fin de exists(Long.";
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_exists_long_abstractdao.txt");
+		
+		/* substitutions. */
+				
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeLignes);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeLignes, pFile);
+		
+	} // Fin de ecrireMethodeExistsLong(...).______________________________
+	
+
+	
+	/**
+	 * method ecrireMethodeAfficherListe(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode afficherListe(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeAfficherListe(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeAfficherListe();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_afficherliste_abstractdao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst1);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireMethodeAfficherListe(...).___________________________
+
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeAfficherListe() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * afficherListe(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeAfficherListe() {
+		return DECALAGE_METHODE + "public String afficherListe";
+	} // Fin de fournirIdentifiantDebutMethodeAfficherListe()._____________
+
+
 	
 	/**
 	 * {@inheritDoc}

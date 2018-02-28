@@ -1,0 +1,20 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean exists(
+			final Long pId) throws AbstractDaoException {
+		
+		/* retourne false si pId == null . */
+		if (pId == null) {
+			return false;
+		}
+		
+		/* retourne true si l'objet métier existe en base. */
+		if (this.findById(pId) != null) {
+			return true;
+		}
+		
+		return false;
+		
+	} // Fin de exists(Long...).___________________________________________

@@ -1,0 +1,15 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean exists(
+			final {$nomInterfaceMetier} pObject) throws AbstractDaoException {
+		
+		/* retourne false si pObject == null. */
+		if (pObject == null) {
+			return false;
+		}
+
+		boolean resultat = false;		
+		{$nomInterfaceMetier} objetResultat = null;
+		
