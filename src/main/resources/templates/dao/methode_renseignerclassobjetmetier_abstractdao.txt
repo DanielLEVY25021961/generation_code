@@ -1,0 +1,13 @@
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * this.<b>classObjetMetier</b> dans {$nomSimpleFichierJava} : 
+	 * <b>{$nomInterfaceMetier}.class</b><br/>
+	 * <br/>
+	 */
+	@Override
+	protected final void renseignerClassObjetMetier() {
+
+		this.setClassObjetMetier({$nomInterfaceMetier}.class);
+
+	} // Fin de renseignerClassObjetMetier().______________________________

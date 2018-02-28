@@ -450,6 +450,8 @@ public class EcriveurDaoAbstract
 	 * méthode exists(...).</li>
 	 * <li>écrit la Javadoc et le code de la 
 	 * méthode afficherListe(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode renseignerClassObjetMetier(...).</li>
 	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -521,6 +523,10 @@ public class EcriveurDaoAbstract
 		/* écrit la Javadoc et le code de la 
 		 * méthode afficherListe(...). */
 		this.ecrireMethodeAfficherListe(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode renseignerClassObjetMetier(...). */
+		this.ecrireMethodeRenseignerClassObjetMetier(pFile);
 		
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
@@ -2336,6 +2342,99 @@ public class EcriveurDaoAbstract
 	private String fournirIdentifiantDebutMethodeAfficherListe() {
 		return DECALAGE_METHODE + "public String afficherListe";
 	} // Fin de fournirIdentifiantDebutMethodeAfficherListe()._____________
+
+
+	
+	/**
+	 * method ecrireMethodeRenseignerClassObjetMetier(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode renseignerClassObjetMetier(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeRenseignerClassObjetMetier(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeRenseignerClassObjetMetier();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_renseignerclassobjetmetier_abstractdao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+					listeSubst1
+					, VARIABLE_NOMSIMPLEFICHIERJAVA
+						, this.nomSimpleFichierJava);
+		
+		
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst2);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst2, pFile);
+		
+	} // Fin de ecrireMethodeRenseignerClassObjetMetier(...).______________
+
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeRenseignerClassObjetMetier() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * renseignerClassObjetMetier(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeRenseignerClassObjetMetier() {
+		return DECALAGE_METHODE + "protected final void renseignerClassObjetMetier";
+	} // Fin de fournirIdentifiantDebutMethodeRenseignerClassObjetMetier().
 
 
 	
