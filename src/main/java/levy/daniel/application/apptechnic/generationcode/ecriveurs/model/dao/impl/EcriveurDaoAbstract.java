@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -1288,6 +1289,8 @@ public class EcriveurDaoAbstract
 	 * ne fait rien si pFile est null.<br/>
 	 * ne fait rien si pFile n'existe pas.<br/>
 	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * ne fait rien si les attributs du equals ne sont pas définis 
+	 * (this.mapAttributsEquals == null).<br/>
 	 * <br/>
 	 *
 	 *  @param pFile : File.<br/>
@@ -1331,10 +1334,10 @@ public class EcriveurDaoAbstract
 		this.ecrireConstructionRequeteHql(pFile);
 		
 		/* passe les paramètres à la requête HQL. */
-		this.ecrirePassageParametresHQL(pFile);
+		this.ecrirePassageParametresHQLByAttributs(pFile);
 		
-		/* écrit la fin de la méthode retrieve(...). */
-		this.ecrireFinMethodeRetrieve(pFile);
+		/* écrit la fin de la méthode retrieveByAttributs(...). */
+		this.ecrireFinMethodeRetrieveByAttributs(pFile);
 
 		
 	} // Fin de ecrireCodeMethodeRetrieveByAttributs(...)._________________
@@ -1348,6 +1351,12 @@ public class EcriveurDaoAbstract
 	 * <li>écrit la ligne de déclaration de la 
 	 * méthode retrieveByAttributs(...).</li>
 	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * ne fait rien si les attributs du equals ne sont pas définis 
+	 * (this.mapAttributsEquals == null).<br/>
+	 * <br/>
 	 *
 	 * @param pFile : File.<br/>
 	 * 
@@ -1387,7 +1396,7 @@ public class EcriveurDaoAbstract
 		int compteur = 0;
 		
 		stb.append(DECALAGE_METHODE);
-		stb.append("public ");
+		stb.append("public final ");
 		stb.append(this.nomInterfaceMetier);
 		stb.append(SEP_ESPACE);
 		stb.append("retrieveByAttributs(");
@@ -1466,8 +1475,231 @@ public class EcriveurDaoAbstract
 						
 	} // Fin de ecrireDeclarationMethodeRetrieveByAttributs(...).__________
 	
+
+	
+	/**
+	 * method ecrireDebutMethodeRetrieveByAttributs(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit le début de la 
+	 * méthode retrieveByAttributs(...).</li>
+	 * <li>n'insère une ligne que si le type de paramètre est Objet.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * ne fait rien si les attributs du equals ne sont pas définis 
+	 * (this.mapAttributsEquals == null).<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrireDebutMethodeRetrieveByAttributs(
+			final File pFile) throws Exception {
+						
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* ne fait rien si les attributs du equals ne sont pas définis 
+		 * (this.mapAttributsEquals == null). */
+		if (this.mapAttributsEquals == null) {
+			return;
+		}
+		
+		final List<String> listeCode = new ArrayList<String>();
+		
+		/* ajoute une ligne vide sous la déclaration. */
+		listeCode.add("");
+		
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributsEquals.entrySet();
+		
+		final Iterator<Entry<String, String>> ite 
+			= entrySet.iterator();
+		
+		while (ite.hasNext()) {
+						
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			final String typeAttribut = entry.getValue();
+			
+			/* n'insère une ligne que si le type de paramètre est Objet. */
+			if (this.conformeNomClasse(typeAttribut)) {
+				
+				/* Cas de String. */
+				if (StringUtils.equals(typeAttribut, "String")) {
+					
+					/* lecture du Template. */
+					final List<String> listeLignes 
+						= this.lireTemplate(
+								"test_param_return_null_if_stringutils_isblank.txt");
+					
+					/* substitutions. */
+					final List<String> listeSubst1 
+						= this.substituerVariablesDansLigne(
+								listeLignes
+									, "{$param}"
+										, this.fournirParametre(nomAttribut));
+					
+					listeCode.addAll(listeSubst1);
+					listeCode.add("");
+					
+				}
+				else {
+					
+					/* lecture du Template. */
+					final List<String> listeLignes 
+						= this.lireTemplate(
+								"test_param_return_null_if_param_isnull.txt");
+					
+					/* substitutions. */
+					final List<String> listeSubst1 
+						= this.substituerVariablesDansLigne(
+								listeLignes
+									, "{$param}"
+										, this.fournirParametre(nomAttribut));
+					
+					listeCode.addAll(listeSubst1);
+					listeCode.add("");
+										
+				}				
+			}
+		}
+		
+		final String ligneDecObjet 
+			= DECALAGE_CODE 
+				+ this.nomInterfaceMetier 
+					+ " objetResultat = null;";
+		listeCode.add(ligneDecObjet);
+		listeCode.add("");
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */		
+		this.ecrireCode(listeCode, pFile);
+						
+	} // Fin de ecrireDebutMethodeRetrieveByAttributs(...).________________
 	
 	
+	
+	/**
+	 * method ecrirePassageParametresHQLByAttributs(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>passe les paramètres de la requête HQL 
+	 * en listant les attributs de equals pour retrieveByAttributs.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void ecrirePassageParametresHQLByAttributs(
+			final File pFile) throws Exception {
+				
+		if (this.mapAttributsEquals == null) {
+			return;
+		}
+		
+		final List<String> listeLignes = new ArrayList<String>();
+		
+		final StringBuilder stb = new StringBuilder();
+		stb.append(DECALAGE_CODE);
+		stb.append("/* Passage des paramètres de la requête HQL. */");
+		listeLignes.add(stb.toString());
+				
+		final Set<Entry<String, String>> entrySet 
+			= this.mapAttributsEquals.entrySet();
+		
+		final Iterator<Entry<String, String>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			final StringBuilder stb1 = new StringBuilder();
+			
+			final Entry<String, String> entry = ite.next();
+			
+			final String nomAttribut = entry.getKey();
+			
+			stb1.append(DECALAGE_CODE);
+			stb1.append("requete.setParameter(\"");
+			stb1.append(this.fournirParametre(nomAttribut));
+			stb1.append("\", ");
+			stb1.append(this.fournirParametre(nomAttribut));
+			stb1.append(");");
+
+			listeLignes.add(stb1.toString());
+		}
+		
+		listeLignes.add("");
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeLignes, pFile);
+		
+	} // Fin de ecrirePassageParametresHQLByAttributs(...).________________
+	
+
+	
+	/**
+	 * method ecrireFinMethodeRetrieveByAttributs(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la fin de la méthode retrieveByAttributs(...) 
+	 * dans pFile.</li>
+	 * </ul>
+	 *
+	 * @param pFile : File.<br/>
+	 */
+	private void ecrireFinMethodeRetrieveByAttributs(
+			final File pFile) throws Exception {
+		
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_retrievebyattributs_fin.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		final List<String> listeSubst2 
+		= this.substituerVariablesDansLigne(
+				listeSubst1
+					, "{$NOM_CLASSE}"
+						, this.fabriquerNomClasse(
+								this.nomSimpleFichierJava));
+		
+		/* ajoute 3 lignes vides. */
+		this.ajouterLignesVides(3, listeSubst2);
+
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst2, pFile);
+		
+	} // Fin de ecrireFinMethodeRetrieveByAttributs(...).__________________
+	
+	
+		
 	/**
 	 * method fournirIdentifiantDebutMethodeRetrieveByAttributs() :<br/>
 	 * <ul>

@@ -139,6 +139,7 @@ public final class Application {
 	public static void main(
 			final String[] pArgs) throws Exception {
 		
+		
 		/* Choisit le projet dans lequel générer le code. */
 		GestionnaireProjet.alimenterAttributs(PROJET_GENERATION_CODE_TEST);
 		

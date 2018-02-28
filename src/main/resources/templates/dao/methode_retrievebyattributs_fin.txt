@@ -1,0 +1,30 @@
+		try {
+			
+			/* Execution de la requete HQL. */
+			objetResultat 
+				= ({$nomInterfaceMetier}) requete.getSingleResult();
+			
+		}
+		catch (NoResultException noResultExc) {
+			
+			/* retourne null si l'Objet métier n'existe pas en base. */
+			return null;
+			
+		}
+		catch (Exception e) {
+			
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+			
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						{$NOM_CLASSE}
+						, "Méthode retrieveByAttributs({$nomInterfaceMetier} pObject)", e);
+		}
+				
+		return objetResultat;
+
+	} // Fin de retrieveByAttributs(...).__________________________________

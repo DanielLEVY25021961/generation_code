@@ -1,0 +1,4 @@
+		/* return null si {$param} est null. */
+		if ({$param} == null) {
+			return null;
+		}

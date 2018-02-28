@@ -1,0 +1,4 @@
+		/* return null si {$param} est blank. */
+		if (StringUtils.isBlank({$param})) {
+			return null;
+		}

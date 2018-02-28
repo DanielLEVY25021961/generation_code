@@ -4229,9 +4229,8 @@ public abstract class AbstractEcriveur implements IEcriveur {
 		boolean resultat = false;
 		
 		/* Pattern sous forme de String. */
-		/* - Commence par I
-		 * - poursuit par une Majuscule
-		 * - poursuit CamelCase. */
+		/* - Commence par une minuscule ou chiffre
+		 * - poursuit par une minuscule ou chiffre. */
 		final String patternString = "([a-z0-9]*)";
 		
 		/* Instanciation d'un Pattern. */
