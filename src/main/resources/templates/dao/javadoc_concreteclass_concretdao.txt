@@ -1,0 +1,64 @@
+/**
+ * CLASSE CONCRETE <b>{$nomSimpleFichierJava}</b> :<br/>
+ * <p>
+ * <span style="text-decoration: underline;">CONCEPT 
+ * CONCERNE PAR CE DAO</span>
+ * </p>
+ * <p>
+ * <b>{$nomClassMetier}</b> modélise un un <i>concept</i> 
+ * de <b>{$conceptModelise}</b> avec ********
+ * <b>*****</b>  qui identifie <i>une ou plusieurs</i> <b>****</b>.<br/>
+ * </p>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">DESCRIPTION DE 
+ * {$nomSimpleFichierJava}</span>
+ * </p>
+ * <ul>
+ * <li>DAO <b>CONCRET</b> pour les <b>{$nomClassMetier}</b>.</li>
+ * <li>
+ * HERITE DU DAO ABSTRAIT {$nomSimpleAbstractClass}.
+ * </li>
+ * <li>
+ * Certaines méthodes (getOne(ID), ...) sont 
+ * <b>compatibles SPRING DATA</b>.
+ * </li>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">IMPLEMENTATION DES {$nomSimpleFichierJava}</span>
+ * </p>
+ * <ul>
+ * <li>
+ * <img src="../../../../../../../../../../../../javadoc/images/implementation_DAO_{$conceptModelise}.png" 
+ * alt="implémentation des DAOs {$conceptModelise}" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">UTILISATION DES {$nomSimpleFichierJava}</span>
+ * </p>
+ * <ul>
+ * <li>
+ * <img src="../../../../../../../../../../../../javadoc/images/utilisation_{$nomSimpleFichierJava}.png" 
+ * alt="utilisation des DAOs {$nomSimpleFichierJava}" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 
+ * <br/>
+ *
+ * - Exemple d'utilisation :<br/>
+ *<br/>
+ * 
+ * - Mots-clé :<br/>
+ * <br/>
+ *
+ * - Dépendances :<br/>
+ * <br/>
+ *
+ *
+ * @author dan Lévy
+ * @version 1.0
+ * @since {$date}
+ *
+ */

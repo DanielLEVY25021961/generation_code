@@ -2453,11 +2453,9 @@ public class EcriveurDaoAbstract
 	 */
 	@Override
 	protected String fournirNomClasse() {
-
-		// TODO Auto-generated method stub
-		return null;
-	}
+		return CLASSE_ECRIVEUR_DAO_ABSTRACT;
+	} // Fin de fournirNomClasse().________________________________________
 
 
 	
-} // FIn DE LA CLASSE EcriveurDaoAbstract.---------------------------------
+} // FIn DE LA CLASSE EcriveurDaoAbstract.-----------------------------------

@@ -193,6 +193,7 @@ public interface IEcriveur {
 	 * VARIABLE_NOMSIMPLEABSTRACTCLASS : String :<br/>
 	 * "{$nomSimpleAbstractClass}".<br/>
 	 * Variable à utiliser dans les templates.<br/>
+	 * à substituer par <b>this.nomSimpleAbstractClass</b>.<br/>
 	 */
 	String VARIABLE_NOMSIMPLEABSTRACTCLASS 
 		= "{$nomSimpleAbstractClass}";
@@ -213,6 +214,7 @@ public interface IEcriveur {
 	 * VARIABLE_NOM_INTERFACE_METIER : String :<br/>
 	 * "{$nomInterfaceMetier}".<br/>
 	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>this.nomInterfaceMetier</b>.<br/>
 	 */
 	String VARIABLE_NOM_INTERFACE_METIER 
 		= "{$nomInterfaceMetier}";
@@ -231,6 +233,7 @@ public interface IEcriveur {
 	 * VARIABLE_NOM_CLASSE_METIER : String :<br/>
 	 * "{$nomClassMetier}".<br/>
 	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>this.nomClassMetier</b>.<br/>
 	 */
 	String VARIABLE_NOM_CLASSE_METIER 
 		= "{$nomClassMetier}";
@@ -240,6 +243,7 @@ public interface IEcriveur {
 	 * VARIABLE_PATH_REL_CONCEPT : String :<br/>
 	 * "{$pathRelConceptString}".<br/>
 	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>this.pathRelConceptString</b>.<br/>
 	 */
 	String VARIABLE_PATH_REL_CONCEPT 
 		= "{$pathRelConceptString}";
@@ -249,6 +253,7 @@ public interface IEcriveur {
 	 * VARIABLE_PATH_REL_CONCEPT_IMPL : String :<br/>
 	 * "{$pathRelConceptImplString}".<br/>
 	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>this.pathRelConceptImplString</b>.<br/>
 	 */
 	String VARIABLE_PATH_REL_CONCEPT_IMPL 
 		= "{$pathRelConceptImplString}";
@@ -257,9 +262,20 @@ public interface IEcriveur {
 	 * VARIABLE_PATH_REL_COUCHE_JAVA_STRING : String :<br/>
 	 * "{$pathRelCoucheJavaString}".<br/>
 	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>this.pathRelCoucheJavaString</b>.<br/>
 	 */
 	String VARIABLE_PATH_REL_COUCHE_JAVA_STRING 
 		= "{$pathRelCoucheJavaString}";
+	
+	
+	/**
+	 * VARIABLE_PATH_REL_SOUS_COUCHE_JAVA_STRING : String :<br/>
+	 * "{$pathRelSousCoucheJavaString}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>this.pathRelSousCoucheJavaString</b>.<br/>
+	 */
+	String VARIABLE_PATH_REL_SOUS_COUCHE_JAVA_STRING 
+		= "{$pathRelSousCoucheJavaString}";
 	
 	/**
 	 * VARIABLE_NOMATTRIBUT : String :<br/>
