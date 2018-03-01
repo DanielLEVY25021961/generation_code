@@ -351,6 +351,12 @@ public class EcriveurDaoConcrete
 	 * méthode findAllSousCLasse(...).</li>
 	 * <li>écrit la Javadoc et le code de la 
 	 * méthode findAll...(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode findAllMaxSousCLasse(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode findAllMax...(...).</li>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode deleteAllSousCLasse(...).</li>
 	 * 
 	 * <li>écrit la Javadoc et le code de la 
 	 * méthode deleteById(...).</li>
@@ -405,6 +411,19 @@ public class EcriveurDaoConcrete
 		/* écrit la Javadoc et le code de la 
 		 * méthode findAllPrivate(...). */
 		this.ecrireMethodeFindAllPrivate(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode findAllMaxSousCLasse(...). */
+		this.ecrireMethodeFindAllMaxSousClasse(pFile);
+
+		/* écrit la Javadoc et le code de la 
+		 * méthode findAllMax...(...). */
+		this.ecrireMethodeFindAllMaxPrivate(pFile);
+		
+		/* écrit la Javadoc et le code de la 
+		 * méthode deleteAllSousCLasse(...). */
+		this.ecrireMethodeDeleteAllSousClasse(pFile);
+		
 		
 		/* écrit la Javadoc et le code de la 
 		 * méthode deleteById(...). */
@@ -938,6 +957,306 @@ public class EcriveurDaoConcrete
 		
 	} // Fin de fournirIdentifiantDebutMethodeFindAllPrivate().____________
 
+
+		
+	/**
+	 * method ecrireMethodeFindAllMaxSousClasse(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode findAllMaxSousClasse(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeFindAllMaxSousClasse(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeFindAllMaxSousClasse();
+	
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+	
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_findallmaxsousclasse_concretedao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+					listeSubst1
+						, VARIABLE_NOM_CLASSE_METIER
+							, this.nomClassMetier);
+	
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst2);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst2, pFile);
+		
+	} // Fin de ecrireMethodeFindAllMaxSousClasse(...).____________________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeFindAllMaxSousClasse() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * findAllMaxSousClasse(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeFindAllMaxSousClasse() {
+		
+		final String ligne 
+			= DECALAGE_METHODE 
+			+ "public final List<" 
+					+ this.nomInterfaceMetier 
+						+ "> findAllMaxSousClasse";
+		
+		return ligne;
+		
+	} // Fin de fournirIdentifiantDebutMethodeFindAllMaxSousClasse().______
+	
+
+	
+	/**
+	 * method ecrireMethodeFindAllMaxPrivate(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode findAllMax...(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeFindAllMaxPrivate(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeFindAllMaxPrivate();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_findallmax_concretedao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+		
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+					listeSubst1
+						, VARIABLE_NOM_CLASSE_METIER
+							, this.nomClassMetier);
+
+		final List<String> listeSubst3 
+			= this.substituerVariablesDansLigne(
+				listeSubst2
+					, VARIABLE_NOMCLASSE
+						, this.fabriquerNomClasse(
+								this.nomSimpleFichierJava));
+
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst3);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst3, pFile);
+		
+	} // Fin de ecrireMethodeFindAllMaxPrivate(...)._______________________
+	
+
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeFindAllMaxPrivate() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * findAllMAx...(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeFindAllMaxPrivate() {
+		
+		final String ligne 
+			= DECALAGE_METHODE 
+				+ "private List<" 
+					+ this.nomInterfaceMetier 
+						+ "> findAllMax" 
+						+ this.nomClassMetier;
+		
+		return ligne;
+		
+	} // Fin de fournirIdentifiantDebutMethodeFindAllMaxPrivate()._________
+
+
+		
+	/**
+	 * method ecrireMethodeDeleteAllSousClasse(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode deleteAllSousClasse(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeDeleteAllSousClasse(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeDeleteAllSousClasse();
+	
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+	
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_deleteallsousclasse_concretedao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_CLASSE_METIER
+							, this.nomClassMetier);
+	
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst1);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireMethodeDeleteAllSousClasse(...)._____________________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeDeleteAllSousClasse() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * deleteAllSousClasse(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeDeleteAllSousClasse() {
+		
+		final String ligne 
+			= DECALAGE_METHODE 
+			+ "public final void deleteAllSousClasse";
+		
+		return ligne;
+		
+	} // Fin de fournirIdentifiantDebutMethodeDeleteAllSousClasse()._______
+	
 
 	
 	/**

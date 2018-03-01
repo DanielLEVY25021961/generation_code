@@ -1,0 +1,8 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void deleteAllSousClasse() 
+					throws AbstractDaoException {
+		this.deleteAll{$nomClassMetier}();
+	} // Fin de deleteAllSousClasse()._____________________________________

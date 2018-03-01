@@ -1,0 +1,82 @@
+	/**
+	 * method findAllMax{$nomClassMetier}(
+	 * Long pMax) :<br/>
+	 * <ul>
+	 * <li>Retourne sous forme de List&lt;{$nomInterfaceMetier}&gt; 
+	 * la liste des pMax premiers Objets métier 
+	 * de Type <b>{$nomClassMetier}</b> présents en base 
+	 * et retournés par findAll{$nomClassMetier}().</li>
+	 * <li>Le champ de tri des Objets métier semble être l'ID.</li>
+	 * </ul>
+	 * retourne null si pMax == null.<br/>
+	 * retourne null si pMax < 1L.<br/>
+	 * <br/>
+	 * 
+	 * @param pMax : Long : Nombre maximal d'objets métier 
+	 * à remonter de la base.<br/>
+	 * 
+	 * @return List&lt;{$nomInterfaceMetier}&gt; :
+	 * liste des pMax premiers objets métier 
+	 * de Type <b>{$nomClassMetier}</b> présents en base.<br/>
+	 *  
+	 * @throws AbstractDaoException
+	 */
+	private List<{$nomInterfaceMetier}> findAllMax{$nomClassMetier}(
+			final Long pMax) throws AbstractDaoException {
+		
+		/* retourne null si pMax == null. */
+		if (pMax == null) {
+			return null;
+		}
+		
+		/* retourne null si pMax < 1L. */
+		if (pMax < 1L) {
+			return null;
+		}
+		
+		
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+						
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return null;
+		}
+		
+		/* Création de la requête HQL sous forme de String. */
+		final String requeteString 
+			= "from {$nomClassMetier}";
+		
+		List<{$nomInterfaceMetier}> resultat = null;
+		
+		try {
+			
+			/* Crée la requête javax.persistence.Query. */
+			final Query query 
+				= this.entityManager.createQuery(requeteString)
+					.setFirstResult(0).setMaxResults(pMax.intValue());
+			
+			/* Exécute la javax.persistence.Query. */
+			resultat = query.getResultList();
+
+		}
+		catch (Exception e) {
+			
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+						
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException({$NOM_CLASSE}
+						, "Méthode findAllMax{$nomClassMetier}(Long pMax)", e);
+			
+		}
+		
+		/* Retourne la liste résultat. */
+		return resultat;
+				
+	} // Fin de findAllMax{$nomClassMetier}(...).__________________________

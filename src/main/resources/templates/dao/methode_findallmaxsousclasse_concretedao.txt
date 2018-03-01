@@ -1,0 +1,8 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final List<{$nomInterfaceMetier}> findAllMaxSousClasse(
+			final Long pMax) throws AbstractDaoException {
+		return this.findAllMax{$nomClassMetier}(pMax);
+	} // Fin de findAllMaxSousClasse(...)._________________________________
