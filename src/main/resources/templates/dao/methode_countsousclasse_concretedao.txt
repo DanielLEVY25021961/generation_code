@@ -1,0 +1,8 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Long countSousClasse() 
+						throws AbstractDaoException {
+		return this.count{$nomClassMetier}();
+	} // Fin de countSousClasse()._________________________________________

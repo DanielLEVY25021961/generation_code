@@ -357,17 +357,16 @@ public class EcriveurDaoConcrete
 	 * méthode findAllMax...(...).</li>
 	 * <li>écrit la Javadoc et le code de la 
 	 * méthode deleteAllSousCLasse(...).</li>
-	 * 
 	 * <li>écrit la Javadoc et le code de la 
-	 * méthode deleteById(...).</li>
+	 * méthode deleteAll...(...).</li>
 	 * <li>écrit la Javadoc et le code de la 
-	 * méthode deleteByIdBoolean(...).</li>
+	 * méthode deleteAllBooleanSousCLasse(...).</li>
 	 * <li>écrit la Javadoc et le code de la 
-	 * méthode exists(...).</li>
+	 * méthode deleteAllBoolean...(...).</li>
 	 * <li>écrit la Javadoc et le code de la 
-	 * méthode afficherListe(...).</li>
+	 * méthode countSousClasse(...).</li>
 	 * <li>écrit la Javadoc et le code de la 
-	 * méthode renseignerClassObjetMetier(...).</li>
+	 * méthode count...(...).</li>
 	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -424,30 +423,25 @@ public class EcriveurDaoConcrete
 		 * méthode deleteAllSousCLasse(...). */
 		this.ecrireMethodeDeleteAllSousClasse(pFile);
 		
+		/* écrit la Javadoc et le code de la 
+		 * méthode deleteAll...(...). */
+		this.ecrireMethodeDeleteAllPrivate(pFile);
 		
 		/* écrit la Javadoc et le code de la 
-		 * méthode deleteById(...). */
-//		this.ecrireMethodeDeleteById(pFile);
+		 * méthode deleteAllBooleanSousCLasse(...). */
+		this.ecrireMethodeDeleteAllBooleanSousClasse(pFile);
 		
 		/* écrit la Javadoc et le code de la 
-		 * méthode deleteByIdBoolean(...). */
-//		this.ecrireMethodeDeleteByIdBoolean(pFile);
+		 * méthode deleteAllBoolean...(...). */
+		this.ecrireMethodeDeleteAllBooleanPrivate(pFile);
 		
 		/* écrit la Javadoc et le code de la 
-		 * méthode exists(...). */
-//		this.ecrireMethodeExists(pFile);
+		 * méthode countSousClasse(...). */
+		this.ecrireMethodeCountSousClasse(pFile);
 		
 		/* écrit la Javadoc et le code de la 
-		 * méthode exists(Long..). */
-//		this.ecrireMethodeExistsLong(pFile);
-		
-		/* écrit la Javadoc et le code de la 
-		 * méthode afficherListe(...). */
-//		this.ecrireMethodeAfficherListe(pFile);
-		
-		/* écrit la Javadoc et le code de la 
-		 * méthode renseignerClassObjetMetier(...). */
-//		this.ecrireMethodeRenseignerClassObjetMetier(pFile);
+		 * méthode count...(...). */
+		this.ecrireMethodeCountPrivate(pFile);
 		
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
@@ -1258,6 +1252,486 @@ public class EcriveurDaoConcrete
 	} // Fin de fournirIdentifiantDebutMethodeDeleteAllSousClasse()._______
 	
 
+	
+	/**
+	 * method ecrireMethodeDeleteAllPrivate(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode deleteAll...(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeDeleteAllPrivate(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeDeleteAllPrivate();
+	
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+	
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_deleteall_concretedao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_CLASSE_METIER
+							, this.nomClassMetier);
+
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+				listeSubst1
+					, VARIABLE_NOMCLASSE
+						, this.fabriquerNomClasse(
+								this.nomSimpleFichierJava));
+
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst2);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst2, pFile);
+		
+	} // Fin de ecrireMethodeDeleteAllPrivate(...).________________________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeDeleteAllPrivate() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * deleteAll...(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeDeleteAllPrivate() {
+		
+		final String ligne 
+			= DECALAGE_METHODE 
+			+ "private void deleteAll" + this.nomClassMetier;
+		
+		return ligne;
+		
+	} // Fin de fournirIdentifiantDebutMethodeDeleteAllPrivate().__________
+
+	
+	
+	/**
+	 * method ecrireMethodeDeleteAllBooleanSousClasse(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode deleteAllBooleanSousClasse(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeDeleteAllBooleanSousClasse(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeDeleteAllBooleanSousClasse();
+	
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+	
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_deleteallbooleansousclasse_concretedao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_CLASSE_METIER
+							, this.nomClassMetier);
+	
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst1);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireMethodeDeleteAllBooleanSousClasse(...).______________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeDeleteAllBooleanSousClasse() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * deleteAllBooleanSousClasse(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeDeleteAllBooleanSousClasse() {
+		
+		final String ligne 
+			= DECALAGE_METHODE 
+			+ "public final boolean deleteAllBooleanSousClasse";
+		
+		return ligne;
+		
+	} // Fin de fournirIdentifiantDebutMethodeDeleteAllBooleanSousClasse().
+	
+
+	
+	/**
+	 * method ecrireMethodeDeleteAllBooleanPrivate(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode deleteAllBoolean...(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeDeleteAllBooleanPrivate(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeDeleteAllBooleanPrivate();
+	
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+	
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_deleteallboolean_concretedao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_CLASSE_METIER
+							, this.nomClassMetier);
+
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+				listeSubst1
+					, VARIABLE_NOMCLASSE
+						, this.fabriquerNomClasse(
+								this.nomSimpleFichierJava));
+
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst2);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst2, pFile);
+		
+	} // Fin de ecrireMethodeDeleteAllBooleanPrivate(...).________________________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeDeleteAllBooleanPrivate() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * deleteAllBoolean...(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeDeleteAllBooleanPrivate() {
+		
+		final String ligne 
+			= DECALAGE_METHODE 
+			+ "private boolean deleteAllBoolean" + this.nomClassMetier;
+		
+		return ligne;
+		
+	} // Fin de fournirIdentifiantDebutMethodeDeleteAllBooleanPrivate().__________
+
+
+	
+	/**
+	 * method ecrireMethodeCountSousClasse(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode countSousClasse(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeCountSousClasse(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeCountSousClasse();
+	
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+	
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_countsousclasse_concretedao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_CLASSE_METIER
+							, this.nomClassMetier);
+	
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst1);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst1, pFile);
+		
+	} // Fin de ecrireMethodeCountSousClasse(...)._________________________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeCountSousClasse() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * countSousClasse(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeCountSousClasse() {
+		
+		final String ligne 
+			= DECALAGE_METHODE 
+			+ "public final Long countSousClasse";
+		
+		return ligne;
+		
+	} // Fin de fournirIdentifiantDebutMethodeCountSousClasse().___________
+	
+
+	
+	/**
+	 * method ecrireMethodeCountPrivate(
+	 * File pFile) :<br/>
+	 * <ul>
+	 * <li>écrit la Javadoc et le code de la 
+	 * méthode count...(...).</li>
+	 * <li>rajoute 3 lignes vides à la suite.</li>
+	 * <li>Ne fait rien si la méthode a déjà été écrite.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	protected final void ecrireMethodeCountPrivate(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+	
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirIdentifiantDebutMethodeCountPrivate();
+	
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+	
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate(
+					"dao/methode_count_concretedao.txt");
+		
+		/* substitutions. */
+		final List<String> listeSubst1 
+			= this.substituerVariablesDansLigne(
+					listeLignes
+						, VARIABLE_NOM_CLASSE_METIER
+							, this.nomClassMetier);
+		
+		final List<String> listeSubst2 
+			= this.substituerVariablesDansLigne(
+					listeSubst1
+						, VARIABLE_NOM_INTERFACE_METIER
+							, this.nomInterfaceMetier);
+	
+		/* ajoute 3 lignes vides sous la méthode. */
+		this.ajouterLignesVides(3, listeSubst2);
+		
+	
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeSubst2, pFile);
+		
+	} // Fin de ecrireMethodeCountPrivate(...).____________________________
+	
+	
+	
+	/**
+	 * method fournirIdentifiantDebutMethodeCountPrivate() :<br/>
+	 * <ul>
+	 * <li>retourne le début de la ligne identifiant la méthode 
+	 * count...(...) pour ne jamais l'écrire deux fois.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant.<br/>
+	 */
+	private String fournirIdentifiantDebutMethodeCountPrivate() {
+		
+		final String ligne 
+			= DECALAGE_METHODE 
+			+ "private Long count" + this.nomClassMetier;
+		
+		return ligne;
+		
+	} // Fin de fournirIdentifiantDebutMethodeCountPrivate().______________
+
+	
 	
 	/**
 	 * {@inheritDoc}

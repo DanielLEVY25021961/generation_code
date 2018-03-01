@@ -1,0 +1,29 @@
+	/**
+	 * method count{$nomClassMetier}() :<br/>
+	 * <ul>
+	 * <li>Retourne le nombre d'Objets metier 
+	 * de type <b>{$nomClassMetier}</b> présents en base.</li>
+	 * </ul>
+	 *
+	 * @return : Long : 
+	 * le nombre d'Objets metier de type <b>{$nomClassMetier}</b> 
+	 * présents en base.<br/>
+	 *
+	 * @throws AbstractDaoException
+	 */
+	private Long count{$nomClassMetier}() 
+						throws AbstractDaoException {
+		
+		/* Récupère la liste d'Objets métier de Type {$nomClassMetier}. */
+		final List<{$nomInterfaceMetier}> listObjects 
+			= this.findAll{$nomClassMetier}();
+		
+		if (listObjects != null) {
+			
+			/* Retourne la taille de la liste. */
+			return Long.valueOf(listObjects.size()) ;
+		}
+		
+		return 0L;
+		
+	} // Fin de count{$nomClassMetier}().__________________________________

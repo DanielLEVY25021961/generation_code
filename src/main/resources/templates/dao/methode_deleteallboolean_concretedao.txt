@@ -1,0 +1,63 @@
+	/**
+	 * method deleteAllBoolean{$nomClassMetier}() :<br/>
+	 * <ul>
+	 * <li>Détruit en base tous les enregistrements 
+	 * d'Objets métier de Type <b>{$nomClassMetier}</b>.</li>
+	 * <li>Retourne true si la destruction a bien été effectuée.</li>
+	 * </ul>
+	 * 
+	 * @return boolean : true si tous les enregistrements 
+	 * ont été détruits en base.<br/>
+	 * 
+	 * @throws AbstractDaoException
+	 */
+	private boolean deleteAllBoolean{$nomClassMetier}() 
+									throws AbstractDaoException {
+		
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+						
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return false;
+		}
+	
+		
+		boolean resultat = false;
+		
+		/* Création de la requête HQL sous forme de String. */
+		final String requeteString 
+			= "delete from {$nomClassMetier}";
+		
+		try {
+			
+			/* Crée la requête javax.persistence.Query. */
+			final Query query 
+				= this.entityManager.createQuery(requeteString);
+			
+			/* EXECUTION DE LA REQUETE. */
+			query.executeUpdate();
+			
+			resultat = true;
+			
+		}
+		catch (Exception e) {
+			
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+			
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						{$NOM_CLASSE}
+						, "Méthode deleteAllBoolean{$nomClassMetier}()", e);
+			
+		}
+		
+		return resultat;
+		
+	} // Fin de deleteAllBoolean{$nomClassMetier}()._______________________

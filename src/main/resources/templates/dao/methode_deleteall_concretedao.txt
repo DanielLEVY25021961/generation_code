@@ -1,0 +1,53 @@
+	/**
+	 * method deleteAll{$nomClassMetier}() :<br/>
+	 * <ul>
+	 * <li>Détruit en base toutes les instances 
+	 * d'Objets métier de Type <b>{$nomClassMetier}</b>.</li>
+	 * </ul>
+	 *
+	 * @throws AbstractDaoException
+	 */
+	private void deleteAll{$nomClassMetier}() 
+							throws AbstractDaoException {
+		
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+						
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return;
+		}
+
+		
+		/* Création de la requête HQL sous forme de String. */
+		final String requeteString 
+			= "delete from {$nomClassMetier}";
+		
+		try {
+			
+			/* Crée la requête javax.persistence.Query. */
+			final Query query 
+				= this.entityManager.createQuery(requeteString);
+			
+			/* EXECUTION DE LA REQUETE. */
+			query.executeUpdate();
+			
+		}
+		catch (Exception e) {
+			
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+			
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						{$NOM_CLASSE}
+						, "Méthode deleteAll{$nomClassMetier}()", e);
+			
+		}
+		
+	} // Fin de deleteAll{$nomClassMetier}().______________________________
