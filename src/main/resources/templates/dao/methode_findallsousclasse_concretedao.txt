@@ -1,0 +1,8 @@
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final List<{$nomInterfaceMetier}> findAllSousClasse() 
+							throws AbstractDaoException {
+		return this.findAll{$nomClassMetier}();
+	} // Fin de findAllSousClasse()._______________________________________

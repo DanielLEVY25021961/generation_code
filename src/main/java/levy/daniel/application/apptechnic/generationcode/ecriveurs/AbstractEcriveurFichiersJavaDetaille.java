@@ -605,6 +605,17 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 					pFile, CHARSET_UTF8, ligneEntity)) {
 				return;
 			}
+			
+			/* Recherche la ligne identifiant Repository. */
+			final String ligneRepository 
+				= "@Repository";
+			
+			/* Ne fait rien si Entity a déjà été écrite. */
+			if (this.existLigneCommencant(
+					pFile, CHARSET_UTF8, ligneRepository)) {
+				return;
+			}
+
 
 			
 			/* *************** */
@@ -901,8 +912,12 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 	/**
 	 * method ecrireLignesSepAttributs() :<br/>
 	 * <ul>
-	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li>écrit les <b>lignes de séparation des attributs</b>.</li>
+	 * <li>inclut une ligne vide au dessus 
+	 * et en dessous de la ligne d'étoiles.</li>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>entièrement défini au niveau supérieur 
+	 * AbstractEcriveurFichiersJavaDetaille.</li>
 	 * <li>Ne fait rien si les lignes existent déjà.</li>
 	 * <li>
 	 * Par exemple : <br/>
@@ -1084,7 +1099,6 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 	/**
 	 * method creerStringClasse() :<br/>
 	 * <ul>
-	 * <li>Crée la liste des lignes du séparateur Attributs.</li>
 	 * <li>alimente this.stringClasse</li>
 	 * </ul>
 	 *
@@ -1103,8 +1117,8 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 		final List<String> listeLignesSubst1 
 			= substituerVariablesDansLigne(
 					listeLignes
-					, "{$NOM_CLASSE}"
-					, this.fabriquerNomClasse(
+					, VARIABLE_NOMCLASSE
+						, this.fabriquerNomClasse(
 							this.nomSimpleFichierJava));
 		
 		final List<String> listeLignesSubst2 

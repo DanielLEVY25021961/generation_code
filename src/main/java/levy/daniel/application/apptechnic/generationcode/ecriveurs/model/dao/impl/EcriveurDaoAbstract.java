@@ -1096,7 +1096,7 @@ public class EcriveurDaoAbstract
 		final List<String> listeSubst2 
 		= this.substituerVariablesDansLigne(
 				listeSubst1
-					, "{$NOM_CLASSE}"
+					, VARIABLE_NOMCLASSE
 						, this.fabriquerNomClasse(
 								this.nomSimpleFichierJava));
 		
@@ -1727,7 +1727,7 @@ public class EcriveurDaoAbstract
 		final List<String> listeSubst2 
 		= this.substituerVariablesDansLigne(
 				listeSubst1
-					, "{$NOM_CLASSE}"
+					, VARIABLE_NOMCLASSE
 						, this.fabriquerNomClasse(
 								this.nomSimpleFichierJava));
 		
@@ -1908,7 +1908,7 @@ public class EcriveurDaoAbstract
 		final List<String> listeSubst3 
 		= this.substituerVariablesDansLigne(
 				listeSubst2
-					, "{$NOM_CLASSE}"
+					, VARIABLE_NOMCLASSE
 						, this.fabriquerNomClasse(
 								this.nomSimpleFichierJava));
 		
@@ -2008,7 +2008,7 @@ public class EcriveurDaoAbstract
 		final List<String> listeSubst3 
 		= this.substituerVariablesDansLigne(
 				listeSubst2
-					, "{$NOM_CLASSE}"
+					, VARIABLE_NOMCLASSE
 						, this.fabriquerNomClasse(
 								this.nomSimpleFichierJava));
 		
@@ -2163,7 +2163,7 @@ public class EcriveurDaoAbstract
 		final List<String> listeSubst2 
 		= this.substituerVariablesDansLigne(
 				listeSubst1
-					, "{$NOM_CLASSE}"
+					, VARIABLE_NOMCLASSE
 						, this.fabriquerNomClasse(
 								this.nomSimpleFichierJava));
 		

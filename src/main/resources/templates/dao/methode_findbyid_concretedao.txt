@@ -1,0 +1,47 @@
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * REDEFINI DANS LA CLASSE CONCRETE EN REMPLACANT 
+	 * T PAR LA CLASSE CONCRETE.<br/>
+	 * <br/>
+	 */
+	@Override
+	public {$nomInterfaceMetier} findById(
+			final Long pId) throws AbstractDaoException {
+		
+		{$nomClassMetier} objetTrouve = null;
+		
+		/* retourne null si pId == null. */
+		if (pId == null) {
+			return null;
+		}
+
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+						
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return null;
+		}
+
+		try {
+			
+			objetTrouve 
+				= this.entityManager.find({$nomClassMetier}.class, pId);
+			
+		}
+		catch (Exception e) {
+			
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						{$NOM_CLASSE}
+						, "Méthode findById(ID)", e);
+			
+		}
+		
+		return objetTrouve;
+				
+	} // Fin de findById(...)._____________________________________________

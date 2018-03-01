@@ -169,6 +169,17 @@ public interface IEcriveur {
 	 */
 	String VARIABLE_NOMPACKAGE 
 		= "{$nomPackage}";
+
+	
+	/**
+	 * VARIABLE_NOMCLASSE : String :<br/>
+	 * "{$NOM_CLASSE}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>this.fabriquerNomClasse(
+	 * this.nomSimpleFichierJava)</b>.<br/>
+	 */
+	String VARIABLE_NOMCLASSE 
+		= "{$NOM_CLASSE}";
 	
 	
 	/**

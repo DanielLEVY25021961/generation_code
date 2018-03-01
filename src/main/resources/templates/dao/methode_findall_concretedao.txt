@@ -1,0 +1,62 @@
+	/**
+	 * method findAll{$nomClassMetier}() :<br/>
+	 * <ul>
+	 * <li>Retourne la liste de tous les objets métier 
+	 * de Type {$nomClassMetier} présents en base sous forme 
+	 * de List&lt;{$nomInterfaceMetier}&gt;.</li>
+	 * </ul>
+	 *
+	 * @return List&lt;{$nomInterfaceMetier}&gt; : 
+	 * liste de tous les objets métier de Type <b>{$nomClassMetier}</b> 
+	 * présents en base.<br/>
+	 * 
+	 * @throws AbstractDaoException
+	 */
+	private List<{$nomInterfaceMetier}> findAll{$nomClassMetier}() 
+			throws AbstractDaoException {
+		
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+						
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return null;
+		}
+		
+		/* Création de la requête HQL sous forme de String. */
+		final String requeteString 
+			= "from {$nomClassMetier}";
+		
+		List<{$nomInterfaceMetier}> resultat = null;
+		
+		try {
+			
+			/* Crée la requête javax.persistence.Query. */
+			final Query query 
+				= this.entityManager.createQuery(requeteString);
+			
+			/* Exécute la javax.persistence.Query. */
+			resultat = query.getResultList();
+
+		}
+		catch (Exception e) {
+			
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+			
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						{$NOM_CLASSE}
+						, "Méthode findAll{$nomClassMetier}()", e);
+			
+		}
+		
+		/* Retourne la liste résultat. */
+		return resultat;
+		
+	} // Fin de findAll{$nomClassMetier}().________________________________
