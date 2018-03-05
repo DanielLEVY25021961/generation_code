@@ -336,6 +336,127 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * Par exemple : ProfilForm.java pour un ProfilSimple.java.<br/>
 	 */
 	protected static File classMetierForm;
+	
+	
+	/**
+	 * pathCoucheDao : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la COUCHE au dessus du package metier 
+	 * de la couche DAO (model.dao)</b> 
+	 * contenant les arborescences à générer pour les DAOs 
+	 * d'un Concept.</li>
+	 * <li>path sous forme de java.nio.file.Path.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao
+	 * </code>.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected static Path pathCoucheDao;
+	
+	
+	/**
+	 * pathCoucheDaoString : String :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la COUCHE au dessus du package metier 
+	 * de la couche DAO (model.dao)</b> 
+	 * contenant les arborescences à générer pour les DAOs 
+	 * d'un Concept.</li>
+	 * <li>path sous forme de String.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao
+	 * </code>.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected static String pathCoucheDaoString;
+	
+	
+	/**
+	 * fileCoucheDao : File :<br/>
+	 * <ul>
+	 * <li><b>File modélisant la COUCHE au dessus du package metier 
+	 * de la couche DAO (model.dao)</b> 
+	 * contenant les arborescences à générer pour les DAOs 
+	 * d'un Concept.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao
+	 * </code>.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected static File fileCoucheDao;
+
+	
+	/**
+	 * pathRelCoucheDao : Path :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathCoucheDao</b>.</li>
+	 * <li>path relatif MODE FILE, c'est à dire avec 
+	 * des séparateurs slash.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy/daniel/application/model/dao
+	 * </code>.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected static Path pathRelCoucheDao;
+	
+	
+	/**
+	 * pathRelCoucheDaoJavaString : String :<br/>
+	 * <ul>
+	 * <li><b>path RELATIF par rapport à PATH_MAIN_JAVA 
+	 * du pathCoucheDao</b>.</li>
+	 * <li>path relatif JAVA, c'est à dire avec 
+	 * des séparateurs point.</li> 
+	 * <li>Par exemple :<br/>
+	 * <ul>
+	 * <li><code>levy.daniel.application.model.dao
+	 * </code>.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected static String pathRelCoucheDaoJavaString;
+	
+	
+	/**
+	 * pathCoucheDaoMetier : Path :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la SOUS-COUCHE METIER (package metier) 
+	 * sous la COUCHE DAO</b> 
+	 * contenant les arborescences à générer pour un Concept.</li>
+	 * <li>path sous forme de java.nio.file.Path.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code>.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected static Path pathCoucheDaoMetier;
+	
+	
+	/**
+	 * pathCoucheDaoMetierString : String :<br/>
+	 * <ul>
+	 * <li><b>path absolu de la SOUS-COUCHE METIER (package metier) 
+	 * sous la COUCHE DAO</b> 
+	 * contenant les arborescences à générer pour un Concept.</li>
+	 * <li>path sous forme de String.</li>
+	 * <li>par exemple : <br/>
+	 * <ul>
+	 * <li><code>./src/main/java/levy/daniel/application/model/dao/metier
+	 * </code>.</li>
+	 * </ul>
+	 * </ul>
+	 */
+	protected static String pathCoucheDaoMetierString;
 
 	
 	/**
@@ -343,6 +464,46 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * package metier sous la couche DAO (model.dao.metier).<br/>
 	 */
 	protected static File packageDaoMetier;
+	
+	
+	/**
+	 * nomIDao : String :<br/>
+	 * Nom simple de l'interface du DAO à générer.<br/>
+	 * Par exemple "IDaoProfil" pour un ProfilSimple.<br/>
+	 */
+	protected static String nomIDao;
+	
+	
+	/**
+	 * fileIDao : File :<br/>
+	 * File modélisant l'interface du DAO à générer.<br/>
+	 * Par exemple "IDaoProfil" pour un ProfilSimple.<br/>
+	 */
+	protected static File fileIDao;
+
+	
+	/**
+	 * nomAbstractDao : String :<br/>
+	 * Nom simple du DAO abstrait à générer.<br/>
+	 * Par exemple "AbstractDaoProfil" pour un ProfilSimple.<br/>
+	 */
+	protected static String nomAbstractDao;
+	
+	
+	/**
+	 * fileAbstractDao : File :<br/>
+	 * File modélisant le DAO abstrait à générer.<br/>
+	 * Par exemple "AbstractDaoProfil" pour un ProfilSimple.<br/>
+	 */
+	protected static File fileAbstractDao;
+	
+	
+	protected static String nomConcreteDao;
+	
+	
+	protected static File concreteDao;
+	
+
 	
 	
 	/**
@@ -2142,6 +2303,9 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 		/* alimente mapRg. */
 		alimenterMapRg(pMapRg);
+		
+		/* alimente toute la couche DAO. */
+		alimenterDao();
 
 	} // Fin de alimenterAttributsStatic(...)._____________________________
 	
@@ -3994,6 +4158,73 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		} // Fin de synchronized._______________________
 
 	} // Fin de alimenterMapRg().__________________________________________
+	
+
+	
+	/**
+	 * method alimenterDao() :<br/>
+	 * <ul>
+	 * <li>alimente pathCoucheDao.</li>
+	 * <li>alimente pathCoucheDaoString.</li>
+	 * <li>alimente fileCoucheDao.</li>
+	 * <li>alimente pathRelCoucheDao.</li>
+	 * <li>alimente pathRelCoucheDaoJavaString.</li>
+	 * <li>alimente pathCoucheDaoMetierString.</li>
+	 * <li>alimente pathCoucheDaoMetier.</li>
+	 * </ul>
+	 */
+	private static void alimenterDao() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			/* alimente pathCoucheDao. */
+			if (pathCoucheDao == null) {				
+				pathCoucheDao = GestionnaireProjet.getPathDaoMainJava();
+			}
+			
+			/* alimente pathCoucheDaoString. */
+			if (pathCoucheDaoString == null) {
+				
+				final String pathBaseAntislash 
+				= GestionnaireProjet.getPathDaoMainJavaString();
+				
+				pathCoucheDaoString 
+				= retournerPathGenerique(pathBaseAntislash);
+			}
+			
+			/* alimente fileCoucheDao. */
+			if (fileCoucheDao == null) {
+				fileCoucheDao = pathCoucheDao.toFile();
+			}
+			
+			/* alimente pathRelCoucheDao. */
+			if (pathRelCoucheDao == null) {
+				pathRelCoucheDao 
+					= PATH_MAIN_JAVA.relativize(pathCoucheDao);
+			}
+			
+			/* alimente pathRelCoucheDaoJavaString. */
+			if (pathRelCoucheDaoJavaString == null) {
+				pathRelCoucheDaoJavaString 
+					= remplacerAntiSlashparPoint(
+							pathRelCoucheDao.toString());
+			}
+			
+			/* alimente pathCoucheDaoMetierString. */
+			if (pathCoucheDaoMetierString == null) {
+				pathCoucheDaoMetierString 
+					= pathCoucheDaoString + "/metier";
+			}
+			
+			/* alimente pathCoucheDaoMetier. */
+			if (pathCoucheDaoMetier == null) {
+				pathCoucheDaoMetier 
+					= Paths.get(pathCoucheDaoMetierString);
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterDao().____________________________________________
 	
 	
 	

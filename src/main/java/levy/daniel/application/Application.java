@@ -145,8 +145,9 @@ public final class Application {
 		
 		/* Instancie des générateurs de code. */
 		final IGenerateur generateurMetier = new GenerateurMetierToutAbstract();
+		final IGenerateur generateurMetierTest = new GenerateurMetierTest();
 		final IGenerateur generateurDao = new GenerateurDaoToutAbstract();
-		final IGenerateur generateurTest = new GenerateurMetierTest();
+		
 		
 		MAP_ATTRIBUTS.put("profilString", STRING);
 		MAP_ATTRIBUTS.put("porteeProfil", STRING);
@@ -178,10 +179,11 @@ public final class Application {
 		
 		/* GENERATION DU CODE. */
 		generateurMetier.generer();
+		generateurMetierTest.generer();
 		
 		generateurDao.generer();
 		
-		generateurTest.generer();
+		
 		
 	} // Fin de main(...)._________________________________________________
 	

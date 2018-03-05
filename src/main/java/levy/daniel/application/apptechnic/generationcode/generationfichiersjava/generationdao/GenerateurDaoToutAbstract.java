@@ -3,7 +3,6 @@ package levy.daniel.application.apptechnic.generationcode.generationfichiersjava
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.dao.impl.EcriveurDaoAbstract;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.dao.impl.EcriveurDaoConcrete;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.dao.impl.EcriveurDaoInterface;
@@ -76,21 +75,18 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 	@Override
 	protected final void alimenterPathPackage() throws Exception {
 		
-		this.pathCouche = GestionnaireProjet.getPathDaoMainJava();
+		this.pathCouche = pathCoucheDao;
+				
+		this.pathCoucheString = pathCoucheDaoString;
 		
-		final String pathBaseAntislash 
-			= GestionnaireProjet.getPathDaoMainJavaString();
+		this.fileCouche = fileCoucheDao;
 		
-		this.pathCoucheString = retournerPathGenerique(pathBaseAntislash);
-		
-		this.fileCouche = this.pathCouche.toFile();
-		
-		this.pathRelCouche = PATH_MAIN_JAVA.relativize(this.pathCouche);
+		this.pathRelCouche = pathRelCoucheDao;
 		
 		this.pathRelCoucheJavaString 
-			= remplacerAntiSlashparPoint(this.pathRelCouche.toString());
+			= pathRelCoucheDaoJavaString;
 		
-		this.pathPackageString =  this.pathCoucheString + "/metier";
+		this.pathPackageString =  pathCoucheDaoMetierString;
 		
 	} // Fin de alimenterPathPackage().____________________________________
 	
@@ -101,7 +97,7 @@ public class GenerateurDaoToutAbstract extends AbstractGenerateurToutAbstract {
 	 */
 	@Override
 	protected final void alimenterNomSimpleInterface(
-			final String pConceptModelise) {		
+			final String pConceptModelise) {
 		this.nomSimpleInterface = "IDao" + pConceptModelise;		
 	} // Fin de alimenterNomSimpleInterface(...).__________________________
 
