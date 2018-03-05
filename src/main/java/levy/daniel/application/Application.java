@@ -16,6 +16,7 @@ import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
 import levy.daniel.application.apptechnic.generationcode.IGenerateur;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationdao.GenerateurDaoToutAbstract;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
+import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationtests.GenerateurDaoTest;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationtests.GenerateurMetierTest;
 
 /**
@@ -147,6 +148,7 @@ public final class Application {
 		final IGenerateur generateurMetier = new GenerateurMetierToutAbstract();
 		final IGenerateur generateurMetierTest = new GenerateurMetierTest();
 		final IGenerateur generateurDao = new GenerateurDaoToutAbstract();
+		final IGenerateur generateurDaoTest = new GenerateurDaoTest();
 		
 		
 		MAP_ATTRIBUTS.put("profilString", STRING);
@@ -182,6 +184,7 @@ public final class Application {
 		generateurMetierTest.generer();
 		
 		generateurDao.generer();
+		generateurDaoTest.generer();
 		
 		
 		

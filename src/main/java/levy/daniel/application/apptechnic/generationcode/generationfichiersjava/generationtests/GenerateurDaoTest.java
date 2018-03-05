@@ -10,7 +10,7 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.test.Ecriveur
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.AbstractGenerateurClasseSeule;
 
 /**
- * CLASSE <b>GenerateurMetierTest</b> :<br/>
+ * CLASSE <b>GenerateurDaoTest</b> :<br/>
  * .<br/>
  * <br/>
  *
@@ -26,11 +26,11 @@ import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.
  *
  * @author daniel.levy Lévy
  * @version 1.0
- * @since 8 févr. 2018
+ * @since 5 mars 2018
  *
  */
-public class GenerateurMetierTest 
-		extends AbstractGenerateurClasseSeule {
+public class GenerateurDaoTest 
+						extends AbstractGenerateurClasseSeule {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -39,21 +39,20 @@ public class GenerateurMetierTest
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(GenerateurMetierTest.class);
+		= LogFactory.getLog(GenerateurDaoTest.class);
 
 	// *************************METHODES************************************/
-
 	
 	
 	 /**
-	 * method CONSTRUCTEUR GenerateurMetierTest() :<br/>
+	 * method CONSTRUCTEUR GenerateurDaoTest() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <ul>
 	 * <li><b>alimente this.ecriveurConcreteClass</b>.</li>
 	 * </ul>
 	 * <br/>
 	 */
-	public GenerateurMetierTest() {
+	public GenerateurDaoTest() {
 		
 		super();
 		
@@ -62,7 +61,7 @@ public class GenerateurMetierTest
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -75,18 +74,18 @@ public class GenerateurMetierTest
 	
 	} // Fin de genererHook()._____________________________________________
 
-	
-	
+
+		
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected final void alimenterPathPackage() throws Exception {
 		
-		this.pathCouche = GestionnaireProjet.getPathModelTestJava();
+		this.pathCouche = GestionnaireProjet.getPathDaoTestJava();
 		
 		final String pathBaseAntislash 
-			= GestionnaireProjet.getPathModelTestJavaString();
+			= GestionnaireProjet.getPathDaoTestJavaString();
 		
 		this.pathCoucheString = retournerPathGenerique(pathBaseAntislash);
 		
@@ -98,14 +97,14 @@ public class GenerateurMetierTest
 			= remplacerAntiSlashparPoint(this.pathRelCouche.toString());
 		
 		final Path pathPackagePath 
-			= PATH_TEST_JAVA.resolve(getPathRelMetier());
+			= PATH_TEST_JAVA.resolve(getPathRelCoucheDaoMetier());
 		
 		this.pathPackageString 
 			= retournerPathGenerique(pathPackagePath.toString());
 		
 	} // Fin de alimenterPathPackage().____________________________________
 	
-
+	
 		
 	/**
 	 * {@inheritDoc}
@@ -114,10 +113,10 @@ public class GenerateurMetierTest
 	protected final void alimenterNomSimpleConcreteClass(
 			final String pNomObjetMetier) {
 		
-		this.nomSimpleConcreteClass = nomClassMetier + "Test";
+		this.nomSimpleConcreteClass = nomConcreteDao + "Test";
 		
 	} // Fin de alimenterNomSimpleConcreteClass(...).______________________
 	
 
 	
-} // FIN DE LA CLASSE GenerateurMetierTest.----------------------------------
+} // FIN DE LA CLASSE GenerateurDaoTest.-------------------------------------
