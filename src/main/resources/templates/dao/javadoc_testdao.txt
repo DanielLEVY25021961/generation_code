@@ -1,0 +1,28 @@
+/**
+ * classe <b>{$nomSimpleFichierJava}</b> :<br/>
+ * <ul>
+ * <li>Test JUnit de la classe <b>{$nomConcreteDao}</b>.</li>
+ * <li>Test JUnit sous <b>SPRING</b>.</li>
+ * <li>Le <b>fichier de configuration SPRING</b> utilisé pour ce test est 
+ * <b>classpath*:applicationContext-test.xml</b> grâce à l'annotation 
+ * <b>ContextConfiguration</b>.</li>
+ * </ul>
+ * <br/>
+ *
+ * - Exemple d'utilisation :<br/>
+ *<br/>
+ * 
+ * - Mots-clé :<br/>
+ * Test Spring, Test JUnit Spring, SPRING, TEST DAO SPRING,<br/>
+ * fabriquer liste à partir d'un Iterable,<br/>
+ * <br/>
+ *
+ * - Dépendances :<br/>
+ * <br/>
+ *
+ *
+ * @author dan Lévy
+ * @version 1.0
+ * @since {$date}
+ *
+ */

@@ -322,9 +322,18 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 		
 		/* EXTRACTION DU PATH RELATIF DU PACKAGE-PERE PAR RAPPORT 
 		 * A LA RACINE DES SOURCES JAVA avec des antislash. */
-		final Path pathPackageRelatifPere 
-			= this.pathRacineMainJava.relativize(pathPackagePere);
+		Path pathPackageRelatifPere = null;
 		
+		if (pathPackagePere.startsWith(PATH_MAIN_JAVA)) {
+			pathPackageRelatifPere 
+				= this.pathRacineMainJava.relativize(pathPackagePere);
+		}
+		else {
+			pathPackageRelatifPere 
+			= PATH_TEST_JAVA.relativize(pathPackagePere);
+		}
+		
+					
 		/* Transformation du path relatif en String avec des antislash. */
 		final String pathRelatifPereAntiSlash 
 			= pathPackageRelatifPere.toString();

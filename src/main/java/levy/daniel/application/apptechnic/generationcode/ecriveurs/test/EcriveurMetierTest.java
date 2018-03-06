@@ -83,10 +83,11 @@ public class EcriveurMetierTest extends AbstractEcriveurFichiersJava {
 			return;
 		}
 		
-		
+		/* lecture du Template. */
 		final List<String> templateList 
 			= this.lireTemplate("test_java/test_junit.txt");
 		
+		/* substitutions. */
 		final List<String> listSubst1 
 			= this.substituerVariablesDansLigne(
 					templateList

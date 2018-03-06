@@ -259,6 +259,26 @@ public interface IEcriveur {
 	String VARIABLE_PATH_REL_CONCEPT 
 		= "{$pathRelConceptString}";
 	
+
+	/**
+	 * VARIABLE_I_DAO : String :<br/>
+	 * "{$nomIDao}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>AbstractGenerateur.getNomIDao()</b>.<br/>
+	 */
+	String VARIABLE_I_DAO 
+		= "{$nomIDao}";
+	
+	
+	/**
+	 * VARIABLE_CONCRETE_DAO : String :<br/>
+	 * "{$nomConcreteDao}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>AbstractGenerateur.getNomConcreteDao()</b>.<br/>
+	 */
+	String VARIABLE_CONCRETE_DAO 
+		= "{$nomConcreteDao}";
+	
 	
 	/**
 	 * VARIABLE_PATH_REL_CONCEPT_IMPL : String :<br/>
@@ -386,6 +406,9 @@ public interface IEcriveur {
 	 */
 	String VARIABLE_LIGNECSV 
 		= "{$ligneCsv}";
+
+	
+
 
 	
 	//*****************************************************************/

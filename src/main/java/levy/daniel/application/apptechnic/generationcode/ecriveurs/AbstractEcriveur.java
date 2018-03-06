@@ -89,6 +89,25 @@ public abstract class AbstractEcriveur implements IEcriveur {
 	
 
 	/**
+	 * PATH_TEST_JAVA : Path :<br/>
+	 * <ul>
+	 * <li><b>path du répertoire de la RACINE des sources des tests .java</b>
+	 * dans le projet Eclipse dont on va générer le code.</li>
+	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
+	 * <li>PATH_MAIN_JAVA = pathWorkspace 
+	 * + /nomProjet + /nomRepertoireSrc + /pathRelTestJava.</li>
+	 * <li>Singleton.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * projet_users/src/test/java
+	 * </code></li>
+	 * </ul>
+	 */
+	protected static final Path PATH_TEST_JAVA 
+		= GestionnaireProjet.getPathTestJava();
+	
+	
+	/**
 	 * generateurCode : IGenerateur :<br/>
 	 * Generateur de code 
 	 * (GenerateurMetierToutAbstract, GenerateurDaoToutAbstract, ...).<br/>

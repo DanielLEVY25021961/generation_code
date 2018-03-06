@@ -1,0 +1,2 @@
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath*:applicationContext-test.xml"})

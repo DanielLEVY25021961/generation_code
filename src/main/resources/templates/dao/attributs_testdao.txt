@@ -1,0 +1,462 @@
+	/**
+	 * AFFICHAGE_GENERAL : Boolean :<br/>
+	 * Boolean qui commande l'affichage pour tous les tests.<br/>
+	 */
+	public static final Boolean AFFICHAGE_GENERAL = true;
+
+	
+	/**
+	 * TEST_CREATE_NULL : String :<br/>
+	 * "testCreateNull()".<br/>
+	 */
+	public static final String TEST_CREATE_NULL 
+		= "testCreateNull()";
+	
+	
+	/**
+	 * TEST_CREATE : String :<br/>
+	 * "testCreate()".<br/>
+	 */
+	public static final String TEST_CREATE 
+		= "testCreate()";
+	
+	
+	/**
+	 * TEST_CREATE_DOUBLON : String :<br/>
+	 * "testCreateDoublon()".<br/>
+	 */
+	public static final String TEST_CREATE_DOUBLON 
+		= "testCreateDoublon()";
+	
+	
+	/**
+	 * TEST_SAVE_NULL : String :<br/>
+	 * "testSaveNull()".<br/>
+	 */
+	public static final String TEST_SAVE_NULL 
+		= "testSaveNull()";
+
+	
+	/**
+	 * TEST_SAVE : String :<br/>
+	 * "testSave()".<br/>
+	 */
+	public static final String TEST_SAVE 
+		= "testSave()";
+	
+	
+	/**
+	 * TEST_SAVE_DOUBLON : String :<br/>
+	 * "testSaveDoublon()".<br/>
+	 */
+	public static final String TEST_SAVE_DOUBLON 
+		= "testSaveDoublon()";
+	
+	
+	/**
+	 * TEST_PERSIST_NULL : String :<br/>
+	 * "testPersistNull()".<br/>
+	 */
+	public static final String TEST_PERSIST_NULL 
+		= "testPersistNull()";
+	
+	
+	/**
+	 * TEST_PERSIST : String :<br/>
+	 * "testPersist()".<br/>
+	 */
+	public static final String TEST_PERSIST 
+		= "testPersist()";
+	
+	
+	/**
+	 * TEST_PERSIST_DOUBLON : String :<br/>
+	 * "testPersistDoublon()".<br/>
+	 */
+	public static final String TEST_PERSIST_DOUBLON 
+	= "testPersistDoublon()";
+
+	
+	/**
+	 * TEST_PERSIST_SOUSCLASSE_NULL : String :<br/>
+	 * "testPersistSousClasseNull()".<br/>
+	 */
+	public static final String TEST_PERSIST_SOUSCLASSE_NULL 
+	= "testPersistSousClasseNull()";
+
+
+	/**
+	 * TEST_PERSIST_SOUSCLASSE : String :<br/>
+	 * "testPersistSousClasse()".<br/>
+	 */
+	public static final String TEST_PERSIST_SOUSCLASSE 
+		= "testPersistSousClasse()";
+	
+	
+	/**
+	 * TEST_PERSIST_SOUSCLASSE_DOUBLON : String :<br/>
+	 * "testPersistSousClasseDoublon()".<br/>
+	 */
+	public static final String TEST_PERSIST_SOUSCLASSE_DOUBLON 
+		= "testPersistSousClasseDoublon()";
+	
+	
+	/**
+	 * TEST_CREATERETURNID_NULL : String :<br/>
+	 * "testCreateReturnIdNull()".<br/>
+	 */
+	public static final String TEST_CREATERETURNID_NULL 
+		= "testCreateReturnIdNull()";
+	
+	
+	/**
+	 * TEST_CREATERETURNID : String :<br/>
+	 * "testCreateReturnId()".<br/>
+	 */
+	public static final String TEST_CREATERETURNID 
+		= "testCreateReturnId()";
+	
+
+	/**
+	 * TEST_CREATERETURNID_DOUBLON : String :<br/>
+	 * "testCreateReturnIdDoublon()".<br/>
+	 */
+	public static final String TEST_CREATERETURNID_DOUBLON 
+		= "testCreateReturnIdDoublon()";
+	
+	
+	/**
+	 * TEST_SAVELOT : String :<br/>
+	 * "testSaveLot()".<br/>
+	 */
+	public static final String TEST_SAVELOT 
+		= "testSaveLot()";
+	
+	
+	/**
+	 * TEST_RETRIEVE : String :<br/>
+	 * "testRetrieve()".<br/>
+	 */
+	public static final String TEST_RETRIEVE 
+		= "testRetrieve()";
+	
+	
+	/**
+	 * TEST_FINDBYID : String :<br/>
+	 * "testFindById()".<br/>
+	 */
+	public static final String TEST_FINDBYID 
+		= "testFindById()";
+	
+	
+	/**
+	 * TEST_FINDALL : String :<br/>
+	 * "testFindAll()".<br/>
+	 */
+	public static final String TEST_FINDALL 
+		= "testFindAll()";
+
+	
+	/**
+	 * TEST_FINDALLMAX : String :<br/>
+	 * "testFindAllMax()".<br/>
+	 */
+	public static final String TEST_FINDALLMAX 
+		= "testFindAllMax()";
+	
+		
+	/**
+	 * TEST_FINDALLITERABLE : String :<br/>
+	 * "testFindAllIterable()".<br/>
+	 */
+	public static final String TEST_FINDALLITERABLE 
+		= "testFindAllIterable()";
+	
+	
+	/**
+	 * TEST_UPDATE_INEXISTANT : String :<br/>
+	 * "testUpdateInexistant()".<br/>
+	 */
+	public static final String TEST_UPDATE_INEXISTANT 
+		= "testUpdateInexistant()";
+	
+	
+	/**
+	 * TEST_UPDATE : String :<br/>
+	 * "testUpdate()".<br/>
+	 */
+	public static final String TEST_UPDATE 
+		= "testUpdate()";
+	
+
+	/**
+	 * TEST_DELETE_INEXISTANT : String :<br/>
+	 * "testDeleteInexistant()".<br/>
+	 */
+	public static final String TEST_DELETE_INEXISTANT 
+		= "testDeleteInexistant()";
+	
+	
+	/**
+	 * TEST_DELETE : String :<br/>
+	 * "testDelete()".<br/>
+	 */
+	public static final String TEST_DELETE 
+		= "testDelete()";
+	
+	
+	/**
+	 * TEST_DELETEBYID_INEXISTANT : String :<br/>
+	 * "testDeleteByIdInexistant()".<br/>
+	 */
+	public static final String TEST_DELETEBYID_INEXISTANT 
+		= "testDeleteByIdInexistant()";
+	
+		
+	/**
+	 * TEST_DELETEBYID : String :<br/>
+	 * "testDeleteById()".<br/>
+	 */
+	public static final String TEST_DELETEBYID 
+		= "testDeleteById()";
+
+	
+	/**
+	 * TEST_DELETEBYIDBOOLEAN_INEXISTANT : String :<br/>
+	 * "testDeleteByIdBooleanInexistant()".<br/>
+	 */
+	public static final String TEST_DELETEBYIDBOOLEAN_INEXISTANT 
+		= "testDeleteByIdBooleanInexistant()";
+
+		
+	/**
+	 * TEST_DELETEBYIDBOOLEAN : String :<br/>
+	 * "testDeleteByIdBoolean()".<br/>
+	 */
+	public static final String TEST_DELETEBYIDBOOLEAN 
+		= "testDeleteByIdBoolean()";
+	
+	
+
+	/**
+	 * TIRETS : String :<br/>
+	 * "--------------------------------------------------------".<br/>
+	 */
+	public static final String TIRETS 
+	= "--------------------------------------------------------";
+
+	
+	/**
+	 * INEXISTANT : String :<br/>
+	 * "Inexistant".<br/>
+	 */
+	public static final String INEXISTANT = "Inexistant";
+	
+	
+	/**
+	 * NBRE_OBJET_INITIAL : String :<br/>
+	 * "NOMBRE D'OBJETS INITIALEMENT En BASE : ".<br/>
+	 */
+	public static final String NBRE_OBJET_INITIAL 
+		= "NOMBRE D'OBJETS INITIALEMENT En BASE : ";
+	
+	
+	/**
+	 * NBRE_OBJETS_FINAL_DOIT : String :<br/>
+	 * "nombreObjetsFinal doit valoir ".<br/>
+	 */
+	public static final String NBRE_OBJETS_FINAL_DOIT 
+		= "nombreObjetsFinal doit valoir ";
+	
+	
+	/**
+	 * NBRE_INITIAL_PLUS_ZERO : String :<br/>
+	 * "nombreObjetsinitial + 0 : ".<br/>
+	 */
+	public static final String NBRE_INITIAL_PLUS_ZERO 
+		= "nombreObjetsinitial + 0 : ";
+	
+	
+	/**
+	 * NBRE_INITIAL_PLUS_UN : String :<br/>
+	 * "nombreObjetsinitial + 1 : ".<br/>
+	 */
+	public static final String NBRE_INITIAL_PLUS_UN 
+		= "nombreObjetsinitial + 1 : ";
+
+	
+	/**
+	 * NBRE_INITIAL_PLUS_DEUX : String :<br/>
+	 * "nombreObjetsinitial + 2 : ".<br/>
+	 */
+	public static final String NBRE_INITIAL_PLUS_DEUX 
+		= "nombreObjetsinitial + 2 : ";
+
+	
+	/**
+	 * NBRE_INITIAL_PLUS_TROIS : String :<br/>
+	 * "nombreObjetsinitial + 3 : ".<br/>
+	 */
+	public static final String NBRE_INITIAL_PLUS_TROIS 
+	= "nombreObjetsinitial + 3 : ";
+
+	/**
+	 * OBJET1_NON_PERSISTANT : String :<br/>
+	 * "OBJET1 NON PERSISTANT : ".<br/>
+	 */
+	public static final String OBJET1_NON_PERSISTANT 
+		= "OBJET1 NON PERSISTANT : ";
+
+	/**
+	 * OBJET2_NON_PERSISTANT_DOUBLON1 : String :<br/>
+	 * "OBJET2 NON PERSISTANT (DOUBLON DE OBJET1) : ".<br/>
+	 */
+	public static final String OBJET2_NON_PERSISTANT_DOUBLON1 
+		= "OBJET2 NON PERSISTANT (DOUBLON DE OBJET1) : ";
+
+	/**
+	 * LOT_OBJET_INITIAL : String :<br/>
+	 * "LOT D'OBJETS INITIALEMENT EN BASE : ".<br/>
+	 */
+	public static final String LOT_OBJET_INITIAL 
+	= "LOT D'OBJETS INITIALEMENT EN BASE : ";
+	
+	
+	/**
+	 * LOT_OBJETS_APRES_DELETE : String :<br/>
+	 * "LOT D'OBJETS EN BASE APRES DELETE : ".<br/>
+	 */
+	public static final String LOT_OBJETS_APRES_DELETE 
+		= "LOT D'OBJETS EN BASE APRES DELETE : ";
+
+	/**
+	 * dao{$nomClassMetier} : {$nomIDao} :<br/>
+	 * DAO pour les {$nomClassMetier}.<br/>
+	 * INJECTE PAR SPRING (Autowired).<b/>
+	 */
+	@Autowired
+	@Qualifier(value="{$nomConcreteDao}")
+	private transient {$nomIDao} dao{$nomClassMetier};
+	
+	
+	/**
+	 * objet1 : {$nomInterfaceMetier} :<br/>
+	 * Objet valide 1.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objet1;
+	
+	
+	/**
+	 * objet2 : {$nomInterfaceMetier} :<br/>
+	 * Objet valide 2.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objet2;
+	
+	
+	/**
+	 * objet3 : {$nomInterfaceMetier} :<br/>
+	 * Objet valide 3.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objet3;
+	
+
+
+	/**
+	 * objet1Equals : {$nomInterfaceMetier} :<br/>
+	 * objet1Equals doit être equals à objet2Equals.<br/>
+	 * objet1Equals doit être equals à objet3Equals.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objet1Equals;
+
+	/**
+	 * objet2Equals : {$nomInterfaceMetier} :<br/>
+	 * objet1Equals doit être equals à objet2Equals.<br/>
+	 * objet1Equals doit être equals à objet3Equals.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objet2Equals;
+
+	/**
+	 * objet3Equals : {$nomInterfaceMetier} :<br/>
+	 * objet1Equals doit être equals à objet2Equals.<br/>
+	 * objet1Equals doit être equals à objet3Equals.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objet3Equals;
+
+
+
+	/**
+	 * objetNull1 : {$nomInterfaceMetier} :<br/>
+	 * objetNull1 = new CONSTRUCTEUR ARITE NULLE.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objetNull1;
+
+	/**
+	 * objetNull2 : {$nomInterfaceMetier} :<br/>
+	 * objetNull2 = new CONSTRUCTEUR ARITE NULLE.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objetNull2;
+
+
+
+	/**
+	 * objet1AvecNull : {$nomInterfaceMetier} :<br/>
+	 * objet1AvecNull doit être instancié avec le constructeur 
+	 * complet base et toutes les valeurs hors id à null.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objet1AvecNull;
+
+	/**
+	 * objet2AvecNull : {$nomInterfaceMetier} :<br/>
+	 * objet2AvecNull doit être instancié avec le constructeur 
+	 * complet base et toutes les valeurs hors id à null.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objet2AvecNull;
+
+
+
+	/**
+	 * objetDiff1 : {$nomInterfaceMetier} :<br/>
+	 * objetDiff1 ne doit pas être equals à objetDiff2.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objetDiff1;
+
+	/**
+	 * objetDiff2 : {$nomInterfaceMetier} :<br/>
+	 * objetDiff1 ne doit pas être equals à objetDiff2.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objetDiff2;
+
+
+	/**
+	 * objet1MemeInstance : {$nomInterfaceMetier} :<br/>
+	 * objet1MemeInstance == objet1Equals.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objet1MemeInstance;
+
+
+
+	/**
+	 * objetCompAvant1 : {$nomInterfaceMetier} :<br/>
+	 * On doit avoir objetCompAvant1 < objetCompApres2.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objetCompAvant1;
+
+	/**
+	 * objetCompApres2 : {$nomInterfaceMetier} :<br/>
+	 * On doit avoir objetCompAvant1 < objetCompApres2.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objetCompApres2;
+
+
+
+	/**
+	 * objetNullClone1 : {$nomInterfaceMetier} :<br/>
+	 * Clone de objetNull1.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objetNullClone1;
+
+	/**
+	 * objetClone1 : {$nomInterfaceMetier} :<br/>
+	 * Clone de objet1Equals.<br/>
+	 */
+	private static transient {$nomInterfaceMetier} objetClone1;

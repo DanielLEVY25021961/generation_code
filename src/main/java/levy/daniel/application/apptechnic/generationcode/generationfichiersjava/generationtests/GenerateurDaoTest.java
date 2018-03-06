@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
-import levy.daniel.application.apptechnic.generationcode.ecriveurs.test.EcriveurMetierTest;
+import levy.daniel.application.apptechnic.generationcode.ecriveurs.test.EcriveurDaoTest;
 import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.AbstractGenerateurClasseSeule;
 
 /**
@@ -56,7 +56,7 @@ public class GenerateurDaoTest
 		
 		super();
 		
-		this.ecriveurConcreteClass = new EcriveurMetierTest();
+		this.ecriveurConcreteClass = new EcriveurDaoTest();
 						
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
