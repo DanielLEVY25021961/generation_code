@@ -1,0 +1,93 @@
+	/**
+	 * method avantTests() :<br/>
+	 * <ul>
+	 * <li>instructions exécutées <b>avant l'ensemble des tests</b> 
+	 * de la classe JUnit.</li>
+	 * <li><b>A REMPLIR A LA MAIN</b></li>
+	 * </ul>
+	 * @throws CloneNotSupportedException 
+	 */
+	@BeforeClass
+    public static void avantTests() throws CloneNotSupportedException {
+		
+		/* objet valable 1. */
+		objet1 
+			= new {$nomClassMetier}(
+					"*****1", "*****1", "*****1");
+		
+		/* objet valable 2. */
+		objet2 
+			= new {$nomClassMetier}(
+				"*****2", "*****2", "*****2");
+
+		/* objet valable 3. */
+		objet3 
+			= new {$nomClassMetier}(
+				"*****3", "*****3", "*****3");
+
+
+		
+		/* objet1Equals equals objet2Equals equals objet3Equals. */
+		objet1Equals 
+			= new {$nomClassMetier}(2L
+				, "*******1", "*******1", "*******1");
+		
+		objet2Equals 
+			= new {$nomClassMetier}(3L
+				, "*******1", "*******", "*******1");
+		
+		objet3Equals 
+			= new {$nomClassMetier}(4L
+				, "*******1", "*******1", "*******1");
+
+		
+		/* objetNull1 et objetNull2 doivent être instanciés 
+		 * avec le constructeur d'arité nulle. */
+		objetNull1 
+			= new {$nomClassMetier}();
+		objetNull2 
+			= new {$nomClassMetier}();
+
+		
+		/* objet1AvecNull et objet2AvecNull doivent être instanciés 
+		 * avec le constructeur complet base et toutes les valeurs 
+		 * hors id à null.*/
+		objet1AvecNull 
+			= new {$nomClassMetier}(2L
+				, null, null, null, ****);
+	
+		objet2AvecNull 
+			= new {$nomClassMetier}(3L
+				, null, null, null, ****);
+
+		
+		/* objetDiff1 ne doit pas être equals à objetDiff2. */
+		objetDiff1 
+			= new {$nomClassMetier}(2L
+				, "***Diff1", "***Diff1", "***Diff1");
+	
+		objetDiff2 
+			= new {$nomClassMetier}(3L
+					, "***Diff2", "***Diff1", "***Diff1");
+		
+		
+		/* On doit avoir objetCompAvant1 < objetCompApres2.	*/
+		objet1MemeInstance = objet1Equals;
+		
+		objetCompAvant1 
+			= new {$nomClassMetier}(3L
+					, "**********1", "**********1", "**********1");
+	
+		objetCompApres2 
+			= new {$nomClassMetier}(3L
+					, "**********2", "**********2", "**********2");
+
+		
+		/* clone. */	
+		objetNullClone1 
+			= ({$nomClassMetier}) objetNull1.clone();
+				
+		objetClone1 
+			= ({$nomClassMetier}) objet1Equals.clone();
+		
+	} // Fin de avantTests().______________________________________________

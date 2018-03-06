@@ -719,6 +719,16 @@ public class EcriveurMetierConcreteClass
 	} // Fin de creerLignesEntity(...).____________________________________
 
 	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirIdentifiantDebutEntity() {
+		return "@Entity";
+	} // Fin de fournirIdentifiantDebutEntity().___________________________
+	
+
 	
 	/**
 	 * {@inheritDoc}

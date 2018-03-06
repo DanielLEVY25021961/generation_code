@@ -662,6 +662,16 @@ public class EcriveurMetierInterface
 		return null;
 	} // Fin de creerLignesEntity(...).____________________________________
 
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirIdentifiantDebutEntity() {
+		return null;
+	} // Fin de fournirIdentifiantDebutEntity().___________________________
+
 	
 	
 	/**

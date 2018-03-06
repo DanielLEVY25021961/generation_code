@@ -759,7 +759,17 @@ public class EcriveurMetierAbstractClass extends AbstractEcriveurMetier {
 	} // Fin de creerLignesEntity(...).____________________________________
 
 
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirIdentifiantDebutEntity() {
+		return "@Entity";
+	} // Fin de fournirIdentifiantDebutEntity().___________________________
 	
+	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -2243,7 +2253,7 @@ public class EcriveurMetierAbstractClass extends AbstractEcriveurMetier {
 	protected final String fournirNomClasse() {
 		return CLASSE_ECRIVEUR_ABSTRACTCLASS;
 	} // Fin de fournirNomClasse().________________________________________
-	
+
 		
 
 } // FIN DE LA CLASSE EcriveurMetierAbstractClass.---------------------------------

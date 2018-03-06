@@ -208,8 +208,18 @@ public class EcriveurDaoConcrete
 		
 	} // Fin de creerLignesEntity(...).____________________________________
 	
-	
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirIdentifiantDebutEntity() {
+		return "@Repository";
+	} // Fin de fournirIdentifiantDebutEntity().___________________________
+
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */

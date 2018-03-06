@@ -552,7 +552,8 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 	
 	/**
 	 * method fournirDebutJavaDoc() :<br/>
-	 * Fournit le début de la javadoc de la classe Java.<br/>
+	 * Fournit le début de la javadoc de la classe Java 
+	 * pour identification afin de ne pas la générer 2 fois.<br/>
 	 * Par exemple : "* CLASSE ABSTRAITE"<br/>
 	 *
 	 * @return : String : début de la javadoc.<br/>
@@ -568,6 +569,8 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li>Insère les lignes de <b>Entity</b> (JPA)
 	 * à la suite de la javadoc.</li>
+	 * <li>Ne fait rien si le fichier Java 
+	 * ne possède pas d'annotations.</li>
 	 * <li>N'insère les lignes que si elles n'existent pas déjà</li>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -601,31 +604,22 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 			/* Crée la javadoc. */
 			this.creerLignesEntity(pFile);
 			
+			/* Ne fait rien si le fichier Java 
+			 * ne possède pas d'annotations. */
 			if (this.entity == null) {
 				return;
 			}
-			
+						
 			/* Recherche la ligne identifiant Entity. */
-			final String ligneEntity 
-				= "@Entity";
-			
+			final String ligneIdentifiant 
+				= this.fournirIdentifiantDebutEntity(); 
+				
 			/* Ne fait rien si Entity a déjà été écrite. */
 			if (this.existLigneCommencant(
-					pFile, CHARSET_UTF8, ligneEntity)) {
+					pFile, CHARSET_UTF8, ligneIdentifiant)) {
 				return;
 			}
 			
-			/* Recherche la ligne identifiant Repository. */
-			final String ligneRepository 
-				= "@Repository";
-			
-			/* Ne fait rien si Entity a déjà été écrite. */
-			if (this.existLigneCommencant(
-					pFile, CHARSET_UTF8, ligneRepository)) {
-				return;
-			}
-
-
 			
 			/* *************** */
 			/* ENREGISTREMENT. */
@@ -655,6 +649,21 @@ public abstract class AbstractEcriveurFichiersJavaDetaille
 	
 
 
+	/**
+	 * method fournirIdentifiantDebutEntity() :<br/>
+	 * <ul>
+	 * <li>retourne le début d'un ensemble d'annotations 
+	 * pour garantir que l'on ne les génèrera pas deux fois.</li>
+	 * <li>Exemple :<br/>
+	 * <code>"@Entity"</code>.</li>
+	 * </ul>
+	 *
+	 * @return : String : identifiant d'une partie de code.<br/>
+	 */
+	protected abstract String fournirIdentifiantDebutEntity();
+	
+	
+	
 	/**
 	 * method creerLignesEntity(
 	 * File pFile) :<br/>

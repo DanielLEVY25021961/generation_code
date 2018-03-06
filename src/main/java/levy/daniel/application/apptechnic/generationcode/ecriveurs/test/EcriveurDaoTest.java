@@ -11,7 +11,7 @@ import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriveurFichiersJavaDetaille;
 
 /**
- * class EcriveurDaoTest :<br/>
+ * CLASSE <b>EcriveurDaoTest</b> :<br/>
  * .<br/>
  * <br/>
  *
@@ -191,6 +191,16 @@ public class EcriveurDaoTest
 		return this.entity;
 		
 	} // Fin de creerLignesEntity(...).____________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirIdentifiantDebutEntity() {
+		return "@RunWith";
+	} // Fin de fournirIdentifiantDebutEntity().___________________________
 
 	
 	
