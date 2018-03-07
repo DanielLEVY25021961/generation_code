@@ -1,0 +1,82 @@
+	/**
+	 * method remplirTable(
+	 * boolean pAffichage) :<br/>
+	 * Remplit les tables ABSTRACT_PROFILS 
+	 * et PROFILS_CERBERE avec 3 enregistrements.<br/>
+	 * <br/>
+	 * 
+	 * @param pAffichage : boolean.<br/>
+	 * 
+	 * @throws AbstractDaoException 
+	 */
+	private void remplirTable(
+			final boolean pAffichage) throws AbstractDaoException {
+		
+		Long nombreObjetsinitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		
+		List<{$nomInterfaceMetier}> lotPersistant = null;
+				
+		/* Constitution d'un lot d'objets. */
+		final List<{$nomInterfaceMetier}> lot = new ArrayList<{$nomInterfaceMetier}>();
+		
+		lot.add(objet1);
+		lot.add(objet2);
+		lot.add(objet3);
+		
+		/* Compte du nombre d'Objets initialement en base. */
+		nombreObjetsinitial = this.dao{$nomClassMetier}.count();
+	
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && pAffichage) {
+			System.out.println();
+			System.out.println(TIRETS);
+			System.out.println("remplirTable(boolean)");
+			System.out.println(NBRE_OBJET_INITIAL + nombreObjetsinitial);
+			System.out.println(OBJET1_NON_PERSISTANT + objet1.toString());
+			System.out.println("OBJET2 NON PERSISTANT : " + objet2.toString());
+			System.out.println("OBJET3 NON PERSISTANT : " + objet3.toString());
+			System.out.println(TIRETS);
+			System.out.println();
+		}
+	
+		try {
+			
+			/* *********************************************** */
+			/* ********************* CREATION **************** */
+			lotPersistant = (List<{$nomInterfaceMetier}>) this.dao{$nomClassMetier}.save(lot);
+			/* *********************************************** */
+			
+			nombreObjetsFinal = this.dao{$nomClassMetier}.count();
+			
+			/* garantit que save(Lot pObjects) 
+			 * insère des objets en base.*/
+			assertEquals(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_TROIS
+					, Long.valueOf(nombreObjetsinitial + 3)
+						, nombreObjetsFinal);
+			
+		}
+		catch (AbstractDaoException e) {
+			this.afficherAbstractDaoException(e);
+		}
+	
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && pAffichage) {
+			System.out.println();
+			System.out.println(TIRETS);
+			System.out.println("remplirTable(boolean)");
+			System.out.println("NOMBRE D'OBJETS PERSISTES APRES save(Lot) : " + nombreObjetsFinal);
+			System.out.println("LOT D'ENREGISTREMENTS EN BASE APRES remplirTable(boolean) : ");
+			System.out.println(this.dao{$nomClassMetier}.afficherListe(lotPersistant));
+			System.out.println(TIRETS);
+			System.out.println();
+	
+		}
+	
+		final Long nbeObjetsFinal = this.dao{$nomClassMetier}.count();
+		
+		assertEquals("La table doit être contenir 3 enregistements : "
+				, Long.valueOf(3L), nbeObjetsFinal);
+		
+	} // Fin de remplirTable(...)._________________________________________

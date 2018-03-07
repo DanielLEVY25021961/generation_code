@@ -410,7 +410,6 @@ public class EcriveurDaoTest
 		/* ajoute 3 lignes vides sous le code. */
 		this.ajouterLignesVides(3, listSubst4);
 		
-	
 		/* *************** */
 		/* ENREGISTREMENT. */
 		/* *************** */
@@ -447,29 +446,9 @@ public class EcriveurDaoTest
 	 * <li><b>écriture</b> dans le fichier java.</li>
 	 * <li><b>Crée tout le bloc comprenant les methodes</b>.</li>
 	 * <ul>
-	 * <li>écrit le constructeur d'arité nulle.</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode findById(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode findAllSousCLasse(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode findAll...(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode findAllMaxSousCLasse(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode findAllMax...(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode deleteAllSousCLasse(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode deleteAll...(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode deleteAllBooleanSousCLasse(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode deleteAllBoolean...(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode countSousClasse(...).</li>
-	 * <li>écrit la Javadoc et le code de la 
-	 * méthode count...(...).</li>
+	 * <li>écrit le <b>constructeur d'arité nulle</b>.</li>
+	 * <li>écrit la javadoc et le code de la méthode 
+	 * <b>avantTests()</b>.</li>
 	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -501,57 +480,60 @@ public class EcriveurDaoTest
 
 		/* écrit le constructeur d'arité nulle. */
 		this.ecrireConstructeurNull(pFile);
+		
+		/* écrit la javadoc et le code de la méthode avantTests() */
+		this.ecrireMethodeAvantTests(pFile);
 										
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
 
+		
+	/**
+	* method ecrireConstructeurNull(
+	* File pFile) :<br/>
+	* <ul>
+	* <li><b>écriture</b> dans le fichier java.</li>
+	* <li>écrit la totalité du <b>constructeur d'arite nulle</b></li>
+	* <li>écrit la javadoc du constructeur d'arite nulle.</li>
+	* <li>écrit le code du constructeur d'arite nulle.</li>
+	* <li>ajoute 3 lignes vides à la suite.<br/>
+	* <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	* </ul>
+	* ne fait rien si pFile est null.<br/>
+	* ne fait rien si pFile n'existe pas.<br/>
+	* ne fait rien si pFile n'est pas un fichier simple.<br/>
+	* <br/>
+	*
+	* @param pFile : File : fichier java.<br/>
+	* 
+	* @throws Exception 
+	*/
+	protected final void ecrireConstructeurNull(
+		final File pFile) throws Exception {
 	
-/**
-* method ecrireConstructeurNull(
-* File pFile) :<br/>
-* <ul>
-* <li><b>écriture</b> dans le fichier java.</li>
-* <li>écrit la totalité du <b>constructeur d'arite nulle</b></li>
-* <li>écrit la javadoc du constructeur d'arite nulle.</li>
-* <li>écrit le code du constructeur d'arite nulle.</li>
-* <li>ajoute 3 lignes vides à la suite.<br/>
-* <li>Ne fait rien si la méthode a déjà été déclarée.</li>
-* </ul>
-* ne fait rien si pFile est null.<br/>
-* ne fait rien si pFile n'existe pas.<br/>
-* ne fait rien si pFile n'est pas un fichier simple.<br/>
-* <br/>
-*
-* @param pFile : File : fichier java.<br/>
-* 
-* @throws Exception 
-*/
-protected final void ecrireConstructeurNull(
-	final File pFile) throws Exception {
-
-	/* ne fait rien si pFile est null. */
-	if (pFile == null) {
-		return;
-	}
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* écrit la javadoc du constructeur d'arite nulle. */
+		this.ecrireJavadocConstructeurNull(pFile);
+		
+		/* écrit le code du constructeur d'arite nulle. */
+		this.ecrireCodeConstructeurNull(pFile);
 	
-	/* ne fait rien si pFile n'existe pas. */
-	if (!pFile.exists()) {
-		return;
-	}
+	} // Fin de ecrireConstructeurNull(...)._______________________________
 	
-	/* ne fait rien si pFile n'est pas un fichier simple. */
-	if (!pFile.isFile()) {
-		return;
-	}
-	
-	/* écrit la javadoc du constructeur d'arite nulle. */
-	this.ecrireJavadocConstructeurNull(pFile);
-	
-	/* écrit le code du constructeur d'arite nulle. */
-	this.ecrireCodeConstructeurNull(pFile);
-
-} // Fin de ecrireConstructeurNull(...)._______________________________
-
 
 	
 	/**
@@ -702,6 +684,89 @@ protected final void ecrireConstructeurNull(
 		}
 		
 	} // Fin de ecrireCodeConstructeurNull(...).____________________
+	
+	
+	
+	/**
+	 * method ecrireMethodeAvantTests() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la méthode <b>avantTests()</b></li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireMethodeAvantTests(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirStringIdentitfiantAvantTest();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_avanttests_testconcretedao.txt");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOM_CLASSE_METIER
+						, this.nomClassMetier);
+		
+		/* ajoute 3 lignes vides sous le code. */
+		this.ajouterLignesVides(3, listSubst1);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listSubst1, pFile);
+		
+	} // Fin de ecrireMethodeAvantTests()._________________________________
+	
+
+	
+	/**
+	 * method fournirStringIdentitfiantAvantTest() :<br/>
+	 * <ul>
+	 * <li>fournit une String identifiant la méthode avantTests().</li>
+	 * <li>permet de ne pas générer 2 fois le code.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	private String fournirStringIdentitfiantAvantTest() {
+		return "    public static void avantTests";
+	} // Fin de fournirStringIdentitfiantAvantTest().______________________
 	
 	
 	

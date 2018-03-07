@@ -751,7 +751,33 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	protected static File packageServicesMetier;
 	
 	
+
+	/**
+	 * idAbstractTable : String :<br/>
+	 * <ul>
+	 * <li>nom de l'ID de la table des abstractions à générer</li>
+	 * <li>stratégie InheritanceType.JOINED.</li>
+	 * <li>exemple : <br/>
+	 * <code>ID_ABSTRACT_PROFIL</code> pour une 
+	 * classe abstraite AbstractProfil.</li>
+	 * </ul>
+	 */
+	protected static String idAbstractTable;
 	
+	
+	/**
+	 * nomAbstractTable : String :<br/>
+	 * <ul>
+	 * <li>nom de la table des abstractions à générer</li>
+	 * <li>stratégie InheritanceType.JOINED.</li>
+	 * <li>exemple : <br/>
+	 * <code>ABSTRACT_PROFILS</code> pour une 
+	 * classe abstraite AbstractProfil.</li>
+	 * </ul>
+	 */
+	protected static String nomAbstractTable;
+	
+
 	/**
 	 * mapAttributs : Map&lt;String,String&gt; :<br/>
 	 * <ul>
@@ -1342,7 +1368,6 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	protected transient File concreteClass;
 	
 	
-
 
 	/**
 	 * LOG : Log : 
@@ -2498,6 +2523,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * <li>alimente mapAttributs.</li>
 	 * <li>alimente mapAttributsEquals.</li>
 	 * <li>alimente mapRg.</li>
+	 * <li>alimente les noms des tables.</li>
 	 * </ul>
 	 *
 	 * @param pNomPackage : String : .<br/>
@@ -2544,6 +2570,9 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 		/* alimente toute la couche DAO. */
 		alimenterDao();
+		
+		/* alimente les noms des tables. */
+		alimenterTables();
 
 	} // Fin de alimenterAttributsStatic(...)._____________________________
 	
@@ -3699,9 +3728,172 @@ public abstract class AbstractGenerateur implements IGenerateur {
 			
 		} // Fin de synchronized._______________________
 		
-	} // Fin de remplacerAntiSlashparPoint(...)._______________________________
+	} // Fin de remplacerAntiSlashparPoint(...).___________________________
 	
 
+	
+	/**
+	 * method fabriquerIdTableAbstraite() :<br/>
+	 * <ul>
+	 * <li>fournit un nom de l'ID de table pour les abstractions 
+	 * à partir du nom de la classe abstraite pString</li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas conforme 
+	 * au nom des classes abstraites.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : nom de la classe abstraite 
+	 * comme <code>AbstractProfil</code>.<br/>
+	 * 
+	 * @return : String : nom de l'ID de la table correspondant 
+	 * aux abstractions comme <code>ID_ABSTRACT_PROFIL</code> 
+	 * ou <code>ID_ABSTRACT_PROFIL_CERBERE</code>.<br/>
+	 */
+	public static final String fabriquerIdTableAbstraite(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pString n'est pas conforme 
+		 * au nom des classes abstraites. */
+		/* Pattern sous forme de String. */
+		/* - Commence par Abstract. */
+		/* - Pousruit par une Majuscule
+		 * - poursuit camelCase. */
+		final String patternString = "(^Abstract[A-Z][a-z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.find();
+		
+		if (!trouve) {
+			return null;
+		}
+		
+		final List<String> elements = trouverCamel(pString);
+		
+		if (elements == null) {
+			return null;
+		}
+		
+		final int tailleListe = elements.size();
+		int compteur = 0;
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append("ID_");
+		
+		for (final String elem : elements) {
+			
+			compteur++;
+			
+			final String elemMaj = StringUtils.upperCase(elem);
+			
+			stb.append(elemMaj);
+			
+			if (compteur < tailleListe) {
+				stb.append(UNDERSCORE);
+			}
+			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de fabriquerIdTableAbstraite(...).____________________________
+	
+	
+	
+	/**
+	 * method fabriquerNomTableAbstraite(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>fournit un nom de table pour les abstractions 
+	 * à partir du nom de la classe abstraite pString</li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas conforme 
+	 * au nom des classes abstraites.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : nom de la classe abstraite 
+	 * comme <code>AbstractProfil</code>.<br/>
+	 * 
+	 * @return : String : nom de la table correspondant 
+	 * aux abstractions comme <code>ABSTRACT_PROFILS</code> 
+	 * ou <code>ABSTRACT_PROFILS_CERBERE</code>.<br/>
+	 */
+	protected static final String fabriquerNomTableAbstraite(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		/* retourne null si pString n'est pas conforme 
+		 * au nom des classes abstraites. */
+		/* Pattern sous forme de String. */
+		/* - Commence par Abstract. */
+		/* - Pousruit par une Majuscule
+		 * - poursuit camelCase. */
+		final String patternString = "(^Abstract[A-Z][a-z][a-zA-Z0-9]*$)";
+		
+		/* Instanciation d'un Pattern. */
+		final Pattern pattern = Pattern.compile(patternString);
+		
+		/* Instanciation d'un moteur de recherche Matcher. */
+		final Matcher matcher = pattern.matcher(pString);
+		
+		/* Recherche du Pattern. */
+		final boolean trouve = matcher.find();
+		
+		if (!trouve) {
+			return null;
+		}
+		
+		final List<String> elements = trouverCamel(pString);
+		
+		if (elements == null) {
+			return null;
+		}
+		
+		final int tailleListe = elements.size();
+		int compteur = 0;
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		for (final String elem : elements) {
+			
+			compteur++;
+			
+			final String elemMaj = StringUtils.upperCase(elem);
+			
+			stb.append(elemMaj);
+			
+			if (compteur == 2) {
+				stb.append('S');
+			}
+			
+			if (compteur < tailleListe) {
+				stb.append(UNDERSCORE);
+			}
+			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de fabriquerNomTableAbstraite(...).___________________________
+	
+	
 	
 	/**
 	 * method loggerInfo(
@@ -4605,6 +4797,38 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	
 	
 	/**
+	 * method alimenterTables() :<br/>
+	 * <ul>
+	 * <li>alimente idAbstractTable.</li>
+	 * <li>alimente nomAbstractTable.</li>
+	 * <li></li>
+	 * </ul>
+	 */
+	private static void alimenterTables() {
+		
+		synchronized (AbstractGenerateur.class) {
+			
+			/* alimente idAbstractTable. */
+			if (idAbstractTable == null) {
+				idAbstractTable 
+				= fabriquerIdTableAbstraite(
+						nomAbstractClassMetier);
+			}
+			
+			/* alimente nomAbstractTable. */
+			if (nomAbstractTable == null) {
+				nomAbstractTable 
+				= fabriquerNomTableAbstraite(
+						nomAbstractClassMetier);
+			}
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterTables()._________________________________________
+
+	
+	
+	/**
 	 * method getPathMainJava() :<br/>
 	 * <ul>
 	 * <li>Getter du <b>path du répertoire de la 
@@ -4954,6 +5178,42 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	public static final String getNomClassMetierForm() {
 		return nomClassMetierForm;
 	} // Fin de getNomClassMetierForm().___________________________________
+
+	
+	
+	/**
+	 * method getIdAbstractTable() :<br/>
+	 * <ul>
+	 * <li>Getter du nom de l'ID de la table des abstractions à générer</li>
+	 * <li>stratégie InheritanceType.JOINED.</li>
+	 * <li>exemple : <br/>
+	 * <code>ID_ABSTRACT_PROFIL</code> pour une 
+	 * classe abstraite AbstractProfil.</li>
+	 * </ul>
+	 *
+	 * @return idAbstractTable : String.<br/>
+	 */
+	public static final String getIdAbstractTable() {
+		return idAbstractTable;
+	} // Fin de getIdAbstractTable().______________________________________
+
+
+
+	/**
+	 * method getNomAbstractTable() :<br/>
+	 * <ul>
+	 * <li>Getter du nom de la table des abstractions à générer</li>
+	 * <li>stratégie InheritanceType.JOINED.</li>
+	 * <li>exemple : <br/>
+	 * <code>ABSTRACT_PROFILS</code> pour une 
+	 * classe abstraite AbstractProfil.</li>
+	 * </ul>
+	 *
+	 * @return nomAbstractTable : String.<br/>
+	 */
+	public static final String getNomAbstractTable() {
+		return nomAbstractTable;
+	} // Fin de getNomAbstractTable()._____________________________________
 
 
 
