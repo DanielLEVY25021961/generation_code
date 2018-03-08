@@ -483,6 +483,8 @@ public class EcriveurDaoTest
 		
 		/* écrit la javadoc et le code de la méthode avantTests() */
 		this.ecrireMethodeAvantTests(pFile);
+		
+		this.ecrireMethodeRemplirTable(pFile);
 										
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
@@ -768,7 +770,96 @@ public class EcriveurDaoTest
 		return "    public static void avantTests";
 	} // Fin de fournirStringIdentitfiantAvantTest().______________________
 	
+
 	
+	/**
+	 * method ecrireMethodeRemplirTable() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la méthode <b>remplirTable()</b></li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireMethodeRemplirTable(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirStringIdentitfiantRemplirTable();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_remplirtable_testdao.txt");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOM_INTERFACE_METIER
+						, this.nomInterfaceMetier);
+		
+		final List<String> listSubst2 
+			= this.substituerVariablesDansLigne(
+				listSubst1
+					, VARIABLE_NOM_CLASSE_METIER
+						, this.nomClassMetier);
+		
+		/* ajoute 3 lignes vides sous le code. */
+		this.ajouterLignesVides(3, listSubst1);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listSubst1, pFile);
+		
+	} // Fin de ecrireMethodeRemplirTable()._______________________________
+	
+
+	
+	/**
+	 * method fournirStringIdentitfiantRemplirTable() :<br/>
+	 * <ul>
+	 * <li>fournit une String identifiant la méthode remplirTable().</li>
+	 * <li>permet de ne pas générer 2 fois le code.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	private String fournirStringIdentitfiantRemplirTable() {
+		return DECALAGE_METHODE + "private void remplirTable";
+	} // Fin de fournirStringIdentitfiantRemplirTable().___________________
+	
+
 	
 	/**
 	 * {@inheritDoc}
