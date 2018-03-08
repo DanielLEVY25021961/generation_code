@@ -1,0 +1,17 @@
+	/**
+	 * method viderTable() :<br/>
+	 * Vide la table.<br/>
+	 * <br/>
+	 *
+	 * @throws AbstractDaoException
+	 */
+	private void viderTable() throws AbstractDaoException {
+		
+		this.dao{$nomClassMetier}.deleteAll();
+		
+		final Long nbreObjetsFinal = this.dao{$nomClassMetier}.count();
+		
+		assertEquals("La table doit être vide : "
+				, Long.valueOf(0L), nbreObjetsFinal);
+		
+	} // Fin de viderTable().______________________________________________

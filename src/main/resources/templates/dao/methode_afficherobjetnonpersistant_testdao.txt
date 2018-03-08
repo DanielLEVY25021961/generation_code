@@ -1,0 +1,46 @@
+	/**
+	 * method afficherObjetNonPersistant(
+	 * {$nomInterfaceMetier} pObjetNonPersistant
+	 * , Long pNbreObjetsInitial) :<br/>
+	 * <ul>
+	 * Affiche à la console :
+	 * <li>l'objet pObjetNonPersistant non persisté en base.</li>
+	 * <li>Le nombre d'objets pNbreObjetsInitial initialement 
+	 * en base avant le test.</li>
+	 * </ul>
+	 * <br/>
+	 *
+	 * @param pObjetNonPersistant : {$nomInterfaceMetier} : 
+	 * Objet non persistant en base.<br/>
+	 * @param pNbreObjetsInitial : Long : 
+	 * Nombre d'objets initialement en base.<br/>
+	 */
+	private void afficherObjetNonPersistant(
+			final {$nomInterfaceMetier} pObjetNonPersistant
+				, final Long pNbreObjetsInitial) {
+		
+		if (pObjetNonPersistant != null) {
+			
+			System.out.println();
+			System.out.println(TIRETS);
+			System.out.println("objet non persistant : " 
+					+ pObjetNonPersistant.toString());
+			System.out.println("nombre d'objets initialement en base = " 
+					+ pNbreObjetsInitial);
+			System.out.println(TIRETS);
+			System.out.println();
+	
+		}
+		else {
+			
+			System.out.println();
+			System.out.println(TIRETS);
+			System.out.println("objet non persistant est NULL");
+			System.out.println("nombre d'objets initialement en base = " 
+					+ pNbreObjetsInitial);
+			System.out.println(TIRETS);
+			System.out.println();
+			
+		}
+		
+	} // Fin de afficherObjetNonPersistant(...).___________________________

@@ -1,0 +1,26 @@
+	/**
+	 * method afficherAbstractDaoException(
+	 * AbstractDaoException pE) :<br/>
+	 * <ul>
+	 * Affiche à la console :
+	 * <li>le message Utilisateur d'une AbstractDaoException pE.</li>
+	 * <li>le message Technique d'une AbstractDaoException pE.</li>
+	 * </ul>
+	 * <br/>
+	 *
+	 * @param pE : AbstractDaoException.<br/>
+	 */
+	private void afficherAbstractDaoException(
+			final AbstractDaoException pE) {
+		
+		System.out.println();
+		System.out.println(TIRETS);
+		System.out.println("MESSAGE UTILISATEUR : " 
+				+ pE.getMessageUtilisateur());
+		System.out.println();
+		System.out.println("MESSAGE TECHNIQUE : " 
+				+ pE.getMessageTechnique());
+		System.out.println(TIRETS);
+		System.out.println();
+	
+	} // Fin de afficherAbstractDaoException(...)._________________________

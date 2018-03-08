@@ -1,0 +1,16 @@
+	/**
+	 * method afficherDAONonInstancie() :<br/>
+	 * Affiche à la console
+	 * <b>"DAO NON INSTANCIE - this.dao{$nomClassMetier} est NULL"</b>.<br/>
+	 * <br/>
+	 */
+	private void afficherDAONonInstancie() {
+		
+		System.out.println();
+		System.out.println(TIRETS);
+		System.out.println("DAO NON INSTANCIE "
+				+ "- this.dao{$nomClassMetier} est NULL");
+		System.out.println(TIRETS);
+		System.out.println();
+		
+	} // Fin de afficherDAONonInstancie()._________________________________

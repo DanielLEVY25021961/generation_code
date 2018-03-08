@@ -776,6 +776,19 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * </ul>
 	 */
 	protected static String nomAbstractTable;
+
+	
+	/**
+	 * nomConcreteTable : String :<br/>
+	 * <ul>
+	 * <li>nom de la table des objets concrets à générer</li>
+	 * <li>stratégie InheritanceType.JOINED.</li>
+	 * <li>exemple : <br/>
+	 * <code>PROFILS_CERBERE</code> pour une 
+	 * classe concrete ProfilCerbere.</li>
+	 * </ul>
+	 */
+	protected static String nomConcreteTable;
 	
 
 	/**
@@ -3750,7 +3763,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * aux abstractions comme <code>ID_ABSTRACT_PROFIL</code> 
 	 * ou <code>ID_ABSTRACT_PROFIL_CERBERE</code>.<br/>
 	 */
-	public static final String fabriquerIdTableAbstraite(
+	protected static final String fabriquerIdTableAbstraite(
 			final String pString) {
 		
 		/* retourne null si pString est blank. */
@@ -3893,7 +3906,75 @@ public abstract class AbstractGenerateur implements IGenerateur {
 		
 	} // Fin de fabriquerNomTableAbstraite(...).___________________________
 	
+
+		
+	/**
+	 * method fabriquerNomTableConcrete(
+	 * String pString) :<br/>
+	 * <ul>
+	 * <li>fournit un nom de table pour les objets concrets 
+	 * à partir du nom de la classe concrete pString</li>
+	 * </ul>
+	 * retourne null si pString est blank.<br/>
+	 * retourne null si pString n'est pas conforme 
+	 * au nom des classes concretes.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : nom de la classe concrete 
+	 * comme <code>ProfilCerbere</code>.<br/>
+	 * 
+	 * @return : String : nom de la table correspondant 
+	 * aux classes concretes comme <code>PROFILS</code> 
+	 * ou <code>PROFILS_CERBERE</code>.<br/>
+	 */
+	protected static final String fabriquerNomTableConcrete(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		final boolean conforme = conformeNomClasse(pString);
+		
+		if (!conforme) {
+			return null;
+		}
+		
+		final List<String> elements = trouverCamel(pString);
+		
+		if (elements == null) {
+			return null;
+		}
+		
+		final int tailleListe = elements.size();
+		int compteur = 0;
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		for (final String elem : elements) {
+			
+			compteur++;
+			
+			final String elemMaj = StringUtils.upperCase(elem);
+			
+			stb.append(elemMaj);
+			
+			if (compteur == 1) {
+				stb.append('S');
+			}
+			
+			if (compteur < tailleListe) {
+				stb.append(UNDERSCORE);
+			}
+			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de fabriquerNomTableConcrete(...).____________________________
 	
+
 	
 	/**
 	 * method loggerInfo(
@@ -4801,7 +4882,7 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	 * <ul>
 	 * <li>alimente idAbstractTable.</li>
 	 * <li>alimente nomAbstractTable.</li>
-	 * <li></li>
+	 * <li>alimente nomConcreteTable.</li>
 	 * </ul>
 	 */
 	private static void alimenterTables() {
@@ -4820,6 +4901,13 @@ public abstract class AbstractGenerateur implements IGenerateur {
 				nomAbstractTable 
 				= fabriquerNomTableAbstraite(
 						nomAbstractClassMetier);
+			}
+			
+			/* alimente nomConcreteTable. */
+			if (nomConcreteTable == null) {
+				nomConcreteTable 
+				= fabriquerNomTableConcrete(
+						nomClassMetier);
 			}
 			
 		} // Fin de synchronized._______________________
@@ -5214,6 +5302,24 @@ public abstract class AbstractGenerateur implements IGenerateur {
 	public static final String getNomAbstractTable() {
 		return nomAbstractTable;
 	} // Fin de getNomAbstractTable()._____________________________________
+
+
+
+	/**
+	 * method getNomConcreteTable() :<br/>
+	 * <ul>
+	 * <li>Getter du nom de la table des objets concrets à générer</li>
+	 * <li>stratégie InheritanceType.JOINED.</li>
+	 * <li>exemple : <br/>
+	 * <code>PROFILS_CERBERE</code> pour une 
+	 * classe concrete ProfilCerbere.</li>
+	 * </ul>
+	 *
+	 * @return nomAbstractTable : String.<br/>
+	 */
+	public static final String getNomConcreteTable() {
+		return nomConcreteTable;
+	} // Fin de getNomConcreteTable()._____________________________________
 
 
 

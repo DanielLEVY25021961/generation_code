@@ -1,0 +1,24 @@
+	/**
+	 * method afficherNbreObjetsInitial(
+	 * Long pNbreObjetsInitial) :<br/>
+	 * <ul>
+	 * Affiche à la console :
+	 * <li>Le nombre d'objets pNbreObjetsInitial initialement 
+	 * en base avant le test.</li>
+	 * </ul>
+	 * <br/>
+	 *
+	 * @param pNbreObjetsInitial : Long : 
+	 * Nombre d'objets initialement en base.<br/>
+	 */
+	private void afficherNbreObjetsInitial(
+						final Long pNbreObjetsInitial) {
+		
+		System.out.println();
+		System.out.println(TIRETS);
+		System.out.println("nombre d'objets initialement en base = " 
+				+ pNbreObjetsInitial);
+		System.out.println(TIRETS);
+		System.out.println();
+	
+	} // Fin de afficherNbreObjetsInitial(...).____________________________

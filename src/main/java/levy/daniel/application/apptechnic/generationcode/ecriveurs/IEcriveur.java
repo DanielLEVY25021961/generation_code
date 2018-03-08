@@ -278,6 +278,26 @@ public interface IEcriveur {
 	 */
 	String VARIABLE_CONCRETE_DAO 
 		= "{$nomConcreteDao}";
+
+		
+	/**
+	 * VARIABLE_NOM_ABSTRACT_TABLE : String :<br/>
+	 * "{$nomAbstractTable}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>AbstractGenerateur.getNomAbstractTable()</b>.<br/>
+	 */
+	String VARIABLE_NOM_ABSTRACT_TABLE 
+		= "{$nomAbstractTable}";
+
+	
+	/**
+	 * VARIABLE_NOM_CONCRETE_TABLE : String :<br/>
+	 * "{$nomConcreteTable}".<br/>
+	 * Variable à utiliser dans les templates.<br/>
+	 * substituer par <b>AbstractGenerateur.getNomConcreteTable()</b>.<br/>
+	 */
+	String VARIABLE_NOM_CONCRETE_TABLE 
+		= "{$nomConcreteTable}";
 	
 	
 	/**

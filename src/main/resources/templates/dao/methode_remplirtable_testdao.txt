@@ -1,8 +1,8 @@
 	/**
 	 * method remplirTable(
 	 * boolean pAffichage) :<br/>
-	 * Remplit les tables ABSTRACT_PROFILS 
-	 * et PROFILS_CERBERE avec 3 enregistrements.<br/>
+	 * Remplit les tables {$nomAbstractTable} 
+	 * et {$nomConcreteTable} avec 3 enregistrements.<br/>
 	 * <br/>
 	 * 
 	 * @param pAffichage : boolean.<br/>

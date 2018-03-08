@@ -449,6 +449,23 @@ public class EcriveurDaoTest
 	 * <li>écrit le <b>constructeur d'arité nulle</b>.</li>
 	 * <li>écrit la javadoc et le code de la méthode 
 	 * <b>avantTests()</b>.</li>
+	 * <li>écrit la javadoc et le code de la 
+	 * méthode <b>remplirTable()</b></li>
+	 * <li>écrit la javadoc et le code de la 
+	 * méthode <b>viderTable()</b></li>
+	 * <li>écrit la javadoc et le code de la 
+	 * méthode <b>afficherDaoNonInstancie()</b></li>
+	 * <li>écrit la javadoc et le code de la 
+	 * méthode <b>afficherNbreObjetsInitial()</b></li>
+	 * <li>écrit la javadoc et le code de la 
+	 * méthode <b>afficherObjetPersistant()</b></li>
+	 * <li>écrit la javadoc et le code de la 
+	 * méthode <b>afficherObjetNonPersistant()</b></li>
+	 * <li>écrit la javadoc et le code de la 
+	 * méthode <b>afficherAbstractDaoException()</b></li>
+	 * <li>écrit la javadoc et le code de la 
+	 * méthode <b>fabriquerList()</b></li>
+	 * <li></li>
 	 * </ul>
 	 * </ul>
 	 * ne fait rien si pFile est null.<br/>
@@ -484,8 +501,36 @@ public class EcriveurDaoTest
 		/* écrit la javadoc et le code de la méthode avantTests() */
 		this.ecrireMethodeAvantTests(pFile);
 		
+		/* écrit la javadoc et le code de la méthode remplirTable() */
 		this.ecrireMethodeRemplirTable(pFile);
-										
+		
+		/* écrit la javadoc et le code de la méthode viderTable() */
+		this.ecrireMethodeViderTable(pFile);
+		
+		/* écrit la javadoc et le code de la 
+		 * méthode afficherDaoNonInstancie() */
+		this.ecrireMethodeAfficherDaoNonInstancie(pFile);
+		
+		/* écrit la javadoc et le code de la 
+		 * méthode afficherNbreObjetsInitial() */
+		this.ecrireMethodeAfficherNbreObjetsInitial(pFile);
+
+		/* écrit la javadoc et le code de la 
+		 * méthode afficherObjetPersistant() */
+		this.ecrireMethodeAfficherObjetPersistant(pFile);
+		
+		/* écrit la javadoc et le code de la 
+		 * méthode afficherObjetNonPersistant() */
+		this.ecrireMethodeAfficherObjetNonPersistant(pFile);
+		
+		/* écrit la javadoc et le code de la 
+		 * méthode afficherAbstractDaoException() */
+		this.ecrireMethodeAfficherAbstractDaoException(pFile);
+		
+		/* écrit la javadoc et le code de la 
+		 * méthode fabriquerList() */
+		this.ecrireMethodeFabriquerList(pFile);
+				
 	} // Fin de ecrireBlocMethodes(...).___________________________________
 	
 
@@ -834,13 +879,25 @@ public class EcriveurDaoTest
 					, VARIABLE_NOM_CLASSE_METIER
 						, this.nomClassMetier);
 		
+		final List<String> listSubst3 
+			= this.substituerVariablesDansLigne(
+				listSubst2
+					, VARIABLE_NOM_ABSTRACT_TABLE
+						, AbstractGenerateur.getNomAbstractTable());
+		
+		final List<String> listSubst4 
+			= this.substituerVariablesDansLigne(
+				listSubst3
+					, VARIABLE_NOM_CONCRETE_TABLE
+						, AbstractGenerateur.getNomConcreteTable());
+		
 		/* ajoute 3 lignes vides sous le code. */
-		this.ajouterLignesVides(3, listSubst1);
+		this.ajouterLignesVides(3, listSubst4);
 		
 		/* *************** */
 		/* ENREGISTREMENT. */
 		/* *************** */
-		this.ecrireCode(listSubst1, pFile);
+		this.ecrireCode(listSubst4, pFile);
 		
 	} // Fin de ecrireMethodeRemplirTable()._______________________________
 	
@@ -859,6 +916,579 @@ public class EcriveurDaoTest
 		return DECALAGE_METHODE + "private void remplirTable";
 	} // Fin de fournirStringIdentitfiantRemplirTable().___________________
 	
+
+		
+	/**
+	 * method ecrireMethodeViderTable() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la méthode <b>viderTable()</b></li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireMethodeViderTable(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirStringIdentitfiantViderTable();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_vidertable_testdao.txt");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOM_CLASSE_METIER
+						, this.nomClassMetier);
+				
+		/* ajoute 3 lignes vides sous le code. */
+		this.ajouterLignesVides(3, listSubst1);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listSubst1, pFile);
+		
+	} // Fin de ecrireMethodeViderTable()._________________________________
+	
+
+	
+	/**
+	 * method fournirStringIdentitfiantViderTable() :<br/>
+	 * <ul>
+	 * <li>fournit une String identifiant la méthode viderTable().</li>
+	 * <li>permet de ne pas générer 2 fois le code.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	private String fournirStringIdentitfiantViderTable() {
+		return DECALAGE_METHODE + "private void viderTable";
+	} // Fin de fournirStringIdentitfiantViderTable()._____________________
+	
+
+	
+	/**
+	 * method ecrireMethodeAfficherDaoNonInstancie() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la méthode <b>afficherDaoNonInstancie()</b></li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireMethodeAfficherDaoNonInstancie(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirStringIdentitfiantAfficherDaoNonInstancie();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_afficherdaononinstancie_testdao.txt");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOM_CLASSE_METIER
+						, this.nomClassMetier);
+				
+		/* ajoute 3 lignes vides sous le code. */
+		this.ajouterLignesVides(3, listSubst1);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listSubst1, pFile);
+		
+	} // Fin de ecrireMethodeAfficherDaoNonInstancie().____________________
+	
+
+	
+	/**
+	 * method fournirStringIdentitfiantAfficherDaoNonInstancie() :<br/>
+	 * <ul>
+	 * <li>fournit une String identifiant la méthode afficherDaoNonInstancie().</li>
+	 * <li>permet de ne pas générer 2 fois le code.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	private String fournirStringIdentitfiantAfficherDaoNonInstancie() {
+		return DECALAGE_METHODE + "private void afficherDAONonInstancie";
+	} // Fin de fournirStringIdentitfiantAfficherDaoNonInstancie().________
+	
+
+	
+	/**
+	 * method ecrireMethodeAfficherNbreObjetsInitial() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la méthode <b>afficherNbreObjetsInitial()</b></li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireMethodeAfficherNbreObjetsInitial(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirStringIdentitfiantAfficherNbreObjetsInitial();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_affichernbreobjetsinitial_testdao.txt");
+		
+		/* substitutions. */
+
+				
+		/* ajoute 3 lignes vides sous le code. */
+		this.ajouterLignesVides(3, listeLignes);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeLignes, pFile);
+		
+	} // Fin de ecrireMethodeAfficherNbreObjetsInitial().__________________
+	
+
+	
+	/**
+	 * method fournirStringIdentitfiantAfficherNbreObjetsInitial() :<br/>
+	 * <ul>
+	 * <li>fournit une String identifiant la méthode afficherNbreObjetsInitial().</li>
+	 * <li>permet de ne pas générer 2 fois le code.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	private String fournirStringIdentitfiantAfficherNbreObjetsInitial() {
+		return DECALAGE_METHODE + "private void afficherNbreObjetsInitial";
+	} // Fin de fournirStringIdentitfiantAfficherNbreObjetsInitial().______
+
+
+	
+	/**
+	 * method ecrireMethodeAfficherObjetPersistant() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la méthode <b>afficherObjetPersistant()</b></li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireMethodeAfficherObjetPersistant(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirStringIdentitfiantAfficherObjetPersistant();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_afficherobjetpersistant_testdao.txt");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOM_INTERFACE_METIER
+						, this.nomInterfaceMetier);
+				
+		/* ajoute 3 lignes vides sous le code. */
+		this.ajouterLignesVides(3, listSubst1);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listSubst1, pFile);
+		
+	} // Fin de ecrireMethodeAfficherObjetPersistant().____________________
+	
+
+	
+	/**
+	 * method fournirStringIdentitfiantAfficherObjetPersistant() :<br/>
+	 * <ul>
+	 * <li>fournit une String identifiant la méthode afficherObjetPersistant().</li>
+	 * <li>permet de ne pas générer 2 fois le code.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	private String fournirStringIdentitfiantAfficherObjetPersistant() {
+		return DECALAGE_METHODE + "private void afficherObjetPersistant";
+	} // Fin de fournirStringIdentitfiantAfficherObjetPersistant().________
+
+
+	
+	/**
+	 * method ecrireMethodeAfficherObjetNonPersistant() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la méthode <b>afficherObjetNonPersistant()</b></li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireMethodeAfficherObjetNonPersistant(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirStringIdentitfiantAfficherObjetNonPersistant();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_afficherobjetnonpersistant_testdao.txt");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOM_INTERFACE_METIER
+						, this.nomInterfaceMetier);
+				
+		/* ajoute 3 lignes vides sous le code. */
+		this.ajouterLignesVides(3, listSubst1);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listSubst1, pFile);
+		
+	} // Fin de ecrireMethodeAfficherObjetNonPersistant().____________________
+	
+
+	
+	/**
+	 * method fournirStringIdentitfiantAfficherObjetNonPersistant() :<br/>
+	 * <ul>
+	 * <li>fournit une String identifiant la méthode afficherObjetNonPersistant().</li>
+	 * <li>permet de ne pas générer 2 fois le code.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	private String fournirStringIdentitfiantAfficherObjetNonPersistant() {
+		return DECALAGE_METHODE + "private void afficherObjetNonPersistant";
+	} // Fin de fournirStringIdentitfiantAfficherObjetNonPersistant().________
+
+
+	
+	/**
+	 * method ecrireMethodeAfficherAbstractDaoException() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la méthode <b>afficherAbstractDaoException()</b></li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireMethodeAfficherAbstractDaoException(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirStringIdentitfiantAfficherAbstractDaoException();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_afficherabstractdaoexception_testdao.txt");
+		
+		/* substitutions. */
+				
+		/* ajoute 3 lignes vides sous le code. */
+		this.ajouterLignesVides(3, listeLignes);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listeLignes, pFile);
+		
+	} // Fin de ecrireMethodeAfficherAbstractDaoException()._______________
+	
+
+	
+	/**
+	 * method fournirStringIdentitfiantAfficherAbstractDaoException() :<br/>
+	 * <ul>
+	 * <li>fournit une String identifiant la méthode afficherAbstractDaoException().</li>
+	 * <li>permet de ne pas générer 2 fois le code.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	private String fournirStringIdentitfiantAfficherAbstractDaoException() {
+		return DECALAGE_METHODE + "private void afficherAbstractDaoException";
+	} // Fin de fournirStringIdentitfiantAfficherAbstractDaoException().___
+
+
+	
+	/**
+	 * method ecrireMethodeFabriquerList() :<br/>
+	 * <ul>
+	 * <li><b>écriture</b> dans le fichier java.</li>
+	 * <li>écrit la méthode <b>fabriquerList()</b></li>
+	 * <li>ajoute 3 lignes vides à la suite.<br/>
+	 * <li>Ne fait rien si la méthode a déjà été déclarée.</li>
+	 * </ul>
+	 * ne fait rien si pFile est null.<br/>
+	 * ne fait rien si pFile n'existe pas.<br/>
+	 * ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier java.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void ecrireMethodeFabriquerList(
+			final File pFile) throws Exception {
+		
+		/* ne fait rien si pFile est null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* Recherche la ligne identifiant. */
+		final String ligneIdentifiant 
+			= this.fournirStringIdentitfiantFabriquerList();
+
+		/* Ne fait rien si le code a déjà été écrit. */
+		if (this.existLigneCommencant(
+				pFile, CHARSET_UTF8, ligneIdentifiant)) {
+			return;
+		}
+
+		/* lecture du Template. */
+		final List<String> listeLignes 
+			= this.lireTemplate("dao/methode_fabriquerlist_testdao.txt");
+		
+		/* substitutions. */
+		final List<String> listSubst1 
+			= this.substituerVariablesDansLigne(
+				listeLignes
+					, VARIABLE_NOM_INTERFACE_METIER
+						, this.nomInterfaceMetier);
+				
+		/* ajoute 3 lignes vides sous le code. */
+		this.ajouterLignesVides(3, listSubst1);
+		
+		/* *************** */
+		/* ENREGISTREMENT. */
+		/* *************** */
+		this.ecrireCode(listSubst1, pFile);
+		
+	} // Fin de ecrireMethodeFabriquerList().____________________
+	
+
+	
+	/**
+	 * method fournirStringIdentitfiantFabriquerList() :<br/>
+	 * <ul>
+	 * <li>fournit une String identifiant la méthode fabriquerList().</li>
+	 * <li>permet de ne pas générer 2 fois le code.</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 */
+	private String fournirStringIdentitfiantFabriquerList() {
+		return DECALAGE_METHODE + "public final List<" 
+				+ this.nomInterfaceMetier + "> fabriquerList";
+	} // Fin de fournirStringIdentitfiantFabriquerList().________
+
 
 	
 	/**

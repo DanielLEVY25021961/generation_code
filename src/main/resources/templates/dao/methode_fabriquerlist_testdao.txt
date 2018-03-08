@@ -1,0 +1,23 @@
+	/**
+	 * method fabriquerList(
+	 * Iterable&lt;{$nomInterfaceMetier}&gt; pIterable) :<br/>
+	 * fabrique une liste à partir d'un Iterable.<br/>
+	 * <br/>
+	 *
+	 * @param pIterable : Iterable&lt;{$nomInterfaceMetier}&gt;.<br/>
+	 * 
+	 * @return : List&lt;{$nomInterfaceMetier}&gt;.<br/>
+	 */
+	public final List<{$nomInterfaceMetier}> fabriquerList(
+			final Iterable<{$nomInterfaceMetier}> pIterable) {
+		
+		final List<{$nomInterfaceMetier}> list 
+			= new ArrayList<{$nomInterfaceMetier}>();
+		
+	    for (final {$nomInterfaceMetier} item : pIterable) {
+	        list.add(item);
+	    }
+	    
+	    return list;
+	    
+	} // Fin de fabriquerList(...).________________________________________

@@ -1,0 +1,43 @@
+	/**
+	 * method afficherObjetPersistant(
+	 * {$nomInterfaceMetier} pObjetPersistant
+	 * , Long pNbreObjetsFinal) :<br/>
+	 * <ul>
+	 * Affiche à la console :
+	 * <li>l'objet pObjetPersistant persisté en base.</li>
+	 * <li>Le nombre d'objets pNbreObjetsFinal finalement 
+	 * en base après le test.</li>
+	 * </ul>
+	 * <br/>
+	 *
+	 * @param pObjetPersistant : {$nomInterfaceMetier} : 
+	 * Objet persistant en base.<br/>
+	 * @param pNbreObjetsFinal : Long : 
+	 * Nombre d'objets finalement en base.<br/>
+	 */
+	private void afficherObjetPersistant(
+			final {$nomInterfaceMetier} pObjetPersistant
+				, final Long pNbreObjetsFinal) {
+		
+		if (pObjetPersistant != null) {
+			
+			System.out.println();
+			System.out.println(TIRETS);
+			System.out.println("objet persistant : " 
+					+ pObjetPersistant.toString());
+			System.out.println("nombre d'objets finalement en base = " 
+					+ pNbreObjetsFinal);
+			System.out.println(TIRETS);
+			System.out.println();
+			
+		} else {
+			
+			System.out.println();
+			System.out.println(TIRETS);
+			System.out.println("objetPersistant est NULL");
+			System.out.println(TIRETS);
+			System.out.println();
+			
+		}
+		
+	} // Fin de afficherObjetPersistant(...).______________________________
