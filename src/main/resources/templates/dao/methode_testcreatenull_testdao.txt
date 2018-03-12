@@ -1,0 +1,83 @@
+	/**
+	 * method testCreateNull() :<br/>
+	 * <ul>
+	 * Teste la méthode <b>create(null)</b>.<br/>
+	 * <li>garantit que create(null) ne fait rien 
+	 * et retourne null.</li>
+	 * </ul>
+	 *
+	 * @throws AbstractDaoException
+	 */
+	@Commit
+	@Transactional
+	@Test
+	public void testCreateNull() throws AbstractDaoException {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* dao{$nomClassMetier} NON INJECTE. */
+		if (this.dao{$nomClassMetier} == null) {
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_CREATE_NULL);
+				this.afficherDAONonInstancie();
+			}			
+			return;
+		} // Fin de dao{$nomClassMetier} NON INJECTE._______________
+
+		
+		/* Vide la table. */
+		this.viderTable();
+
+
+		Long nombreObjetsinitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		
+		final {$nomInterfaceMetier} objetNull = null;
+		{$nomInterfaceMetier} objetNullPersistant = null;
+						
+		/* Compte du nombre d'Objets initialement en base. */
+		nombreObjetsinitial = this.dao{$nomClassMetier}.count();
+		
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(TEST_CREATE_NULL);
+			this.afficherNbreObjetsInitial(nombreObjetsinitial);			
+		}
+		
+		try {
+			
+			/* *********************************************** */
+			/* ********************* CREATION **************** */
+			objetNullPersistant = this.dao{$nomClassMetier}.create(objetNull);
+			/* *********************************************** */
+			
+			/* Calcul du nombre d'objets en base après le traitement. */
+			nombreObjetsFinal = this.dao{$nomClassMetier}.count();
+			
+			/* garantit que create(null) ne fait rien et retourne null. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsinitial + 0);
+			
+		}
+		catch (AbstractDaoException e) {
+			System.out.println(TEST_CREATE_NULL);
+			this.afficherAbstractDaoException(e);			
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("AbstractDaoException : ", e);
+			}
+			
+		}
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(TEST_CREATE_NULL);
+			this.afficherObjetPersistant(
+					objetNullPersistant, nombreObjetsFinal);						
+		}
+
+	} // Fin de testCreateNull().__________________________________________
