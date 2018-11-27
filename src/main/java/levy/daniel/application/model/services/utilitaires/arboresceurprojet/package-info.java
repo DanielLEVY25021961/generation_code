@@ -1,7 +1,69 @@
 /**
  * CLASSE package-info :<br/>
- * Ce package contient toutes les 
- * <b>classes source de l'application</b>.<br/>
+ * Ce package contient toutes les classes nécessaires à la <b>génération 
+ * de l'ARBORESCENCE d'un projet MAVEN simple (sans archétype)</b>.<br/>
+ * L'idée est de <b>générer automatiquement</b> tous les packages et classes 
+ * d'<b>"infrastructure"</b> après que l'utilisateur ait créé un 
+ * projet MAVEN simple (sans archétype) dans Eclipse.<br/>
+ * 
+ * <ul>
+ * <li>ArboresceurProjetCible est une 
+ * Classe <b>utilitaire (méthodes static)</b> chargée de fournir 
+ * l'arborescence d'<b>"infrastructure"</b> d'un projet 
+ * ECLIPSE MAVEN SIMPLE (pas d'artéfact) à générer 
+ * (path des sources java, ...).</li>
+ * <li>
+ * ArboresceurProjetCible est une classe chargée 
+ * de fournir des <b>SINGLETONS</b> pour :
+ * <ol>
+ * <li>l'emplacement du <b>projet CIBLE Eclipse</b> 
+ * dans lequel générer le code : <b>projetCiblePath</b>.</li>
+ * <li>l'emplacement de la <b>racine des sources</b> 
+ * <code>(src/main/java)</code> dans lequel générer les .java 
+ * du main : <b>srcMainJavaPath</b>.</li>
+ * <li>l'emplacement de la <b>racine des ressources</b> 
+ * <code>(src/main/resources)</code> dans lequel stocker les ressources 
+ * du main : <b>srcMainResourcesPath</b>.</li>
+ * <li>l'emplacement de la <b>racine des sources de test</b> 
+ * <code>(src/test/java)</code> dans lequel générer les .java 
+ * de test : <b>srcTestJavaPath</b>.</li>
+ * <li>l'emplacement de la <b>racine des ressources des tests</b> 
+ * <code>(src/test/resources)</code> dans lequel stocker les ressources 
+ * des tests : <b>srcTestResourcesPath</b>.</li>
+ * <li>Le <b>GroupId MAVEN</b> <code>(levy/daniel/application)</code> : 
+ * <b>groupIdPathRelatif</b>.</li>
+ * <li>l'emplacement de la <b>racine qualifiée des sources</b> 
+ * <code>(src/main/java/levy/daniel/application)</code> dans lequel générer les .java 
+ * du main : <b>racineSourcesJavaPath</b>.</li>
+ * <li>l'emplacement de la <b>racine qualifiée des sources de test</b> 
+ * <code>(src/test/java/levy/daniel/application)</code> dans lequel générer les .java 
+ * de test JUnit : <b>racineTestsJavaPath</b>.</li>
+ * <li>l'emplacement de la couche <b>apptechnic</b> dans main : 
+ * <b>coucheAppTechnicMainPath</b>.</li>
+ * <li>l'emplacement de la couche <b>apptechnic</b> dans test :  
+ * <b>coucheAppTechnicTestPath</b>.</li>
+ * <li>l'emplacement de la couche <b>controllers</b> dans main :  
+ * <b>coucheControllersMainPath</b>.</li>
+ * <li>l'emplacement de la couche <b>controllers</b> dans test :  
+ * <b>coucheControllersTestPath</b>.</li>
+ * <li>l'emplacement de la couche <b>vues</b> dans main :  
+ * <b>coucheVuesMainPath</b>.</li>
+ * <li>l'emplacement de la couche <b>vues</b> dans test :  
+ * <b>coucheVuesTestPath</b>.</li>
+ * <li>l'emplacement de la couche <b>model</b> dans main :  
+ * <b>coucheModelMainPath</b>.</li>
+ * <li>l'emplacement de la couche <b>model</b> dans test :  
+ * <b>coucheModelTestPath</b>.</li>
+ * <li>l'emplacement des sous-couches de chaque couche.</li>
+ * <li>l'emplacement des répertoires annexes 
+ * (conception_appli, javadoc, logs, rapports_controle
+ * , ressources_externes, ...)</li>
+ * <li>une liste de Path <b>ARBORESCENCE_PROJET_CIBLE</b> contenant 
+ * l'ensemble des répertoires à créer dans le projet cible.</li>
+ * </ol>
+ * </li>
+ * </ul>
+ * 
  * Les <b>4 package source</b> situés directement sous le projet Eclipse 
  * exigés PAR CONVENTION par MAVEN (sans artefact) sont :<br/>
  * <ol>
@@ -13,7 +75,7 @@
  * <li><b>src/test/resources</b> qui doit contenir toutes les <b>ressources des tests JUnit</b> (jeux d'essai).</li>
  * </ol>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/repertoires_source_MAVEN.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/repertoires_source_MAVEN.png" 
  * alt="repertoires_source_maven" border="1" align="center" />
  * </div>
  * 
@@ -25,7 +87,7 @@
  * (srcTestJavaPath + groupIdPathRelatif).<br/>
  * <br/>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/groupId_sous_src_main_java.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/groupId_sous_src_main_java.png" 
  * alt="racine des sources et des tests" border="1" align="center" />
  * </div>
  * 
@@ -43,7 +105,7 @@
  * indépendant de la logique métier (Exceptions, managers, ...).</li>
  * </ul>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/couches_applicatives.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/couches_applicatives.png" 
  * alt="couches applicatives" border="1" align="center" />
  * </div>
  * 
@@ -87,7 +149,7 @@
  * par toute l'application.</li>
  * </ul>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/couche_model.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/couche_model.png" 
  * alt="couche MODEL" border="1" align="center" />
  * </div>
  * 
@@ -98,7 +160,7 @@
  * </span>
  * </p>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/sous-couche_DTO.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/sous-couche_DTO.png" 
  * alt="sous-couche DTO" border="1" align="center" />
  * </div>
  * 
@@ -109,7 +171,7 @@
  * </span>
  * </p>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/sous-couche_metier.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/sous-couche_metier.png" 
  * alt="sous-couche METIER" border="1" align="center" />
  * </div>
  * 
@@ -120,7 +182,7 @@
  * </span>
  * </p>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/sous-couche_persistence.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/sous-couche_persistence.png" 
  * alt="sous-couche PERSISTENCE" border="1" align="center" />
  * </div>
  * 
@@ -131,7 +193,7 @@
  * </span>
  * </p>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/sous-couche_services.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/sous-couche_services.png" 
  * alt="sous-couche SERVICES" border="1" align="center" />
  * </div>
  * 
@@ -142,7 +204,7 @@
  * </span>
  * </p>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/sous-couche_utilitaires.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/sous-couche_utilitaires.png" 
  * alt="sous-couche UTILITAIRES" border="1" align="center" />
  * </div>
  * 
@@ -168,7 +230,7 @@
  * </div>
  * 
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/couche_vues.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/couche_vues.png" 
  * alt="couche VUES" border="1" align="center" />
  * </div>
 
@@ -194,7 +256,7 @@
  * </div>
  * 
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/couche_controllers.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/couche_controllers.png" 
  * alt="couche CONTROLLERS" border="1" align="center" />
  * </div>
  * 
@@ -205,7 +267,7 @@
  * </span></b>
  * </p>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/couche_apptechnic.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/couche_apptechnic.png" 
  * alt="couche APPTECHNIC" border="1" align="center" />
  * </div>
  * 
@@ -216,7 +278,7 @@
  * </span></b>
  * </p>
  * <div>
- * <img src="../../../../../../javadoc/images/arboresceurprojet/repertoires_externes.png" 
+ * <img src="../../../../../../../../../../javadoc/images/arboresceurprojet/repertoires_externes.png" 
  * alt="REPERTOIRES EXTERNES" border="1" align="center" />
  * </div>
  * 
@@ -225,18 +287,33 @@
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
+ * <code>
+ * // Path du projet cible<br/>
+ * <b>Path projetCiblePath = Paths.get("D:/Donnees/toto");</b><br/>
+ * // SELECTION DU PROJET CIBLE<br/>
+ * <b>ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);</b><br/>
+ *  // (Optionnel) sélection du GroupId<br/>
+ * ArboresceurProjetCible.setGroupIdPathRelatif("newGroupId") <br/>
+ *  // RECUPERATION DE L'ARBORESCENCE A CREER DANS LE PROJET CIBLE<br/>
+ * <b>List&lt;Path&gt; arborescence = ArboresceurProjetCible.getArborescenceProjetCible();</b><br/>
+ * </code>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * path.resolve(path), path.resolve, resolve, resolve(),<br/>
+ * ajouter un path à un autre, <br/>
+ * fournir arborescence projet cible, <br/>
+ * génération de projet, génération d'arborescence, <br/>
+ * generation de projet, generation d'arborescence, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
  * <br/>
  *
  *
- * @author dan Lévy
+ * @author daniel.levy Lévy
  * @version 1.0
- * @since 16 nov. 2018
+ * @since 22 nov. 2018
  *
  */
-package levy.daniel.application;
+package levy.daniel.application.model.services.utilitaires.arboresceurprojet;

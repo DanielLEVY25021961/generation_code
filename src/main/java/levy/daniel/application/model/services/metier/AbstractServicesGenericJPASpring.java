@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesrg.LigneRG;
-import levy.daniel.application.model.dao.IDaoGenericJPASpring;
-import levy.daniel.application.model.dao.daoexceptions.AbstractDaoException;
+import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
+import levy.daniel.application.model.persistence.metier.IDaoGenericJPASpring;
 import levy.daniel.application.model.services.valideurs.IValideurGeneric;
 import levy.daniel.application.model.services.valideurs.LigneRapportValidation;
 
