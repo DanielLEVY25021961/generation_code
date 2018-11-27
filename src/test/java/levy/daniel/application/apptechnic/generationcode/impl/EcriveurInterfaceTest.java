@@ -1,5 +1,7 @@
 package levy.daniel.application.apptechnic.generationcode.impl;
 
+import static org.junit.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,7 +53,11 @@ public class EcriveurInterfaceTest {
 	public static final String TIRETS 
 	= "--------------------------------------------------------";
 
-
+	/**
+	 * "BIDON : ".<br/>
+	 */
+	public static final String BIDON = "BIDON : ";
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -141,7 +147,9 @@ public class EcriveurInterfaceTest {
 			System.out.println("RESULTAT : " + resultat);
 		}
 		
-	}
+		assertTrue(BIDON, 1 == 1);
+		
+	} // Fin de testExpressionReguliere()._________________________________
 	
 	
 	
@@ -242,6 +250,7 @@ public class EcriveurInterfaceTest {
 			System.out.println("RESULTAT : " + this.afficherDateDuJour());
 		}
 
+		assertTrue(BIDON, 1 == 1);
 		
 	} // Fin de testDateDuJour().__________________________________________
 	

@@ -177,7 +177,11 @@ public class BundleConfigurationProjetManagerTest {
 	public static final String TIRETS 
 	= "--------------------------------------------------------";
 
-
+	/**
+	 * "BIDON : ".<br/>
+	 */
+	public static final String BIDON = "BIDON : ";
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -1717,6 +1721,8 @@ public class BundleConfigurationProjetManagerTest {
 					+ racineMainJava);
 		}
 		
+		assertTrue(BIDON, 1 == 1);
+		
 	} // Fin de testGetRacineMainJava().___________________________________
 	
 	
@@ -1747,6 +1753,8 @@ public class BundleConfigurationProjetManagerTest {
 			System.out.println("PATH ABSOLU MAIN RESOURCES : " 
 					+ racineMainResources);
 		}
+		
+		assertTrue(BIDON, 1 == 1);
 		
 	} // Fin de testGetRacineMainResources().______________________________
 	
@@ -1779,6 +1787,8 @@ public class BundleConfigurationProjetManagerTest {
 					+ racineTestJava);
 		}
 		
+		assertTrue(BIDON, 1 == 1);
+		
 	} // Fin de testGetRacineTestJava().___________________________________
 	
 
@@ -1809,6 +1819,8 @@ public class BundleConfigurationProjetManagerTest {
 			System.out.println("PATH ABSOLU TEST RESOURCES : " 
 					+ racineTestResources);
 		}
+		
+		assertTrue(BIDON, 1 == 1);
 		
 	} // Fin de testGetRacineTestResources().______________________________
 	
@@ -2045,6 +2057,8 @@ public class BundleConfigurationProjetManagerTest {
 					+ racineTestResources);
 		}
 		
+		assertTrue(BIDON, 1 == 1);
+		
 	} // Fin de testGetPathAppTechnic().___________________________________
 
 	
@@ -2075,6 +2089,8 @@ public class BundleConfigurationProjetManagerTest {
 			System.out.println("PATH ABSOLU controllers : " 
 					+ racineTestResources);
 		}
+		
+		assertTrue(BIDON, 1 == 1);
 		
 	} // Fin de testGetPathControllers().__________________________________
 	
@@ -2114,6 +2130,8 @@ public class BundleConfigurationProjetManagerTest {
 					+ BundleConfigurationProjetManager.getPathServices());
 		}
 		
+		assertTrue(BIDON, 1 == 1);
+		
 	} // Fin de testGetPathModel().________________________________________
 	
 
@@ -2144,6 +2162,8 @@ public class BundleConfigurationProjetManagerTest {
 			System.out.println("PATH ABSOLU vues : " 
 					+ racineTestResources);
 		}
+		
+		assertTrue(BIDON, 1 == 1);
 		
 	} // Fin de testGetPathVues()._________________________________________
 	

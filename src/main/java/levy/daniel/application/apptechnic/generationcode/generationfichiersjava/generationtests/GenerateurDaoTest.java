@@ -29,7 +29,7 @@ import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.
  * @since 5 mars 2018
  *
  */
-public class GenerateurDaoTest 
+public class GenerateurDaoTest  // NOPMD by daniel.levy on 27/11/18 11:40
 						extends AbstractGenerateurClasseSeule {
 
 	// ************************ATTRIBUTS************************************/

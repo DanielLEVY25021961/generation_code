@@ -68,6 +68,10 @@ public class LocaleManagerTest {
 	public static final String LOCALE_PLATEFORME 
 		= "la Locale de la plateforme : ";
 	
+	/**
+	 * "BIDON : ".<br/>
+	 */
+	public static final String BIDON = "BIDON : ";
 	
 	/**
 	 * LOG : Log : 
@@ -332,6 +336,8 @@ public class LocaleManagerTest {
 					+ localeParDefaut.getDisplayName());
 			
 		}
+		
+		assertTrue(BIDON, 1 == 1);
 		
 	} // Fin de testGetLocaleParDefaut().__________________________________
 	

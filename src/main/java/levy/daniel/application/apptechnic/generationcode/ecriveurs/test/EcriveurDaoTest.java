@@ -30,7 +30,7 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriv
  * @since 5 mars 2018
  *
  */
-public class EcriveurDaoTest 
+public class EcriveurDaoTest  // NOPMD by daniel.levy on 27/11/18 11:39
 		extends AbstractEcriveurFichiersJavaDetaille {
 
 	// ************************ATTRIBUTS************************************/
