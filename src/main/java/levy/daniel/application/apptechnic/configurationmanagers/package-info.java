@@ -1,6 +1,7 @@
 /**
- * class package-info :<br/>
- * .<br/>
+ * CLASSE package-info :<br/>
+ * Ce package contient toutes les classes utiles 
+ * pour la <b>configuration de l'application</b>.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -15,7 +16,7 @@
  *
  * @author dan Lévy
  * @version 1.0
- * @since 26 août 2017
+ * @since 6 août 2018
  *
  */
 package levy.daniel.application.apptechnic.configurationmanagers;

@@ -1,6 +1,7 @@
 /**
  * class package-info :<br/>
- * .<br/>
+ * Ce package contient toutes les classes utiles pour la lecture 
+ * des <b>descriptions de fichier</b> de l'application.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

@@ -1,6 +1,8 @@
 /**
  * class package-info :<br/>
- * .<br/>
+ * Ce package contient toutes les classes utiles pour la lecture 
+ * des <b>nomenclatures</b> (tables de valeurs externes) 
+ * de l'application.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
