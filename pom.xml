@@ -587,26 +587,31 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- Répetoire des classes compilées -->
 		<outputDirectory>${project.build.directory}/classes</outputDirectory>
 
-		<!-- REPERTOIRE DES SOURCES (target)-->
-		<!-- Répertoire des src Java. -->
+		<!-- REPERTOIRE DES SOURCES -->
+		<!-- Répertoire des src Java  src/main/java. -->
 		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
 		<!-- Répertoire des scripts (scripts SQL ou Batch) -->
 		<scriptSourceDirectory>${project.basedir}/src/main/scripts</scriptSourceDirectory>
-		<!-- Répertoire des Tests src Java. -->
+		<!-- Répertoire des Tests src Java  src/test/java. -->
 		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
-		
-		<!-- Répetoire des classes compilées de test -->
-		<testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
+
+		<!-- REPERTOIRE DES RESSOURCES -->
+		<!-- Répertoire des src/main/resources. -->
 		<resources>
 			<resource>
 				<directory>${project.basedir}/src/main/resources</directory>
 			</resource>
 		</resources>
+		<!-- Répertoire des src/test/resources. -->
 		<testResources>
 			<testResource>
 				<directory>${project.basedir}/src/test/resources</directory>
 			</testResource>
 		</testResources>
+		
+		<!-- Répetoire des classes compilées de test -->
+		<testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
+		
 
 		
 		<!-- ============================================== -->

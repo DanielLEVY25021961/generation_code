@@ -2197,7 +2197,8 @@ public final class GestionnaireProjet {
 	 * method fournirPathWorkspaceParDefaut() :<br/>
 	 * <ul>
 	 * <li>retourne un chemin pour le Workspace Eclipse par défaut.</li>
-	 * <li>retourne le path du Workspace dans configuration_projet.properties si il existe.</li>
+	 * <li>retourne le path du Workspace dans 
+	 * configuration_projet.properties si il existe.</li>
 	 * <li>retourne le path du présent Workspace sinon.</li>
 	 * </ul>
 	 *

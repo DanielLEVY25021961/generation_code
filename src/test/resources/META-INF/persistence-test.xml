@@ -22,17 +22,17 @@
 	<!-- ============================================================== -->
 	
 	<!-- 							STANDALONE 							-->
-	<!-- <persistence-unit name="persistence_unit_base-tutoriel-web-spring-pouiller" 
+	<!-- <persistence-unit name="persistence_unit_base-generation_code" 
 		transaction-type="JTA"> -->
 		
 	<!-- 						WEB SANS SPRING							 -->
-		<!-- <persistence-unit name="persistence_unit_base-tutoriel-web-spring-pouiller" 
+		<!-- <persistence-unit name="persistence_unit_base-generation_code" 
 		transaction-type="RESOURCE_LOCAL"> -->
 
 	<!-- 						AVEC SPRING 5.0.0 						-->
 	<!-- transaction manager géré par SPRING.							-->
 	<!-- Donc, ne pas utiliser l'attribut transaction-type 				-->
-	<persistence-unit name="persistence_unit_${nombase}">
+	<persistence-unit name="persistence_unit_base-generation_code">
 
 	
 

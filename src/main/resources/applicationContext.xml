@@ -221,9 +221,9 @@
 	<!-- Le sous-contexte /jdbc relatif au contexte de nommage racine	-->
 	<!-- précise qu'il s'agit d'une ressource jdbc.						-->
 	<!-- Le nom JNDI suit par convention le sous-contexte /jdbc		    -->
-	<!-- (DataSource = jdbc/ds_squelette_Web_Spring_JPA_Hibernate). 				--> 
+	<!-- (DataSource = jdbc/ds_generation_code). 				--> 
 <!--     <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> -->
-<!--     	<property name="jndiName" value="java:comp/env/jdbc/ds_squelette_Web_Spring_JPA_Hibernate" /> -->
+<!--     	<property name="jndiName" value="java:comp/env/jdbc/ds_generation_code" /> -->
 <!--     </bean> -->
 	
 </beans>
