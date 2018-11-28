@@ -1,4 +1,4 @@
-package levy.daniel.application.util.verificateursregex;
+package levy.daniel.application.model.utilitaires.verificateursregex;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

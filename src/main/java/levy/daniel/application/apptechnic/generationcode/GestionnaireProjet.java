@@ -29,7 +29,8 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.configurationmanagers.ManagerPaths;
-import levy.daniel.application.util.gestionnairesiofichiers.GestionnaireFichiers;
+import levy.daniel.application.model.utilitaires.gestionnairesiofichiers.GestionnaireFichiers;
+
 
 /**
  * CLASSE <b>GestionnaireProjet</b> :<br/>

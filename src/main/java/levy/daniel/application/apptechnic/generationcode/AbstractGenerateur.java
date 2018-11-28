@@ -29,7 +29,8 @@ import org.apache.commons.text.WordUtils;
 
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.impl.GestionnaireFiles;
-import levy.daniel.application.util.gestionnairesiofichiers.GestionnaireFichiers;
+import levy.daniel.application.model.utilitaires.gestionnairesiofichiers.GestionnaireFichiers;
+
 
 /**
  * CLASSE ABSTRAITE <b>AbstractGenerateur</b> :<br/>
