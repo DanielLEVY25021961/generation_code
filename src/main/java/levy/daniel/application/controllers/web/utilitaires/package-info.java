@@ -1,7 +1,7 @@
 /**
  * class package-info :<br/>
  * Ce package contient toutes les classes <b>CONTROLLERS</b>
- * destinées à <b>l'initialisation et à l'accueil</b> 
+ * destinées à la gestion des <b>utilitaires</b> 
  * d'une application <b>WEB</b> respectant le modèle MVC.<br/>
  * La couche CONTROLLERS intercepte les appels provenant des VUES 
  * et dialogue avec les SERVICES qui sont le point d'entrée 
@@ -26,4 +26,4 @@
  * @since 22 sept. 2017
  *
  */
-package levy.daniel.application.controllers.web.accueil;
+package levy.daniel.application.controllers.web.utilitaires;
