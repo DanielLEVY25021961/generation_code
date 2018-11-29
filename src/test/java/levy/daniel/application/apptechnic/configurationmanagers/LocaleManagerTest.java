@@ -112,6 +112,11 @@ public class LocaleManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE LocaleManagerTest - méthode testLocaleManager() ********** ");
+		}
+																																
 		final Locale localeInitiale1 
 			= LocaleManager.getLocaleApplication();
 		
@@ -125,9 +130,10 @@ public class LocaleManagerTest {
 		= LocaleManager.getLocaleApplication();
 		
 		/* garantit que getLocaleApplication() retourne un singleton. */
-		assertTrue(
+		assertSame(
 				"getLocaleApplication() doit retourner un singleton : "
-					, localeInitiale1 == localeInitiale2); 
+					, localeInitiale1
+						, localeInitiale2); 
 		
 		/* Change la Locale. */
 		/* garantit que setLocaleApplication(Locale pLocale) 
@@ -150,9 +156,10 @@ public class LocaleManagerTest {
 		= LocaleManager.getLocaleApplication();
 		
 		/* garantit que getLocaleApplication() retourne un singleton. */
-		assertTrue(
+		assertSame(
 				"getLocaleApplication() doit retourner un singleton : "
-					, locale1 == locale2); 
+					, locale1
+						, locale2); 
 		
 	} // Fin de testLocaleManager()._______________________________________
 	
@@ -178,6 +185,11 @@ public class LocaleManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE LocaleManagerTest - méthode testRecupererLocaleIHM() ********** ");
+		}
+																																		
 		final Locale localeDefaut 
 			= LocaleManager.recupererLocaleIHM(null);
 		
@@ -242,6 +254,11 @@ public class LocaleManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE LocaleManagerTest - méthode testRecupererLocaleBase() ********** ");
+		}
+																																				
 		final Locale localeNull 
 			= LocaleManager.recupererLocaleBase(null, "  ");
 		
@@ -314,6 +331,11 @@ public class LocaleManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE LocaleManagerTest - méthode testGetLocaleParDefaut() ********** ");
+		}
+																																						
 		final Locale localeParDefaut 
 			= LocaleManager.getLocaleParDefaut();
 		

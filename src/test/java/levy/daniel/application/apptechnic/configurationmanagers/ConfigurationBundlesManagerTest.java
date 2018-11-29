@@ -3,6 +3,7 @@ package levy.daniel.application.apptechnic.configurationmanagers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertSame;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -216,8 +217,12 @@ public class ConfigurationBundlesManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationBundlesManagerTest - méthode testGetBundleApplication() ********** ");
+		}
+																														
 		try {
 			final ResourceBundle bundleApplication1 
 				= ConfigurationBundlesManager.getBundleApplication();
@@ -230,10 +235,11 @@ public class ConfigurationBundlesManagerTest {
 			= ConfigurationBundlesManager.getBundleApplication();
 			
 			/* garantit que getBundleApplication() retourne un Singleton. */
-			assertTrue(
+			assertSame(
 					"bundleApplication1 doit être la même "
 					+ "instance que bundleApplication2"
-					, bundleApplication1 == bundleApplication2);   
+						, bundleApplication1
+							, bundleApplication2);   
 		}
 		catch (BundleManquantRunTimeException e) {
 			
@@ -312,8 +318,12 @@ public class ConfigurationBundlesManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationBundlesManagerTest - méthode testGetBundleRessourcesExternes() ********** ");
+		}
+																														
 		try {
 			final ResourceBundle bundleRessourcesExternes1 
 				= ConfigurationBundlesManager.getBundleRessourcesExternes();
@@ -326,10 +336,11 @@ public class ConfigurationBundlesManagerTest {
 			= ConfigurationBundlesManager.getBundleRessourcesExternes();
 			
 			/* garantit que getBundleRessourcesExternes() retourne un Singleton. */
-			assertTrue(
+			assertSame(
 					"bundleRessourcesExternes1 doit être la même "
 					+ "instance que bundleRessourcesExternes2"
-					, bundleRessourcesExternes1 == bundleRessourcesExternes2);   
+						, bundleRessourcesExternes1
+							, bundleRessourcesExternes2);   
 		}
 		catch (BundleManquantRunTimeException e) {
 			
@@ -417,7 +428,12 @@ public class ConfigurationBundlesManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationBundlesManagerTest - méthode testGetPathRessourcesExternes() ********** ");
+		}
+																														
 		String pathRessourcesExternes1 = null;
 		String pathRessourcesExternes2 = null;
 		
@@ -658,7 +674,12 @@ public class ConfigurationBundlesManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationBundlesManagerTest - méthode testGetPathRapportsControle() ********** ");
+		}
+																														
 		String pathRapportsControle1 = null;
 		String pathRapportsControle2 = null;
 		
@@ -899,7 +920,12 @@ public class ConfigurationBundlesManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationBundlesManagerTest - méthode testGetPathLogs() ********** ");
+		}
+																														
 		String pathLogs1 = null;
 		String pathLogs2 = null;
 		
@@ -1140,7 +1166,12 @@ public class ConfigurationBundlesManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationBundlesManagerTest - méthode testGetPathData() ********** ");
+		}
+																														
 		String pathData1 = null;
 		String pathData2 = null;
 		

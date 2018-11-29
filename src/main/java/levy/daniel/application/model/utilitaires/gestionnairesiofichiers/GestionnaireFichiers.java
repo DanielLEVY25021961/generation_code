@@ -6579,7 +6579,7 @@ public final class GestionnaireFichiers {
 	 * @return : String : String pour affichage.<br/>
 	 */
 	public static String affichierTableauFiles(
-			final File[] pFiles) {
+			final File... pFiles) {
 		
 		/* bloc static synchronized. */
 		synchronized (GestionnaireFichiers.class) {

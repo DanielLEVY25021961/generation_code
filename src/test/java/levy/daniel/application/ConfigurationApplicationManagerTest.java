@@ -3,6 +3,7 @@ package levy.daniel.application;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertSame;
 
 import java.util.ResourceBundle;
 
@@ -210,8 +211,12 @@ public class ConfigurationApplicationManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationApplicationManagerTest - méthode testGetBundleApplication() ********** ");
+		}
+																																						
 		try {
 			final ResourceBundle bundleApplication1 
 				= ConfigurationApplicationManager.getBundleApplication();
@@ -224,10 +229,11 @@ public class ConfigurationApplicationManagerTest {
 			= ConfigurationApplicationManager.getBundleApplication();
 			
 			/* garantit que getBundleApplication() retourne un Singleton. */
-			assertTrue(
+			assertSame(
 					"bundleApplication1 doit être la même "
 					+ "instance que bundleApplication2"
-					, bundleApplication1 == bundleApplication2);   
+						, bundleApplication1
+							, bundleApplication2);   
 			
 			/* Récupère le rapport de chargement de la configuration. */
 			final String rapportCsv 
@@ -321,8 +327,12 @@ public class ConfigurationApplicationManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationApplicationManagerTest - méthode testGetBundleRessourcesExternes() ********** ");
+		}
+																																						
 		try {
 			
 			final ResourceBundle bundleRessourcesExternes1 
@@ -336,10 +346,11 @@ public class ConfigurationApplicationManagerTest {
 			= ConfigurationApplicationManager.getBundleRessourcesExternes();
 			
 			/* garantit que getBundleRessourcesExternes() retourne un Singleton. */
-			assertTrue(
+			assertSame(
 					"bundleRessourcesExternes1 doit être la même "
 					+ "instance que bundleRessourcesExternes2"
-					, bundleRessourcesExternes1 == bundleRessourcesExternes2);   
+						, bundleRessourcesExternes1
+							, bundleRessourcesExternes2);   
 			
 			/* Récupère le rapport de chargement de la configuration. */
 			final String rapportCsv 
@@ -445,6 +456,11 @@ public class ConfigurationApplicationManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationApplicationManagerTest - méthode testGetPathRessourcesExternes() ********** ");
+		}
+																																							
 		try {
 			
 			final String pathRessourcesExternes1 
@@ -460,10 +476,11 @@ public class ConfigurationApplicationManagerTest {
 				.getPathRessourcesExternes();
 			
 			/* garantit que getPathRessourcesExternes() retourne un Singleton. */
-			assertTrue(
+			assertSame(
 					"pathRessourcesExternes1 doit être la même "
 					+ "instance que pathRessourcesExternes2"
-					, pathRessourcesExternes1 == pathRessourcesExternes2); 
+						, pathRessourcesExternes1
+							, pathRessourcesExternes2); 
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -713,6 +730,11 @@ public class ConfigurationApplicationManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationApplicationManagerTest - méthode testGetPathRapportsControle() ********** ");
+		}
+																																									
 		try {
 			
 			final String pathRapportsControle1 
@@ -728,10 +750,11 @@ public class ConfigurationApplicationManagerTest {
 				.getPathRapportsControle();
 			
 			/* garantit que getPathRapportsControle() retourne un Singleton. */
-			assertTrue(
+			assertSame(
 					"pathRapportsControle1 doit être la même "
 					+ "instance que pathRapportsControle2"
-					, pathRapportsControle1 == pathRapportsControle2); 
+						, pathRapportsControle1
+							, pathRapportsControle2); 
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -981,6 +1004,11 @@ public class ConfigurationApplicationManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationApplicationManagerTest - méthode testGetPathLogs() ********** ");
+		}
+																																											
 		try {
 			
 			final String pathLogs1 
@@ -996,10 +1024,11 @@ public class ConfigurationApplicationManagerTest {
 				.getPathLogs();
 			
 			/* garantit que getPathLogs() retourne un Singleton. */
-			assertTrue(
+			assertSame(
 					"pathLogs1 doit être la même "
 					+ "instance que pathLogs2"
-					, pathLogs1 == pathLogs2); 
+						, pathLogs1
+							, pathLogs2); 
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1249,6 +1278,11 @@ public class ConfigurationApplicationManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ConfigurationApplicationManagerTest - méthode testGetPathData() ********** ");
+		}
+																																													
 		try {
 			
 			final String pathData1 
@@ -1264,10 +1298,11 @@ public class ConfigurationApplicationManagerTest {
 				.getPathData();
 			
 			/* garantit que getPathData() retourne un Singleton. */
-			assertTrue(
+			assertSame(
 					"pathData1 doit être la même "
 					+ "instance que pathData2"
-					, pathData1 == pathData2); 
+						, pathData1
+							, pathData2); 
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {

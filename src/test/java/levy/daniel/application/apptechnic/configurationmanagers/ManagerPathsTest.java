@@ -95,6 +95,11 @@ public class ManagerPathsTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ManagerPathsTest - méthode testGetPathUniteCouranteString() ********** ");
+		}
+																				
 		final String path 
 			= ManagerPaths.getPathUniteCouranteString();
 		
@@ -131,6 +136,11 @@ public class ManagerPathsTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ManagerPathsTest - méthode testGetPathUniteCourante() ********** ");
+		}
+																				
 		final Path path 
 			= ManagerPaths.getPathUniteCourante();
 		
@@ -167,6 +177,11 @@ public class ManagerPathsTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ManagerPathsTest - méthode testGetPathPresentWorkspaceString() ********** ");
+		}
+																						
 		final String path 
 			= ManagerPaths.getPathPresentWorkspaceString();
 		
@@ -203,6 +218,11 @@ public class ManagerPathsTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ManagerPathsTest - méthode testGetPathPresentWorkspace() ********** ");
+		}
+																								
 		final Path path 
 			= ManagerPaths.getPathPresentWorkspace();
 		
@@ -239,6 +259,11 @@ public class ManagerPathsTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ManagerPathsTest - méthode testGetPathPresentProjetString() ********** ");
+		}
+																										
 		final String path 
 			= ManagerPaths.getPathPresentProjetString();
 		
@@ -275,6 +300,11 @@ public class ManagerPathsTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ManagerPathsTest - méthode testGetPathPresentProjet() ********** ");
+		}
+																												
 		final Path path 
 			= ManagerPaths.getPathPresentProjet();
 		
@@ -311,6 +341,11 @@ public class ManagerPathsTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ManagerPathsTest - méthode testGetNomPresentProjet() ********** ");
+		}
+																														
 		final String nomProjet = ManagerPaths.getNomPresentProjet();
 
 		/* AFFICHAGE A LA CONSOLE. */

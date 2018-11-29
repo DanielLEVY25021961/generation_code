@@ -168,7 +168,65 @@ public class BundleConfigurationProjetManagerTest {
 	public static final String DOIT_ETRE_FICHIERINEXISTANT 
 		= "doit être une FichierInexistantRunTimeException : ";
 	
+	/**
+	 * "testGetNomProjet()".
+	 */
+	public static final String TEST_GETNOMPROJET 
+		= "testGetNomProjet()";
 	
+	/**
+	 * "testGetGroupid()".
+	 */
+	public static final String TEST_GETGROUPID 
+		= "testGetGroupid()";
+
+	/**
+	 * "testGetPathWorkspace()".
+	 */
+	public static final String TEST_GETPATHWORKSPACE 
+		= "testGetPathWorkspace()";
+	
+	/**
+	 * "testGetPathMainJava()".
+	 */
+	public static final String TEST_GETPATHMAINJAVA 
+		= "testGetPathMainJava()";
+	
+	/**
+	 * "testGetPathMainResources()".
+	 */
+	public static final String TEST_GETPATHMAINRESOURCES 
+		= "testGetPathMainResources()";
+	
+	/**
+	 * "testGetPathTestJava()".
+	 */
+	public static final String TEST_GETPATHTESTJAVA 
+		= "testGetPathTestJava()";
+	
+	/**
+	 * "testGetPathTestResources()".
+	 */
+	public static final String TEST_GETPATHTESTRESOURCES 
+		= "testGetPathTestResources()";
+	
+	/**
+	 * "testGetNomRepertoireSrc() : ".
+	 */
+	public static final String TEST_GETNOMREPERTOIRESRC 
+		= "testGetNomRepertoireSrc() : ";
+	
+	/**
+	 * "l'objet ne doit pas être null : ".
+	 */
+	public static final String OBJET_DOIT_PAS_ETRE_NULL 
+		= "l'objet ne doit pas être null : ";
+	
+	/**
+	 * "l'objet doit être un Singleton : ".
+	 */
+	public static final String OBJET_DOIT_ETRE_SINGLETON 
+		= "l'objet doit être un Singleton : ";
 	
 	/**
 	 * TIRETS : String :<br/>
@@ -220,6 +278,11 @@ public class BundleConfigurationProjetManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetBundleConfigurationProjet() ********** ");
+		}
 
 		try {
 			
@@ -304,6 +367,11 @@ public class BundleConfigurationProjetManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetPathWorkspace() ********** ");
+		}
+		
 		String path1 = null;
 		String path2 = null;
 		
@@ -317,17 +385,17 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathWorkspace()"); 
+				System.out.println(TEST_GETPATHWORKSPACE); 
 				System.out.println("PATH DU WORKSPACE : " 
 						+ path1);
 			}
 			
 			/* garantit que l'objet n'est pas null. */
-			assertNotNull("l'objet ne doit pas être null : " 
+			assertNotNull(OBJET_DOIT_PAS_ETRE_NULL 
 					, path1);
 			
 			/* garantit que l'objet est un Singleton. */
-			assertSame("l'objet doit être un Singleton : " 
+			assertSame(OBJET_DOIT_ETRE_SINGLETON 
 					, path1, path2);
 			
 		}
@@ -345,7 +413,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathWorkspace()"
+						TEST_GETPATHWORKSPACE
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -387,7 +455,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathWorkspace()"
+						TEST_GETPATHWORKSPACE
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -429,7 +497,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathWorkspace()"
+						TEST_GETPATHWORKSPACE
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -463,7 +531,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathWorkspace()"
+						TEST_GETPATHWORKSPACE
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -505,6 +573,11 @@ public class BundleConfigurationProjetManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetNomProjet() ********** ");
+		}
+				
 		String nomProjet1 = null;
 		String nomProjet2 = null;
 		
@@ -518,17 +591,17 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetNomProjet()"); 
+				System.out.println(TEST_GETNOMPROJET); 
 				System.out.println("NOM DU PROJET : " 
 						+ nomProjet1);
 			}
 			
 			/* garantit que l'objet n'est pas null. */
-			assertNotNull("l'objet ne doit pas être null : "
+			assertNotNull(OBJET_DOIT_PAS_ETRE_NULL
 					, nomProjet1);
 			
 			/* garantit que l'objet est un Singleton. */
-			assertSame("l'objet doit être un Singleton : "
+			assertSame(OBJET_DOIT_ETRE_SINGLETON
 					, nomProjet1, nomProjet2);
 			
 		}
@@ -546,7 +619,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetNomProjet()"
+						TEST_GETNOMPROJET
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -588,7 +661,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetNomProjet()"
+						TEST_GETNOMPROJET
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -630,7 +703,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetNomProjet()"
+						TEST_GETNOMPROJET
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -664,7 +737,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetNomProjet()"
+						TEST_GETNOMPROJET
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -706,6 +779,11 @@ public class BundleConfigurationProjetManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetNomRepertoireSrc() ********** ");
+		}
+						
 		String nomRepertoireSrc1 = null;
 		String nomRepertoireSrc2 = null;
 		
@@ -719,17 +797,17 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetNomRepertoireSrc() : "); 
+				System.out.println(TEST_GETNOMREPERTOIRESRC); 
 				System.out.println("NOM DU REPERTOIRE SRC : " 
 						+ nomRepertoireSrc1);
 			}
 			
 			/* garantit que l'objet n'est pas null. */
-			assertNotNull("l'objet ne doit pas être null : "
+			assertNotNull(OBJET_DOIT_PAS_ETRE_NULL
 					, nomRepertoireSrc1);
 			
 			/* garantit que l'objet est un Singleton. */
-			assertSame("l'objet doit être un Singleton : "
+			assertSame(OBJET_DOIT_ETRE_SINGLETON
 					, nomRepertoireSrc1, nomRepertoireSrc2);
 			
 		}
@@ -747,7 +825,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetNomRepertoireSrc() : "
+						TEST_GETNOMREPERTOIRESRC
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -789,7 +867,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetNomRepertoireSrc() : "
+						TEST_GETNOMREPERTOIRESRC
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -831,7 +909,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetNomRepertoireSrc() : "
+						TEST_GETNOMREPERTOIRESRC
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -865,7 +943,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetNomRepertoireSrc() : "
+						TEST_GETNOMREPERTOIRESRC
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -907,6 +985,11 @@ public class BundleConfigurationProjetManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetPathMainJava() ********** ");
+		}
+								
 		String pathMainJava1 = null;
 		String pathMainJava2 = null;
 		
@@ -920,17 +1003,17 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathMainJava()"); 
+				System.out.println(TEST_GETPATHMAINJAVA); 
 				System.out.println("NOM DU PATH MAIN JAVA : " 
 						+ pathMainJava1);
 			}
 			
 			/* garantit que l'objet n'est pas null. */
-			assertNotNull("l'objet ne doit pas être null : "
+			assertNotNull(OBJET_DOIT_PAS_ETRE_NULL
 					, pathMainJava1);
 			
 			/* garantit que l'objet est un Singleton. */
-			assertSame("l'objet doit être un Singleton : "
+			assertSame(OBJET_DOIT_ETRE_SINGLETON
 					, pathMainJava1, pathMainJava2);
 			
 		}
@@ -948,7 +1031,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathMainJava()"
+						TEST_GETPATHMAINJAVA
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -990,7 +1073,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathMainJava()"
+						TEST_GETPATHMAINJAVA
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1032,7 +1115,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathMainJava()"
+						TEST_GETPATHMAINJAVA
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1066,7 +1149,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathMainJava()"
+						TEST_GETPATHMAINJAVA
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1108,6 +1191,11 @@ public class BundleConfigurationProjetManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetPathMainResources() ********** ");
+		}
+										
 		String pathMainResources1 = null;
 		String pathMainResources2 = null;
 		
@@ -1121,17 +1209,17 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathMainResources()"); 
+				System.out.println(TEST_GETPATHMAINRESOURCES); 
 				System.out.println("NOM DU PATH MAIN RESOURCES : " 
 						+ pathMainResources1);
 			}
 			
 			/* garantit que l'objet n'est pas null. */
-			assertNotNull("l'objet ne doit pas être null : "
+			assertNotNull(OBJET_DOIT_PAS_ETRE_NULL
 					, pathMainResources1);
 			
 			/* garantit que l'objet est un Singleton. */
-			assertSame("l'objet doit être un Singleton : "
+			assertSame(OBJET_DOIT_ETRE_SINGLETON
 					, pathMainResources1, pathMainResources2);
 			
 		}
@@ -1149,7 +1237,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathMainResources()"
+						TEST_GETPATHMAINRESOURCES
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1191,7 +1279,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathMainResources()"
+						TEST_GETPATHMAINRESOURCES
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1233,7 +1321,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathMainResources()"
+						TEST_GETPATHMAINRESOURCES
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1267,7 +1355,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathMainResources()"
+						TEST_GETPATHMAINRESOURCES
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1309,6 +1397,11 @@ public class BundleConfigurationProjetManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetPathTestJava() ********** ");
+		}
+												
 		String pathTestJava1 = null;
 		String pathTestJava2 = null;
 		
@@ -1322,17 +1415,17 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathTestJava()"); 
+				System.out.println(TEST_GETPATHTESTJAVA); 
 				System.out.println("NOM DU PATH TEST JAVA : " 
 						+ pathTestJava1);
 			}
 			
 			/* garantit que l'objet n'est pas null. */
-			assertNotNull("l'objet ne doit pas être null : "
+			assertNotNull(OBJET_DOIT_PAS_ETRE_NULL
 					, pathTestJava1);
 			
 			/* garantit que l'objet est un Singleton. */
-			assertSame("l'objet doit être un Singleton : "
+			assertSame(OBJET_DOIT_ETRE_SINGLETON
 					, pathTestJava1, pathTestJava2);
 			
 		}
@@ -1350,7 +1443,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathTestJava()"
+						TEST_GETPATHTESTJAVA
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1392,7 +1485,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathTestJava()"
+						TEST_GETPATHTESTJAVA
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1434,7 +1527,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathTestJava()"
+						TEST_GETPATHTESTJAVA
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1468,7 +1561,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathTestJava()"
+						TEST_GETPATHTESTJAVA
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1510,6 +1603,11 @@ public class BundleConfigurationProjetManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetPathTestResources() ********** ");
+		}
+														
 		String pathResourcesJava1 = null;
 		String pathResourcesJava2 = null;
 		
@@ -1523,17 +1621,17 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathTestResources()"); 
+				System.out.println(TEST_GETPATHTESTRESOURCES); 
 				System.out.println("NOM DU PATH RESOURCES JAVA : " 
 						+ pathResourcesJava1);
 			}
 			
 			/* garantit que l'objet n'est pas null. */
-			assertNotNull("l'objet ne doit pas être null : "
+			assertNotNull(OBJET_DOIT_PAS_ETRE_NULL
 					, pathResourcesJava1);
 			
 			/* garantit que l'objet est un Singleton. */
-			assertSame("l'objet doit être un Singleton : "
+			assertSame(OBJET_DOIT_ETRE_SINGLETON
 					, pathResourcesJava1, pathResourcesJava2);
 			
 		}
@@ -1551,7 +1649,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathTestResources()"
+						TEST_GETPATHTESTRESOURCES
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1593,7 +1691,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathTestResources()"
+						TEST_GETPATHTESTRESOURCES
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1635,7 +1733,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathTestResources()"
+						TEST_GETPATHTESTRESOURCES
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1669,7 +1767,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetPathTestResources()"
+						TEST_GETPATHTESTRESOURCES
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1710,7 +1808,12 @@ public class BundleConfigurationProjetManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetRacineMainJava() ********** ");
+		}
+														
 		final String racineMainJava 
 			= BundleConfigurationProjetManager.getRacineMainJava();
 		
@@ -1743,7 +1846,12 @@ public class BundleConfigurationProjetManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetRacineMainResources() ********** ");
+		}
+														
 		final String racineMainResources 
 			= BundleConfigurationProjetManager.getRacineMainResources();
 		
@@ -1776,7 +1884,12 @@ public class BundleConfigurationProjetManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetRacineTestJava() ********** ");
+		}
+														
 		final String racineTestJava 
 			= BundleConfigurationProjetManager.getRacineTestJava();
 		
@@ -1809,7 +1922,12 @@ public class BundleConfigurationProjetManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetRacineTestResources() ********** ");
+		}
+														
 		final String racineTestResources 
 			= BundleConfigurationProjetManager.getRacineTestResources();
 		
@@ -1843,6 +1961,11 @@ public class BundleConfigurationProjetManagerTest {
 		final boolean affichage = false;
 		// **********************************
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetGroupid() ********** ");
+		}
+																
 		String groupid1 = null;
 		String groupid2 = null;
 		
@@ -1856,7 +1979,7 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetGroupid()"); 
+				System.out.println(TEST_GETGROUPID); 
 				System.out.println("GROUPID : " 
 						+ groupid1);
 				System.out.println("PATH GROUPID : " 
@@ -1865,11 +1988,11 @@ public class BundleConfigurationProjetManagerTest {
 			}
 			
 			/* garantit que l'objet n'est pas null. */
-			assertNotNull("l'objet ne doit pas être null : "
+			assertNotNull(OBJET_DOIT_PAS_ETRE_NULL
 					, groupid1);
 			
 			/* garantit que l'objet est un Singleton. */
-			assertSame("l'objet doit être un Singleton : "
+			assertSame(OBJET_DOIT_ETRE_SINGLETON
 					, groupid1, groupid2);
 			
 		}
@@ -1887,7 +2010,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetGroupid()"
+						TEST_GETGROUPID
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1929,7 +2052,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetGroupid()"
+						TEST_GETGROUPID
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -1971,7 +2094,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetGroupid()"
+						TEST_GETGROUPID
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -2005,7 +2128,7 @@ public class BundleConfigurationProjetManagerTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				
 				afficher(
-						"testGetGroupid()"
+						TEST_GETGROUPID
 						, rapportConfigurationCsv
 						, rapportUtilisateurCsv
 						, e);
@@ -2046,7 +2169,12 @@ public class BundleConfigurationProjetManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetPathAppTechnic() ********** ");
+		}
+																
 		final String racineTestResources 
 			= BundleConfigurationProjetManager.getPathAppTechnic();
 		
@@ -2079,7 +2207,12 @@ public class BundleConfigurationProjetManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetPathControllers() ********** ");
+		}
+																
 		final String racineTestResources 
 			= BundleConfigurationProjetManager.getPathControllers();
 		
@@ -2112,7 +2245,12 @@ public class BundleConfigurationProjetManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-	
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetPathModel() ********** ");
+		}
+																	
 		final String racineTestResources 
 			= BundleConfigurationProjetManager.getPathModel();
 		
@@ -2152,7 +2290,12 @@ public class BundleConfigurationProjetManagerTest {
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
 		// **********************************
-	
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE BundleConfigurationProjetManagerTest - méthode testGetPathVues() ********** ");
+		}
+																		
 		final String racineTestResources 
 			= BundleConfigurationProjetManager.getPathVues();
 		
