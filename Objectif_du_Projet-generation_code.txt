@@ -1,11 +1,20 @@
-Objectif_du_Projet-copieur_arborescence_maven.txt :
+Objectif_du_Projet-generation_code.txt :
 
-Ce projet permet LA RECOPIE DE L'ARBORESCENCE (ensemble des répertoires)
-situés sous un répertoire racine ORIGINE sous un nouveau répertoire racine
-DESTINATION.
+Ce projet permet LA GENERATION AUTOMATIQUE DU CODE D'UNE APPLICATION JAVA
 
-- Ne recopie que les sous-répertoires de ORIGINE inexistants sous DESTINATION.
-- Ne recopie que les sous-répertoires de ORIGINE et pas les fichiers simples.
-- le répertoire ORIGINE n'est pas recopié. Seul son contenu l'est.
+1 - L'UTILISATEUR CREE UN NOUVEAU PROJET MAVEN SIMPLE (sans artefact) 
+"projet cible" sous ECLIPSE.
 
-PACKAGE levy/daniel/application/model/services/utilitaires/copieurarboresence
+2 - LE GENERATEUR DE CODE RECOPIE TOUTE L'ARBORESCENCE D'INFRASTRUCTURE 
+D'UNE APPLICATION JAVA DANS LE PROJET CIBLE (couches n-tiers).
+
+3 - LE GENERATEUR DE CODE COPIE TOUTES LES CLASSES D'INFRASTRUCTURE 
+(valables pour tous les projets Java) DANS LE PROJET CIBLE.
+
+4 - L'UTILISATEUR CREE UN CONCEPT (simplifié avec seulement ses attributs) 
+COMME Compte, Personne, Banque, Client, ... DANS LA COUCHE METIER 
+DU PROJET CIBLE.
+
+5 - LE GENERATEUR DE CODE GENERE POUR CE CONCEPT 
+L'OBJET METIER ET LES DAO, DTO, ENTITIES, CONTROLLERS, SERVICE, ...
+PLUS LEURS TESTS JUNIT.
