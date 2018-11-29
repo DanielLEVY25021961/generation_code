@@ -2,9 +2,13 @@ package levy.daniel.application.model.services.utilitaires.arboresceurprojet;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
@@ -367,6 +371,24 @@ public final class ArboresceurProjetCible {
 	 */
 	public static final String APPTECHNIC 
 		= "apptechnic";
+	
+	/**
+	 * "controllers".<br/>
+	 */
+	public static final String CONTROLLERS 
+		= "controllers";
+	
+	/**
+	 * "vues".<br/>
+	 */
+	public static final String VUES 
+		= "vues";
+	
+	/**
+	 * "model".<br/>
+	 */
+	public static final String MODEL 
+		= "model";
 	
 	/**
 	 * <ul>
@@ -1148,6 +1170,17 @@ public final class ArboresceurProjetCible {
 	private static Path coucheModelServicesTransformeursMainPath;
 
 	/**
+	 * <b>path absolu des sources de la couche 
+	 * model/services/transformeurs/metier</b> 
+	 * dans le projet cible.<br/>
+	 * coucheModelServicesTransformeursMainPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/main/java/levy/daniel/application/
+	 * model/services/transformeurs/metier</code>
+	 */
+	private static Path coucheModelServicesTransformeursMetierMainPath;
+	
+	/**
 	 * <b>path absolu des tests JUnit de la couche 
 	 * model/services/transformeurs</b> 
 	 * dans le projet cible.<br/>
@@ -1157,7 +1190,18 @@ public final class ArboresceurProjetCible {
 	 * model/services/transformeurs</code>
 	 */
 	private static Path coucheModelServicesTransformeursTestPath;
-	
+
+	/**
+	 * <b>path absolu des tests JUnit de la couche 
+	 * model/services/transformeurs/metier</b> 
+	 * dans le projet cible.<br/>
+	 * coucheModelServicesTransformeursTestPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/test/java/levy/daniel/application/
+	 * model/services/transformeurs/metier</code>
+	 */
+	private static Path coucheModelServicesTransformeursMetierTestPath;
+
 	/**
 	 * <b>path absolu des sources de la couche 
 	 * model/services/utilitaires</b> 
@@ -1192,6 +1236,17 @@ public final class ArboresceurProjetCible {
 	private static Path coucheModelServicesValideursMainPath;
 
 	/**
+	 * <b>path absolu des sources de la couche 
+	 * model/services/valideurs/metier</b> 
+	 * dans le projet cible.<br/>
+	 * coucheModelServicesValideursMainPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/main/java/levy/daniel/application/
+	 * model/services/valideurs/metier</code>
+	 */
+	private static Path coucheModelServicesValideursMetierMainPath;
+
+	/**
 	 * <b>path absolu des tests JUnit de la couche 
 	 * model/services/valideurs</b> 
 	 * dans le projet cible.<br/>
@@ -1201,6 +1256,17 @@ public final class ArboresceurProjetCible {
 	 * model/services/valideurs</code>
 	 */
 	private static Path coucheModelServicesValideursTestPath;
+
+	/**
+	 * <b>path absolu des sources de la couche 
+	 * model/services/valideurs/metier</b> 
+	 * dans les tests du projet cible.<br/>
+	 * coucheModelServicesValideursTestPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/test/java/levy/daniel/application/
+	 * model/services/valideurs/metier</code>
+	 */
+	private static Path coucheModelServicesValideursMetierTestPath;
 	
 	/**
 	 * <b>path absolu des sources de la couche model/utilitaires</b> 
@@ -1505,11 +1571,15 @@ public final class ArboresceurProjetCible {
 			calculerCoucheModelServicesMetierMainPath();
 			calculerCoucheModelServicesMetierTestPath();
 			calculerCoucheModelServicesTransformeursMainPath();
+			calculerCoucheModelServicesTransformeursMetierMainPath();
 			calculerCoucheModelServicesTransformeursTestPath();
+			calculerCoucheModelServicesTransformeursMetierTestPath();
 			calculerCoucheModelServicesUtilitairesMainPath();
 			calculerCoucheModelServicesUtilitairesTestPath();
 			calculerCoucheModelServicesValideursMainPath();
+			calculerCoucheModelServicesValideursMetierMainPath();
 			calculerCoucheModelServicesValideursTestPath();
+			calculerCoucheModelServicesValideursMetierTestPath();
 			
 			calculerCoucheModelUtilitairesMainPath();
 			calculerCoucheModelUtilitairesTestPath();
@@ -1628,11 +1698,15 @@ public final class ArboresceurProjetCible {
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesMetierMainPath);
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesMetierTestPath);
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesTransformeursMainPath);
+			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesTransformeursMetierMainPath);
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesTransformeursTestPath);
+			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesTransformeursMetierTestPath);
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesUtilitairesMainPath);
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesUtilitairesTestPath);
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesValideursMainPath);
+			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesValideursMetierMainPath);
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesValideursTestPath);
+			ARBORESCENCE_PROJET_CIBLE.add(coucheModelServicesValideursMetierTestPath);
 
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelUtilitairesMainPath);
 			ARBORESCENCE_PROJET_CIBLE.add(coucheModelUtilitairesTestPath);
@@ -1655,6 +1729,7 @@ public final class ArboresceurProjetCible {
 	} // Fin de alimenterArborescence().___________________________________
 	
 
+	
 	/**
 	 * alimente la <b>Map des répertoires sous src/main/java</b> 
 	 * dans le projet cible avec :
@@ -1678,6 +1753,72 @@ public final class ArboresceurProjetCible {
 			// APPTECHNIC
 			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put(APPTECHNIC, coucheAppTechnicMainPath);
 			
+			// CONTROLLERS
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put(CONTROLLERS, coucheControllersMainPath);
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("controllers/desktop", coucheControllersDesktopMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("controllers/desktop/accueil", coucheControllersDesktopAccueilMainPath);			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("controllers/desktop/metier", coucheControllersDesktopMetierMainPath);				
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("controllers/desktop/utilitaires", coucheControllersDesktopUtilitairesMainPath);			
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("controllers/web", coucheControllersWebMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("controllers/web/accueil", coucheControllersWebAccueilMainPath);			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("controllers/web/metier", coucheControllersWebMetierMainPath);			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("controllers/web/utilitaires", coucheControllersWebUtilitairesMainPath);			
+
+			// VUES
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put(VUES, coucheVuesMainPath);
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("vues/desktop", coucheVuesDesktopMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("vues/desktop/accueil", coucheVuesDesktopAccueilMainPath);			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("vues/desktop/metier", coucheVuesDesktopMetierMainPath);				
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("vues/desktop/utilitaires", coucheVuesDesktopUtilitairesMainPath);			
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("vues/web", coucheVuesWebMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("vues/web/accueil", coucheVuesWebAccueilMainPath);			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("vues/web/metier", coucheVuesWebMetierMainPath);			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("vues/web/utilitaires", coucheVuesWebUtilitairesMainPath);
+			
+			// MODEL
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put(MODEL, coucheModelMainPath);			
+
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/dto", coucheModelDTOMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/dto/metier", coucheModelDTOMetierMainPath);
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/metier", coucheModelMetierMainPath);
+
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/persistence", coucheModelPersistenceMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/persistence/accueil", coucheModelPersistenceAccueilMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/persistence/daoexceptions", coucheModelPersistenceDaoexceptionsMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/persistence/metier", coucheModelPersistenceMetierMainPath);
+
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/services", coucheModelServicesMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/services/accueil", coucheModelServicesAccueilMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/services/metier", coucheModelServicesMetierMainPath);
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/services/transformeurs", coucheModelServicesTransformeursMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/services/transformeurs/metier", coucheModelServicesTransformeursMetierMainPath);
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/services/utilitaires", coucheModelServicesUtilitairesMainPath);
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/services/valideurs", coucheModelServicesValideursMainPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/services/valideurs/metier", coucheModelServicesValideursMetierMainPath);
+
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/utilitaires", coucheModelUtilitairesMainPath);
+			
+			// REPERTOIRES EXTERNES
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("conception_appli", conceptionAppliPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data", dataPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data/H2", dataH2Path);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data/hsqldb", dataHSQLDBPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data/JAXB", dataJAXBPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data/scripts_sql", dataScriptsSqlPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("javadoc", javadocPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("javadoc/images", javadocImagesPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("logs", logsPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("rapports_controle", rapportsControlePath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("ressources_externes", ressourcesExternesPath);
+						
 		} // Fin de synchronized._______________________
 		
 	} // Fin de alimenterArborescenceMainMap().____________________________
@@ -1705,7 +1846,60 @@ public final class ArboresceurProjetCible {
 			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("src/test/java/groupid", racineTestsJavaPath);
 			
 			// APPTECHNIC
-			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put(APPTECHNIC, coucheAppTechnicTestPath);			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put(APPTECHNIC, coucheAppTechnicTestPath);
+			
+			// CONTROLLERS
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put(CONTROLLERS, coucheControllersTestPath);
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("controllers/desktop", coucheControllersDesktopTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("controllers/desktop/accueil", coucheControllersDesktopAccueilTestPath);			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("controllers/desktop/metier", coucheControllersDesktopMetierTestPath);				
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("controllers/desktop/utilitaires", coucheControllersDesktopUtilitairesTestPath);			
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("controllers/web", coucheControllersWebTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("controllers/web/accueil", coucheControllersWebAccueilTestPath);			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("controllers/web/metier", coucheControllersWebMetierTestPath);			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("controllers/web/utilitaires", coucheControllersWebUtilitairesTestPath);	
+			
+			// VUES
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put(VUES, coucheVuesTestPath);
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("vues/desktop", coucheVuesDesktopTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("vues/desktop/accueil", coucheVuesDesktopAccueilTestPath);			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("vues/desktop/metier", coucheVuesDesktopMetierTestPath);				
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("vues/desktop/utilitaires", coucheVuesDesktopUtilitairesTestPath);			
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("vues/web", coucheVuesWebTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("vues/web/accueil", coucheVuesWebAccueilTestPath);			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("vues/web/metier", coucheVuesWebMetierTestPath);			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("vues/web/utilitaires", coucheVuesWebUtilitairesTestPath);
+			
+			// MODEL
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put(MODEL, coucheModelTestPath);			
+
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/dto", coucheModelDTOTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/dto/metier", coucheModelDTOMetierTestPath);
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/metier", coucheModelMetierTestPath);
+
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/persistence", coucheModelPersistenceTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/persistence/accueil", coucheModelPersistenceAccueilTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/persistence/daoexceptions", coucheModelPersistenceDaoexceptionsTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/persistence/metier", coucheModelPersistenceMetierTestPath);
+
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/services", coucheModelServicesTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/services/accueil", coucheModelServicesAccueilTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/services/metier", coucheModelServicesMetierTestPath);
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/services/transformeurs", coucheModelServicesTransformeursTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/services/transformeurs/metier", coucheModelServicesTransformeursMetierTestPath);
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/services/utilitaires", coucheModelServicesUtilitairesTestPath);
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/services/valideurs", coucheModelServicesValideursTestPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/services/valideurs/metier", coucheModelServicesValideursMetierTestPath);
+
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("model/utilitaires", coucheModelUtilitairesTestPath);
 			
 		} // Fin de synchronized._______________________
 		
@@ -1742,6 +1936,90 @@ public final class ArboresceurProjetCible {
 	
 
 	
+	/**
+	 * fournit une String pour l'affichage de 
+	 * ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.<br/>
+	 *
+	 * @return : String.<br/>
+	 */
+	public static String afficherArborescenceMainMap() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			final StringBuilder stb = new StringBuilder();
+			
+			final Set<Entry<String, Path>> entrySet 
+				= ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.entrySet();
+			
+			final Iterator<Entry<String, Path>> ite = entrySet.iterator();
+			
+			while (ite.hasNext()) {
+				
+				final Entry<String, Path> entry = ite.next();
+				final String key = entry.getKey();
+				final Path value = entry.getValue();
+				
+				final String ligne = 
+						String.format(
+								Locale.getDefault()
+								, "chemin : %1$-40s      path : %2$-45s"
+								, key
+								, value.toString());
+				
+				stb.append(ligne);
+				stb.append(System.getProperty("line.separator"));
+			}
+			
+			return stb.toString();
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de afficherArborescenceMainMap()._____________________________
+
+	
+	
+	/**
+	 * fournit une String pour l'affichage de 
+	 * ARBORESCENCE_TEST_PROJET_CIBLE_MAP.<br/>
+	 *
+	 * @return : String.<br/>
+	 */
+	public static String afficherArborescenceTestMap() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			final StringBuilder stb = new StringBuilder();
+			
+			final Set<Entry<String, Path>> entrySet 
+				= ARBORESCENCE_TEST_PROJET_CIBLE_MAP.entrySet();
+			
+			final Iterator<Entry<String, Path>> ite = entrySet.iterator();
+			
+			while (ite.hasNext()) {
+				
+				final Entry<String, Path> entry = ite.next();
+				final String key = entry.getKey();
+				final Path value = entry.getValue();
+				
+				final String ligne = 
+						String.format(
+								Locale.getDefault()
+								, "chemin : %1$-40s      path : %2$-45s"
+								, key
+								, value.toString());
+				
+				stb.append(ligne);
+				stb.append(System.getProperty("line.separator"));
+			}
+			
+			return stb.toString();
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de afficherArborescenceTestMap()._____________________________
+	
+	
+		
 	/**
 	 * fournit le nombre de répertoires 
 	 * à créer dans le projet cible.<br/>
@@ -2023,7 +2301,7 @@ public final class ArboresceurProjetCible {
 			if (racineSourcesJavaPath != null) {
 				coucheControllersMainPath 
 					= racineSourcesJavaPath
-						.resolve("controllers");
+						.resolve(CONTROLLERS);
 			}
 			
 		} // Fin de synchronized._______________________
@@ -2050,7 +2328,7 @@ public final class ArboresceurProjetCible {
 			if (racineTestsJavaPath != null) {
 				coucheControllersTestPath 
 					= racineTestsJavaPath
-						.resolve("controllers");
+						.resolve(CONTROLLERS);
 			}
 			
 		} // Fin de synchronized._______________________
@@ -2525,7 +2803,7 @@ public final class ArboresceurProjetCible {
 			if (racineSourcesJavaPath != null) {
 				coucheVuesMainPath 
 					= racineSourcesJavaPath
-						.resolve("vues");
+						.resolve(VUES);
 			}
 			
 		} // Fin de synchronized._______________________
@@ -2552,7 +2830,7 @@ public final class ArboresceurProjetCible {
 			if (racineTestsJavaPath != null) {
 				coucheVuesTestPath 
 					= racineTestsJavaPath
-						.resolve("vues");
+						.resolve(VUES);
 			}
 			
 		} // Fin de synchronized._______________________
@@ -3027,7 +3305,7 @@ public final class ArboresceurProjetCible {
 			if (racineSourcesJavaPath != null) {
 				coucheModelMainPath 
 					= racineSourcesJavaPath
-						.resolve("model");
+						.resolve(MODEL);
 			}
 			
 		} // Fin de synchronized._______________________
@@ -3054,7 +3332,7 @@ public final class ArboresceurProjetCible {
 			if (racineTestsJavaPath != null) {
 				coucheModelTestPath 
 					= racineTestsJavaPath
-						.resolve("model");
+						.resolve(MODEL);
 			}
 			
 		} // Fin de synchronized._______________________
@@ -3652,6 +3930,31 @@ public final class ArboresceurProjetCible {
 
 	
 	/**
+	 * calcule le <b>path absolu des sources de la couche 
+	 * model/services/transformeurs/metier</b> 
+	 * dans le projet cible.<br/>
+	 * coucheModelServicesTransformeursMainPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/main/java/levy/daniel/application/
+	 * model/services/transformeurs/metier</code>
+	 */
+	private static void calculerCoucheModelServicesTransformeursMetierMainPath() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			if (coucheModelServicesTransformeursMainPath != null) {
+				coucheModelServicesTransformeursMetierMainPath 
+					= coucheModelServicesTransformeursMainPath
+						.resolve(METIER);
+			}
+			
+		} // Fin de synchronized._______________________
+				
+	} // Fin de calculerCoucheModelServicesTransformeursMetierMainPath().__
+	
+	
+	
+	/**
 	 * calcule le <b>path absolu des tests de la couche 
 	 * model/services/transformeurs</b>
 	 * <b>coucheModelServicesTransformeursTestPath</b> dans le projet cible.<br/>
@@ -3677,6 +3980,31 @@ public final class ArboresceurProjetCible {
 				
 	} // Fin de calculerCoucheModelServicesTransformeursTestPath().________
 
+
+	
+	/**
+	 * calcule le <b>path absolu des sources de la couche 
+	 * model/services/transformeurs/metier</b> 
+	 * dans les tests du projet cible.<br/>
+	 * coucheModelServicesTransformeursTestPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/test/java/levy/daniel/application/
+	 * model/services/transformeurs/metier</code>
+	 */
+	private static void calculerCoucheModelServicesTransformeursMetierTestPath() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			if (coucheModelServicesTransformeursTestPath != null) {
+				coucheModelServicesTransformeursMetierTestPath 
+					= coucheModelServicesTransformeursTestPath
+						.resolve(METIER);
+			}
+			
+		} // Fin de synchronized._______________________
+				
+	} // Fin de calculerCoucheModelServicesTransformeursMetierTestPath().__
+	
 
 	
 	/**
@@ -3760,6 +4088,31 @@ public final class ArboresceurProjetCible {
 		} // Fin de synchronized._______________________
 				
 	} // Fin de calculerCoucheModelServicesValideursMainPath().____________
+
+
+	
+	/**
+	 * calcule le <b>path absolu des sources de la couche 
+	 * model/services/valideurs/metier</b> 
+	 * dans le projet cible.<br/>
+	 * coucheModelServicesValideursMainPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/main/java/levy/daniel/application/
+	 * model/services/valideurs/metier</code>
+	 */
+	private static void calculerCoucheModelServicesValideursMetierMainPath() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			if (coucheModelServicesValideursMainPath != null) {
+				coucheModelServicesValideursMetierMainPath 
+					= coucheModelServicesValideursMainPath
+						.resolve(METIER);
+			}
+			
+		} // Fin de synchronized._______________________
+				
+	} // Fin de calculerCoucheModelServicesValideursMetierMainPath().______
 	
 
 	
@@ -3789,6 +4142,31 @@ public final class ArboresceurProjetCible {
 				
 	} // Fin de calculerCoucheModelServicesValideursTestPath().____________
 
+
+	
+	/**
+	 * calcule le <b>path absolu des sources de la couche 
+	 * model/services/valideurs/metier</b> 
+	 * dans les tests du projet cible.<br/>
+	 * coucheModelServicesValideursTestPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/test/java/levy/daniel/application/
+	 * model/services/valideurs/metier</code>
+	 */
+	private static void calculerCoucheModelServicesValideursMetierTestPath() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			if (coucheModelServicesValideursTestPath != null) {
+				coucheModelServicesValideursMetierTestPath 
+					= coucheModelServicesValideursTestPath
+						.resolve(METIER);
+			}
+			
+		} // Fin de synchronized._______________________
+				
+	} // Fin de calculerCoucheModelServicesValideursMetierTestPath().______
+	
 
 	
 	/**
@@ -6003,7 +6381,34 @@ public final class ArboresceurProjetCible {
 		} // Fin de synchronized._______________________
 		
 	} // Fin de getCoucheModelServicesTransformeursMainPath()._____________
+
+
 	
+	/**
+	 * Getter du <b>path absolu 
+	 * de la couche model/services/transformeurs/metier</b> 
+	 * dans le projet cible.<br/>
+	 * coucheModelServicesTransformeursMainPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/main/java/levy/daniel/application/
+	 * model/services/transformeurs/metier</code>
+	 *
+	 * @return coucheModelServicesTransformeursMetierMainPath : Path.<br/>
+	 */
+	public static Path getCoucheModelServicesTransformeursMetierMainPath() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			if (coucheModelServicesTransformeursMetierMainPath == null) {
+				calculerCoucheModelServicesTransformeursMetierMainPath();
+			}
+			
+			return coucheModelServicesTransformeursMetierMainPath;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de getCoucheModelServicesTransformeursMetierMainPath()._______
+
 
 	
 	/**
@@ -6031,6 +6436,33 @@ public final class ArboresceurProjetCible {
 		
 	} // Fin de getCoucheModelServicesTransformeursTestPath()._____________
 	
+
+	
+	/**
+	 * Getter du <b>path absolu 
+	 * de la couche model/services/transformeurs/metier</b> 
+	 * dans les tests du projet cible.<br/>
+	 * coucheModelServicesTransformeursTestPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/test/java/levy/daniel/application/
+	 * model/services/transformeurs/metier</code>
+	 *
+	 * @return coucheModelServicesTransformeursMetierTestPath : Path.<br/>
+	 */
+	public static Path getCoucheModelServicesTransformeursMetierTestPath() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			if (coucheModelServicesTransformeursMetierTestPath == null) {
+				calculerCoucheModelServicesTransformeursMetierTestPath();
+			}
+			
+			return coucheModelServicesTransformeursMetierTestPath;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de getCoucheModelServicesTransformeursMetierTestPath()._______
+
 
 	
 	/**
@@ -6115,6 +6547,33 @@ public final class ArboresceurProjetCible {
 
 	
 	/**
+	 * Getter du <b>path absolu 
+	 * de la couche model/services/valideurs/metier</b> 
+	 * dans le projet cible.<br/>
+	 * coucheModelServicesValideursMainPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/main/java/levy/daniel/application/
+	 * model/services/valideurs/metier</code>
+	 *
+	 * @return coucheModelServicesValideursMetierMainPath : Path.<br/>
+	 */
+	public static Path getCoucheModelServicesValideursMetierMainPath() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			if (coucheModelServicesValideursMetierMainPath == null) {
+				calculerCoucheModelServicesValideursMetierMainPath();
+			}
+			
+			return coucheModelServicesValideursMetierMainPath;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de getCoucheModelServicesValideursMetierMainPath().___________
+	
+
+	
+	/**
 	 * Getter du <b>path absolu des tests JUnit 
 	 * de la couche model/services/valideurs</b> 
 	 * dans le projet cible.<br/>
@@ -6138,6 +6597,33 @@ public final class ArboresceurProjetCible {
 		} // Fin de synchronized._______________________
 		
 	} // Fin de getCoucheModelServicesValideursTestPath()._________________
+	
+
+	
+	/**
+	 * Getter du <b>path absolu 
+	 * de la couche model/services/valideurs/metier</b> 
+	 * dans le projet cible.<br/>
+	 * coucheModelServicesValideursTestPath/ + metier<br/>
+	 * Par exemple : 
+	 * <code>${projet}/src/test/java/levy/daniel/application/
+	 * model/services/valideurs/metier</code>
+	 *
+	 * @return coucheModelServicesValideursMetierTestPath : Path.<br/>
+	 */
+	public static Path getCoucheModelServicesValideursMetierTestPath() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			if (coucheModelServicesValideursMetierTestPath == null) {
+				calculerCoucheModelServicesValideursMetierTestPath();
+			}
+			
+			return coucheModelServicesValideursMetierTestPath;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de getCoucheModelServicesValideursMetierTestPath().___________
 	
 
 	
