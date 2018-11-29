@@ -1,0 +1,11 @@
+Objectif_du_Projet-copieur_arborescence_maven.txt :
+
+Ce projet permet LA RECOPIE DE L'ARBORESCENCE (ensemble des répertoires)
+situés sous un répertoire racine ORIGINE sous un nouveau répertoire racine
+DESTINATION.
+
+- Ne recopie que les sous-répertoires de ORIGINE inexistants sous DESTINATION.
+- Ne recopie que les sous-répertoires de ORIGINE et pas les fichiers simples.
+- le répertoire ORIGINE n'est pas recopié. Seul son contenu l'est.
+
+PACKAGE levy/daniel/application/model/services/utilitaires/copieurarboresence
