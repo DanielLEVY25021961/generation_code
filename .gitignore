@@ -2,3 +2,4 @@
 /.pmd
 /target/
 /.springBeans
+/.classpath
