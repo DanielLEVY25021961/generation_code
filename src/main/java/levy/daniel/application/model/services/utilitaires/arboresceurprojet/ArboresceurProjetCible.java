@@ -4,6 +4,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,6 +64,12 @@ import org.apache.commons.logging.LogFactory;
  * , ressources_externes, ...)</li>
  * <li>une liste de Path <b>ARBORESCENCE_PROJET_CIBLE</b> contenant 
  * l'ensemble des répertoires à créer dans le projet cible.</li>
+ * <li>une map de [String,Path] <b>ARBORESCENCE_MAIN_PROJET_CIBLE_MAP</b> 
+ * contenant l'ensemble des répertoires à créer dans le <b>main</b> 
+ * du projet cible.</li>
+ * <li>une map de [String,Path] <b>ARBORESCENCE_TEST_PROJET_CIBLE_MAP</b> 
+ * contenant l'ensemble des répertoires à créer dans le <b>test</b> 
+ * du projet cible.</li>
  * </ol>
  * </li>
  * </ul>
@@ -298,6 +306,10 @@ import org.apache.commons.logging.LogFactory;
  * ArboresceurProjetCible.setGroupIdPathRelatif("newGroupId") <br/>
  *  // RECUPERATION DE L'ARBORESCENCE A CREER DANS LE PROJET CIBLE<br/>
  * <b>List&lt;Path&gt; arborescence = ArboresceurProjetCible.getArborescenceProjetCible();</b><br/>
+ *   // RECUPERATION DE L'ARBORESCENCE A CREER DANS LE MAIN du PROJET CIBLE<br/>
+ * <b>Map&lt;String, Path&gt; arborescenceMainMap = ArboresceurProjetCible.getArborescenceMainProjetCibleMap();</b><br/>
+ *   // RECUPERATION DE L'ARBORESCENCE A CREER DANS LE TEST du PROJET CIBLE<br/>
+ * <b>Map&lt;String, Path&gt; arborescenceTestMap = ArboresceurProjetCible.getArborescenceTestProjetCibleMap();</b><br/>
  * </code>
  *<br/>
  * 
@@ -349,6 +361,12 @@ public final class ArboresceurProjetCible {
 	 */
 	public static final String WEB 
 		= "web";
+	
+	/**
+	 * "apptechnic".<br/>
+	 */
+	public static final String APPTECHNIC 
+		= "apptechnic";
 	
 	/**
 	 * <ul>
@@ -1269,6 +1287,32 @@ public final class ArboresceurProjetCible {
 		= new LinkedList<Path>();
 	
 	/**
+	 * <b>Map des répertoires sous src/main/java</b> 
+	 * dans le projet cible avec :
+	 * <ul>
+	 * <li>String : le chemin relatif du répertoire par rapport 
+	 * au GroupId comme <code>"model/dto"</code></li>
+	 * <li>Path : l'attribut contenant le Path absolu 
+	 * du répertoire comme <code>coucheModelDTOMainPath</code></li>
+	 * </ul>
+	 */
+	private static final Map<String, Path> ARBORESCENCE_MAIN_PROJET_CIBLE_MAP 
+		= new ConcurrentHashMap<String, Path>();
+	
+	/**
+	 * <b>Map des répertoires sous src/test/java</b> 
+	 * dans le projet cible avec :
+	 * <ul>
+	 * <li>String : le chemin relatif du répertoire par rapport 
+	 * au GroupId comme <code>"model/dto"</code></li>
+	 * <li>Path : l'attribut contenant le Path absolu 
+	 * du répertoire comme <code>coucheModelDTOTestPath</code></li>
+	 * </ul>
+	 */
+	private static final Map<String, Path> ARBORESCENCE_TEST_PROJET_CIBLE_MAP 
+		= new ConcurrentHashMap<String, Path>();
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -1297,6 +1341,8 @@ public final class ArboresceurProjetCible {
 	 * (paths) de la classe.</li>
 	 * <li><b>alimente la liste ARBORESCENCE_PROJET_CIBLE</b> 
 	 * contenant tous les répertoires à créer dans le projet cible.</li>
+	 * <li><b>alimente la Map ARBORESCENCE_MAIN_PROJET_CIBLE_MAP</b>.</li>
+	 * <li><b>alimente la Map ARBORESCENCE_TEST_PROJET_CIBLE_MAP</b>.</li>
 	 * </ul>
 	 * - ne fait rien si pPojetCiblePath == null.<br/>
 	 * <br/>
@@ -1325,6 +1371,12 @@ public final class ArboresceurProjetCible {
 			 * contenant tous les répertoires à créer 
 			 * dans le projet cible.*/
 			alimenterArborescence();
+			
+			/* alimente la Map ARBORESCENCE_MAIN_PROJET_CIBLE_MAP. */
+			alimenterArborescenceMainMap();
+			
+			/* alimente la Map ARBORESCENCE_TEST_PROJET_CIBLE_MAP. */
+			alimenterArborescenceTestMap();
 			
 		} // Fin de synchronized._______________________
 		
@@ -1603,6 +1655,63 @@ public final class ArboresceurProjetCible {
 	} // Fin de alimenterArborescence().___________________________________
 	
 
+	/**
+	 * alimente la <b>Map des répertoires sous src/main/java</b> 
+	 * dans le projet cible avec :
+	 * <ul>
+	 * <li>String : le chemin relatif du répertoire par rapport 
+	 * au GroupId comme <code>"model/dto"</code></li>
+	 * <li>Path : l'attribut contenant le Path absolu 
+	 * du répertoire comme <code>coucheModelDTOMainPath</code></li>
+	 * </ul>
+	 */
+	private static void alimenterArborescenceMainMap() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("src/main/java", srcMainJavaPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("src/main/resources", srcMainResourcesPath);
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("src/main/resources/META-INF", srcMainResourcesMetaInfPath);
+			
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("src/main/java/groupid", racineSourcesJavaPath);
+			
+			// APPTECHNIC
+			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put(APPTECHNIC, coucheAppTechnicMainPath);
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterArborescenceMainMap().____________________________
+	
+	
+	
+	/**
+	 * alimente la <b>Map des répertoires sous src/test/java</b> 
+	 * dans le projet cible avec :
+	 * <ul>
+	 * <li>String : le chemin relatif du répertoire par rapport 
+	 * au GroupId comme <code>"model/dto"</code></li>
+	 * <li>Path : l'attribut contenant le Path absolu 
+	 * du répertoire comme <code>coucheModelDTOTestPath</code></li>
+	 * </ul>
+	 */
+	private static void alimenterArborescenceTestMap() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("src/test/java", srcTestJavaPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("src/test/resources", srcTestResourcesPath);
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("src/test/resources/META-INF", srcTestResourcesMetaInfPath);
+			
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put("src/test/java/groupid", racineTestsJavaPath);
+			
+			// APPTECHNIC
+			ARBORESCENCE_TEST_PROJET_CIBLE_MAP.put(APPTECHNIC, coucheAppTechnicTestPath);			
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterArborescenceTestMap().____________________________
+	
+
 	
 	/**
 	 * fournit une String pour l'affichage de 
@@ -1860,7 +1969,7 @@ public final class ArboresceurProjetCible {
 			if (racineSourcesJavaPath != null) {
 				coucheAppTechnicMainPath 
 					= racineSourcesJavaPath
-						.resolve("apptechnic");
+						.resolve(APPTECHNIC);
 			}
 			
 		} // Fin de synchronized._______________________
@@ -1887,7 +1996,7 @@ public final class ArboresceurProjetCible {
 			if (racineTestsJavaPath != null) {
 				coucheAppTechnicTestPath 
 					= racineTestsJavaPath
-						.resolve("apptechnic");
+						.resolve(APPTECHNIC);
 			}
 			
 		} // Fin de synchronized._______________________
@@ -6338,6 +6447,43 @@ public final class ArboresceurProjetCible {
 	public static List<Path> getArborescenceProjetCible() {
 		return ARBORESCENCE_PROJET_CIBLE;
 	} // Fin de getArborescenceProjetCible().______________________________
+
+
+
+	/**
+	 * Getter de la <b>Map des répertoires sous src/main/java</b> 
+	 * dans le projet cible avec :
+	 * <ul>
+	 * <li>String : le chemin relatif du répertoire par rapport 
+	 * au GroupId comme <code>"model/dto"</code></li>
+	 * <li>Path : l'attribut contenant le Path absolu 
+	 * du répertoire comme <code>coucheModelDTOMainPath</code></li>
+	 * </ul>
+	 *
+	 * @return ARBORESCENCE_MAIN_PROJET_CIBLE_MAP : 
+	 * Map<String,Path>.<br/>
+	 */
+	public static Map<String, Path> getArborescenceMainProjetCibleMap() {
+		return ARBORESCENCE_MAIN_PROJET_CIBLE_MAP;
+	} // Fin de getArborescenceMainProjetCibleMap()._______________________
+
+
+
+	/**
+	 * Getter de la <b>Map des répertoires sous src/test/java</b> 
+	 * dans le projet cible avec :
+	 * <ul>
+	 * <li>String : le chemin relatif du répertoire par rapport 
+	 * au GroupId comme <code>"model/dto"</code></li>
+	 * <li>Path : l'attribut contenant le Path absolu 
+	 * du répertoire comme <code>coucheModelDTOTestPath</code></li>
+	 * </ul>
+	 *
+	 * @return ARBORESCENCE_TEST_PROJET_CIBLE_MAP : Map<String,Path>.<br/>
+	 */
+	public static Map<String, Path> getArborescenceTestProjetCibleMap() {
+		return ARBORESCENCE_TEST_PROJET_CIBLE_MAP;
+	} // Fin de getArborescenceTestProjetCibleMap()._______________________
 
 	
 	
