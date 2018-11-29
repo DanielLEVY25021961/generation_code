@@ -1146,7 +1146,7 @@ public abstract class AbstractCreateurGestionnaireRG {
 	 * @return : String.<br/>
 	 */
 	public String afficherAttributs(
-			final Field[] pAttributs) {
+			final Field... pAttributs) {
 		
 		/* retourne null si pAttributs == null. */
 		if (pAttributs == null) {

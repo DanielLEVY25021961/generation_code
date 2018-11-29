@@ -367,7 +367,7 @@ public class EcriveurMetierConcreteClassForm
 	 * @throws Exception
 	 */
 	private void creerLignesJavaDocAttributs() throws Exception {
-		return; // NOPMD by daniel.levy on 19/01/18 10:15
+		return; 
 	} // Fin de creerLignesJavaDocAttributs()._____________________________
 	
 
@@ -382,7 +382,7 @@ public class EcriveurMetierConcreteClassForm
 	 */
 	private void creerLignesJavaDocEnTeteEgaliteMetier() 
 			throws Exception {
-		return; // NOPMD by daniel.levy on 19/01/18 10:15
+		return; 
 	} // Fin de creerLignesJavaDocEnTeteEgaliteMetier().___________________
 	
 	
@@ -397,7 +397,7 @@ public class EcriveurMetierConcreteClassForm
 	 */
 	private void creerLignesJavaDocAttributsEgaliteMetier() 
 			throws Exception {
-		return; // NOPMD by daniel.levy on 19/01/18 10:15
+		return; 
 	} // Fin de creerLignesJavaDocAttributsEgaliteMetier().________________
 	
 
@@ -412,7 +412,7 @@ public class EcriveurMetierConcreteClassForm
 	 */
 	private void creerLignesJavaDocDiagrammes() 
 			throws Exception {
-		return; // NOPMD by daniel.levy on 19/01/18 10:15
+		return; 
 	} // Fin de creerLignesJavaDocDiagrammes().____________________________
 	
 
@@ -427,7 +427,7 @@ public class EcriveurMetierConcreteClassForm
 	 */
 	private void creerLignesJavaDocEnTeteRg() 
 			throws Exception {
-		return; // NOPMD by daniel.levy on 19/01/18 10:15
+		return; 
 	} // Fin de creerLignesJavaDocEnTeteRg().______________________________
 	
 
@@ -442,7 +442,7 @@ public class EcriveurMetierConcreteClassForm
 	 */
 	private void creerLignesJavaDocTableauRg() 
 			throws Exception {
-		return; // NOPMD by daniel.levy on 19/01/18 10:15
+		return; 
 	} // Fin de creerLignesJavaDocTableauRg()._____________________________
 	
 
@@ -575,7 +575,7 @@ public class EcriveurMetierConcreteClassForm
 	@Override
 	protected final void creerAttributId(
 			final List<String> pListe) throws Exception {
-		return; // NOPMD by daniel.levy on 17/01/18 11:18	
+		return; 
 	} // Fin de creerAttributId(...).______________________________________
 
 	
@@ -1327,7 +1327,7 @@ public class EcriveurMetierConcreteClassForm
 	@Override
 	protected final void ecrireCodeConstructeurCompletBase(
 			final File pFile) throws Exception {		
-		return;		 // NOPMD by daniel.levy on 22/01/18 13:07
+		return;		 
 	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
 
 	

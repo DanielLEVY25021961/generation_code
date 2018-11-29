@@ -791,7 +791,7 @@ public class EcriveurMetierConcreteClass
 	@Override
 	protected final void creerAttributId(
 			final List<String> pListe) throws Exception {
-		return; // NOPMD by daniel.levy on 17/01/18 11:18	
+		return; 
 	} // Fin de creerAttributId(...).______________________________________
 	
 	
@@ -805,7 +805,7 @@ public class EcriveurMetierConcreteClass
 				, final String pNomAttribut
 					, final String pTypeAttribut)
 			throws Exception {
-		return;		 // NOPMD by daniel.levy on 17/01/18 11:28
+		return;		 
 	} // Fin de creerJavadocAttribut(...)._________________________________
 	
 	
@@ -818,7 +818,7 @@ public class EcriveurMetierConcreteClass
 			final List<String> pListe
 				, final String pNomAttribut
 					, final String pTypeAttribut) throws Exception {
-		return; // NOPMD by daniel.levy on 17/01/18 11:28
+		return; 
 	} // Fin de creerCodeAttribut(...).____________________________________
 
 	

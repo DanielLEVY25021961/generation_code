@@ -227,7 +227,7 @@ public class ConfigurationApplicationManagerTest {
 			assertTrue(
 					"bundleApplication1 doit être la même "
 					+ "instance que bundleApplication2"
-					, bundleApplication1 == bundleApplication2);   // NOPMD by dan on 02/10/17 23:16
+					, bundleApplication1 == bundleApplication2);   
 			
 			/* Récupère le rapport de chargement de la configuration. */
 			final String rapportCsv 
@@ -339,7 +339,7 @@ public class ConfigurationApplicationManagerTest {
 			assertTrue(
 					"bundleRessourcesExternes1 doit être la même "
 					+ "instance que bundleRessourcesExternes2"
-					, bundleRessourcesExternes1 == bundleRessourcesExternes2);   // NOPMD by dan on 02/10/17 23:16
+					, bundleRessourcesExternes1 == bundleRessourcesExternes2);   
 			
 			/* Récupère le rapport de chargement de la configuration. */
 			final String rapportCsv 
@@ -463,7 +463,7 @@ public class ConfigurationApplicationManagerTest {
 			assertTrue(
 					"pathRessourcesExternes1 doit être la même "
 					+ "instance que pathRessourcesExternes2"
-					, pathRessourcesExternes1 == pathRessourcesExternes2); // NOPMD by dan on 05/10/17 15:34
+					, pathRessourcesExternes1 == pathRessourcesExternes2); 
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -731,7 +731,7 @@ public class ConfigurationApplicationManagerTest {
 			assertTrue(
 					"pathRapportsControle1 doit être la même "
 					+ "instance que pathRapportsControle2"
-					, pathRapportsControle1 == pathRapportsControle2); // NOPMD by dan on 05/10/17 15:34
+					, pathRapportsControle1 == pathRapportsControle2); 
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -999,7 +999,7 @@ public class ConfigurationApplicationManagerTest {
 			assertTrue(
 					"pathLogs1 doit être la même "
 					+ "instance que pathLogs2"
-					, pathLogs1 == pathLogs2); // NOPMD by dan on 05/10/17 15:34
+					, pathLogs1 == pathLogs2); 
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1267,7 +1267,7 @@ public class ConfigurationApplicationManagerTest {
 			assertTrue(
 					"pathData1 doit être la même "
 					+ "instance que pathData2"
-					, pathData1 == pathData2); // NOPMD by dan on 05/10/17 15:34
+					, pathData1 == pathData2); 
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {

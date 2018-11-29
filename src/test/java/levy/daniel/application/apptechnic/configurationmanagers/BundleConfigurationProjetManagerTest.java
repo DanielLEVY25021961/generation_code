@@ -317,17 +317,17 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathWorkspace()"); // NOPMD by dan on 05/01/18 20:04
+				System.out.println("testGetPathWorkspace()"); 
 				System.out.println("PATH DU WORKSPACE : " 
 						+ path1);
 			}
 			
 			/* garantit que l'objet n'est pas null. */
-			assertNotNull("l'objet ne doit pas être null : " // NOPMD by dan on 05/01/18 20:04
+			assertNotNull("l'objet ne doit pas être null : " 
 					, path1);
 			
 			/* garantit que l'objet est un Singleton. */
-			assertSame("l'objet doit être un Singleton : " // NOPMD by dan on 05/01/18 20:04
+			assertSame("l'objet doit être un Singleton : " 
 					, path1, path2);
 			
 		}
@@ -518,7 +518,7 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetNomProjet()"); // NOPMD by dan on 05/01/18 20:04
+				System.out.println("testGetNomProjet()"); 
 				System.out.println("NOM DU PROJET : " 
 						+ nomProjet1);
 			}
@@ -719,7 +719,7 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetNomRepertoireSrc() : "); // NOPMD by dan on 05/01/18 20:04
+				System.out.println("testGetNomRepertoireSrc() : "); 
 				System.out.println("NOM DU REPERTOIRE SRC : " 
 						+ nomRepertoireSrc1);
 			}
@@ -920,7 +920,7 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathMainJava()"); // NOPMD by dan on 05/01/18 20:04
+				System.out.println("testGetPathMainJava()"); 
 				System.out.println("NOM DU PATH MAIN JAVA : " 
 						+ pathMainJava1);
 			}
@@ -1121,7 +1121,7 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathMainResources()"); // NOPMD by dan on 05/01/18 20:04
+				System.out.println("testGetPathMainResources()"); 
 				System.out.println("NOM DU PATH MAIN RESOURCES : " 
 						+ pathMainResources1);
 			}
@@ -1322,7 +1322,7 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathTestJava()"); // NOPMD by dan on 05/01/18 20:04
+				System.out.println("testGetPathTestJava()"); 
 				System.out.println("NOM DU PATH TEST JAVA : " 
 						+ pathTestJava1);
 			}
@@ -1523,7 +1523,7 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetPathTestResources()"); // NOPMD by dan on 05/01/18 20:04
+				System.out.println("testGetPathTestResources()"); 
 				System.out.println("NOM DU PATH RESOURCES JAVA : " 
 						+ pathResourcesJava1);
 			}
@@ -1856,7 +1856,7 @@ public class BundleConfigurationProjetManagerTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("testGetGroupid()"); // NOPMD by dan on 05/01/18 20:04
+				System.out.println("testGetGroupid()"); 
 				System.out.println("GROUPID : " 
 						+ groupid1);
 				System.out.println("PATH GROUPID : " 

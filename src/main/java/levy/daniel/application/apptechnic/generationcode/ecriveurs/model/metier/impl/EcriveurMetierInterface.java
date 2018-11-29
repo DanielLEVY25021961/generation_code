@@ -738,7 +738,7 @@ public class EcriveurMetierInterface
 	@Override
 	protected final void creerAttributId(
 			final List<String> pListe) throws Exception {		
-		return; // NOPMD by daniel.levy on 17/01/18 11:18				
+		return; 
 	} // Fin de creerAttributId(...).______________________________________
 	
 
@@ -751,7 +751,7 @@ public class EcriveurMetierInterface
 			final List<String> pListe
 				, final String pNomAttribut
 					, final String pTypeAttribut) throws Exception {		
-		return;		 // NOPMD by daniel.levy on 17/01/18 11:28
+		return;		 
 	} // Fin de creerJavadocAttribut(...)._________________________________
 	
 	
@@ -764,7 +764,7 @@ public class EcriveurMetierInterface
 			final List<String> pListe
 				, final String pNomAttribut
 					, final String pTypeAttribut) throws Exception {
-		return; // NOPMD by daniel.levy on 17/01/18 11:28
+		return; 
 	} // Fin de creerCodeAttribut(...).____________________________________
 	
 	
@@ -775,7 +775,7 @@ public class EcriveurMetierInterface
 	@Override
 	protected final void ecrireCodeConstructeurCompletBase(
 			final File pFile) throws Exception {
-		return; // NOPMD by daniel.levy on 16/01/18 11:42		
+		return; 
 	} // Fin de ecrireCodeConstructeurCompletBase(...).____________________
 
 
@@ -942,7 +942,7 @@ public class EcriveurMetierInterface
 	@Override
 	protected final void creerJavadocToString(
 			final List<String> pListe) throws Exception {
-		return; // NOPMD by daniel.levy on 16/01/18 14:32
+		return; 
 	} // Fin de creerJavadocToString(...)._________________________________
 	
 
@@ -953,7 +953,7 @@ public class EcriveurMetierInterface
 	@Override
 	protected final void creerCodeToString(
 			final List<String> pListe) throws Exception {
-		return; // NOPMD by daniel.levy on 16/01/18 14:32
+		return; 
 	} // Fin de creerCodeToString(...).____________________________________
 	
 	
@@ -1183,7 +1183,7 @@ public class EcriveurMetierInterface
 	@Override
 	protected final void creerEntityGetId(
 			final List<String> pListe) throws Exception {
-		return; // NOPMD by daniel.levy on 17/01/18 12:28
+		return; 
 	} // Fin de creerEntityGetId(...)._____________________________________
 
 

@@ -1936,7 +1936,7 @@ public class EcriveurMetierAbstractClass extends AbstractEcriveurMetier {
 	@Override
 	protected final void creerEntityGetId(
 			final List<String> pListe) throws Exception {
-		return; // NOPMD by daniel.levy on 17/01/18 12:28
+		return; 
 	} // Fin de creerEntityGetId(...)._____________________________________
 
 

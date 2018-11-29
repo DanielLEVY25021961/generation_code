@@ -29,7 +29,7 @@ import levy.daniel.application.apptechnic.generationcode.ecriveurs.AbstractEcriv
  * @since 12 févr. 2018
  *
  */
-public class EcriveurMetierTest extends AbstractEcriveurFichiersJava { // NOPMD by daniel.levy on 27/11/18 11:40
+public class EcriveurMetierTest extends AbstractEcriveurFichiersJava { 
 
 	// ************************ATTRIBUTS************************************/
 

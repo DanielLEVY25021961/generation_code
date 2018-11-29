@@ -68,7 +68,7 @@ public final class Application {
 	 * <li>String : type de l'attribut</li>
 	 * </ul>
 	 */
-	private static final Map<String, String> MAP_ATTRIBUTS  // NOPMD by daniel.levy on 10/01/18 10:15
+	private static final Map<String, String> MAP_ATTRIBUTS  
 		= new LinkedHashMap<String, String>();
 
 	
@@ -81,7 +81,7 @@ public final class Application {
 	 * <li>String : type de l'attribut</li>
 	 * </ul>
 	 */
-	private static final Map<String, String> MAP_ATTRIBUTS_EQUALS  // NOPMD by daniel.levy on 10/01/18 10:15
+	private static final Map<String, String> MAP_ATTRIBUTS_EQUALS  
 	= new LinkedHashMap<String, String>();
 	
 	
@@ -94,7 +94,7 @@ public final class Application {
 	 * <li>List&lt;String&gt; : Liste des RG s'appliquant à l'attribut</li>
 	 * </ul>
 	 */
-	private static final Map<String, List<String>> MAP_RG  // NOPMD by daniel.levy on 10/01/18 10:15
+	private static final Map<String, List<String>> MAP_RG  
 	= new LinkedHashMap<String, List<String>>();
 
 	

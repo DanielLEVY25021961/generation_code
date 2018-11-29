@@ -331,7 +331,7 @@ public abstract class AbstractServicesGenericJPASpring<T, ID extends Serializabl
 	@Override
 	public void persist(
 			final T pObject) {
-		return; // NOPMD by daniel.levy on 05/02/18 16:11
+		return; 
 	} // Fin de persist(...).______________________________________________
 	
 
@@ -342,7 +342,7 @@ public abstract class AbstractServicesGenericJPASpring<T, ID extends Serializabl
 	@Override
 	public <S extends T> void persistSousClasse(
 			final S pObject) {
-		return; // NOPMD by daniel.levy on 05/02/18 16:12
+		return; 
 	} // Fin de persistSousClasse(...).____________________________________
 
 
