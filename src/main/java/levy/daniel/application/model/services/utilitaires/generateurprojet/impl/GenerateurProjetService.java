@@ -16,9 +16,30 @@ import levy.daniel.application.model.services.utilitaires.generateurprojet.IGene
 
 /**
  * CLASSE GenerateurProjetService :<br/>
- * Classe concrète SERVICE chargée d'<b>écrire une arborescence 
- * de projet MAVEN sur disque</b>.<br/>
+ * Classe concrète SERVICE chargée d'<b>écrire une arborescence de REPERTOIRES
+ * de projet MAVEN SIMPLE (sans artéfact) sur disque 
+ * dans un projet cible</b>.<br/>
+ * Toutes les couches (GroupId, apptechnic, controllers, model, vues...)
+ * ainsi que leurs sous-couches et les répertoires externes (data, logs, ...) 
+ * sont générés dans le projet cible.
  * <br/>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * Création des répértoires et packages sous un projet cible par GenerateurProjetService :
+ * </span>
+ * </p>
+ * <div>
+ * <img src="../../../../../../../../../../../javadoc/images/generateurprojet/generateurprojet_resultat.png" 
+ * alt="création des répertoires par GenerateurProjetService" border="1" align="center" />
+ * </div>
+ * <br/>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * DIAGRAMME DE CLASSES de GenerateurProjetService :
+ * </span>
+ * </p>
  * <div>
  * <img src="../../../../../../../../../../../javadoc/images/generateurprojet/generateurprojet_service.png" 
  * alt="generateurprojet SERVICE" border="1" align="center" />
