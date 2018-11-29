@@ -8,6 +8,27 @@
  * tous les packages et classes 
  * d'<b>"infrastructure"</b> après que l'utilisateur ait créé un 
  * projet MAVEN simple (sans archétype) dans Eclipse.<br/>
+ * Toutes les couches (GroupId, apptechnic, controllers, model, vues...)
+ * ainsi que leurs sous-couches et les répertoires externes (data, logs, ...) 
+ * sont générés dans le projet cible.
+ * <br/>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * Création des répértoires et packages sous un projet cible par GenerateurProjetService :
+ * </span>
+ * </p>
+ * <div>
+ * <img src="../../../../../../../../../../javadoc/images/generateurprojet/generateurprojet_resultat.png" 
+ * alt="création des répertoires par GenerateurProjetService" border="1" align="center" />
+ * </div>
+ * <br/>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * DIAGRAMME DE CLASSES de GenerateurProjetService :
+ * </span>
+ * </p>
  * <br/>
  * <div>
  * <img src="../../../../../../../../../../javadoc/images/generateurprojet/generateurprojet_service.png" 

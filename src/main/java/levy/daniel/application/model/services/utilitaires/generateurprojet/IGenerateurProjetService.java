@@ -10,7 +10,28 @@ import java.util.List;
  * GenerateurProjetService concrets.<br/>
  * GenerateurProjetService est chargé d'écrire 
  * une arborescence sur disque.<br/>
+ * Toutes les couches (GroupId, apptechnic, controllers, model, vues...)
+ * ainsi que leurs sous-couches et les répertoires externes (data, logs, ...) 
+ * sont générés dans le projet cible.
  * <br/>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * Création des répértoires et packages sous un projet cible par GenerateurProjetService :
+ * </span>
+ * </p>
+ * <div>
+ * <img src="../../../../../../../../../../javadoc/images/generateurprojet/generateurprojet_resultat.png" 
+ * alt="création des répertoires par GenerateurProjetService" border="1" align="center" />
+ * </div>
+ * <br/>
+ * <br/>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * DIAGRAMME DE CLASSES de GenerateurProjetService :
+ * </span>
+ * </p>
  * <div>
  * <img src="../../../../../../../../../../javadoc/images/generateurprojet/generateurprojet_service.png" 
  * alt="generateurprojet SERVICE" border="1" align="center" />
