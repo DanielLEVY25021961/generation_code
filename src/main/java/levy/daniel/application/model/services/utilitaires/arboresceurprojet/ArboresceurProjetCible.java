@@ -2,7 +2,9 @@ package levy.daniel.application.model.services.utilitaires.arboresceurprojet;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -321,6 +323,12 @@ import org.apache.commons.logging.LogFactory;
  * path.resolve(path), path.resolve, resolve, resolve(),<br/>
  * ajouter un path à un autre, <br/>
  * fournir arborescence projet cible, <br/>
+ * Collections.sort(list, new EntryStringComparator());<br/>
+ * map triée, Map triée, Map triee, SortedMap, TreeMap, <br/>
+ * Comparator, comparator, <br/>
+ * trier Entry, trier Entry<String, Path> sur String, <br/>
+ * trier entry sur String, trier Map sur clé,<br/>
+ * trier Map sur key, trier Map sur Key, trier map sur key,<br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -1948,9 +1956,13 @@ public final class ArboresceurProjetCible {
 			
 			final StringBuilder stb = new StringBuilder();
 			
-			final Set<Entry<String, Path>> entrySet 
-				= ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.entrySet();
+			/* trie la Map sur les Keys. */
+			final Map<String, Path> mapTriee 
+				= trierMap(ARBORESCENCE_MAIN_PROJET_CIBLE_MAP);
 			
+			final Set<Entry<String, Path>> entrySet 
+				= mapTriee.entrySet();
+						
 			final Iterator<Entry<String, Path>> ite = entrySet.iterator();
 			
 			while (ite.hasNext()) {
@@ -1990,9 +2002,13 @@ public final class ArboresceurProjetCible {
 			
 			final StringBuilder stb = new StringBuilder();
 			
-			final Set<Entry<String, Path>> entrySet 
-				= ARBORESCENCE_TEST_PROJET_CIBLE_MAP.entrySet();
+			/* trie la Map sur les Keys. */
+			final Map<String, Path> mapTriee 
+				= trierMap(ARBORESCENCE_TEST_PROJET_CIBLE_MAP);
 			
+			final Set<Entry<String, Path>> entrySet 
+				= mapTriee.entrySet();
+					
 			final Iterator<Entry<String, Path>> ite = entrySet.iterator();
 			
 			while (ite.hasNext()) {
@@ -2038,6 +2054,55 @@ public final class ArboresceurProjetCible {
 	} // Fin de fournirNombreRepACreer().__________________________________
 	
 	
+	
+	/**
+	 * <b>Trie une Map sur sa Key (String) 
+	 * en respectant l'ordre alphabétique</b>.<br/>
+	 * <ul>
+	 * <li>utilise un EntryStringComparator 
+	 * pour comparer les Entry de la Map sur leur Key (String).</li>
+	 * </ul>
+	 * - retourne null si pMap == null.<br/>
+	 * <br/>
+	 * 
+	 * @param pMap : Map&lt;String,Path&gt; : 
+	 * map à trier sur la Key.<br/>
+	 * 
+	 * @return : Map&lt;String,Path&gt; : 
+	 * map triée sur la Key.<br/>
+	 */
+	public static Map<String, Path> trierMap(
+			final Map<String, Path> pMap){
+
+		synchronized (ArboresceurProjetCible.class) {
+
+			/* retourne null si pMap == null. */
+			if (pMap == null) {
+				return null;
+			}
+			
+			/* extrait la liste des Keys des Entry de la Map. */
+			final List<Entry<String, Path>> list 
+				= new LinkedList<Map.Entry<String, Path>>(pMap.entrySet());
+
+			/* Trie la liste des Keys des Entry de la Map. */
+			Collections.sort(list, new EntryStringComparator());
+
+			// créer une nouvelle Map à partir de LinkedList triée.
+			final Map<String, Path> mapTriee 
+				= new LinkedHashMap<String, Path>();
+
+			for (final Entry<String, Path> entry : list) {
+				mapTriee.put(entry.getKey(), entry.getValue());
+			}
+
+			return mapTriee;
+
+		} // Fin de synchronized._______________________
+         
+    } // Fin de trierMap(...)._____________________________________________
+	
+
 	
 	/**
 	 * calcule le path absolu des src/main/java 

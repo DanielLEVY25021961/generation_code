@@ -11,7 +11,7 @@ import org.junit.Test;
 
 /**
  * CLASSE ArboresceurProjetCibleTest :<br/>
- * .<br/>
+ * Test JUnit de la classe ArboresceurProjetCible.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
