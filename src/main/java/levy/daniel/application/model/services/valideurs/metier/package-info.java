@@ -1,14 +1,13 @@
 /**
  * class package-info :<br/>
- * Package contenant des classes pour l'encodage 
- * et le décodage de fichiers simples texte.<br/>
+ * ce package comprend toutes les classes de SERVICES 
+ * dédiés à la validation (REGLES DE GESTION) des OBJETS METIER.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
- * Charset, encodage, décodage, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -17,7 +16,7 @@
  *
  * @author dan Lévy
  * @version 1.0
- * @since 16 juil. 2016
+ * @since 22 sept. 2017
  *
  */
-package levy.daniel.application.util.encodeursdecodeurs;
+package levy.daniel.application.model.services.valideurs.metier;

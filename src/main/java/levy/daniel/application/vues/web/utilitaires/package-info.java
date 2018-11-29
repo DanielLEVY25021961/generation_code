@@ -1,8 +1,8 @@
 /**
  * class package-info :<br/>
  * Ce package contient toutes les classes <b>VUES</b>
- * destinées à la gestion des <b>objets metier</b> 
- * d'une application <b>DESKTOP</b> respectant le modèle MVC.<br/>
+ * destinées à la gestion des <b>utilitaires</b> 
+ * d'une application <b>WEB</b> respectant le modèle MVC.<br/>
  * La couche VUES intercepte les actions de l'UTILISATEUR 
  * et dialogue avec les CONTROLLERS chargés d'interroger 
  * la logique METIER (SERVICES).<br/>
@@ -27,4 +27,4 @@
  * @since 22 sept. 2017
  *
  */
-package levy.daniel.application.vues.desktop.metier;
+package levy.daniel.application.vues.web.utilitaires;

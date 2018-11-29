@@ -1,6 +1,7 @@
 /**
  * class package-info :<br/>
- * .<br/>
+ * ce package comprend toutes les classes de SERVICES 
+ * dédiés à la transformation (REGLES METIER) des OBJETS METIER.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
