@@ -6,7 +6,9 @@
  * sous un répertoire (racine origine)</b>.<br/>
  * <ul>
  * <li>Le contenu recopié contient l'arborescence (<b>répertoires</b>) 
- * sous la racine origine et les fichiers simples.</li>
+ * sous la racine origine <b>et les fichiers simples</b>.</li>
+ * <li><b>L'ensemble du contenu sous le répertoire origine 
+ * est recopié sous le répertoire destination</b>.</li>
  * <li>La racine origine n'est pas recopiée. Seul son contenu l'est.</li>
  * <li>Ne recopie un fichier de l'arborescence que si il n'existe 
  * pas déjà sous la destination.</li>
@@ -18,27 +20,27 @@
  * </span>
  * </p>
  * <div>
- * <img src="../../../../../../../../../../javadoc/images/copieur_arborescence_maven/principe_fonctionnement_copieurContenuRepertoire.png" 
+ * <img src="../../../../../../../../../../javadoc/images/copieurcontenurepertoire/principe_fonctionnement_copieurContenuRepertoire.png" 
  * alt="principe de fonctionnement de copieurContenuRepertoire" border="1" align="center" />
  * </div>
  * 
  * <p>
  * <span style="text-decoration: underline;">
- * DIAGRAMME DE CLASSES de copieur_arborescence_maven :
+ * DIAGRAMME DE CLASSES de copieurcontenurepertoire :
  * </span>
  * </p>
  * <div>
- * <img src="../../../../../../../../../../javadoc/images/copieur_arborescence_maven/diagramme_classses_copieur_arborescence_maven.png" 
- * alt="diagramme de classes de copieur_arborescence_maven" border="1" align="center" />
+ * <img src="../../../../../../../../../../javadoc/images/copieurcontenurepertoire/diagramme_classes_copieurContenuRepertoire.png" 
+ * alt="diagramme de classes de copieurContenuRepertoire" border="1" align="center" />
  * </div>
  * 
  * <p>
  * <span style="text-decoration: underline;">
- * DIAGRAMME DE SEQUENCE de la méthode <b>copierArborescence(File racineOrigine, String cheminDestination)</b> :
+ * DIAGRAMME DE SEQUENCE de la méthode <b>copierContenu(File racineOrigine, String cheminDestination)</b> :
  * </span>
  * </p>
  * <div>
- * <img src="../../../../../../../../../../javadoc/images/copieur_arborescence_maven/methode_copierArborescence-copieur_arborescence_maven.png" 
+ * <img src="../../../../../../../../../../javadoc/images/copieurcontenurepertoire/methode_copieurContenuRepertoire.png" 
  * alt="diagramme de séquence de copierArborescence(...)" border="1" align="center" />
  * </div>
  * 
