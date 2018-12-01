@@ -1,5 +1,6 @@
 package levy.daniel.application.model.services.utilitaires.ecriveurpackageinfo;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 
@@ -46,9 +47,12 @@ public interface IEcriveurPackageInfoService {
 	 * @param pArboMain : Map&lt;String, Path&gt; : 
 	 * arborescence de la branche main du projet cible.<br/>
 	 * @param projetCiblePath : Path : Path du projet cible.<br/>
+	 * 
+	 * @throws IOException 
 	 */
 	void genererPackageInfo(
-			Map<String, Path> pArboMain, Path projetCiblePath);
+			Map<String, Path> pArboMain, Path projetCiblePath) 
+						throws IOException;
 	
 	
 	

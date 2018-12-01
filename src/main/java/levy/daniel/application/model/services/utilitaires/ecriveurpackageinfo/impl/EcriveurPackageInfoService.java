@@ -1,8 +1,11 @@
 package levy.daniel.application.model.services.utilitaires.ecriveurpackageinfo.impl;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -70,7 +73,7 @@ public class EcriveurPackageInfoService implements IEcriveurPackageInfoService {
 	@Override
 	public void genererPackageInfo(
 			final Map<String, Path> pArboMain
-				, final Path projetCiblePath) {
+				, final Path projetCiblePath) throws IOException {
 		
 		/* ne fait rien si pArboMain == null. */
 		if (pArboMain == null) {
@@ -86,33 +89,96 @@ public class EcriveurPackageInfoService implements IEcriveurPackageInfoService {
 			final Entry<String, Path> entry = ite.next();
 			final Path pathDansProjetCible = entry.getValue();
 			
-			fournirFichierACopier(pathDansProjetCible, projetCiblePath);
+			if (pathDansProjetCible != null) {
+				
+				final Path pathFichierDestination 
+					= pathDansProjetCible.resolve("package-info.java");
+			
+				final File packageInfoACopier = 
+					fournirFichierACopier(
+							pathDansProjetCible, projetCiblePath);
+				
+				if (packageInfoACopier != null) {
+					Files.copy(
+							packageInfoACopier.toPath()
+								, pathFichierDestination
+									, StandardCopyOption.REPLACE_EXISTING);
+				}
+			}
+			
 		}
 		
 	} // Fin de genererPackageInfo(...).___________________________________
 	
+
 	
+	/**
+	 * <b>fournit le fichier package-info</b> 
+	 * correspondant à pPathDansProjetCible.<br/>
+	 * Le présent projet suit l'arborescence du projet cible 
+	 * et contient tous les bons package-info 
+	 * dans les bons répertoires.<br/>
+	 * <br/>
+	 * - retourne null si il n'existe pas de package-info 
+	 * pour pPathDansProjetCible.<br/>
+	 * - retourne null si pPathDansProjetCible == null.<br/>
+	 * - retourne null si pProjetCiblePath == null.<br/>
+	 * <br/>
+	 *
+	 * @param pPathDansProjetCible : Path : 
+	 * path dans le projet cible dans lequel écrire un package-info.<br/>
+	 * @param pProjetCiblePath : Path : 
+	 * Path du projet cible.<br/>
+	 * 
+	 * @return : File : 
+	 * package-info dans la présent projet correspondant 
+	 * à pPathDansProjetCible.<br/>
+	 */
 	private File fournirFichierACopier(
 			final Path pPathDansProjetCible
 				, final Path pProjetCiblePath) {
 		
-		System.out.println();
-		System.out.println("PATH ABSOLU DANS PROJET CIBLE : " + pPathDansProjetCible);
-		System.out.println("PATH ABSOLU DU PROJET CIBLE : " + pProjetCiblePath);
-		final Path pathRelatif = pProjetCiblePath.relativize(pPathDansProjetCible);
-		System.out.println("PATH RELATIF : " + pathRelatif);
+		/* retourne null si pPathDansProjetCible == null. */
+		if (pPathDansProjetCible == null) {
+			return null;
+		}
+		
+		/* retourne null si pProjetCiblePath == null. */
+		if (pProjetCiblePath == null) {
+			return null;
+		}
+		
+		/* extraction du path relatif de pPathDansProjetCible 
+		 * par rapport à pProjetCiblePath. */
+		final Path pathRelatif 
+			= pProjetCiblePath.relativize(pPathDansProjetCible);
+		
+		/* récupération du path du présent projet. */
 		final Path pathAbsoluPresentProjet = Paths.get(".").toAbsolutePath();
-		System.out.println("PATH ABSOLU PRESENT PROJET : " + pathAbsoluPresentProjet);
-		final Path pathAbsoluRepFichierACopier = pathAbsoluPresentProjet.resolve(pathRelatif);
-		System.out.println("PATH ABSOLU REPERTOIRE FICHIER A COPIER : " + pathAbsoluRepFichierACopier);
-		final Path pathAbsoluFichierACopier = pathAbsoluRepFichierACopier.resolve("package-info.java");
-		System.out.println("PATH ABSOLU FICHIER A COPIER : " + pathAbsoluFichierACopier);
+
+		/* path absolu du répertoire dans le présent projet contenant 
+		 * le package-info correspondant à pPathDansProjetCible. */
+		final Path pathAbsoluRepFichierACopier 
+			= pathAbsoluPresentProjet.resolve(pathRelatif);
 		
-		System.out.println("LE FICHIER A COPIER EXISTE : " + pathAbsoluFichierACopier.toFile().exists());
+		/* path absolu package-info dans le présent projet 
+		 * correspondant à pPathDansProjetCible. */
+		final Path pathAbsoluFichierACopier 
+			= pathAbsoluRepFichierACopier.resolve("package-info.java");
 		
-		return pathAbsoluFichierACopier.toFile();
+		final File fichierACopier = pathAbsoluFichierACopier.toFile();
 		
-	}
+		if (fichierACopier.exists()) {
+			return fichierACopier;
+		}
+		
+		/* retourne null si il n'existe pas de package-info 
+		 * pour pPathDansProjetCible. */
+		return null;
+		
+	} // Fin de fournirFichierACopier(...).________________________________
+	
+	
 	
 	
 } // FIN DE LA CLASSE EcriveurPackageInfoService.----------------------------
