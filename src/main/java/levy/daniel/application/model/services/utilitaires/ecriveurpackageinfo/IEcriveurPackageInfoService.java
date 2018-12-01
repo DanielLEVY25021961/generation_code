@@ -31,6 +31,14 @@ import levy.daniel.application.model.services.utilitaires.generateurprojet.impl.
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * path absolu du projet eclipse courant, path courant, <br/>
+ * Path courant, <br/>
+ * pathRelatif = pProjetCiblePath.relativize(pPathDansProjetCible),<br/>
+ * path relatif, relativize, soustraire path, <br/>
+ * path relatif, <br/>
+ * path relatif de path enfant par rapport à path parent,<br/>
+ * Path absolu du projet Eclipse courant, path courant, <br/>
+ * PATH COURANT, Path Courant, <br/>
  * <br/>
  *
  * - Dépendances :<br/>

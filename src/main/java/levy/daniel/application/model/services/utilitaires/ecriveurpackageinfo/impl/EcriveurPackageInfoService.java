@@ -42,6 +42,12 @@ import levy.daniel.application.model.services.utilitaires.generateurprojet.impl.
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * path absolu du projet eclipse courant, path courant, <br/>
+ * Path courant, <br/>
+ * pathRelatif = pProjetCiblePath.relativize(pPathDansProjetCible),<br/>
+ * path relatif, relativize, soustraire path, <br/>
+ * path relatif, <br/>
+ * path relatif de path enfant par rapport à path parent,<br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -161,15 +167,13 @@ public class EcriveurPackageInfoService implements IEcriveurPackageInfoService {
 		/* extraction du path relatif de pPathDansProjetCible 
 		 * par rapport à pProjetCiblePath. */
 		final Path pathRelatif 
-			= pProjetCiblePath.relativize(pPathDansProjetCible);
+			= this.fournirPathRelatif(
+					pProjetCiblePath, pPathDansProjetCible);
 		
-		/* récupération du path du présent projet. */
-		final Path pathAbsoluPresentProjet = Paths.get(".").toAbsolutePath();
-
 		/* path absolu du répertoire dans le présent projet contenant 
 		 * le package-info correspondant à pPathDansProjetCible. */
 		final Path pathAbsoluRepFichierACopier 
-			= pathAbsoluPresentProjet.resolve(pathRelatif);
+			= this.fournirPathAbsoluDansPresentProjet(pathRelatif);
 		
 		/* path absolu package-info dans le présent projet 
 		 * correspondant à pPathDansProjetCible. */
@@ -188,6 +192,91 @@ public class EcriveurPackageInfoService implements IEcriveurPackageInfoService {
 		
 	} // Fin de fournirFichierACopier(...).________________________________
 	
+
+	
+	/**
+	 * <b>fournit le PATH RELATIF de pPathEnfant 
+	 * par rapport à pPathParent</b>.<br/>
+	 * pPathEnfant est donc "plus long" que pPathParent 
+	 * et descend de lui.<br/>
+	 * <ul>
+	 * par exemple :<br/>
+	 * <li>si pPathParent = "D:/eclipse/toto"</li>
+	 * <li>si pPathEnfant = "D:/eclipse/toto/tata/titi"</li>
+	 * <li><code>fournirPathRelatif(pPathParent, pPathEnfant)</code> 
+	 * retourne <b>"tata/titi"</b>.</li>
+	 * <li>utilise 
+	 * <code>pPathParent.relativize(pPathEnfant);</code></li>
+	 * </ul>
+	 * - retourne null si pPathParent == null.<br/>
+	 * - retourne null si pPathEnfant == null.<br/>
+	 * <br/>
+	 *
+	 * @param pPathParent : Path.<br/>
+	 * @param pPathEnfant : Path.<br/>
+	 * 
+	 * @return : Path : Path relatif.<br/>
+	 */
+	private Path fournirPathRelatif(
+			final Path pPathParent
+				, final Path pPathEnfant) {
 		
+		/* retourne null si pPathParent == null. */
+		if (pPathParent == null) {
+			return null;
+		}
+		
+		/* retourne null si pPathEnfant == null. */
+		if (pPathEnfant == null) {
+			return null;
+		}
+		
+		return pPathParent.relativize(pPathEnfant);
+		
+	} // Fin de fournirPathRelatif(...).___________________________________
+	
+	
+	
+	/**
+	 * <b>retourne le Path absolu du projet Eclipse courant</b>.<br/>
+	 * <ul>
+	 * <li>utilise <code>Paths.get(".").toAbsolutePath();</code>.</li>
+	 * </ul>
+	 *
+	 * @return : Path : 
+	 * Path absolu du projet Eclipse courant.<br/>
+	 */
+	private Path fournirPathAbsoluPresentProjet() {
+		
+		final Path pathAbsoluPresentProjet 
+			= Paths.get(".").toAbsolutePath();
+		
+		return pathAbsoluPresentProjet;
+		
+	} // Fin de fournirPathAbsoluPresentProjet().__________________________
+	
+	
+	
+	/**
+	 * <b>fournit le PATH ABSOLU 
+	 * pathPresentProjet/ + pPathRelatif</b>.<br/>
+	 *
+	 * @param pPathRelatif : Path.<br/>
+	 * 
+	 * @return : Path : 
+	 * Path absolu dans le présent projet Eclipse.<br/>
+	 */
+	private Path fournirPathAbsoluDansPresentProjet(
+							final Path pPathRelatif) {
+		
+		final Path pathAbsoluDansPresentProjet 
+			= this.fournirPathAbsoluPresentProjet()
+				.resolve(pPathRelatif);
+		
+		return pathAbsoluDansPresentProjet;
+		
+	} // Fin de fournirPathAbsoluDansPresentProjet(...).___________________
+	
+	
 	
 } // FIN DE LA CLASSE EcriveurPackageInfoService.----------------------------
