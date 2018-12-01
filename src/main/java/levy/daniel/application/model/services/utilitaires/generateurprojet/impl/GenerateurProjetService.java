@@ -6,12 +6,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.model.services.utilitaires.arboresceurprojet.ArboresceurProjetCible;
+import levy.daniel.application.model.services.utilitaires.ecriveurpackageinfo.IEcriveurPackageInfoService;
+import levy.daniel.application.model.services.utilitaires.ecriveurpackageinfo.impl.EcriveurPackageInfoService;
 import levy.daniel.application.model.services.utilitaires.generateurprojet.IGenerateurProjetService;
 
 /**
@@ -21,7 +24,9 @@ import levy.daniel.application.model.services.utilitaires.generateurprojet.IGene
  * dans un projet cible</b>.<br/>
  * Toutes les couches (GroupId, apptechnic, controllers, model, vues...)
  * ainsi que leurs sous-couches et les répertoires externes (data, logs, ...) 
- * sont générés dans le projet cible.
+ * sont générés dans le projet cible.<br/>
+ * L'arborescence à copier dans le projet cible est fournie 
+ * par un {@link ArboresceurProjetCible}.<br/>
  * <br/>
  * 
  * <p>
@@ -83,6 +88,12 @@ import levy.daniel.application.model.services.utilitaires.generateurprojet.IGene
 public class GenerateurProjetService implements IGenerateurProjetService {
 
 	// ************************ATTRIBUTS************************************/
+	
+	/**
+	 * Service chargé d'écrire les package-info.
+	 */
+	private final transient IEcriveurPackageInfoService ecriveurPackageInfoService 
+		= new EcriveurPackageInfoService();
 
 	/**
 	 * LOG : Log : 
@@ -135,7 +146,12 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 			return;
 		}
 		
+		
 		List<Path> arborescence = null;
+		Path projetCiblePath = null;
+		Map<String, Path> arborescenceMainProjetCibleMap = null;
+		Map<String, Path> arborescenceTestProjetCibleMap = null;
+		Map<String, Path> arborescenceRepExtProjetCibleMap = null;
 		
 		/* GroupId par défaut GROUPID_PAR_DEFAUT dans 
 		 * ArboresceurProjetCible si pGroupId est blank. */
@@ -143,6 +159,13 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 			
 			ArboresceurProjetCible.selectionnerProjetCible(pProjetCiblePath);
 			arborescence = ArboresceurProjetCible.getArborescenceProjetCible();
+			projetCiblePath = ArboresceurProjetCible.getProjetCiblePath();
+			arborescenceMainProjetCibleMap 
+				= ArboresceurProjetCible.getArborescenceMainProjetCibleMap();
+			arborescenceTestProjetCibleMap 
+				= ArboresceurProjetCible.getArborescenceTestProjetCibleMap();
+			arborescenceRepExtProjetCibleMap 
+				= ArboresceurProjetCible.getArborescenceRepertoiresExternesProjetCibleMap();
 			
 		} else {
 			
@@ -150,10 +173,21 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 			ArboresceurProjetCible.setGroupIdPathRelatif(groupIdPath);
 			ArboresceurProjetCible.selectionnerProjetCible(pProjetCiblePath);			
 			arborescence = ArboresceurProjetCible.getArborescenceProjetCible();
+			arborescenceMainProjetCibleMap 
+				= ArboresceurProjetCible.getArborescenceMainProjetCibleMap();
+			arborescenceTestProjetCibleMap 
+				= ArboresceurProjetCible.getArborescenceTestProjetCibleMap();
+			arborescenceRepExtProjetCibleMap 
+				= ArboresceurProjetCible.getArborescenceRepertoiresExternesProjetCibleMap();
+			
 		}
 		
 		/* écrit l'arborescence sur disque. */
 		this.ecrireSurDisque(arborescence);
+		
+		/* écrit tous les package-info sur disque. */
+		this.ecriveurPackageInfoService
+			.genererPackageInfo(arborescenceMainProjetCibleMap, projetCiblePath);
 		
 	} // Fin de generer(...).______________________________________________
 	

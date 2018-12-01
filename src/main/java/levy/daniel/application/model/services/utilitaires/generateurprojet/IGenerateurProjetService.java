@@ -4,15 +4,20 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
+import levy.daniel.application.model.services.utilitaires.arboresceurprojet.ArboresceurProjetCible;
+
 /**
  * INTERFACE IGenerateurProjetService :<br/>
  * Abstraction factorisant les comportements des 
  * GenerateurProjetService concrets.<br/>
- * GenerateurProjetService est chargé d'écrire 
- * une arborescence sur disque.<br/>
+ * GenerateurProjetService est chargé <b>d'écrire 
+ * une arborescence de projet MAVEN SIMPLE (sans artefact) 
+ * sur disque</b> dans un projet cible.<br/>
  * Toutes les couches (GroupId, apptechnic, controllers, model, vues...)
  * ainsi que leurs sous-couches et les répertoires externes (data, logs, ...) 
- * sont générés dans le projet cible.
+ * sont générés dans le projet cible.<br/>
+ * L'arborescence à copier dans le projet cible est fournie 
+ * par un {@link ArboresceurProjetCible}
  * <br/>
  * 
  * <p>
@@ -83,6 +88,8 @@ public interface IGenerateurProjetService {
 	 * dans ArboresceurProjetCible (levy.daniel.application).</li>
 	 * <li>utilise un ArboresceurProjetCible pour obtenir 
 	 * l'arborescence de projet à créer.</li>
+	 * <li>écrit l'arborescence sur disque.</li>
+	 * <li>écrit tous les package-info sur disque.</li>
 	 * </ul>
 	 * - ne fait rien si pProjetCiblePath == null.<br/>
 	 * - ne fait rien si le projet cible n'existe pas.<br/>
@@ -106,6 +113,8 @@ public interface IGenerateurProjetService {
 	 * pour le projet cible à générer.</li>
 	 * <li>utilise un ArboresceurProjetCible pour obtenir 
 	 * l'arborescence de projet à créer.</li>
+	 * <li>écrit l'arborescence sur disque.</li>
+	 * <li>écrit tous les package-info sur disque.</li>
 	 * </ul>
 	 * - ne fait rien si pProjetCiblePath == null.<br/>
 	 * - ne fait rien si le projet cible n'existe pas.<br/>

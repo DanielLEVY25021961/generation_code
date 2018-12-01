@@ -443,6 +443,10 @@ public class ArboresceurProjetCibleTest {
 			System.out.println();
 			System.out.println("MAP ARBORESCENCE TEST");
 			System.out.println(ArboresceurProjetCible.afficherArborescenceTestMap());
+			
+			System.out.println();
+			System.out.println("MAP ARBORESCENCE REPERTOIRES EXTERNES");
+			System.out.println(ArboresceurProjetCible.afficherArborescenceRepExtMap());
 
 		}
 		

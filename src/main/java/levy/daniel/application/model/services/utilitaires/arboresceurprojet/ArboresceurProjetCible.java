@@ -316,6 +316,8 @@ import org.apache.commons.logging.LogFactory;
  * <b>Map&lt;String, Path&gt; arborescenceMainMap = ArboresceurProjetCible.getArborescenceMainProjetCibleMap();</b><br/>
  *   // RECUPERATION DE L'ARBORESCENCE A CREER DANS LE TEST du PROJET CIBLE<br/>
  * <b>Map&lt;String, Path&gt; arborescenceTestMap = ArboresceurProjetCible.getArborescenceTestProjetCibleMap();</b><br/>
+ *   // RECUPERATION DE L'ARBORESCENCE DES REPERTOIRES EXTERNES à créer PROJET CIBLE<br/>
+ * <b>Map&lt;String, Path&gt; arborescenceRepExtMap = ArboresceurProjetCible.getArborescenceRepertoiresExternesProjetCibleMap();</b><br/>
  * </code>
  *<br/>
  * 
@@ -1387,6 +1389,19 @@ public final class ArboresceurProjetCible {
 		= new ConcurrentHashMap<String, Path>();
 	
 	/**
+	 * <b>Map des répertoires externes</b> 
+	 * dans le projet cible avec :
+	 * <ul>
+	 * <li>String : le nom du répertoire externe 
+	 * comme <code>"data"</code></li>
+	 * <li>Path : l'attribut contenant le Path absolu 
+	 * du répertoire comme <code>dataPath</code></li>
+	 * </ul>
+	 */
+	private static final Map<String, Path> ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP 
+		= new ConcurrentHashMap<String, Path>();
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -1451,6 +1466,9 @@ public final class ArboresceurProjetCible {
 			
 			/* alimente la Map ARBORESCENCE_TEST_PROJET_CIBLE_MAP. */
 			alimenterArborescenceTestMap();
+			
+			/* alimente la Map ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP. */
+			alimenterArborescenceRepExternesMap();
 			
 		} // Fin de synchronized._______________________
 		
@@ -1813,20 +1831,7 @@ public final class ArboresceurProjetCible {
 			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/services/valideurs/metier", coucheModelServicesValideursMetierMainPath);
 
 			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("model/utilitaires", coucheModelUtilitairesMainPath);
-			
-			// REPERTOIRES EXTERNES
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("conception_appli", conceptionAppliPath);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data", dataPath);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data/H2", dataH2Path);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data/hsqldb", dataHSQLDBPath);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data/JAXB", dataJAXBPath);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("data/scripts_sql", dataScriptsSqlPath);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("javadoc", javadocPath);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("javadoc/images", javadocImagesPath);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("logs", logsPath);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("rapports_controle", rapportsControlePath);
-			ARBORESCENCE_MAIN_PROJET_CIBLE_MAP.put("ressources_externes", ressourcesExternesPath);
-						
+									
 		} // Fin de synchronized._______________________
 		
 	} // Fin de alimenterArborescenceMainMap().____________________________
@@ -1914,6 +1919,39 @@ public final class ArboresceurProjetCible {
 	} // Fin de alimenterArborescenceTestMap().____________________________
 	
 
+	
+	/**
+	 * alimente la <b>Map des répertoires externes</b> 
+	 * dans le projet cible avec :
+	 * <ul>
+	 * <li>String : le nom du répertoire externe 
+	 * comme <code>"data"</code></li>
+	 * <li>Path : l'attribut contenant le Path absolu 
+	 * du répertoire comme <code>dataPath</code></li>
+	 * </ul>
+	 */
+	private static void alimenterArborescenceRepExternesMap() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			// REPERTOIRES EXTERNES
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("conception_appli", conceptionAppliPath);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("data", dataPath);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("data/H2", dataH2Path);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("data/hsqldb", dataHSQLDBPath);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("data/JAXB", dataJAXBPath);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("data/scripts_sql", dataScriptsSqlPath);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("javadoc", javadocPath);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("javadoc/images", javadocImagesPath);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("logs", logsPath);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("rapports_controle", rapportsControlePath);
+			ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.put("ressources_externes", ressourcesExternesPath);
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de alimenterArborescenceRepExternesMap()._____________________
+	
+	
 	
 	/**
 	 * fournit une String pour l'affichage de 
@@ -2033,6 +2071,52 @@ public final class ArboresceurProjetCible {
 		} // Fin de synchronized._______________________
 		
 	} // Fin de afficherArborescenceTestMap()._____________________________
+	
+	
+	
+	/**
+	 * fournit une String pour l'affichage de 
+	 * ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP.<br/>
+	 *
+	 * @return : String.<br/>
+	 */
+	public static String afficherArborescenceRepExtMap() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			final StringBuilder stb = new StringBuilder();
+			
+			/* trie la Map sur les Keys. */
+			final Map<String, Path> mapTriee 
+				= trierMap(ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP);
+			
+			final Set<Entry<String, Path>> entrySet 
+				= mapTriee.entrySet();
+					
+			final Iterator<Entry<String, Path>> ite = entrySet.iterator();
+			
+			while (ite.hasNext()) {
+				
+				final Entry<String, Path> entry = ite.next();
+				final String key = entry.getKey();
+				final Path value = entry.getValue();
+				
+				final String ligne = 
+						String.format(
+								Locale.getDefault()
+								, "chemin : %1$-40s      path : %2$-45s"
+								, key
+								, value.toString());
+				
+				stb.append(ligne);
+				stb.append(System.getProperty("line.separator"));
+			}
+			
+			return stb.toString();
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de afficherArborescenceRepExtMap().___________________________
 	
 	
 		
@@ -7012,7 +7096,7 @@ public final class ArboresceurProjetCible {
 	 * </ul>
 	 *
 	 * @return ARBORESCENCE_MAIN_PROJET_CIBLE_MAP : 
-	 * Map<String,Path>.<br/>
+	 * Map&lt;String,Path&gt;.<br/>
 	 */
 	public static Map<String, Path> getArborescenceMainProjetCibleMap() {
 		return ARBORESCENCE_MAIN_PROJET_CIBLE_MAP;
@@ -7030,12 +7114,32 @@ public final class ArboresceurProjetCible {
 	 * du répertoire comme <code>coucheModelDTOTestPath</code></li>
 	 * </ul>
 	 *
-	 * @return ARBORESCENCE_TEST_PROJET_CIBLE_MAP : Map<String,Path>.<br/>
+	 * @return ARBORESCENCE_TEST_PROJET_CIBLE_MAP :  
+	 * Map&lt;String,Path&gt;.<br/>
 	 */
 	public static Map<String, Path> getArborescenceTestProjetCibleMap() {
 		return ARBORESCENCE_TEST_PROJET_CIBLE_MAP;
 	} // Fin de getArborescenceTestProjetCibleMap()._______________________
 
+
 	
+	/**
+	 * Getter de la <b>Map des répertoires externes</b> 
+	 * dans le projet cible avec :
+	 * <ul>
+	 * <li>String : le nom du répertoire externe 
+	 * comme <code>"data"</code></li>
+	 * <li>Path : l'attribut contenant le Path absolu 
+	 * du répertoire comme <code>dataPath</code></li>
+	 * </ul>
+	 *
+	 * @return ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP : 
+	 * Map&lt;String,Path&gt;.<br/>
+	 */
+	public static Map<String, Path> getArborescenceRepertoiresExternesProjetCibleMap() {
+		return ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_CIBLE_MAP;
+	} // Fin de getArborescenceRepertoiresExternesProjetCibleMap().________
+
+		
 	
 } // FIN DE LA CLASSE ArboresceurProjetCible.--------------------------------

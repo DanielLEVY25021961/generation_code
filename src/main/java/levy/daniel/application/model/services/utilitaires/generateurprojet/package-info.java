@@ -3,14 +3,16 @@
  * Ce package contient toutes les classes nécessaires à la 
  * <b>génération sur disque 
  * de l'ARBORESCENCE d'un projet MAVEN simple 
- * (sans archétype)</b>.<br/>
+ * (sans archétype)</b> dans un projet cible.<br/>
  * L'idée est de <b>générer automatiquement sur disque</b> 
  * tous les packages et classes 
  * d'<b>"infrastructure"</b> après que l'utilisateur ait créé un 
  * projet MAVEN simple (sans archétype) dans Eclipse.<br/>
  * Toutes les couches (GroupId, apptechnic, controllers, model, vues...)
  * ainsi que leurs sous-couches et les répertoires externes (data, logs, ...) 
- * sont générés dans le projet cible.
+ * sont générés dans le projet cible.<br/>
+ * L'arborescence à copier dans le projet cible est fournie 
+ * par un {@link ArboresceurProjetCible}.<br/>
  * <br/>
  * 
  * <p>
