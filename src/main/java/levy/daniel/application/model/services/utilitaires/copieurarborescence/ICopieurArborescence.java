@@ -23,7 +23,7 @@ import java.util.List;
  * </span>
  * </p>
  * <div>
- * <img src="../../../../../../../../../../javadoc/images/copieur_arborescence_maven/diagramme_classses_copieur_arborescence_maven.png" 
+ * <img src="../../../../../../../../../../javadoc/images/copieur_arborescence_maven/diagramme_classes_copieur_arborescence_maven.png" 
  * alt="diagramme de classes de copieur_arborescence_maven" border="1" align="center" />
  * </div>
  * 
