@@ -10,7 +10,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import levy.daniel.application.model.services.utilitaires.copieurarboresence.IChercheurRepertoires;
+import levy.daniel.application.model.services.utilitaires.copieurarborescence.IChercheurRepertoires;
+import levy.daniel.application.model.services.utilitaires.copieurarborescence.impl.ChercheurRepertoires;
 
 /**
  * class ChercheurRepertoiresTest :<br/>

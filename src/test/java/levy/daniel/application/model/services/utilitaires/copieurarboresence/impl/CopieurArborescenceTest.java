@@ -13,7 +13,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import levy.daniel.application.model.services.utilitaires.copieurarboresence.ICopieurArborescence;
+import levy.daniel.application.model.services.utilitaires.copieurarborescence.ICopieurArborescence;
+import levy.daniel.application.model.services.utilitaires.copieurarborescence.impl.CopieurArborescence;
 
 /**
  * CLASSE CopieurArborescenceTest :<br/>

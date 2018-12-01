@@ -401,6 +401,12 @@ public final class ArboresceurProjetCible {
 		= "model";
 	
 	/**
+	 * "line.separator".
+	 */
+	public static final String LINE_SEPARATOR 
+		= "line.separator";
+	
+	/**
 	 * <ul>
 	 * <li><b>path du projet CIBLE Eclipse</b> 
 	 * dont on va générer le code.</li>
@@ -1969,7 +1975,7 @@ public final class ArboresceurProjetCible {
 				
 				if (path != null) {
 					stb.append(path.toString());
-					stb.append(System.getProperty("line.separator"));
+					stb.append(System.getProperty(LINE_SEPARATOR));
 				}
 				
 			}
@@ -2017,7 +2023,7 @@ public final class ArboresceurProjetCible {
 								, value.toString());
 				
 				stb.append(ligne);
-				stb.append(System.getProperty("line.separator"));
+				stb.append(System.getProperty(LINE_SEPARATOR));
 			}
 			
 			return stb.toString();
@@ -2063,7 +2069,7 @@ public final class ArboresceurProjetCible {
 								, value.toString());
 				
 				stb.append(ligne);
-				stb.append(System.getProperty("line.separator"));
+				stb.append(System.getProperty(LINE_SEPARATOR));
 			}
 			
 			return stb.toString();
@@ -2109,7 +2115,7 @@ public final class ArboresceurProjetCible {
 								, value.toString());
 				
 				stb.append(ligne);
-				stb.append(System.getProperty("line.separator"));
+				stb.append(System.getProperty(LINE_SEPARATOR));
 			}
 			
 			return stb.toString();

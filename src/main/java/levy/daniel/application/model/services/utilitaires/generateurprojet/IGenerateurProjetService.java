@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import levy.daniel.application.model.services.utilitaires.arboresceurprojet.ArboresceurProjetCible;
+import levy.daniel.application.model.services.utilitaires.ecriveurpackageinfo.IEcriveurPackageInfoService;
 
 /**
  * INTERFACE IGenerateurProjetService :<br/>
@@ -89,7 +90,8 @@ public interface IGenerateurProjetService {
 	 * <li>utilise un ArboresceurProjetCible pour obtenir 
 	 * l'arborescence de projet à créer.</li>
 	 * <li>écrit l'arborescence sur disque.</li>
-	 * <li>écrit tous les package-info sur disque.</li>
+	 * <li>écrit tous les package-info sur disque 
+	 * (délègue à un {@link IEcriveurPackageInfoService}).</li>
 	 * </ul>
 	 * - ne fait rien si pProjetCiblePath == null.<br/>
 	 * - ne fait rien si le projet cible n'existe pas.<br/>
@@ -114,7 +116,8 @@ public interface IGenerateurProjetService {
 	 * <li>utilise un ArboresceurProjetCible pour obtenir 
 	 * l'arborescence de projet à créer.</li>
 	 * <li>écrit l'arborescence sur disque.</li>
-	 * <li>écrit tous les package-info sur disque.</li>
+	 * <li>écrit tous les package-info sur disque 
+	 * (délègue à un {@link IEcriveurPackageInfoService}).</li>
 	 * </ul>
 	 * - ne fait rien si pProjetCiblePath == null.<br/>
 	 * - ne fait rien si le projet cible n'existe pas.<br/>

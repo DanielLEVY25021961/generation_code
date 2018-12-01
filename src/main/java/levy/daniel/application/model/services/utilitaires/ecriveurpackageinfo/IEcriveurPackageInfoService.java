@@ -16,6 +16,16 @@ import levy.daniel.application.model.services.utilitaires.generateurprojet.impl.
  * L'arborescence à copier dans le projet cible est fournie 
  * par un {@link ArboresceurProjetCible}.<br/>
  * <br/>
+ * <p>
+ * <b><span style="text-decoration: underline;">
+ * DIAGRAMME DE CLASSES de EcriveurPackageInfo :
+ * </span></b>
+ * </p>
+ * <div>
+ * <img src="../../../../../../../../../../javadoc/images/ecriveurpackageinfo/ecriveur_packageinfo.png" 
+ * alt="diagramme de classes de ecriveurpackageinfo" border="1" align="center" />
+ * </div>
+ * <br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>

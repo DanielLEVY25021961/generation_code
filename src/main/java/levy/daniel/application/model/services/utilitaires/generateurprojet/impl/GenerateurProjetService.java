@@ -150,8 +150,8 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		List<Path> arborescence = null;
 		Path projetCiblePath = null;
 		Map<String, Path> arborescenceMainProjetCibleMap = null;
-		Map<String, Path> arborescenceTestProjetCibleMap = null;
-		Map<String, Path> arborescenceRepExtProjetCibleMap = null;
+//		Map<String, Path> arborescenceTestProjetCibleMap = null;
+//		Map<String, Path> arborescenceRepExtProjetCibleMap = null;
 		
 		/* GroupId par défaut GROUPID_PAR_DEFAUT dans 
 		 * ArboresceurProjetCible si pGroupId est blank. */
@@ -162,10 +162,10 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 			projetCiblePath = ArboresceurProjetCible.getProjetCiblePath();
 			arborescenceMainProjetCibleMap 
 				= ArboresceurProjetCible.getArborescenceMainProjetCibleMap();
-			arborescenceTestProjetCibleMap 
-				= ArboresceurProjetCible.getArborescenceTestProjetCibleMap();
-			arborescenceRepExtProjetCibleMap 
-				= ArboresceurProjetCible.getArborescenceRepertoiresExternesProjetCibleMap();
+//			arborescenceTestProjetCibleMap 
+//				= ArboresceurProjetCible.getArborescenceTestProjetCibleMap();
+//			arborescenceRepExtProjetCibleMap 
+//				= ArboresceurProjetCible.getArborescenceRepertoiresExternesProjetCibleMap();
 			
 		} else {
 			
@@ -175,10 +175,10 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 			arborescence = ArboresceurProjetCible.getArborescenceProjetCible();
 			arborescenceMainProjetCibleMap 
 				= ArboresceurProjetCible.getArborescenceMainProjetCibleMap();
-			arborescenceTestProjetCibleMap 
-				= ArboresceurProjetCible.getArborescenceTestProjetCibleMap();
-			arborescenceRepExtProjetCibleMap 
-				= ArboresceurProjetCible.getArborescenceRepertoiresExternesProjetCibleMap();
+//			arborescenceTestProjetCibleMap 
+//				= ArboresceurProjetCible.getArborescenceTestProjetCibleMap();
+//			arborescenceRepExtProjetCibleMap 
+//				= ArboresceurProjetCible.getArborescenceRepertoiresExternesProjetCibleMap();
 			
 		}
 		
