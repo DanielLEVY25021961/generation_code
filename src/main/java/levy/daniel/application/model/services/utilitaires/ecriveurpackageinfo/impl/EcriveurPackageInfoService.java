@@ -115,13 +115,17 @@ public class EcriveurPackageInfoService implements IEcriveurPackageInfoService {
 							pathDansProjetCible, projetCiblePath);
 				
 				if (packageInfoACopier != null) {
-					Files.copy(
-							packageInfoACopier.toPath()
-								, pathFichierDestination
-									, StandardCopyOption.REPLACE_EXISTING);
+					
+					if (!packageInfoACopier.exists()) {
+						
+						Files.copy(
+								packageInfoACopier.toPath()
+									, pathFichierDestination
+										, StandardCopyOption.REPLACE_EXISTING);
+						
+					}					
 				}
-			}
-			
+			}			
 		}
 		
 	} // Fin de genererPackageInfo(...).___________________________________

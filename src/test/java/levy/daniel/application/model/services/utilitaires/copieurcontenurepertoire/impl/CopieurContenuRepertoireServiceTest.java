@@ -101,8 +101,7 @@ public class CopieurContenuRepertoireServiceTest {
 		final File repRacineACopier = new File("D:/Donnees/eclipse/eclipseworkspace_neon/generation_code/javadoc");
 		final Path pathRepDestinationPath =  Paths.get("D:/Donnees/eclipse/eclipseworkspace/test_generation/javadoc");
 		
-		final ICopieurContenuRepertoireService copieur 
-			= new CopieurContenuRepertoireService();
+		final ICopieurContenuRepertoireService copieur = new CopieurContenuRepertoireService();
 		
 		copieur.copierContenu(repRacineACopier, pathRepDestinationPath);
 		

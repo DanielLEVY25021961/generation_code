@@ -7,8 +7,9 @@
  * <ul>
  * <li>Le contenu recopié contient l'arborescence (<b>répertoires</b>) 
  * <i>sous</i> la racine origine <b>et les fichiers simples</b>.</li>
- * <li><b>L'ensemble du contenu sous le répertoire origine 
- * est recopié sous le répertoire destination</b>.</li>
+ * <li><b>L'ensemble du contenu (répertoires et fichiers simples) 
+ * sous le répertoire origine 
+ * est recopié sous le répertoire destination en respectant l'arborescence</b>.</li>
  * <li>La racine origine n'est pas recopiée. Seul son contenu l'est.</li>
  * <li>Ne recopie un fichier de l'arborescence que si il n'existe 
  * pas déjà sous la destination.</li>
@@ -36,20 +37,47 @@
  * 
  * <p>
  * <span style="text-decoration: underline;">
- * DIAGRAMME DE SEQUENCE de la méthode <b>copierContenu(File racineOrigine, String cheminDestination)</b> :
+ * DIAGRAMME DE SEQUENCE de la méthode <b>copierContenu(File racineOrigine, Path cheminDestination)</b> :
  * </span>
  * </p>
  * <div>
  * <img src="../../../../../../../../../../javadoc/images/copieurcontenurepertoire/methode_copieurContenuRepertoire.png" 
- * alt="diagramme de séquence de copierArborescence(...)" border="1" align="center" />
+ * alt="diagramme de séquence de copierContenu(...)" border="1" align="center" />
  * </div>
  * 
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
+ * <code>
+ *  // Détermination de la racine ORIGINE dont on veut recopier tout le contenu (javadoc).<br/>
+ * <b>File repRacineACopier = new File("D:/Donnees/eclipse/eclipseworkspace_neon/generation_code/javadoc");</b><br/>
+ *  // Détermination de la racine DESTINATION (javadoc dans un autre projet).<br/>
+ * <b>Path pathRepDestinationPath =  Paths.get("D:/Donnees/eclipse/eclipseworkspace/test_generation/javadoc");</b><br/>
+ *  // Instanciation d'un SERVICE CopieurContenuRepertoireService<br/>
+ * <b>ICopieurContenuRepertoireService copieur = new CopieurContenuRepertoireService();</b><br/>
+ *  // EXECUTION DE LA COPIE.<br/>
+ * <b>copieur.copierContenu(repRacineACopier, pathRepDestinationPath);</b><br/>
+ * </code>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * afficherListPaths, afficher liste de Paths, afficher list<Path>, <br/>
+ * afficher list paths, afficher liste paths, <br/>
+ * afficherMapPathsBoolean, afficher map de Paths, Boolean
+ * , afficher Map<Path, Boolean>, <br/>
+ * afficher list paths, afficher liste paths, <br/>
+ * afficher map paths, afficher Map paths, <br/>
+ * trier map sur key, trier Map sur Keys, <br/>
+ * retourner contenu sous répertoire, <br/> 
+ * retourner contenu sous repertoire,<br/>
+ * path relatif, <br/>
+ * path relatif de path enfant par rapport à path parent,<br/>
+ * fournir Path RELATIF, <br/>
+ * Path absolu du projet Eclipse courant, path courant, <br/>
+ * PATH COURANT, Path Courant, <br/>
+ * resolve, pathProjetCourant.resolve(pathRelatif), <br/>
+ * ajouter un path, <br/>
+ * pathParent.relativize(pathEnfant), <br/>
  * <br/>
  *
  * - Dépendances :<br/>
