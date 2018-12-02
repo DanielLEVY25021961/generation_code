@@ -331,6 +331,7 @@ import org.apache.commons.logging.LogFactory;
  * trier Entry, trier Entry<String, Path> sur String, <br/>
  * trier entry sur String, trier Map sur clé,<br/>
  * trier Map sur key, trier Map sur Key, trier map sur key,<br/>
+ * String.format(...), String.format,<br/>
  * <br/>
  *
  * - Dépendances :<br/>

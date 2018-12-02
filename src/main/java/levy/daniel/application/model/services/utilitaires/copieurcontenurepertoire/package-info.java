@@ -6,7 +6,7 @@
  * sous un répertoire (racine origine)</b>.<br/>
  * <ul>
  * <li>Le contenu recopié contient l'arborescence (<b>répertoires</b>) 
- * sous la racine origine <b>et les fichiers simples</b>.</li>
+ * <i>sous</i> la racine origine <b>et les fichiers simples</b>.</li>
  * <li><b>L'ensemble du contenu sous le répertoire origine 
  * est recopié sous le répertoire destination</b>.</li>
  * <li>La racine origine n'est pas recopiée. Seul son contenu l'est.</li>

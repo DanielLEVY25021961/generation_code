@@ -3,6 +3,8 @@ package levy.daniel.application.model.services.utilitaires.copieurcontenureperto
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -80,9 +82,10 @@ public class CopieurContenuRepertoireServiceTest {
 	/**
 	 * Teste la méthode copierContenu(....).<br/>
 	 * <br/>
+	 * @throws Exception 
 	 */
 	@Test
-	public void testCopierContenu() {
+	public void testCopierContenu() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -93,13 +96,15 @@ public class CopieurContenuRepertoireServiceTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("********** CLASSE CopieurContenuRepertoireServiceTest - méthode testCopierContenu() ********** ");
 		}
-	
-		final File repRacineACopier = new File("./javadoc");
+
+		/* ************************************************* */
+		final File repRacineACopier = new File("D:/Donnees/eclipse/eclipseworkspace_neon/generation_code/javadoc");
+		final Path pathRepDestinationPath =  Paths.get("D:/Donnees/eclipse/eclipseworkspace/test_generation/javadoc");
 		
 		final ICopieurContenuRepertoireService copieur 
 			= new CopieurContenuRepertoireService();
 		
-		copieur.copierContenu(repRacineACopier, null);
+		copieur.copierContenu(repRacineACopier, pathRepDestinationPath);
 		
 		assertTrue(BIDON, 1 == 1);
 		

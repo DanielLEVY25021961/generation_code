@@ -5,7 +5,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +32,11 @@ import levy.daniel.application.model.services.utilitaires.copieurcontenurepertoi
  * - Mots-clé :<br/>
  * afficherListPaths, afficher liste de Paths, afficher list<Path>, <br/>
  * afficher list paths, afficher liste paths, <br/>
+ * afficherMapPathsBoolean, afficher map de Paths, Boolean
+ * , afficher Map<Path, Boolean>, <br/>
+ * afficher list paths, afficher liste paths, <br/>
+ * afficher map paths, afficher Map paths, <br/>
+ * trier map sur key, trier Map sur Keys, <br/>
  * retourner contenu sous répertoire, <br/> 
  * retourner contenu sous repertoire,<br/>
  * path relatif, <br/>
@@ -34,6 +46,7 @@ import levy.daniel.application.model.services.utilitaires.copieurcontenurepertoi
  * PATH COURANT, Path Courant, <br/>
  * resolve, pathProjetCourant.resolve(pathRelatif), <br/>
  * ajouter un path, <br/>
+ * pathParent.relativize(pathEnfant), <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -84,7 +97,8 @@ public class CopieurContenuRepertoireService
 	@Override
 	public void copierContenu(
 			final File pRacineOrigine
-				, final String pCheminDestination) {
+				, final Path pRepDestinationPath) 
+						throws Exception {
 		
 		/* ne fait rien si pRacineOrigine == null. */
 		if (pRacineOrigine == null) {
@@ -102,24 +116,41 @@ public class CopieurContenuRepertoireService
 		}
 		
 		/* récupère le contenu sous le répertoire pRacineOrigine. */
-		final List<Path> contenuList 
+		final Map<Path, Boolean> contenuMap 
 			= this.recupererContenuSous(pRacineOrigine);
 
-		System.out.println(this.afficherListPaths(contenuList));
-		
-		
-		
+		/* copie le contenu sous le répertoire pRacineOrigine 
+		 * sous le répertoire pDestinationPath. */
+		this.copierContenuVersDestination(contenuMap, pRepDestinationPath);
 		
 	} // Fin de copierContenu(...).________________________________________
 	
 	
 	
 	/**
-	 * <b>retourne la liste des Path de toute l'arborescence 
-	 * <i>(répertoires et fichiers simples)</i> 
-	 * sous pRacineOrigine</b>.<br/>
+	 * <b>retourne une Map&lt;Path, Boolean&gt; des Paths RELATIFS 
+	 * <i>(par rapport à pRacineOrigine)</i>  de toute l'arborescence 
+	 * <i>(répertoires et fichiers simples)</i> contenue
+	 * sous pRacineOrigine et qui contient 
+	 * la nature (Directory ou SimpleFile) des paths relatifs</b>.<br/>
+	 * <ul>
+	 * La Map&lt;Path, Boolean&gt; précise :
+	 * <li>Path : le Path RELATIF 
+	 * (par rapport à pRacineOrigine).</li>
+	 * <li>Boolean : 
+	 * true si le Path RELATIF correspond à un Directory.</li>
+	 * </ul>
+	 * par exemple :<br/>
+	 * <code>recupererContenuSous(".../javadoc)</code> retourne :<br/>
+	 * [images, true]<br/>
+	 * [images\abstract_ids_insee.png, false]<br/>
+	 * [images\apptechnic, true]<br/>
+	 * [images\apptechnic\LocaleManager.png, false]<br/>
+	 * ...<br/>
+	 * 
 	 * <ul>
 	 * <li><b>ne RETOURNE PAS pRacineOrigine</b>.</li>
+	 * <li>originePath.relativize(path).</li>
 	 * <li>retourne null si une IOException se produit 
 	 * lors de la lecture de l'arborescence.</li>
 	 * </ul>
@@ -131,12 +162,14 @@ public class CopieurContenuRepertoireService
 	 * @param pRacineOrigine : File : 
 	 * répertoire dont on récupère le contenu.<br/> 
 	 * 
-	 * @return : List&lt;Path&gt; : 
-	 * liste des Path de toute l'arborescence 
+	 * @return : Map&lt;Path, Boolean&gt; : 
+	 * Map des Paths RELATIFS (par rapport à pRacineOrigine) 
+	 * avec leur nature
+	 *  de toute l'arborescence 
 	 * <i>(répertoires et fichiers simples)</i> 
-	 * sous pRacineOrigine.<br/>
+	 * contenue sous pRacineOrigine.<br/>
 	 */
-	private List<Path> recupererContenuSous(
+	private Map<Path, Boolean> recupererContenuSous(
 			final File pRacineOrigine) {
 		
 		/* retourne null si pRacineOrigine == null. */
@@ -155,16 +188,24 @@ public class CopieurContenuRepertoireService
 		}
 
 		final Path originePath = pRacineOrigine.toPath();
-		
-		/* retourne la liste des Path des Files sous originePath. */
+
+		/* retourne la liste des Paths RELATIFS 
+		 * des Files sous originePath. */
 		/* utilise un try-with-resources. */
 		try (Stream<Path> stream 
 				= Files.walk(originePath)) {
 
-			return stream
+			final Map<Path, Boolean> map = stream
 					.filter(path -> !path.equals(originePath))
-					.map(path -> path)
-					.collect(Collectors.toList());
+					.collect(Collectors.toMap(
+							path -> originePath.relativize(path)
+							, path -> path.toFile().isDirectory()));
+			
+			/* trie la map sur les keys. */
+			final SortedMap<Path, Boolean> mapTriee 
+				= new TreeMap<Path, Boolean>(map);
+			
+			return mapTriee;
 			
 		} catch (IOException e) {
 			return null;
@@ -173,6 +214,116 @@ public class CopieurContenuRepertoireService
 	} // Fin de recupererContenuSous(...)._________________________________
 	
 
+	
+	/**
+	 * <b>Copie une Map&lt;Path, Boolean&gt; de Paths RELATIFS 
+	 * sous un répertoire destination</b>.<br/>
+	 * <b>Ecrit sur disque</b>.<br/>
+	 * <ul>
+	 * <li>calcule le path ABSOLU de chaque File à copier dans 
+	 * le répertoire destination 
+	 * (<code>pathFileACopier 
+	 * = pRepDestinationPath.resolve(pathRelatif);</code>).</li>
+	 * <li>ne copie le File à copier que si il n'est pas déjà 
+	 * existant dans le répertoire destination.</li>
+	 * <li>crée un répertoire si le Boolean 
+	 * dans la Map est à true.</li>
+	 * <li>crée un fichier simple si le Boolean 
+	 * dans la Map est à false.</li>
+	 * </ul>
+	 * - ne fait rien si pContenuMap == null.<br/>
+	 * - ne fait rien si pRepDestinationPath == null.<br/>
+	 * - crée pRepDestinationPath et son ascendance 
+	 * si il n'existe pas sur le disque.<br/>
+	 * <br/>
+	 *
+	 * @param pContenuMap : Map&lt;Path, Boolean&gt;.<br/>
+	 * @param pRepDestinationPath : Path.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void copierContenuVersDestination(
+			final Map<Path, Boolean> pContenuMap
+				, final Path pRepDestinationPath) 
+							throws Exception {
+		
+		/* ne fait rien si pContenuMap == null. */
+		if (pContenuMap == null) {
+			return;
+		}
+		
+		/* ne fait rien si pRepDestinationPath == null. */
+		if (pRepDestinationPath == null) {
+			return;
+		}
+		
+		/* crée pRepDestinationPath et son ascendance 
+		 * si il n'existe pas sur le disque. */
+		if (!pRepDestinationPath.toFile().exists()) {	
+			Files.createDirectories(pRepDestinationPath);				
+		}
+		
+		// Boucle sur tous les Paths RELATIFS de la Map.
+		final Set<Entry<Path, Boolean>> entrySet 
+			= pContenuMap.entrySet();
+		
+		final Iterator<Entry<Path, Boolean>> ite 
+			= entrySet.iterator();
+				
+		while (ite.hasNext()) {
+			
+			final Entry<Path, Boolean> entry = ite.next();
+			final Path path = entry.getKey();
+			final Boolean isDirectory = entry.getValue();
+			
+			if (path != null) {
+							
+				/* calcule le path ABSOLU de chaque File à copier 
+				 * dans le répertoire destination. */
+				final Path pathFileACopier 
+					= pRepDestinationPath.resolve(path);
+				
+				final File fileACopier = pathFileACopier.toFile();
+				
+				/* ne copie le File à copier que si il n'est 
+				 * pas déjà existant dans le répertoire destination. */
+				if (!fileACopier.exists()) {
+					
+					/* crée un répertoire si le path relatif 
+					 * pointait sur un répertoire à l'origine. */
+					if (isDirectory) {
+						
+						System.out.println("REPERTOIRE A CREER *** : " + pathFileACopier);
+						Files.createDirectories(pathFileACopier);
+					
+					/* crée un fichier simple si le path relatif 
+					 * pointait sur un fichier simple à l'origine. */
+					} else {
+						
+						System.out.println("FICHIER A CREER : " + pathFileACopier);
+						
+						final Path fileACopierParentPath 
+							= pathFileACopier.getParent();
+				
+						if (fileACopierParentPath != null) {
+							if (!fileACopierParentPath.toFile().exists()) {
+								Files.createDirectories(fileACopierParentPath);
+							}
+						}
+
+						Files.createFile(pathFileACopier);
+						
+					}	
+					
+				} // Fin de File existant._______
+				
+			} // Fin de if (path != null).___________
+			
+		} // Fin de la boucle._________________________
+		
+	} // Fin de copierContenuVersDestination(...)._________________________
+	
+	
 	
 	/**
 	 * <b>fournit le PATH RELATIF de pPathEnfant 
@@ -304,6 +455,61 @@ public class CopieurContenuRepertoireService
 		return stb.toString();
 		
 	} // Fin de afficherListPaths(...).____________________________________
+	
+
+	
+	/**
+	 * <b>fournit une String pour l'affichage 
+	 * d'une Map&lt;Path, Boolean&gt;</b>.<br/>
+	 * - retourne null si pMap == null.<br/>
+	 * <br/>
+	 *
+	 * @param pMap : Map&lt;Path, Boolean&gt;.<br/>
+	 * 
+	 * @return : String : pour affichage.<br/>
+	 */
+	public String afficherMapPathsBoolean(
+			final Map<Path, Boolean> pMap) {
+		
+		/* retourne null si pMap == null. */
+		if (pMap == null) {
+			return null;
+		}
+		
+		/* trie la map sur les keys. */
+		final SortedMap<Path, Boolean> mapTriee 
+			= new TreeMap<Path, Boolean>(pMap);
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		final Set<Entry<Path, Boolean>> entrySet = mapTriee.entrySet();
+		
+		final Iterator<Entry<Path, Boolean>> ite = entrySet.iterator();
+		
+		while (ite.hasNext()) {
+
+			final Entry<Path, Boolean> entry = ite.next();
+			final Path path = entry.getKey();
+			final Boolean isDirectory = entry.getValue();
+
+			if (path != null) {
+
+				final String string 
+				= String.format(
+						Locale.getDefault()
+						, "PATH : %1$-100s      REPERTOIRE ? : %2$-10s",
+						path, isDirectory);
+
+				stb.append(string);
+				stb.append(System.getProperty(LINE_SEPARATOR));
+
+			}
+
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherMapPathsBoolean(...).______________________________
 	
 	
 	
