@@ -13,6 +13,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.model.services.utilitaires.arboresceurprojet.ArboresceurProjetCible;
+import levy.daniel.application.model.services.utilitaires.copieurcontenurepertoire.ICopieurContenuRepertoireService;
+import levy.daniel.application.model.services.utilitaires.copieurcontenurepertoire.impl.CopieurContenuRepertoireService;
 import levy.daniel.application.model.services.utilitaires.ecriveurpackageinfo.IEcriveurPackageInfoService;
 import levy.daniel.application.model.services.utilitaires.ecriveurpackageinfo.impl.EcriveurPackageInfoService;
 import levy.daniel.application.model.services.utilitaires.generateurprojet.IGenerateurProjetService;
@@ -96,6 +98,13 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		= new EcriveurPackageInfoService();
 
 	/**
+	 * Service chargé de recopier tout le contenu 
+	 * sous un répertoire ORIGINE.
+	 */
+	private final transient ICopieurContenuRepertoireService copieurService 
+		= new CopieurContenuRepertoireService();
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -118,7 +127,7 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 	 */
 	@Override
 	public void generer(
-			final Path pProjetCiblePath) throws IOException {
+			final Path pProjetCiblePath) throws Exception {
 		
 		this.generer(pProjetCiblePath, null);
 		
@@ -132,7 +141,7 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 	@Override
 	public void generer(
 			final Path pProjetCiblePath
-				, final String pGroupId) throws IOException {
+				, final String pGroupId) throws Exception {
 		
 		/* ne fait rien si pProjetCiblePath == null. */
 		if (pProjetCiblePath == null) {
@@ -187,7 +196,21 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		
 		/* écrit tous les package-info sur disque. */
 		this.ecriveurPackageInfoService
-			.genererPackageInfo(arborescenceMainProjetCibleMap, projetCiblePath);
+			.genererPackageInfo(
+					arborescenceMainProjetCibleMap, projetCiblePath);
+		
+		/* écrit tout le contenu du REPERTOIRE ORIGINE 
+		 * javadoc du présent projet 
+		 * sur disque sous le même répertoire SOUS LE PROJET CIBLE. */
+		final Path pathJavadoc 
+			= Paths.get("./javadoc").toAbsolutePath().normalize();
+		
+		final File repOrigineJavadoc = pathJavadoc.toFile();
+		
+		final Path repDestinationPath = pProjetCiblePath.resolve("javadoc");
+		
+		this.copieurService.copierContenu(
+				repOrigineJavadoc, repDestinationPath);
 		
 	} // Fin de generer(...).______________________________________________
 	

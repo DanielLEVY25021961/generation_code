@@ -2,7 +2,6 @@ package levy.daniel.application.model.services.utilitaires.generateurprojet.impl
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -83,10 +82,10 @@ public class GenerateurProjetServiceTest {
 	 * <ul>
 	 * <li></li>
 	 * </ul>
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
 	@Test
-	public void testGenerer() throws IOException {
+	public void testGenerer() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -99,6 +98,11 @@ public class GenerateurProjetServiceTest {
 		}
 		
 		final Path projetCiblePath = Paths.get("D:/Donnees/eclipse/eclipseworkspace/test_generation");
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("PROJET CIBLE : " + projetCiblePath);
+		}
 		
 		final IGenerateurProjetService generateur = new GenerateurProjetService();
 		

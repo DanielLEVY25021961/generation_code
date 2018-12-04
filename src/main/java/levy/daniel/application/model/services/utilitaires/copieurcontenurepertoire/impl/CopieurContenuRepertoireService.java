@@ -175,7 +175,8 @@ public class CopieurContenuRepertoireService
 
 		/* copie le contenu sous le répertoire pRacineOrigine 
 		 * sous le répertoire pDestinationPath. */
-		this.copierContenuVersDestination(contenuMap, pRepDestinationPath);
+		this.copierContenuVersDestination(
+				contenuMap, pRepDestinationPath, pRacineOrigine);
 		
 	} // Fin de copierContenu(...).________________________________________
 	
@@ -241,7 +242,9 @@ public class CopieurContenuRepertoireService
 			return null;
 		}
 
-		final Path originePath = pRacineOrigine.toPath();
+		final Path originePath 
+			= pRacineOrigine.toPath()
+				.toAbsolutePath().normalize();
 
 		/* retourne la liste des Paths RELATIFS 
 		 * des Files sous originePath. */
@@ -297,12 +300,14 @@ public class CopieurContenuRepertoireService
 	 *
 	 * @param pContenuMap : Map&lt;Path, Boolean&gt;.<br/>
 	 * @param pRepDestinationPath : Path.<br/>
+	 * @param pRacineOrigine : File : racine origine.<br/>
 	 * 
 	 * @throws Exception
 	 */
 	private void copierContenuVersDestination(
 			final Map<Path, Boolean> pContenuMap
-				, final Path pRepDestinationPath) 
+				, final Path pRepDestinationPath
+					, final File pRacineOrigine) 
 							throws Exception {
 		
 		/* ne fait rien si pContenuMap == null. */
@@ -314,13 +319,7 @@ public class CopieurContenuRepertoireService
 		if (pRepDestinationPath == null) {
 			return;
 		}
-		
-		/* crée pRepDestinationPath et son ascendance 
-		 * si il n'existe pas sur le disque. */
-		if (!pRepDestinationPath.toFile().exists()) {	
-			Files.createDirectories(pRepDestinationPath);				
-		}
-		
+				
 		// Boucle sur tous les Paths RELATIFS de la Map.
 		final Set<Entry<Path, Boolean>> entrySet 
 			= pContenuMap.entrySet();
@@ -331,15 +330,16 @@ public class CopieurContenuRepertoireService
 		while (ite.hasNext()) {
 			
 			final Entry<Path, Boolean> entry = ite.next();
-			final Path path = entry.getKey();
+			final Path pathRelatif = entry.getKey();
 			final Boolean isDirectory = entry.getValue();
 			
-			if (path != null) {
+			if (pathRelatif != null) {
 							
 				/* calcule le path ABSOLU de chaque File à copier 
 				 * dans le répertoire destination. */
 				final Path pathFileACopier 
-					= pRepDestinationPath.resolve(path);
+					= pRepDestinationPath.resolve(pathRelatif)
+						.toAbsolutePath().normalize();
 				
 				final File fileACopier = pathFileACopier.toFile();
 				
@@ -349,6 +349,8 @@ public class CopieurContenuRepertoireService
 					
 					/* crée un répertoire si le path relatif 
 					 * pointait sur un répertoire à l'origine. */
+					/* crée pRepDestinationPath et son ascendance 
+					 * si il n'existe pas sur le disque. */
 					if (isDirectory) {
 						
 						Files.createDirectories(pathFileACopier);
@@ -366,7 +368,15 @@ public class CopieurContenuRepertoireService
 							}
 						}
 
-						Files.createFile(pathFileACopier);
+						final Path pathOrigine 
+							= pRacineOrigine.toPath()
+								.toAbsolutePath().normalize();
+						
+						final Path fichierOriginePath 
+							= pathOrigine.resolve(pathRelatif)
+								.toAbsolutePath().normalize();
+						
+						Files.copy(fichierOriginePath, pathFileACopier);
 						
 					}	
 					

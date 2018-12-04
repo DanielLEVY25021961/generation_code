@@ -89,45 +89,48 @@ public class EcriveurPackageInfoService implements IEcriveurPackageInfoService {
 	@Override
 	public void genererPackageInfo(
 			final Map<String, Path> pArboMain
-				, final Path projetCiblePath) throws IOException {
-		
+			, final Path projetCiblePath) throws IOException {
+
 		/* ne fait rien si pArboMain == null. */
 		if (pArboMain == null) {
 			return;
 		}
-		
+
 		final Set<Entry<String, Path>> entrySet = pArboMain.entrySet();
-		
+
 		final Iterator<Entry<String, Path>> ite = entrySet.iterator();
-		
+
 		while (ite.hasNext()) {
-			
+
 			final Entry<String, Path> entry = ite.next();
 			final Path pathDansProjetCible = entry.getValue();
-			
+
 			if (pathDansProjetCible != null) {
-				
+
 				final Path pathFichierDestination 
-					= pathDansProjetCible.resolve("package-info.java");
-			
-				final File packageInfoACopier = 
-					fournirFichierACopier(
+					= pathDansProjetCible.resolve("package-info.java")
+						.toAbsolutePath().normalize();
+
+				final File packageInfoACopier 
+					= fournirFichierACopier(
 							pathDansProjetCible, projetCiblePath);
-				
+
 				if (packageInfoACopier != null) {
-					
-					if (!packageInfoACopier.exists()) {
-						
+
+					try {
+
 						Files.copy(
 								packageInfoACopier.toPath()
-									, pathFichierDestination
-										, StandardCopyOption.REPLACE_EXISTING);
-						
-					}					
+								, pathFichierDestination
+								, StandardCopyOption.REPLACE_EXISTING);
+
+					} catch (Exception e) {
+						continue;
+					}
 				}
-			}			
+			}
 		}
-		
+
 	} // Fin de genererPackageInfo(...).___________________________________
 	
 
@@ -177,12 +180,14 @@ public class EcriveurPackageInfoService implements IEcriveurPackageInfoService {
 		/* path absolu du répertoire dans le présent projet contenant 
 		 * le package-info correspondant à pPathDansProjetCible. */
 		final Path pathAbsoluRepFichierACopier 
-			= this.fournirPathAbsoluDansPresentProjet(pathRelatif);
+			= this.fournirPathAbsoluDansPresentProjet(pathRelatif)
+				.toAbsolutePath().normalize();
 		
 		/* path absolu package-info dans le présent projet 
 		 * correspondant à pPathDansProjetCible. */
 		final Path pathAbsoluFichierACopier 
-			= pathAbsoluRepFichierACopier.resolve("package-info.java");
+			= pathAbsoluRepFichierACopier.resolve("package-info.java")
+				.toAbsolutePath().normalize();
 		
 		final File fichierACopier = pathAbsoluFichierACopier.toFile();
 		
@@ -253,7 +258,8 @@ public class EcriveurPackageInfoService implements IEcriveurPackageInfoService {
 	private Path fournirPathAbsoluPresentProjet() {
 		
 		final Path pathAbsoluPresentProjet 
-			= Paths.get(".").toAbsolutePath();
+			= Paths.get(".")
+				.toAbsolutePath().normalize();
 		
 		return pathAbsoluPresentProjet;
 		
@@ -275,7 +281,8 @@ public class EcriveurPackageInfoService implements IEcriveurPackageInfoService {
 		
 		final Path pathAbsoluDansPresentProjet 
 			= this.fournirPathAbsoluPresentProjet()
-				.resolve(pPathRelatif);
+				.resolve(pPathRelatif)
+					.toAbsolutePath().normalize();
 		
 		return pathAbsoluDansPresentProjet;
 		

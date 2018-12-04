@@ -1,6 +1,5 @@
 package levy.daniel.application.model.services.utilitaires.generateurprojet;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -101,9 +100,9 @@ public interface IGenerateurProjetService {
 	 * path du projet cible dans lequel générer 
 	 * une infrastructure de projet.<br/>
 	 * 
-	 * @throws IOException
+	 * @throws Exception
 	 */
-	void generer(Path pProjetCiblePath) throws IOException;
+	void generer(Path pProjetCiblePath) throws Exception;
 
 	
 	
@@ -131,10 +130,10 @@ public interface IGenerateurProjetService {
 	 * GroupId par défaut GROUPID_PAR_DEFAUT dans 
 	 * ArboresceurProjetCible si pGroupId est blank.<br/>
 	 * 
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
 	void generer(Path pProjetCiblePath, String pGroupId) 
-											throws IOException;
+											throws Exception;
 
 	
 	
