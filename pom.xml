@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+			http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
          <!-- ================================================== -->
@@ -22,6 +23,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	<!-- domaine (espace de nom) appelé GROUPE (G) dans Maven 		-->
 	<groupId>levy.daniel.application</groupId>
 	<!-- Nom du projet appelé artifactId (A) dans Maven 			-->
+	<!-- artifactId == nom du projet ECLIPSE 						-->
 	<artifactId>generation_code</artifactId>
 	<!-- Version Bêta de développement (SNAPSHOT) 					-->
 	<!--non incrémentée dans Maven 									-->	
@@ -67,7 +69,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<!-- Encodage pourle Reporting (site web) -->
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- version de java du projet -->
+		<java.version>1.8</java.version>
 		
+		<!-- Ne plante pas en cas d'absence de Web XML (projet SPRING) 	-->		
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		
 
@@ -75,47 +80,57 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- 		VERSIONS DES COMPOSANTS DANS LES DEPENDANCES		-->
 		<!-- ========================================================== -->
 		<!-- 				Version de SPRING 							-->
-		<spring.version>5.0.1.RELEASE</spring.version>
+		<spring.version>5.1.3.RELEASE</spring.version>
 		<!-- 				Version d'HIBERNATE 						-->
-		<hibernate.version>5.2.11.Final</hibernate.version>
+		<hibernate.version>5.3.7.Final</hibernate.version>
 		<!-- 			Version hibernate-jpa-2.1-api				    -->
-		<hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
+		<hibernate-jpa-2.1-api.version>1.0.2.Final</hibernate-jpa-2.1-api.version>
 		<!-- 			Version validation-api						    -->
-		<validation-api.version>2.0.0.Final</validation-api.version>
+		<validation-api.version>2.0.1.Final</validation-api.version>
 		<!-- 			Version d'HIBERNATE VALIDATOR				    -->
-		<hibernate.validator>6.0.2.Final</hibernate.validator>
+		<hibernate.validator>6.0.13.Final</hibernate.validator>
+
 		<!-- 			Version du POOL DE CONNEXION c3p0	 			-->
 		<c3p0.version>0.9.5.2</c3p0.version>
+
 		<!-- 					Version de JSTL						 	-->
 		<jstl.version>1.2</jstl.version>
 		<!-- 			Version des Taglibs JSTL 						-->
 		<taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
+
 		<!-- 				Version de Servlet 							-->
 		<servlets.version>3.1.0</servlets.version>
 		<!-- 		Version de javax.servlet.jsp-api				    -->
-		<javax.servlet.jsp-api.version>2.3.2-b02</javax.servlet.jsp-api.version>
-		<!--				Version de JSP							    -->
-		<jsp.version>2.2.1-b03</jsp.version>
+		<javax.servlet.jsp-api.version>2.3.3</javax.servlet.jsp-api.version>
+
 		<!-- 				Version Driver BD Postgresql			    -->
-		<postgresql.version>42.1.4</postgresql.version>
+		<postgresql.version>42.2.5</postgresql.version>
 		<!-- 				Version Driver BD MySQL						-->
-		<mysql-connector-java.version>8.0.8-dmr</mysql-connector-java.version>
+		<mysql-connector-java.version>8.0.13</mysql-connector-java.version>
 		<!-- 				Version de BD HSQLDB						-->
-		<hsqldb.version>2.4.0</hsqldb.version>
-		<!-- 				Version de commons-lang					    -->
-		<commons-lang.version>2.6</commons-lang.version>
+		<hsqldb.version>2.4.1</hsqldb.version>
+		<!-- 				Version de BD H2							-->
+		<h2.version>1.4.197</h2.version>
+
 		<!-- 				Version de commons-lang3				    -->
-		<commons-lang3.version>3.6</commons-lang3.version>
+		<commons-lang3.version>3.8.1</commons-lang3.version>
+		<!-- 				Version de commons-io				    	-->
+		<commons-io.version>1.3.2</commons-io.version>
+		<!-- 				Version de commons-fileupload		    	-->
+		<commons-fileupload.version>1.3.2</commons-fileupload.version>
 		<!--  				Version de commons-text						-->
-		<commons-text.version>1.2</commons-text.version>
+		<commons-text.version>1.6</commons-text.version>
 		<!-- 				Version de commons-logging				    -->
 		<commons-logging.version>1.2</commons-logging.version>
+
 		<!-- 				Version de log4j						    -->
 		<log4j.version>1.2.17</log4j.version>
 		<!-- 				Version de log4j-core					    -->
 		<log4j-core.version>2.9.1</log4j-core.version>
+
 		<!-- 				Version de junit						    -->
 		<junit.version>4.12</junit.version>
+
 		<!-- 				Version de joda-time					    -->
 		<joda-time.version>2.9.9</joda-time.version>
 		<!-- 				Version de joda-time-hibernate			    -->
@@ -198,6 +213,20 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <version>${commons-lang3.version}</version>
 		    <scope>compile</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-io -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>${commons-io.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>${commons-fileupload.version}</version>
+		    <scope>compile</scope>
+		</dependency>		
 		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 		<dependency>
 			<groupId>commons-logging</groupId>

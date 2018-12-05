@@ -204,6 +204,12 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		 * sur disque sous le même répertoire SOUS LE PROJET CIBLE. */
 		this.recopierContenuOrigineDansCibleIdentique(
 				"javadoc", pProjetCiblePath);
+		
+		/* écrit tout le contenu du REPERTOIRE ORIGINE 
+		 * apptechnic du présent projet 
+		 * sur disque sous le même répertoire SOUS LE PROJET CIBLE. */
+		this.recopierContenuOrigineDansCibleIdentique(
+				"src/main/java/levy/daniel/application/apptechnic", pProjetCiblePath);
 				
 	} // Fin de generer(...).______________________________________________
 	
