@@ -202,19 +202,79 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		/* écrit tout le contenu du REPERTOIRE ORIGINE 
 		 * javadoc du présent projet 
 		 * sur disque sous le même répertoire SOUS LE PROJET CIBLE. */
-		final Path pathJavadoc 
-			= Paths.get("./javadoc").toAbsolutePath().normalize();
-		
-		final File repOrigineJavadoc = pathJavadoc.toFile();
-		
-		final Path repDestinationPath = pProjetCiblePath.resolve("javadoc");
-		
-		this.copieurService.copierContenu(
-				repOrigineJavadoc, repDestinationPath);
-		
+		this.recopierContenuOrigineDansCibleIdentique(
+				"javadoc", pProjetCiblePath);
+				
 	} // Fin de generer(...).______________________________________________
 	
 
+	
+	/**
+	 * <b>recopie tout le contenu de <code>projetCourant/pString</code> 
+	 * sous <code>projetCible/pString</code></b>.<br/>
+	 * <ul>
+	 * <li>Par exemple : <br/>
+	 * <code>recopierContenuOrigineDansCibleIdentique(
+	 * "javadoc/images", Paths.get("D:/Donnees/eclipse/
+	 * eclipseworkspace/test_generation"))</code> 
+	 * recopie tout le contenu de D:\Donnees\eclipse\
+	 * eclipseworkspace_neon\generation_code\
+	 * javadoc\images dans 
+	 * D:\Donnees\eclipse\
+	 * eclipseworkspace\test_generation\
+	 * javadoc\images
+	 * </li>
+	 * <li>le répertoire résultat dans le projet cible 
+	 * <b>a le même nom</b> et la <b>même position relative</b> 
+	 * que le répertoire ORIGINE dans le présent projet.</li>
+	 * </ul>
+	 * - ne fait rien si pString est blank.<br/>
+	 * - ne fait rien si pProjetCiblePath == null.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * chemin relatif (par rapport au projet courant) 
+	 * de la racine ORIGINE à recopier en respectant 
+	 * la même arborescence dans le projet cible.<br/> 
+	 * <b>Ne pas commencer pString par un slash</b>. 
+	 * Par exemple : "javadoc/images".<br/>
+	 * @param pProjetCiblePath : Path : chemin du projet cible.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void recopierContenuOrigineDansCibleIdentique(
+			final String pString
+				, final Path pProjetCiblePath) throws Exception {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		/* ne fait rien si pProjetCiblePath == null. */
+		if (pProjetCiblePath == null) {
+			return;
+		}
+		
+		/* Récupère le path absolu du présent projet. */
+		final Path pathAbsoluPresentProjet 
+			= Paths.get(".").toAbsolutePath().normalize();
+		
+		final Path pathAbsoluARecopier 
+			= pathAbsoluPresentProjet.resolve(pString);
+		
+		final File repOrigineARecopier = pathAbsoluARecopier.toFile();
+		
+		final Path repDestinationPath 
+			= pProjetCiblePath.resolve(pString)
+				.toAbsolutePath().normalize();
+		
+		this.copieurService.copierContenu(
+				repOrigineARecopier, repDestinationPath);
+		
+	} // Fin de recopierContenuOrigineDansCibleIdentique(...)._____________
+	
+	
 	
 	/**
 	 * <b>écrit sur disque l'ensemble de 

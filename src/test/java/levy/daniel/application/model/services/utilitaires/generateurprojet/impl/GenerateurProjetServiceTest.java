@@ -97,7 +97,7 @@ public class GenerateurProjetServiceTest {
 			System.out.println("********** CLASSE GenerateurProjetServiceTest - méthode testGenerer() ********** ");
 		}
 		
-		final Path projetCiblePath = Paths.get("D:/Donnees/eclipse/eclipseworkspace/test_generation");
+		final Path projetCiblePath = Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/test_generation");
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -112,6 +112,22 @@ public class GenerateurProjetServiceTest {
 		
 	} // Fin de testGenerer()._____________________________________________
 
-	
 
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 *
+	 * @throws Exception : void :  .<br/>
+	 */
+	@Test
+	public void testBidon() throws Exception {
+		
+
+		
+		assertTrue(BIDON, 1 == 1);
+		
+	}
+	
 } // FIN DE LA CLASSE GenerateurProjetServiceTest.---------------------------
