@@ -9,7 +9,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.generationcode.ecriveurs.model.metier.AbstractEcriveurMetier;
 
 /**

@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.configurationmanagers;
+package levy.daniel.application.apptechnic.configurationmanagers.gestionnairespaths;
 
 import java.io.File;
 import java.io.IOException;

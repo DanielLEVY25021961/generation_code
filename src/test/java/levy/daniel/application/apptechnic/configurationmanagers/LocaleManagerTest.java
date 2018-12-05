@@ -1,12 +1,16 @@
 package levy.daniel.application.apptechnic.configurationmanagers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
+
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnaireslocale.LocaleManager;
 
 
 /**

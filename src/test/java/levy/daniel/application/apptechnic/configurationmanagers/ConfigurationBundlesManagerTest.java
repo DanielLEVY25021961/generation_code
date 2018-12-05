@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.ConfigurationBundlesManager;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.BundleManquantRunTimeException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.CleManquanteRunTimeException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.CleNullRunTimeException;

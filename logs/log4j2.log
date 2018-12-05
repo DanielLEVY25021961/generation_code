@@ -1,8 +1,8 @@
-2018-janvier-04 17:46:19 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getPathWorkspace() - La clé : 'workspace.home' est introuvable dans configuration_projet_fr_FR.properties
+2018-janvier-04 17:46:19 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getPathWorkspace() - La clé : 'workspace.home' est introuvable dans configuration_projet_fr_FR.properties
 java.util.MissingResourceException: Can't find resource for bundle java.util.PropertyResourceBundle, key workspace.home
 	at java.util.ResourceBundle.getObject(ResourceBundle.java:450) ~[?:1.8.0_144]
 	at java.util.ResourceBundle.getString(ResourceBundle.java:407) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager.getPathWorkspace(BundleConfigurationProjetManager.java:425) [classes/:?]
+	at levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager.getPathWorkspace(BundleConfigurationProjetManager.java:425) [classes/:?]
 	at levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManagerTest.testGetPathWorkspace(BundleConfigurationProjetManagerTest.java:302) [test-classes/:?]
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_144]
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_144]
@@ -27,14 +27,14 @@ java.util.MissingResourceException: Can't find resource for bundle java.util.Pro
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678) [.cp/:?]
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382) [.cp/:?]
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192) [.cp/:?]
-2018-janvier-04 17:47:49 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getBundleInterne(String pNomBaseProperties, Locale pLocale) - Le fichier 'configuration_projet_fr_FR.properties' est introuvable. Il devrait se trouver juste sous la racine des binaires /bin
+2018-janvier-04 17:47:49 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getBundleInterne(String pNomBaseProperties, Locale pLocale) - Le fichier 'configuration_projet_fr_FR.properties' est introuvable. Il devrait se trouver juste sous la racine des binaires /bin
 java.util.MissingResourceException: Can't find bundle for base name configuration_projet, locale fr_FR
 	at java.util.ResourceBundle.throwMissingResourceException(ResourceBundle.java:1564) ~[?:1.8.0_144]
 	at java.util.ResourceBundle.getBundleImpl(ResourceBundle.java:1387) ~[?:1.8.0_144]
 	at java.util.ResourceBundle.getBundle(ResourceBundle.java:845) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager.getBundleInterne(BundleConfigurationProjetManager.java:356) [classes/:?]
-	at levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager.getBundleConfigurationProjet(BundleConfigurationProjetManager.java:272) [classes/:?]
-	at levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager.getPathWorkspace(BundleConfigurationProjetManager.java:419) [classes/:?]
+	at levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager.getBundleInterne(BundleConfigurationProjetManager.java:356) [classes/:?]
+	at levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager.getBundleConfigurationProjet(BundleConfigurationProjetManager.java:272) [classes/:?]
+	at levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager.getPathWorkspace(BundleConfigurationProjetManager.java:419) [classes/:?]
 	at levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManagerTest.testGetPathWorkspace(BundleConfigurationProjetManagerTest.java:302) [test-classes/:?]
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_144]
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_144]
@@ -59,13 +59,13 @@ java.util.MissingResourceException: Can't find bundle for base name configuratio
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678) [.cp/:?]
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382) [.cp/:?]
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192) [.cp/:?]
-2018-janvier-04 17:51:23 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getPathWorkspace() - Pas de valeur indiquée pour la clé 'workspace.home' dans configuration_projet_fr_FR.properties
-2018-janvier-04 18:34:33 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getNomProjet() - Pas de valeur indiquée pour la clé 'projet.nom' dans configuration_projet_fr_FR.properties
-2018-janvier-04 18:34:59 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getNomProjet() - La clé : 'projet.nom' est introuvable dans configuration_projet_fr_FR.properties
+2018-janvier-04 17:51:23 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getPathWorkspace() - Pas de valeur indiquée pour la clé 'workspace.home' dans configuration_projet_fr_FR.properties
+2018-janvier-04 18:34:33 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getNomProjet() - Pas de valeur indiquée pour la clé 'projet.nom' dans configuration_projet_fr_FR.properties
+2018-janvier-04 18:34:59 [main] FATAL levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager - Classe BundleConfigurationProjetManager - Méthode getNomProjet() - La clé : 'projet.nom' est introuvable dans configuration_projet_fr_FR.properties
 java.util.MissingResourceException: Can't find resource for bundle java.util.PropertyResourceBundle, key projet.nom
 	at java.util.ResourceBundle.getObject(ResourceBundle.java:450) ~[?:1.8.0_144]
 	at java.util.ResourceBundle.getString(ResourceBundle.java:407) ~[?:1.8.0_144]
-	at levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager.getNomProjet(BundleConfigurationProjetManager.java:518) [classes/:?]
+	at levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager.getNomProjet(BundleConfigurationProjetManager.java:518) [classes/:?]
 	at levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManagerTest.testGetNomProjet(BundleConfigurationProjetManagerTest.java:495) [test-classes/:?]
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_144]
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_144]

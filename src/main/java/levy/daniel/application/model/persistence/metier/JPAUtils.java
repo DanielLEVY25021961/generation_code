@@ -22,7 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.IConstantesApplicatives;
-import levy.daniel.application.apptechnic.configurationmanagers.ManagerPaths;
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnairespaths.ManagerPaths;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
 import levy.daniel.application.model.persistence.daoexceptions.technical.impl.DaoDoublonException;
 
