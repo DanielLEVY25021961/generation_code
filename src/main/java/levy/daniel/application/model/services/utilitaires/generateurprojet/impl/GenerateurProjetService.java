@@ -205,12 +205,12 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		this.recopierContenuOrigineDansCibleIdentique(
 				"javadoc", pProjetCiblePath);
 		
-		/* écrit tout le contenu du REPERTOIRE ORIGINE 
+		/* écrit tout le contenu du PACKAGE ORIGINE 
 		 * apptechnic du présent projet 
-		 * sur disque sous le même répertoire SOUS LE PROJET CIBLE. */
-		this.recopierContenuOrigineDansCibleIdentique(
-				"src/main/java/levy/daniel/application/apptechnic", pProjetCiblePath);
-				
+		 * sur disque sous le même PACKAGE SOUS LE PROJET CIBLE. */
+		this.recopierContenuPackageOrigineDansCibleIdentique(
+				"apptechnic", pProjetCiblePath);
+		
 	} // Fin de generer(...).______________________________________________
 	
 
@@ -223,12 +223,12 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 	 * <code>recopierContenuOrigineDansCibleIdentique(
 	 * "javadoc/images", Paths.get("D:/Donnees/eclipse/
 	 * eclipseworkspace/test_generation"))</code> 
-	 * recopie tout le contenu de D:\Donnees\eclipse\
-	 * eclipseworkspace_neon\generation_code\
-	 * javadoc\images dans 
-	 * D:\Donnees\eclipse\
-	 * eclipseworkspace\test_generation\
-	 * javadoc\images
+	 * recopie tout le contenu de D:/Donnees/eclipse/
+	 * eclipseworkspace_neon/generation_code/
+	 * javadoc/images dans 
+	 * D:/Donnees/eclipse/
+	 * eclipseworkspace/test_generation/
+	 * javadoc/images
 	 * </li>
 	 * <li>le répertoire résultat dans le projet cible 
 	 * <b>a le même nom</b> et la <b>même position relative</b> 
@@ -279,6 +279,84 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 				repOrigineARecopier, repDestinationPath);
 		
 	} // Fin de recopierContenuOrigineDansCibleIdentique(...)._____________
+	
+
+	
+	/**
+	 * <b>recopie tout le contenu d'un 
+	 * <code>PACKAGE projetCourant/racineSources/pString</code> 
+	 * sous <code>projetCible/racineSources/pString</code></b>.<br/>
+	 * <ul>
+	 * <li>Par exemple : <br/>
+	 * <code>recopierContenuPackageOrigineDansCibleIdentique(
+	 * "apptechnic", Paths.get("D:/Donnees/eclipse/
+	 * eclipseworkspace/test_generation"))</code> 
+	 * recopie tout le contenu de D:/Donnees/eclipse/
+	 * eclipseworkspace_neon/generation_code/
+	 * src/main/java/${groupId}/apptechnic dans 
+	 * D:/Donnees/eclipse/
+	 * eclipseworkspace/test_generation/
+	 * src/main/java/${groupId}/apptechnic
+	 * </li>
+	 * <li>le PACKAGE résultat dans le projet cible 
+	 * <b>a le même nom</b> et la <b>même position relative 
+	 * (même groupId dans le projet cible)</b> 
+	 * que le répertoire ORIGINE dans le présent projet.</li>
+	 * </ul>
+	 * - ne fait rien si pString est blank.<br/>
+	 * - ne fait rien si pProjetCiblePath == null.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * chemin relatif (par rapport au projet courant) 
+	 * de la racine ORIGINE à recopier en respectant 
+	 * la même arborescence dans le projet cible.<br/> 
+	 * <b>Ne pas commencer pString par un slash</b>. 
+	 * Par exemple : "apptechnic".<br/>
+	 * @param pProjetCiblePath : Path : chemin du projet cible.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void recopierContenuPackageOrigineDansCibleIdentique(
+			final String pString
+				, final Path pProjetCiblePath) throws Exception {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		/* ne fait rien si pProjetCiblePath == null. */
+		if (pProjetCiblePath == null) {
+			return;
+		}
+		
+		/* Récupère le path absolu du présent projet. */
+		final Path pathAbsoluPresentProjet 
+			= Paths.get(".").toAbsolutePath().normalize();
+		
+		/* ajoute src/main/java/${groupId} au path du présent projet. */
+		final Path pathAbsoluRacineSourcesPresentProjet 
+			= pathAbsoluPresentProjet.resolve(
+					ArboresceurProjetCible.SRC_MAIN_JAVA_PATH_RELATIF)
+				.resolve(ArboresceurProjetCible.getGroupIdPathRelatif());
+		
+		final Path pathAbsoluARecopier 
+			= pathAbsoluRacineSourcesPresentProjet.resolve(pString);
+		
+		final File repOrigineARecopier = pathAbsoluARecopier.toFile();
+		
+		final Path pathAbsoluRacineDestination 
+			= ArboresceurProjetCible.getRacineSourcesJavaPath();
+		
+		final Path repDestinationPath 
+			= pathAbsoluRacineDestination.resolve(pString)
+				.toAbsolutePath().normalize();
+		
+		this.copieurService.copierContenu(
+				repOrigineARecopier, repDestinationPath);
+		
+	} // Fin de recopierContenuPackageOrigineDansCibleIdentique(...).______
 	
 	
 	
