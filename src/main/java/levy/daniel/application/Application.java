@@ -11,13 +11,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.apptechnic.generationcode.AbstractGenerateur;
-import levy.daniel.application.apptechnic.generationcode.GestionnaireProjet;
-import levy.daniel.application.apptechnic.generationcode.IGenerateur;
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationdao.GenerateurDaoToutAbstract;
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationtests.GenerateurDaoTest;
-import levy.daniel.application.apptechnic.generationcode.generationfichiersjava.generationtests.GenerateurMetierTest;
+import levy.daniel.application.model.services.metier.generationcode.AbstractGenerateur;
+import levy.daniel.application.model.services.metier.generationcode.GestionnaireProjet;
+import levy.daniel.application.model.services.metier.generationcode.IGenerateur;
+import levy.daniel.application.model.services.metier.generationcode.generationfichiersjava.generationdao.GenerateurDaoToutAbstract;
+import levy.daniel.application.model.services.metier.generationcode.generationfichiersjava.generationmetier.generationobjetmetiersimple.GenerateurMetierToutAbstract;
+import levy.daniel.application.model.services.metier.generationcode.generationfichiersjava.generationtests.GenerateurDaoTest;
+import levy.daniel.application.model.services.metier.generationcode.generationfichiersjava.generationtests.GenerateurMetierTest;
 
 /**
  * class Application :<br/>
