@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +77,7 @@ import levy.daniel.application.model.services.utilitaires.generateurprojet.IGene
  * obtenir Path à partir de String, Paths.get(String), <br/>
  * génération arborescence dans projet cible,<br/>
  * generation arborescence dans projet cible,<br/>
+ * path ABSOLU du présent projet Eclipse, path absolu présent projet, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -211,6 +213,21 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		this.recopierContenuPackageOrigineDansCibleIdentique(
 				"apptechnic", pProjetCiblePath);
 		
+
+		/* écrit tout le FICHIER SOURCE 
+		 * ConfigurationApplicationManager.java du présent projet 
+		 * sur disque sous le même PACKAGE SOUS LE PROJET CIBLE. */
+		this.recopierFichierSourceOrigineDansCibleIdentique(
+				"ConfigurationApplicationManager.java"
+					, pProjetCiblePath);
+
+		/* écrit tout le FICHIER SOURCE 
+		 * IConstantesApplicatives.java du présent projet 
+		 * sur disque sous le même PACKAGE SOUS LE PROJET CIBLE. */
+		this.recopierFichierSourceOrigineDansCibleIdentique(
+				"IConstantesApplicatives.java"
+					, pProjetCiblePath);
+
 	} // Fin de generer(...).______________________________________________
 	
 
@@ -236,6 +253,8 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 	 * </ul>
 	 * - ne fait rien si pString est blank.<br/>
 	 * - ne fait rien si pProjetCiblePath == null.<br/>
+	 * - ne fait rien si pProjetCiblePath/+pString n'existe pas 
+	 * ou n'est pas le bon type de File.<br/>
 	 * <br/>
 	 *
 	 * @param pString : String : 
@@ -264,17 +283,37 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		
 		/* Récupère le path absolu du présent projet. */
 		final Path pathAbsoluPresentProjet 
-			= Paths.get(".").toAbsolutePath().normalize();
+			= this.founirPathAbsoluPresentProjet();
 		
+		/* Calcule le path ABSOLU du répertoire 
+		 * dans le présent projet à recopier. */
+		// A METTRE DANS LES RESSOURCES. 
 		final Path pathAbsoluARecopier 
 			= pathAbsoluPresentProjet.resolve(pString);
 		
 		final File repOrigineARecopier = pathAbsoluARecopier.toFile();
 		
-		final Path repDestinationPath 
-			= pProjetCiblePath.resolve(pString)
-				.toAbsolutePath().normalize();
+		/* traite la non-existence du répertoire à copier. */
+		if (!repOrigineARecopier.exists() 
+				|| !repOrigineARecopier.isDirectory()) {
+			
+			final String message 
+				= "LE REPERTOIRE A COPIER N'EXISTE PAS DANS lE PROJET ORIGINE : " 
+						+ repOrigineARecopier.getAbsolutePath();
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+			
+			return;
+		}
 		
+		/* calcule le path ABSOLU du répertoire cible.*/
+		final Path repDestinationPath 
+			= this.founirPathAbsoluRepertoireCible(
+					pProjetCiblePath, pString);
+		
+		// RECOPIE SUR DISQUE.
 		this.copieurService.copierContenu(
 				repOrigineARecopier, repDestinationPath);
 		
@@ -287,6 +326,8 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 	 * <code>PACKAGE projetCourant/racineSources/pString</code> 
 	 * sous <code>projetCible/racineSources/pString</code></b>.<br/>
 	 * <ul>
+	 * <li>évite d'avoir à saisir src/main/java/${groupId} 
+	 * dans pString.</li>
 	 * <li>Par exemple : <br/>
 	 * <code>recopierContenuPackageOrigineDansCibleIdentique(
 	 * "apptechnic", Paths.get("D:/Donnees/eclipse/
@@ -305,10 +346,13 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 	 * </ul>
 	 * - ne fait rien si pString est blank.<br/>
 	 * - ne fait rien si pProjetCiblePath == null.<br/>
+	 * - ne fait rien si pProjetCiblePath/+pString n'existe pas 
+	 * ou n'est pas le bon type de File.<br/>
 	 * <br/>
 	 *
 	 * @param pString : String : 
-	 * chemin relatif (par rapport au projet courant) 
+	 * chemin relatif 
+	 * (par rapport à la racine des sources du projet courant) 
 	 * de la racine ORIGINE à recopier en respectant 
 	 * la même arborescence dans le projet cible.<br/> 
 	 * <b>Ne pas commencer pString par un slash</b>. 
@@ -333,7 +377,7 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		
 		/* Récupère le path absolu du présent projet. */
 		final Path pathAbsoluPresentProjet 
-			= Paths.get(".").toAbsolutePath().normalize();
+			= this.founirPathAbsoluPresentProjet();
 		
 		/* ajoute src/main/java/${groupId} au path du présent projet. */
 		final Path pathAbsoluRacineSourcesPresentProjet 
@@ -341,24 +385,321 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 					ArboresceurProjetCible.SRC_MAIN_JAVA_PATH_RELATIF)
 				.resolve(ArboresceurProjetCible.getGroupIdPathRelatif());
 		
+		/* Calcule le path ABSOLU du PACKAGE 
+		 * dans le présent projet à recopier. */
+		// A METTRE DANS LES RESSOURCES. 
 		final Path pathAbsoluARecopier 
 			= pathAbsoluRacineSourcesPresentProjet.resolve(pString);
 		
 		final File repOrigineARecopier = pathAbsoluARecopier.toFile();
 		
+		/* traite la non-existence du PACKAGE à copier. */
+		if (!repOrigineARecopier.exists() 
+				|| !repOrigineARecopier.isDirectory()) {
+			
+			final String message 
+				= "LE PACKAGE A COPIER N'EXISTE PAS DANS lE PROJET ORIGINE : " 
+						+ repOrigineARecopier.getAbsolutePath();
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+			
+			return;
+		}
+
+		/* récupère la racine des sources dans le projet cible. */
 		final Path pathAbsoluRacineDestination 
 			= ArboresceurProjetCible.getRacineSourcesJavaPath();
 		
+		/* calcule le path ABSOLU du Package cible.*/
 		final Path repDestinationPath 
 			= pathAbsoluRacineDestination.resolve(pString)
 				.toAbsolutePath().normalize();
 		
+		// RECOPIE SUR DISQUE.
 		this.copieurService.copierContenu(
 				repOrigineARecopier, repDestinationPath);
 		
 	} // Fin de recopierContenuPackageOrigineDansCibleIdentique(...).______
 	
+
 	
+	/**
+	 * <b>recopie un <code>FICHIER projetCourant/pString</code> 
+	 * sous <code>projetCible/pString</code></b>.<br/>
+	 * <ul>
+	 * <li><b>ne recopie le fichier origine que 
+	 * si il n'existe pas déjà dans le projet cible</b>.</li>
+	 * <li>utilise <code>Files.copy(...)</code></li>
+	 * <li>Par exemple : <br/>
+	 * <code>recopierFichierOrigineDansCibleIdentique(
+	 * "javadoc/images/abstract_ids_insee.png"
+	 * , Paths.get("D:/Donnees/eclipse/
+	 * eclipseworkspace/test_generation"))</code> 
+	 * recopie le FICHIER D:/Donnees/eclipse/
+	 * eclipseworkspace_neon/generation_code/
+	 * javadoc/images/abstract_ids_insee.png dans 
+	 * D:/Donnees/eclipse/
+	 * eclipseworkspace/test_generation/
+	 * javadoc/images/abstract_ids_insee.png
+	 * </li>
+	 * <li>le FICHIER résultat dans le projet cible 
+	 * <b>a le même nom</b> et la <b>même position relative</b> 
+	 * que le FICHIER ORIGINE dans le présent projet.</li>
+	 * </ul>
+	 * - ne fait rien si pString est blank.<br/>
+	 * - ne fait rien si pProjetCiblePath == null.<br/>
+	 * - ne fait rien si pProjetCiblePath/+pString n'existe pas 
+	 * ou n'est pas le bon type de File.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * chemin relatif (par rapport au projet courant) 
+	 * du FICHIER ORIGINE à recopier en respectant 
+	 * la même arborescence dans le projet cible.<br/> 
+	 * <b>Ne pas commencer pString par un slash</b>. 
+	 * Par exemple : "javadoc/images/abstract_ids_insee.png".<br/>
+	 * @param pProjetCiblePath : Path : chemin du projet cible.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void recopierFichierOrigineDansCibleIdentique(
+			final String pString
+				, final Path pProjetCiblePath) throws Exception {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		/* ne fait rien si pProjetCiblePath == null. */
+		if (pProjetCiblePath == null) {
+			return;
+		}
+		
+		/* Récupère le path absolu du présent projet. */
+		final Path pathAbsoluPresentProjet 
+			= this.founirPathAbsoluPresentProjet();
+		
+		/* Calcule le path ABSOLU du FICHIER 
+		 * dans le présent projet à recopier. */
+		// A METTRE DANS LES RESSOURCES. 
+		final Path pathAbsoluARecopier 
+			= pathAbsoluPresentProjet.resolve(pString);
+		
+		final File fileOrigineARecopier = pathAbsoluARecopier.toFile();
+		
+		/* traite la non-existence du FICHIER à copier. */
+		if (!fileOrigineARecopier.exists() || !fileOrigineARecopier.isFile()) {
+			
+			final String message 
+				= "LE FICHIER A COPIER N'EXISTE PAS DANS LE PROJET ORIGINE : " 
+						+ fileOrigineARecopier.getAbsolutePath();
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+			
+			return;
+		}
+		
+		/* calcule le path ABSOLU du fichier cible.*/
+		final Path fileDestinationPath 
+			= this.founirPathAbsoluRepertoireCible(
+					pProjetCiblePath, pString);
+		
+		// RECOPIE DU FICHIER SUR DISQUE.
+		if (!fileDestinationPath.toFile().exists()) {
+			this.copierFichierEtAscendanceSurDisque(
+					pathAbsoluARecopier, fileDestinationPath);
+		}
+		
+	} // Fin de recopierFichierOrigineDansCibleIdentique(...)._____________
+	
+	
+	
+	/**
+	 * <b>recopie un 
+	 * <code>FICHIER SOURCE projetCourant/racineSources/pString</code> 
+	 * sous <code>projetCible/racineSources/pString</code></b>.<br/>
+	 * <ul>
+	 * <li>évite d'avoir à saisir src/main/java/${groupId} 
+	 * dans pString.</li>
+	 * <li><b>ne recopie le FICHIER SOURCE origine que 
+	 * si il n'existe pas déjà dans le projet cible</b>.</li>
+	 * <li>utilise <code>Files.copy(...)</code></li>
+	 * <li>Par exemple : <br/>
+	 * <code>recopierFichierSourceOrigineDansCibleIdentique(
+	 * "ConfigurationApplicationManager.java", Paths.get("D:/Donnees/eclipse/
+	 * eclipseworkspace/test_generation"))</code> 
+	 * recopie le FICHIER SOURCE D:/Donnees/eclipse/
+	 * eclipseworkspace_neon/generation_code/
+	 * src/main/java/${groupId}/ConfigurationApplicationManager.java dans 
+	 * D:/Donnees/eclipse/
+	 * eclipseworkspace/test_generation/
+	 * src/main/java/${groupId}/ConfigurationApplicationManager.java
+	 * </li>
+	 * <li>le FICHIER SOURCE résultat dans le projet cible 
+	 * <b>a le même nom</b> et la <b>même position relative 
+	 * (même groupId dans le projet cible)</b> 
+	 * que le FICHIER SOURCE ORIGINE dans le présent projet.</li>
+	 * </ul>
+	 * - ne fait rien si pString est blank.<br/>
+	 * - ne fait rien si pProjetCiblePath == null.<br/>
+	 * - ne fait rien si pProjetCiblePath/+pString n'existe pas 
+	 * ou n'est pas le bon type de File.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * chemin relatif 
+	 * (par rapport à la racine des sources du projet courant) 
+	 * du FICHIER SOURCE ORIGINE à recopier en respectant 
+	 * la même arborescence dans le projet cible.<br/> 
+	 * <b>Ne pas commencer pString par un slash</b>. 
+	 * Par exemple : "ConfigurationApplicationManager.java".<br/>
+	 * @param pProjetCiblePath : Path : chemin du projet cible.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void recopierFichierSourceOrigineDansCibleIdentique(
+			final String pString
+				, final Path pProjetCiblePath) throws Exception {
+		
+		/* ne fait rien si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return;
+		}
+		
+		/* ne fait rien si pProjetCiblePath == null. */
+		if (pProjetCiblePath == null) {
+			return;
+		}
+		
+		/* Récupère le path absolu du présent projet. */
+		final Path pathAbsoluPresentProjet 
+			= this.founirPathAbsoluPresentProjet();
+		
+		/* ajoute src/main/java/${groupId} au path du présent projet. */
+		final Path pathAbsoluRacineSourcesPresentProjet 
+			= pathAbsoluPresentProjet.resolve(
+					ArboresceurProjetCible.SRC_MAIN_JAVA_PATH_RELATIF)
+				.resolve(ArboresceurProjetCible.getGroupIdPathRelatif());
+		
+		/* Calcule le path ABSOLU du FICHIER SOURCE
+		 * dans le présent projet à recopier. */
+		// A METTRE DANS LES RESSOURCES. 
+		final Path pathAbsoluARecopier 
+			= pathAbsoluRacineSourcesPresentProjet.resolve(pString);
+		
+		final File fileOrigineARecopier = pathAbsoluARecopier.toFile();
+		
+		/* traite la non-existence du FICHIER à copier. */
+		if (!fileOrigineARecopier.exists() || !fileOrigineARecopier.isFile()) {
+			
+			final String message 
+				= "LE FICHIER A COPIER N'EXISTE PAS DANS LE PROJET ORIGINE : " 
+						+ fileOrigineARecopier.getAbsolutePath();
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+			
+			return;
+		}
+		
+		/* récupère la racine des sources dans le projet cible. */
+		final Path pathAbsoluRacineDestination 
+			= ArboresceurProjetCible.getRacineSourcesJavaPath();
+		
+		/* calcule le path ABSOLU du FICHIER SOURCE cible.*/
+		final Path fileDestinationPath 
+			= pathAbsoluRacineDestination.resolve(pString)
+				.toAbsolutePath().normalize();
+		
+		// RECOPIE DU FICHIER SUR DISQUE.
+		if (!fileDestinationPath.toFile().exists()) {
+			this.copierFichierEtAscendanceSurDisque(
+					pathAbsoluARecopier, fileDestinationPath);
+		}
+			
+	}
+	
+
+	
+	/**
+	 * <b>recopie sur disque le fichier situé à 
+	 * pPathAbsoluAFichierARecopier à la destination
+	 *  pPathAbsoluFichierDestination</b>.<br/>
+	 * <ul>
+	 * <li><b>crée l'ascendance de pPathAbsoluFichierDestination</b> 
+	 * si elle n'existe pas déjà.</li>
+	 * <li><b>Remplace le fichier destination si il est déjà existant</b>.</li>
+	 * </ul>
+	 * - ne fait rien si pPathAbsoluAFichierARecopier == null.<br/>
+	 * - ne fait rien si pPathAbsoluAFichierARecopier 
+	 * n'existe pas.<br/>
+	 * - ne fait rien si pPathAbsoluAFichierARecopier 
+	 * n'est pas un fichier simple.<br/>
+	 * - ne fait rien si pPathAbsoluFichierDestination == null.<br/>
+	 * <br/>
+	 *
+	 * @param pPathAbsoluAFichierARecopier : Path : 
+	 * Path absolu du fichier à recopier (ORIGINE).<br/>
+	 * @param pPathAbsoluFichierDestination : Path : 
+	 * Path absolu de la DESTINATION du fichier à recopier.<br/>
+	 * @throws Exception 
+	 */
+	private void copierFichierEtAscendanceSurDisque(
+			final Path pPathAbsoluAFichierARecopier
+				, final Path pPathAbsoluFichierDestination) throws Exception {
+		
+		/* ne fait rien si pPathAbsoluAFichierARecopier == null. */
+		if (pPathAbsoluAFichierARecopier == null) {
+			return;
+		}
+		
+		final File fichierARecopier 
+			= pPathAbsoluAFichierARecopier.toFile();
+		
+		/* ne fait rien si pPathAbsoluAFichierARecopier 
+		 * n'existe pas. */
+		if (!fichierARecopier.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pPathAbsoluAFichierARecopier 
+		 * n'est pas un fichier simple. */
+		if (!fichierARecopier.isFile()) {
+			return;
+		}
+		
+		/* ne fait rien si pPathAbsoluFichierDestination == null. */
+		if (pPathAbsoluFichierDestination == null) {
+			return;
+		}
+		
+		/* récupération du parent de la destination. */
+		final Path pathAbsoluFichierDestinationParent 
+			= pPathAbsoluFichierDestination.getParent();
+		
+		if (pathAbsoluFichierDestinationParent != null) {
+			
+			/* crée l'ascendance de pPathAbsoluFichierDestination si elle n'existe pas déjà. */
+			if (!pathAbsoluFichierDestinationParent.toFile().exists()) {
+				Files.createDirectories(pathAbsoluFichierDestinationParent);
+			}
+		}
+		
+		/* recopie le fichier */
+		Files.copy(
+				pPathAbsoluAFichierARecopier
+					, pPathAbsoluFichierDestination
+						, StandardCopyOption.REPLACE_EXISTING);
+		
+	} // Fin de copierFichierEtAscendanceSurDisque(...).___________________
+	
+
 	
 	/**
 	 * <b>écrit sur disque l'ensemble de 
@@ -404,6 +745,52 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		
 	} // Fin de ecrireSurDisque(...).______________________________________
 
+
+	
+	/**
+	 * <b>fournit le path ABSOLU du présent projet Eclipse</b>.<br/>
+	 *
+	 * @return : Path : 
+	 * path ABSOLU du présent projet Eclipse.<br/>
+	 */
+	private Path founirPathAbsoluPresentProjet() {
+		
+		final Path pathAbsoluPresentProjet 
+		= Paths.get(".").toAbsolutePath().normalize();
+		
+		return pathAbsoluPresentProjet;
+		
+	} // Fin de founirPathAbsoluPresentProjet().___________________________
+	
+
+	
+	/**
+	 * <b>fournit le path ABSOLU du répertoire cible</b> 
+	 * situé à pProjetCiblePath/ + pString.<br/>
+	 * <ul>
+	 * <li>utilise <code>pProjetCiblePath.resolve(pString)</code>.</li>
+	 * </ul>
+	 *
+	 * @param pProjetCiblePath : Path : 
+	 * Path absolu du projet cible.<br/>
+	 * @param pString : String : 
+	 * chemin relatif du répertoire cible 
+	 * par rapport à pProjetCiblePath.<br/>
+	 * 
+	 * @return : Path : 
+	 * Path absolu du répertoire cible.<br/>
+	 */
+	private Path founirPathAbsoluRepertoireCible(
+				final Path pProjetCiblePath, final String pString) {
+		
+		final Path repDestinationPath 
+			= pProjetCiblePath.resolve(pString)
+				.toAbsolutePath().normalize();
+		
+		return repDestinationPath;
+		
+	} // Fin de founirPathAbsoluRepertoireCible(...).______________________
+	
 	
 	
 	/**
