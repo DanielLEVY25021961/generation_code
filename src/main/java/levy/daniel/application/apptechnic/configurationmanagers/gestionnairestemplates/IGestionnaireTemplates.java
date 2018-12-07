@@ -56,6 +56,8 @@ import java.util.List;
  */
 public interface IGestionnaireTemplates {
 
+	
+	
 	/**
 	 * <b>Lit un template situé à 
 	 * <code>cheminAbsoluMainResources/pCheminRelatifTemplate</code> 

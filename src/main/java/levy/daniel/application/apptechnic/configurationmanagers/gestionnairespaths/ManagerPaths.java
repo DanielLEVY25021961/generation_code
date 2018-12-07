@@ -165,7 +165,19 @@ public final class ManagerPaths {
 	 * </ul>
 	 */
 	private static String nomPresentProjet;
+
 	
+	/**
+	 * <b>path absolu de src/main/resources 
+	 * dans le présent projet</b>.<br/>
+	 * <ul>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * generation_code/src/main/resources</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static Path pathAbsoluSrcMainResourcesPresentProjet;
 	
 	/**
 	 * LOG : Log : 
@@ -463,6 +475,42 @@ public final class ManagerPaths {
 		} //Fin de synchronized. ________________________________
 		
 	} // Fin de getNomPresentProjet()._____________________________________
+
+
+	
+	/**
+	 * Getter du <b>path absolu de src/main/resources</b> 
+	 * dans le présent projet.<br/>
+	 * <ul>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * generation_code/src/main/resources</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathAbsoluSrcMainResourcesPresentProjet : Path : 
+	 * this.pathAbsoluSrcMainResourcesPresentProjet.<br/>
+	 */
+	public static Path getPathAbsoluSrcMainResourcesPresentProjet() {
+		
+		synchronized (ManagerPaths.class) {
+			
+			if (pathAbsoluSrcMainResourcesPresentProjet == null) {
+				
+				final Path pathAbsoluPresentProjet 
+					= Paths.get(".").toAbsolutePath().normalize();
+				
+				pathAbsoluSrcMainResourcesPresentProjet 
+					= pathAbsoluPresentProjet.resolve(
+							"src/main/resources");
+			}
+			
+			return pathAbsoluSrcMainResourcesPresentProjet
+								.toAbsolutePath().normalize();
+			
+		} //Fin de synchronized. ________________________________
+		
+	} // Fin de getPathAbsoluSrcMainResourcesPresentProjet().______________
 
 
 

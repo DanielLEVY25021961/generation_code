@@ -12,7 +12,7 @@
  * <img src="../../../../../../../../../javadoc/images/gestionnairestemplates/gestion_templates.png" 
  * alt="Gestion des templates" border="1" align="center" />
  * <br/><br/>
- * <br/>
+ * 
  *
  * - Exemple d'utilisation :<br/>
  * <code><i>// chemin relatif du template par rapport aux ressources 
