@@ -18,7 +18,10 @@ import levy.daniel.application.model.services.utilitaires.copieurcontenurepertoi
 import levy.daniel.application.model.services.utilitaires.copieurcontenurepertoire.impl.CopieurContenuRepertoireService;
 import levy.daniel.application.model.services.utilitaires.ecriveurpackageinfo.IEcriveurPackageInfoService;
 import levy.daniel.application.model.services.utilitaires.ecriveurpackageinfo.impl.EcriveurPackageInfoService;
+import levy.daniel.application.model.services.utilitaires.generateurpomxml.IGenerateurPOMTemplateService;
+import levy.daniel.application.model.services.utilitaires.generateurpomxml.impl.GenerateurPOMTemplateService;
 import levy.daniel.application.model.services.utilitaires.generateurprojet.IGenerateurProjetService;
+import levy.daniel.application.model.services.utilitaires.managerpaths.ManagerPaths;
 
 /**
  * CLASSE GenerateurProjetService :<br/>
@@ -107,6 +110,13 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		= new CopieurContenuRepertoireService();
 	
 	/**
+	 * Service chargé de générer un POM 
+	 * sous le projet cible.
+	 */
+	private final transient  IGenerateurPOMTemplateService pomService 
+		= new GenerateurPOMTemplateService();
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -128,7 +138,7 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void generer(
+	public final void generer(
 			final Path pProjetCiblePath) throws Exception {
 		
 		this.generer(pProjetCiblePath, null);
@@ -141,7 +151,7 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void generer(
+	public final void generer(
 			final Path pProjetCiblePath
 				, final String pGroupId) throws Exception {
 		
@@ -228,9 +238,56 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 				"IConstantesApplicatives.java"
 					, pProjetCiblePath);
 
+		// GENERE LE POM.
+		final Path pathAbsoluTemplate 
+			= ManagerPaths.getPathAbsoluSrcMainResourcesPresentProjet()
+				.resolve("templates/pom/pom-template.txt");
+		
+		final String groupIdJava
+			= "levy.daniel.application";
+		
+		final String nomProjet 
+			= ArboresceurProjetCible.getProjetCibleNom();
+		
+		final String version = "0.0.1-SNAPSOT";
+		
+		final String typeProjet = "jar";
+		
+		final String[] substituants 
+			= new String[] {groupIdJava, nomProjet, version, typeProjet};
+		
+		this.pomService.genererPOMAPartirTemplate(
+				pathAbsoluTemplate, pProjetCiblePath, substituants);
+		
 	} // Fin de generer(...).______________________________________________
 	
 
+		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String afficherArborescence(
+			final List<Path> pArborescence) {
+
+		/* retourne null si pArborescence == null. */
+		if (pArborescence == null) {
+			return null;
+		}
+		final StringBuilder stb = new StringBuilder();
+
+		for (final Path path : pArborescence) {
+			if (path != null) {
+				stb.append(path.toString());
+				stb.append(System.getProperty("line.separator"));
+			}
+		}
+
+		return stb.toString();
+
+	} // Fin de afficherArborescence(...)._________________________________
+	
+	
 	
 	/**
 	 * <b>recopie tout le contenu de <code>projetCourant/pString</code> 
@@ -791,32 +848,6 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		
 	} // Fin de founirPathAbsoluRepertoireCible(...).______________________
 	
+
 	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String afficherArborescence(
-			final List<Path> pArborescence) {
-
-		/* retourne null si pArborescence == null. */
-		if (pArborescence == null) {
-			return null;
-		}
-		final StringBuilder stb = new StringBuilder();
-
-		for (final Path path : pArborescence) {
-			if (path != null) {
-				stb.append(path.toString());
-				stb.append(System.getProperty("line.separator"));
-			}
-		}
-
-		return stb.toString();
-
-	} // Fin de afficherArborescence(...)._________________________________
-	
-	
-
 } // FIN DE LA CLASSE GenerateurProjetService.-------------------------------

@@ -3,6 +3,7 @@ package levy.daniel.application.model.services.utilitaires.generateurpomxml.impl
 import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -105,9 +106,13 @@ public class GenerateurPOMTemplateServiceTest {
 			= ManagerPaths.getPathAbsoluSrcMainResourcesPresentProjet()
 				.resolve("templates/pom/pom-template.txt");
 		
+		final Path projetCiblePath 
+			= Paths.get("D:/Donnees/eclipse/eclipseworkspace/test_generation");
+		
 		final String[] substituants = new String[] {"levy.daniel.application", "test_generation", "0.0.1-SNAPSOT", "jar"};
 		
-		generateur.genererPOMAPartirTemplate(pathAbsoluTemplate, substituants);
+		generateur.genererPOMAPartirTemplate(
+				pathAbsoluTemplate, projetCiblePath, substituants);
 		
 		assertTrue(BIDON, 1 == 1);
 

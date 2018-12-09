@@ -396,7 +396,41 @@ public class GestionnaireTemplatesService
 	} // Fin de lireTemplate(...)._________________________________________
 	
 		
+	/**
+	 * method afficherListeString(
+	 * List&lt;String&gt; pListe) :<br/>
+	 * Fabrique une String à partir d'une List&lt;String&gt;.<br/>
+	 * <br/>
+	 * - Retourne null si pListe est null.<br/>
+	 * <br/>
+	 *
+	 * @param pListe : List&lt;String&gt; : liste de lignes.
+	 * 
+	 * @return : String : Pour affichage à la console.<br/>
+	 */
+	public final String afficherListeString(
+			final List<String> pListe) {
+		
+		/* Retourne null si pListe est null. */
+		if (pListe == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		for (final String ligne : pListe) {
+			
+			stb.append(ligne);
+			stb.append(NEWLINE);
+			
+		}
+		
+		return stb.toString();
+			
+	} // Fin de afficherListeString(
+	 // List<String> pListe).______________________________________________
 	
+
 	/**
 	 * <b>Substitue une valeur à une variable dans chaque ligne 
 	 * d'une liste correspondant à un template</b>.<br/>
