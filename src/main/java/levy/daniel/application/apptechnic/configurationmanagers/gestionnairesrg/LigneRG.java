@@ -738,7 +738,7 @@ static {
 	 */
 //	@Transient
 	@Override
-	public String getEnTeteCsv() {
+	public String fournirEnTeteCsv() {
 		
 		return "id;Actif;activité des contrôles sur l'attribut;"
 				+ "activité de la RG;RG implémentée;clé du type de contrôle;"
@@ -765,7 +765,7 @@ static {
 	 * avec séparateur ';'.<br/>
 	 */
 	@Override
-	public String toStringCsv() {
+	public String fournirStringCsv() {
 		
 		final StringBuilder builder = new StringBuilder();
 		
@@ -815,7 +815,7 @@ static {
 	 */
 //	@Transient
 	@Override
-	public String getEnTeteColonne(
+	public String fournirEnTeteColonne(
 			final int pI) {
 		
 		String entete = null;
@@ -901,7 +901,7 @@ static {
 	 */
 //	@Transient
 	@Override
-	public Object getValeurColonne(
+	public Object fournirValeurColonne(
 			final int pI) {
 			
 		Object valeur = null;

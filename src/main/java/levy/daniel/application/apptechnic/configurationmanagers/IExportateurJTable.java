@@ -1,9 +1,10 @@
 package levy.daniel.application.apptechnic.configurationmanagers;
 
 /**
- * class IExportateurJTable :<br/>
+ * INTERFACE <b>IExportateurJTable</b> :<br/>
  * Interface qui garantit que tous les objets qui 
- * l'implémentent pourront être exportés dans des JTable.<br/>
+ * l'implémentent pourront être exportés dans des <b>JTable 
+ * (Swing)</b>.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -22,14 +23,13 @@ package levy.daniel.application.apptechnic.configurationmanagers;
  *
  */
 public interface IExportateurJTable {
+
+
 	
-		
 	/**
-	* method getEnTeteColonne(
-	* int pI) :<br/>
+	* Fournit l'<b>en-tête de la pIème colonne (0-based) 
+	* pour affichage dans une JTable</b> par exemple.<br/>
 	* <ul>
-	* <li>Fournit l'en-tête de la pIème colonne (0-based) 
-	* pour affichage dans une JTable par exemple.</li>
 	* <li>Suit l'ordre défini dans le csv.</li>
 	* </ul>
 	*
@@ -37,18 +37,17 @@ public interface IExportateurJTable {
 	* 
 	* @return : String : En-tête de la pIème colonne (0 - based).<br/>
 	*/
-	String getEnTeteColonne(int pI);
-	
-	
-	
+	String fournirEnTeteColonne(int pI);
+
+
+
 	/**
-	* method getValeurColonne(
-	* int pI) :<br/>
+	* Fournit la <b>valeur de la pIème colonne (0-based) 
+	* pour affichage dans une JTable</b> par exemple.<br/>
 	* <ul>
-	* <li>Fournit la valeur de la pIème colonne (0-based) 
-	* pour affichage dans une JTable par exemple.</li>
 	* <li>Suit l'ordre défini dans le csv.</li>
-	* <li>Retourne toujours une <b>String</b> si l'objet n'est pas null.</li>
+	* <li>Retourne toujours une <b>String</b> si l'objet 
+	* n'est pas null.</li>
 	* <li>Retourne null si la valeur dans l'objet est null.</li>
 	* </ul>
 	*
@@ -56,8 +55,8 @@ public interface IExportateurJTable {
 	* 
 	* @return : Object : valeur de la pIème colonne (0 - based).<br/>
 	*/
-	Object getValeurColonne(int pI);
-	
-	
-	
+	Object fournirValeurColonne(int pI);
+
+
+
 } // FIN DE L'INTERFACE IExportateurJTable.----------------------------------

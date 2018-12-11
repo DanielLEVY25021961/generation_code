@@ -392,7 +392,7 @@ static {
 				final Entry<String, LigneRG> entry = ite.next();
 				final LigneRG ligneRG = entry.getValue();
 				
-				stb.append(ligneRG.toStringCsv());
+				stb.append(ligneRG.fournirStringCsv());
 				
 				if (compteur < nbreEntry) {
 					stb.append(SAUT_LIGNE);

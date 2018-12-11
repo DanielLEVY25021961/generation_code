@@ -658,7 +658,7 @@ public abstract class AbstractServicesGenericJPASpring<T, ID extends Serializabl
 		final StringBuilder stb = new StringBuilder();
 		
 		for (final LigneRG ligneRGCsv : this.listeRGImplementees) {
-			stb.append(ligneRGCsv.toStringCsv());
+			stb.append(ligneRGCsv.fournirStringCsv());
 			stb.append('\n');
 		}
 				

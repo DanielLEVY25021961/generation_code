@@ -64,6 +64,17 @@ import levy.daniel.application.model.metier.IExportateurJTable;
  * </ul>
  * 
  * <p>
+ * <span style="text-decoration: underline;">COMPARAISON</span>
+ * </p>
+ * <ul>
+ * <li>La <b>comparaison</b> d'un IDeveloppeur est réalisée sur :</li>
+  * <ol>
+ * <li><b>nom</b></li>
+ * <li><b>anneesExperience</b></li>
+ * </ol>
+ * </ul>
+ * 
+ * <p>
  * <span style="text-decoration: underline;">DIAGRAMME DE CLASSES D'IMPLEMENTATION</span>
  * </p>
  * <ul>

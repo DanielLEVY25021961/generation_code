@@ -314,7 +314,7 @@ public abstract class AbstractValideurGeneric<T>
 		Collections.sort(this.listeRGImplementees, comparatorLigneRG);
 		
 		for (final LigneRG ligneRGCsv : this.listeRGImplementees) {
-			stb.append(ligneRGCsv.toStringCsv());
+			stb.append(ligneRGCsv.fournirStringCsv());
 			stb.append('\n');
 		}
 				

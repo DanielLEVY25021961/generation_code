@@ -57,8 +57,9 @@ public interface IEcriveurPackageInfoService {
 	/**
 	 * <b>génère tous les package-info</b> dans la branche <b>main</b> 
 	 * (pas de package-info dans les tests) 
-	 * d'une arboresence dans un projet cible 
+	 * d'une arborescence dans un projet cible 
 	 * fournie par un GenerateurProjetService.<br/>
+	 * <br/>
 	 * - ne fait rien si pArboMain == null.<br/>
 	 * <br/>
 	 *

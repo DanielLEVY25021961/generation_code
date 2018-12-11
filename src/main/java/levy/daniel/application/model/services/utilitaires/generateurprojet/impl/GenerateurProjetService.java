@@ -203,13 +203,12 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 			
 		}
 		
-		/* écrit l'arborescence sur disque. */
-		this.ecrireSurDisque(arborescence);
+		/* génère l'arborescence dans le projet cible sur disque. */
+		this.genererArborescenceDansProjetCible(arborescence);
 		
-		/* écrit tous les package-info sur disque. */
-		this.ecriveurPackageInfoService
-			.genererPackageInfo(
-					arborescenceMainProjetCibleMap, projetCiblePath);
+		/* génère tous les package-info dans le projet cible sur disque. */
+		this.genererPackagesInfoDansProjetCible(
+				arborescenceMainProjetCibleMap, projetCiblePath);
 		
 		/* écrit tout le contenu du REPERTOIRE ORIGINE 
 		 * javadoc du présent projet 
@@ -286,6 +285,64 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		return stb.toString();
 
 	} // Fin de afficherArborescence(...)._________________________________
+	
+	
+	
+	/**
+	 * <b>écrit sur disque dans le projet cible l'ensemble de 
+	 * l'arborescence d'infrastructure pArborescence</b>.<br/>
+	 * <ul>
+	 * <li><b>ne crée jamais de doublons.</b></li>
+	 * <li>crée chaque répertoire et son ascendance si nécessaire.</li>
+	 * </ul>
+	 * - ne fait rien si pArborescence == null.<br/>
+	 * - ne crée pas un élément de l'arborescence 
+	 * si il est déjà existant sur disque.<br/>
+	 * <br/>
+	 *
+	 * @param pArborescence : List&lt;Path&gt;.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void genererArborescenceDansProjetCible(
+							final List<Path> pArborescence) 
+										throws Exception {
+		
+		/* ne fait rien si pArborescence == null. */
+		if (pArborescence == null) {
+			return;
+		}
+		
+		this.ecrireSurDisque(pArborescence);
+		
+	} // Fin de genererArborescenceDansProjetCible(...).___________________
+	
+
+	
+	/**
+	 * <b>génère tous les package-info</b> dans la branche <b>main</b> 
+	 * (pas de package-info dans les tests) 
+	 * d'une arborescence dans un projet cible 
+	 * fournie par un GenerateurProjetService.<br/>
+	 * <br/>
+	 * - ne fait rien si pArborescenceMainProjetCibleMap == null.<br/>
+	 * <br/>
+	 *
+	 * @param pArborescenceMainProjetCibleMap : Map&lt;String, Path&gt; : 
+	 * arborescence de la branche main du projet cible.<br/>
+	 * @param pProjetCiblePath : Path : Path du projet cible.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void genererPackagesInfoDansProjetCible(
+			final Map<String, Path> pArborescenceMainProjetCibleMap
+				, final Path pProjetCiblePath) 
+										throws Exception {
+		this.ecriveurPackageInfoService
+		.genererPackageInfo(
+				pArborescenceMainProjetCibleMap, pProjetCiblePath);
+		
+	} // Fin de genererPackagesInfoDansProjetCible(...).___________________
 	
 	
 	
