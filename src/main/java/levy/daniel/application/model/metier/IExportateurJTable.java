@@ -25,50 +25,37 @@ package levy.daniel.application.model.metier;
 public interface IExportateurJTable {
 
 
+	
 	/**
-	* method getEnTeteColonne(
-	* int pI) :<br/>
+	* Fournit l'<b>en-tête de la pIème colonne (0-based) 
+	* pour affichage dans une JTable</b> par exemple.<br/>
 	* <ul>
-	* <li>Fournit l'en-tête de la pIème colonne (0-based) 
-	* pour affichage dans une JTable par exemple.</li>
 	* <li>Suit l'ordre défini dans le csv.</li>
-	* <li>doit être <b>transient</b> (Java ou JPA) 
-	 * car n'est pas persisté.<br/>
-	 * Or, commençant par <i>"get"</i>, les frameworks 
-	 * (Hibernate, Spring, ...) 
-	 * croiront qu'il s'agit d'une propriété persistante.</li>
 	* </ul>
 	*
 	* @param pI : int : pIème colonne (0 - based).<br/>
 	* 
 	* @return : String : En-tête de la pIème colonne (0 - based).<br/>
 	*/
-	String getEnTeteColonne(int pI);
+	String fournirEnTeteColonne(int pI);
 
 
 
 	/**
-	* method getValeurColonne(
-	* int pI) :<br/>
+	* Fournit la <b>valeur de la pIème colonne (0-based) 
+	* pour affichage dans une JTable</b> par exemple.<br/>
 	* <ul>
-	* <li>Fournit la valeur de la pIème colonne (0-based) 
-	* pour affichage dans une JTable par exemple.</li>
 	* <li>Suit l'ordre défini dans le csv.</li>
 	* <li>Retourne toujours une <b>String</b> si l'objet 
 	* n'est pas null.</li>
 	* <li>Retourne null si la valeur dans l'objet est null.</li>
-	* <li>doit être <b>transient</b> (Java ou JPA) 
-	 * car n'est pas persisté.<br/>
-	 * Or, commençant par <i>"get"</i>, les frameworks 
-	 * (Hibernate, Spring, ...) 
-	 * croiront qu'il s'agit d'une propriété persistante.</li>
 	* </ul>
 	*
 	* @param pI : int : pIème colonne (0 - based).<br/>
 	* 
 	* @return : Object : valeur de la pIème colonne (0 - based).<br/>
 	*/
-	Object getValeurColonne(int pI);
+	Object fournirValeurColonne(int pI);
 
 
 

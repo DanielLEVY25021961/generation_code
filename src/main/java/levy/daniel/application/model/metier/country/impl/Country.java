@@ -537,7 +537,7 @@ public class Country implements ICountry {
 	 * <br/>
 	 */
 	@Override
-	public String getEnTeteCsv() {
+	public String fournirEnTeteCsv() {
 		return "id;name;capital;";
 	} // Fin de getEnTeteCsv().____________________________________________
 
@@ -551,7 +551,7 @@ public class Country implements ICountry {
 	 * <br/>
 	 */
 	@Override
-	public String toStringCsv() {
+	public String fournirStringCsv() {
 
 		final StringBuilder stb = new StringBuilder();
 
@@ -581,7 +581,7 @@ public class Country implements ICountry {
 	 * <br/>
 	 */
 	@Override
-	public String getEnTeteColonne(
+	public String fournirEnTeteColonne(
 			final int pI) {
 
 		String entete = null;
@@ -620,7 +620,7 @@ public class Country implements ICountry {
 	 * <br/>
 	 */
 	@Override
-	public Object getValeurColonne(
+	public Object fournirValeurColonne(
 			final int pI) {
 
 		Object valeur = null;

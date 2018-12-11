@@ -1,6 +1,4 @@
-package levy.daniel.application.model.persistence.metier.country.entities.jpa;
-
-import java.util.Locale;
+package levy.daniel.application.model.persistence.metier.developpeur.entities.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,17 +6,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.model.metier.country.ICountry;
+import levy.daniel.application.model.metier.developpeur.IDeveloppeur;
+
+
 
 
 /**
- * CLASSE CountryEntityJPA :<br/>
+ * CLASSE DeveloppeurEntityJPA :<br/>
  * Entity JPA modélisant un Objet Métier en vue de son stockage.<br/>
  * l'Entity doit <b>implémenter la même interface 
  * que l'objet métier et être equals</b>.<br/>
@@ -39,19 +38,19 @@ import levy.daniel.application.model.metier.country.ICountry;
  * @since 11 nov. 2018
  *
  */
-@Entity(name="CountryEntityJPA")
-@Table(name="COUNTRYS", schema="PUBLIC"
-, uniqueConstraints=@UniqueConstraint(name="UNICITE_NAME_CAPITAL"
-, columnNames={"NAME", "CAPITAL"}))
-public class CountryEntityJPA implements ICountry {
+@Entity(name="DeveloppeurEntityJPA")
+@Table(name="DEVELOPPEURS", schema="PUBLIC"
+, uniqueConstraints=@UniqueConstraint(name="UNICITE_NOM_EXPERIENCE"
+, columnNames={"NOM", "ANNEES_EXPERIENCE"}))
+public class DeveloppeurEntityJPA implements IDeveloppeur {
 	
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * "Classe CountryEntityJPA".<br/>
+	 * "Classe DeveloppeurEntityJPA".<br/>
 	 */
-	public static final String CLASSE_COUNTRY_ENTITY_JPA 
-		= "Classe CountryEntityJPA";
+	public static final String CLASSE_DEVELOPPEUR_ENTITY_JPA 
+		= "Classe DeveloppeurEntityJPA";
 
 	/**
 	 * POINT_VIRGULE : char :<br/>
@@ -93,7 +92,6 @@ public class CountryEntityJPA implements ICountry {
 	 * serialVersionUID = 1L.<br/>
 	 */
 	private static final long serialVersionUID = 1L;
-
 	
 	/**
 	 * id : Long :<br/>
@@ -102,23 +100,21 @@ public class CountryEntityJPA implements ICountry {
 	private Long id;
 
 	/**
-	 * nom du Country.<br/>
+	 * nom du développeur.<br/>
 	 */
-	private String name;
-	
+	private String nom;
+		
 	/**
-	 * capitale du Country.<br/>
+	 * nombre d'années d'expérience du développeur.<br/>
 	 */
-	private String capital;
-	
-
+	private int anneesExperience;
 
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(CountryEntityJPA.class);
+		= LogFactory.getLog(DeveloppeurEntityJPA.class);
 	
 	// *************************METHODES************************************/
 	
@@ -126,65 +122,70 @@ public class CountryEntityJPA implements ICountry {
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public CountryEntityJPA() {
-		this(null, null, null);
-	} // Fin du CONSTRUCTEUR D'ARITE NULLE.________________________________
+	public DeveloppeurEntityJPA() {
+		this(null, null, 0);
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 	
 	
 	 /**
 	 * CONSTRUCTEUR COMPLET.<br/>
 	 *
-	 * @param pName : String : nom du pays
-	 * @param pCapital : String : capitale du pays
+	 * @param pNom : String : 
+	 * nom du développeur.<br/>
+	 * @param pAnneesExperience : int : 
+	 * nombre d'années d'expérience du développeur.<br/>
 	 */
-	public CountryEntityJPA(
-				final String pName
-					, final String pCapital) {
-		this(null, pName, pCapital);
+	public DeveloppeurEntityJPA(
+			final String pNom
+					, final int pAnneesExperience) {
+		this(null, pNom, pAnneesExperience);
 	} // Fin de CONSTRUCTEUR COMPLET.______________________________________
 	
 	
 	
 	 /**
 	 * CONSTRUCTEUR COMPLET BASE.<br/>
-	 *
-	 * @param pId : Long : identifiant en base
-	 * @param pName : String : nom du pays
-	 * @param pCapital : String : capitale du pays
+	 * 
+	 * @param pId : Long : 
+	 * ID en base.<br/> 
+	 * @param pNom : String : 
+	 * nom du développeur.<br/>
+	 * @param pAnneesExperience : int : 
+	 * nombre d'années d'expérience du développeur.<br/>
 	 */
-	public CountryEntityJPA(
+	public DeveloppeurEntityJPA(
 			final Long pId
-				, final String pName
-					, final String pCapital) {
+				, final String pNom
+					, final int pAnneesExperience) {
 		
 		super();
 		
 		this.id = pId;
-		this.name = pName;
-		this.capital = pCapital;
+		this.nom = pNom;
+		this.anneesExperience = pAnneesExperience;
 		
 	} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________
-
-
+	
+	
 	
 	 /**
 	 * CONSTRUCTEUR TRANSFORMATEUR.<br/>
 	 * <b>instancie un Entity JPA à partir 
 	 * d'un Objet Metier</b>.<br/>
 	 *
-	 * @param pObject : ICountry
+	 * @param pObject : IDeveloppeur
 	 */
-	public CountryEntityJPA(
-			final ICountry pObject) {
+	public DeveloppeurEntityJPA(
+			final IDeveloppeur pObject) {
 		
 		super();
 		
 		if (pObject != null) {
 			
 			this.id = pObject.getId();
-			this.name = pObject.getName();
-			this.capital = pObject.getCapital();
+			this.nom = pObject.getNom();
+			this.anneesExperience = pObject.getAnneesExperience();
 			
 		}
 		
@@ -199,15 +200,13 @@ public class CountryEntityJPA implements ICountry {
 	public int hashCode() {
 		
 		final int prime = 31;
+		
 		int result = 1;
 		
+		result = prime * result + this.anneesExperience;
 		result = prime * result 
-				+ ((this.name == null) ? 0 
-						: this.name.toUpperCase(Locale.FRANCE).hashCode());
-		result = prime * result 
-				+ ((this.capital == null) ? 0 
-						: this.capital.toUpperCase(Locale.FRANCE).hashCode());
-				
+				+ ((this.nom == null) ? 0 : this.nom.hashCode());
+		
 		return result;
 		
 	} // Fin de hashCode().________________________________________________
@@ -216,16 +215,6 @@ public class CountryEntityJPA implements ICountry {
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * <ul>
-	 * <b>equals(...) pour un Country</b> sur :
-	 * <li>name.</li>
-	 * <li>capital.</li>
-	 * </ul>
-	 * <b>Bien utiliser l'INTERFACE 
-	 * (pas la classe concrète ou une classe abstraite)
-	 * pour assurer le equals avec les entities</b>.<br/>
-	 * <br/>
 	 */
 	@Override
 	public boolean equals(
@@ -237,31 +226,31 @@ public class CountryEntityJPA implements ICountry {
 		if (pObject == null) {
 			return false;
 		}
-		if (!(pObject instanceof ICountry)) {
+		if (!(pObject instanceof IDeveloppeur)) {
 			return false;
 		}
 		
-		final ICountry other = (ICountry) pObject;
+		final IDeveloppeur other = (IDeveloppeur) pObject;
 		
-		/* name. */
-		if (this.getName() == null) {
-			if (other.getName() != null) {
+		/* nom. */
+		if (this.getNom() == null) {
+			if (other.getNom() != null) {
+				return false;
+			}
+		} else {
+			
+			if (other.getNom() == null) {
+				return false;
+			}
+			
+			if (!this.getNom().equalsIgnoreCase(other.getNom())) {
 				return false;
 			}
 		}
-		else if (!this.getName()
-				.equalsIgnoreCase(other.getName())) {
-			return false;
-		}
-		
-		/* capital. */
-		if (this.getCapital() == null) {
-			if (other.getCapital() != null) {
-				return false;
-			}
-		}
-		else if (!this.getCapital()
-				.equalsIgnoreCase(other.getCapital())) {
+				
+		/* années d'expérience. */
+		if (this.getAnneesExperience() 
+				!= other.getAnneesExperience()) {
 			return false;
 		}
 		
@@ -269,14 +258,14 @@ public class CountryEntityJPA implements ICountry {
 		
 	} // Fin de equals(...)._______________________________________________
 
-
-
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public int compareTo(
-			final ICountry pObject) {
+			final IDeveloppeur pObject) {
 
 		if (this == pObject) {
 			return 0;
@@ -286,48 +275,36 @@ public class CountryEntityJPA implements ICountry {
 			return -1;
 		}
 
-		int compareName;
-		int compareCapital;
-
-		/* name. */
-		if (this.getName() == null) {
-			if (pObject.getName() != null) {
+		int compareNom;
+		int compareAnneesExperience;
+		
+		/* nom. */
+		if (this.getNom() == null) {
+			if (pObject.getNom() != null) {
 				return +1;
 			}
 		} else {
-			if (pObject.getName() == null) {
+			if (pObject.getNom() == null) {
 				return -1;
 			}
 
-			compareName 
-				= this.getName()
-					.compareToIgnoreCase(pObject.getName());
+			compareNom 
+				= this.getNom()
+					.compareToIgnoreCase(pObject.getNom());
 
-			if (compareName != 0) {
-				return compareName;
+			if (compareNom != 0) {
+				return compareNom;
 			}
 		}
 
-		/* capital. */
-		if (this.getCapital() == null) {
-			if (pObject.getCapital() != null) {
-				return +1;
-			}
-			return 0;
-		} 
-
-		if (pObject.getCapital() == null) {
-			return -1;
-		}
-
-		compareCapital 
-			= this.getCapital()
-				.compareToIgnoreCase(pObject.getCapital());
-
-		return compareCapital;
+		/* anneesExperience. */
+		compareAnneesExperience 
+			= pObject.getAnneesExperience() 
+				- this.getAnneesExperience();
+			
+		return compareAnneesExperience;
 
 	} // Fin de compareTo(...).____________________________________________
-
 
 
 	
@@ -335,14 +312,14 @@ public class CountryEntityJPA implements ICountry {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CountryEntityJPA clone() throws CloneNotSupportedException {
+	public DeveloppeurEntityJPA clone() throws CloneNotSupportedException {
 
-		final CountryEntityJPA clone 
-				= (CountryEntityJPA) super.clone();
+		final DeveloppeurEntityJPA clone 
+				= (DeveloppeurEntityJPA) super.clone();
 
 		clone.setId(this.id);	
-		clone.setName(this.name);
-		clone.setCapital(this.capital);
+		clone.setNom(this.nom);
+		clone.setAnneesExperience(this.anneesExperience);
 		
 		return clone;
 
@@ -356,54 +333,49 @@ public class CountryEntityJPA implements ICountry {
 	@Override
 	public String toString() {
 		
-		final StringBuilder builder = new StringBuilder();
+		final StringBuilder builder 
+			= new StringBuilder();
 		
-		builder.append("Country [");
+		builder.append("Developpeur [");
 		
 		builder.append("id=");
 		if (this.id != null) {			
-			builder.append(this.id);			
+			builder.append(this.id);
 		} else {
-			builder.append(NULL);			
-		}
-		
-		builder.append(VIRGULE_ESPACE);
-
-		builder.append("name=");
-		if (this.name != null) {			
-			builder.append(this.name);
-		} else {
-			builder.append(NULL);			
+			builder.append(NULL);
 		}
 		
 		builder.append(VIRGULE_ESPACE);
 		
-		builder.append("capital=");
-		if (this.capital != null) {			
-			builder.append(this.capital);
+		builder.append("nom=");
+		if (this.nom != null) {			
+			builder.append(this.nom);
 		} else {
-			builder.append(NULL);			
+			builder.append(NULL);
 		}
+		
+		builder.append(VIRGULE_ESPACE);
+				
+		builder.append("anneesExperience=");
+		builder.append(this.anneesExperience);
 		
 		builder.append(']');
-		
 		return builder.toString();
 		
 	} // Fin de toString().________________________________________________
 
-
-
+	
+	
 	/**
 	 * {@inheritDoc}
 	 * <br/>
-	 * <b>en-tête csv pour un Country</b> :<br/>
-	 * "id;name;capital;".<br/>
+	 * <b>en-tête csv pour un Developpeur</b> :<br/>
+	 * "id;nom;anneesExperience;".<br/>
 	 * <br/>
 	 */
-	@Transient
 	@Override
 	public String fournirEnTeteCsv() {
-		return "id;name;capital;";
+		return "id;nom;anneesExperience;";
 	} // Fin de getEnTeteCsv().____________________________________________
 
 
@@ -411,8 +383,8 @@ public class CountryEntityJPA implements ICountry {
 	/**
 	 * {@inheritDoc}
 	 * <br/>
-	 * <b>ligne csv pour un Country</b> :<br/>
-	 * "id;name;capital;".<br/>
+	 * <b>ligne csv pour un Developpeur</b> :<br/>
+	 * "id;nom;anneesExperience;".<br/>
 	 * <br/>
 	 */
 	@Override
@@ -424,12 +396,12 @@ public class CountryEntityJPA implements ICountry {
 		stb.append(this.getId());
 		stb.append(POINT_VIRGULE);
 
-		/* name. */
-		stb.append(this.getName());
+		/* nom. */
+		stb.append(this.getNom());
 		stb.append(POINT_VIRGULE);
 
-		/* capital. */
-		stb.append(this.getCapital());
+		/* anneesExperience. */
+		stb.append(this.getAnneesExperience());
 		stb.append(POINT_VIRGULE);
 
 		return stb.toString();
@@ -441,11 +413,10 @@ public class CountryEntityJPA implements ICountry {
 	/**
 	 * {@inheritDoc}
 	 * <br/>
-	 * <b>en-tête Jtable pour un Country</b> :<br/>
-	 * "id;name;capital;".<br/>
+	 * <b>en-tête Jtable pour un Developpeur</b> :<br/>
+	 * "id;nom;anneesExperience;".<br/>
 	 * <br/>
 	 */
-	@Transient
 	@Override
 	public String fournirEnTeteColonne(
 			final int pI) {
@@ -459,11 +430,11 @@ public class CountryEntityJPA implements ICountry {
 			break;
 
 		case 1:
-			entete = "name";
+			entete = "nom";
 			break;
 
 		case 2:
-			entete = "capital";
+			entete = "anneesExperience";
 			break;
 
 		default:
@@ -481,11 +452,10 @@ public class CountryEntityJPA implements ICountry {
 	/**
 	 * {@inheritDoc}
 	 * <br/>
-	 * <b>ligne Jtable pour un Country</b> :<br/>
-	 * "id;name;capital;".<br/>
+	 * <b>ligne Jtable pour un Developpeur</b> :<br/>
+	 * "id;nom;anneesExperience;".<br/>
 	 * <br/>
 	 */
-	@Transient
 	@Override
 	public Object fournirValeurColonne(
 			final int pI) {
@@ -501,11 +471,11 @@ public class CountryEntityJPA implements ICountry {
 			break;
 
 		case 1:
-			valeur = this.getName();		
+			valeur = this.getNom();		
 			break;
 
 		case 2:
-			valeur = this.getCapital();		
+			valeur = String.valueOf(this.getAnneesExperience());		
 			break;
 
 		default:
@@ -519,13 +489,13 @@ public class CountryEntityJPA implements ICountry {
 	} // Fin de getValeurColonne(...)._____________________________________
 
 
-	
+		
 	/**
 	 * {@inheritDoc}
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_COUNTRY")
+	@Column(name="ID_DEVELOPPEUR")
 	@Override
 	public Long getId() {
 		return this.id;
@@ -542,54 +512,54 @@ public class CountryEntityJPA implements ICountry {
 		this.id = pId;		
 	} // Fin de setId(...).________________________________________________
 
-
+	
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	@Column(name = "NAME"
+	@Column(name = "NOM"
 			, unique = false, nullable = false
 			, updatable = true, insertable = true)
 	@Override
-	public String getName() {
-		return this.name;
-	} // Fin de getName()._________________________________________________
+	public String getNom() {
+		return this.nom;
+	} // Fin de getNom().__________________________________________________
+
+
 	
-
-
-	/**
+	 /**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setName(
-			final String pName) {
-		this.name = pName;		
-	} // Fin de setName(...).______________________________________________
+	public void setNom(
+			final String pNom) {
+		this.nom = pNom;
+	} // Fin de setNom(...)._______________________________________________
 
 
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	@Column(name = "CAPITAL"
+	@Column(name = "ANNEES_EXPERIENCE"
 			, unique = false, nullable = true
 			, updatable = true, insertable = true)
 	@Override
-	public String getCapital() {
-		return this.capital;
-	} // Fin de getCapital().______________________________________________
+	public int getAnneesExperience() {
+		return this.anneesExperience;
+	} // Fin de getAnneesExperience()._____________________________________
 
 
 	
-	/**
+	 /**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setCapital(
-			final String pCapital) {
-		this.capital = pCapital;		
-	} // Fin de setCapital(...).___________________________________________
+	public void setAnneesExperience(
+			final int pAnneesExperience) {
+		this.anneesExperience = pAnneesExperience;
+	} // Fin de setAnneesExperience(...).__________________________________
+
 	
-	
-	
+
 }

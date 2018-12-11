@@ -26,34 +26,25 @@ public interface IExportateurCsv {
 
 
 	/**
-	 * method getEnTeteCsv() :<br/>
+	 * Fournit l'<b>en-tête</b> des <b>lignes csv</b> de l'Objet métier.<br/>
 	 * <ul>
-	 * <li>
-	 * Fournit l'<b>en-tête</b> des <b>lignes csv</b> de l'Objet métier.
-	 * </li>
 	 * <li>
 	 * Pourrait être static dans l'absolu, 
 	 * mais ne pourrait alors plus figurer dans l'interface.<br/> 
 	 * L'idée est de pouvoir demander à n'importe quel objet métier 
 	 * de fournir son en-tête de fichier csv.
 	 * </li>
-	 * <li>doit être <b>transient</b> (Java ou JPA) 
-	 * car n'est pas persisté.<br/>
-	 * Or, commençant par <i>"get"</i>, les frameworks 
-	 * (Hibernate, Spring, ...) 
-	 * croiront qu'il s'agit d'une propriété persistante.</li>
 	 * </ul>
 	 *
 	 * @return : String : en-tête CSV de l'Objet métier.<br/>
 	 */
-	String getEnTeteCsv();
+	String fournirEnTeteCsv();
 
 
 
 	/**
-	 * method toStringCsv() :<br/>
+	 * Fournit l'Objet métier sous forme de <b>ligne Csv</b>.<br/>
 	 * <ul>
-	 * <li>Fournit l'Objet métier sous forme de <b>ligne Csv</b>.</li>
 	 * <li>Java remplace automatiquement les valeurs null par 
 	 * <b>"null"</b> comme dans "Robert;null" avec un nom null pour un 
 	 * Objet métier [prenom;nom].</li>
@@ -61,7 +52,7 @@ public interface IExportateurCsv {
 	 *
 	 * @return : String : l'Objet métier sous forme de ligne CSV.<br/>
 	 */
-	String toStringCsv();
+	String fournirStringCsv();
 
 
 
