@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -507,10 +508,28 @@ public final class ArboresceurProjetCible {
 	
 	/**
 	 * GroupId MAVEN à appliquer par défaut.<br/>
-	 * Le GroupId peut être modifié par le Setter.<br/>
-	 * "levy/daniel/application".
+	 * Le groupId MAVEN (avec des .) 
+	 * peut être modifié par le Setter.<br/>
+	 * "levy.daniel.application".
 	 */
 	private static final String GROUPID_PAR_DEFAUT 
+	= "levy.daniel.application";
+	
+	/**
+	 * GroupId MAVEN dans le projet cible.<br/>
+	 * Le groupId MAVEN (avec des .) 
+	 * peut être modifié par le Setter.<br/>
+	 * "levy.daniel.application" par défaut.
+	 */
+	private static String groupId = GROUPID_PAR_DEFAUT;
+	
+	/**
+	 * PATH du GroupId MAVEN à appliquer par défaut.<br/>
+	 * Le groupIdPathRelatif (avec des /) 
+	 * peut être modifié par le Setter.<br/>
+	 * "levy/daniel/application".
+	 */
+	private static final String GROUPIDPATH_PAR_DEFAUT 
 		= "levy/daniel/application";
 
 	/**
@@ -521,7 +540,7 @@ public final class ArboresceurProjetCible {
 	 * - Sinon, utiliser le Setter.<br/>
 	 */
 	private static Path groupIdPathRelatif 
-		= Paths.get(GROUPID_PAR_DEFAUT);
+		= Paths.get(GROUPIDPATH_PAR_DEFAUT);
 	
 	/**
 	 * <b>path absolu des sources Java</b> 
@@ -4618,6 +4637,126 @@ public final class ArboresceurProjetCible {
 		
 	} // Fin de calculerRessourcesExternesPath().__________________________
 	
+
+		
+	/**
+	 * <b>calcule un Path (par exemple 
+	 * <code>levy/daniel/application</code>) à partir 
+	 * d'un groupId MAVEN 
+	 * (<code>levy.daniel.application</code>)</b>.<br/>
+	 * <ul>
+	 * <li>remplace d'éventuels points "." par des slashes "/".<br/>
+	 *  Sinon, laisse la chaine en entrée inchangée.</li>
+	 *  <li>retourne le path associé à la String substituée.</li>
+	 *  <li>utilise <code>StringUtils.replace(pGroupId, ".", "/");</code>.</li>
+	 * </ul>
+	 * - retourne null si pGroupId est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pGroupId : String : 
+	 * groupId avec des points "."<br/>
+	 * @return : Path : 
+	 * Path du groupId avec des slashes "/".<br/>
+	 */
+	private static Path calculerPathRelatifGroupId(
+			final String pGroupId) {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			/* retourne null si pGroupId est blank. */
+			if (StringUtils.isBlank(pGroupId)) {
+				return null;
+			}
+			
+			String resultatString = null;
+			
+			/* remplace d'éventuels points "." par des slashes "/". 
+			 * Sinon, laisse la chaine en entrée inchangée. */
+			if (StringUtils.contains(pGroupId, ".")) {
+				resultatString  
+					= StringUtils.replace(pGroupId, ".", "/");
+			} else {
+				resultatString = pGroupId;
+			}
+			
+			Path resultatPath = null;
+			
+			/* retourne le path associé à la String substituée. */
+			if (resultatString != null) {
+				resultatPath = Paths.get(resultatString);
+			} else {
+				return null;
+			}
+						
+			if (resultatPath != null) {
+				return resultatPath.normalize();
+			}
+			
+			return null;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de calculerPathRelatifGroupId(...).___________________________
+	
+
+	
+	/**
+	 * <b>calcule un groupId (par exemple 
+	 * <code>levy.daniel.application</code>) à partir 
+	 * d'un path relatif associé à un groupId MAVEN 
+	 * (<code>levy/daniel/application</code>)</b>.<br/>
+	 * <ul>
+	 * <li>remplace d'éventuels séparateurs de fichiers 
+	 * comme des slashes "/" par des points ".".<br/>
+	 *  Sinon, laisse la chaine en entrée inchangée.</li>
+	 *  <li>utilise <code>System.getProperty("file.separator")</code> 
+	 *  pour trouver le séparateur de fichiers de la plateforme.</li>
+	 *  <li>utilise <code>StringUtils.replace(pGroupId, "/", ".");</code>.</li>
+	 * </ul>
+	 * - retourne null si pPathRelatifGroupId == null.<br/>
+	 * <br/>
+	 *
+	 * @param pPathRelatifGroupId : Path.<br/>
+	 * 
+	 * @return : String : groupId avec des points "." comme "levy.daniel.application".<br/>
+	 */
+	private static String calculerGroupId(
+			final Path pPathRelatifGroupId) {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+			/* retourne null si pPathRelatifGroupId == null. */
+			if (pPathRelatifGroupId == null) {
+				return null;
+			}
+			
+			final String pathRelatifGroupIdString 
+				= pPathRelatifGroupId.toString();
+			
+			final String fileSeparator 
+				= System.getProperty("file.separator");
+			
+			String resultat = null;
+			
+			if (StringUtils.contains(
+					pathRelatifGroupIdString, fileSeparator)) {
+				
+				resultat 
+					= StringUtils
+						.replace(
+								pathRelatifGroupIdString
+									, fileSeparator, ".");
+				
+			} else {
+				resultat = pathRelatifGroupIdString;
+			}
+			
+			return resultat;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de calculerGroupId(...).______________________________________
+	
 	
 	
 	/**
@@ -4791,6 +4930,55 @@ public final class ArboresceurProjetCible {
 	} // Fin de getSrcTestResourcesMetaInfPath().__________________________
 
 
+	
+	/**
+	 * Getter du GroupId MAVEN dans le projet cible.<br/>
+	 * Le groupId MAVEN (avec des .) 
+	 * peut être modifié par le Setter.<br/>
+	 * "levy.daniel.application" par défaut.
+	 *
+	 * @return groupId : String.<br/>
+	 */
+	public static String getGroupId() {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			
+		return groupId;
+		
+		} // Fin de synchronized._______________________
+		
+	} // Fin de getGroupId().______________________________________________
+
+
+
+	/**
+	* Setter du GroupId MAVEN dans le projet cible.<br/>
+	* Le groupId MAVEN (avec des .) 
+	* peut être modifié par le Setter.<br/>
+	* "levy.daniel.application" par défaut.<br/>
+	* <ul>
+	* <li><b>Utiliser ce Setter AVANT l'appel à 
+	* <code>selectionnerProjetCible(Path)</code> 
+	* qui va lancer tous les calculs des chemins</b>.</li>
+	* <li><b>recalcule automatiquement groupIdPathRelatif</b>.</li>
+	* </ul>
+	*
+	* @param pGroupId : String : 
+	* valeur à passer à groupId comme "levy.daniel.application".<br/>
+	*/
+	public static void setGroupId(
+			final String pGroupId) {
+		
+		synchronized (ArboresceurProjetCible.class) {
+			groupId = pGroupId;
+			
+			/* recalcule automatiquement groupIdPathRelatif. */
+			groupIdPathRelatif = calculerPathRelatifGroupId(pGroupId);
+		}
+		
+	} // Fin de setGroupId(...).___________________________________________
+
+
 
 	/**
 	 * Getter du path <b>relatif</b> 
@@ -4807,7 +4995,7 @@ public final class ArboresceurProjetCible {
 			
 			if (groupIdPathRelatif == null) {
 				groupIdPathRelatif 
-					= Paths.get(GROUPID_PAR_DEFAUT);
+					= Paths.get(GROUPIDPATH_PAR_DEFAUT);
 			}
 			
 			return groupIdPathRelatif;
@@ -4823,7 +5011,14 @@ public final class ArboresceurProjetCible {
 	* (par rapport au srcMainJavaPath et au srcTestJavaPath)
 	* correspondant au GroupId MAVEN.<br/>
 	* - Paths.get("levy/daniel/application") par défaut.<br/>
-	* - Sinon, utiliser le Setter.<br/>
+	* - Sinon, utiliser le Setter <b>et lui passer un path 
+	* relatif avec des slashes /</b>.
+	* <ul>
+	* <li><b>Utiliser ce Setter AVANT l'appel à 
+	* <code>selectionnerProjetCible(Path)</code> 
+	* qui va lancer tous les calculs des chemins</b>.</li>
+	* <li><b>recalcule automatiquement groupId</b>.</li>
+	* </ul>
 	*
 	* @param pGroupIdPathRelatif : Path : 
 	* valeur à passer à groupIdPathRelatif.<br/>
@@ -4834,6 +5029,9 @@ public final class ArboresceurProjetCible {
 		synchronized (ArboresceurProjetCible.class) {
 						
 			groupIdPathRelatif = pGroupIdPathRelatif;
+			
+			/* recalcule automatiquement groupId. */
+			groupId = calculerGroupId(groupIdPathRelatif);
 			
 		} // Fin de synchronized._______________________
 		

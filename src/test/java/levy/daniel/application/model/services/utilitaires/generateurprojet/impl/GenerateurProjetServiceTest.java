@@ -97,7 +97,7 @@ public class GenerateurProjetServiceTest {
 			System.out.println("********** CLASSE GenerateurProjetServiceTest - méthode testGenerer() ********** ");
 		}
 		
-		final Path projetCiblePath = Paths.get("D:/Donnees/eclipse/eclipseworkspace/test_generation");
+		final Path projetCiblePath = Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/TP2-Spring-Context");
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {

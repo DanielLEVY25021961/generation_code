@@ -292,9 +292,6 @@ public final class Application {
 		boolean resultat = false;
 		
 		/* Pattern sous forme de String. */
-		/* - Commence par I
-		 * - poursuit par une Majuscule
-		 * - poursuit CamelCase. */
 		final String patternString = "([a-z0-9]*)";
 		
 		/* Instanciation d'un Pattern. */

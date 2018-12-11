@@ -1,5 +1,6 @@
 package levy.daniel.application.model.services.utilitaires.arboresceurprojet;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.nio.file.Path;
@@ -51,6 +52,17 @@ public class ArboresceurProjetCibleTest {
 	public static final char SAUT_LIGNE_JAVA = '\n';
 
 
+	/**
+	 * "groupId dans le projet cible : ".<br/>
+	 */
+	public static final String GROUPID_DANS_PROJET_CIBLE 
+		= "groupId dans le projet cible : ";
+	
+	/**
+	 * "groupIdPathRelatif dans le projet cible : ".<br/>
+	 */
+	public static final String GROUPIDPATHRELATIF_DANS_PROJET_CIBLE 
+		= "groupIdPathRelatif dans le projet cible : ";
 
 	/**
 	 * LOG : Log : 
@@ -73,10 +85,7 @@ public class ArboresceurProjetCibleTest {
 
 	
 	/**
-	 * .<br/>
-	 * <ul>
-	 * <li></li>
-	 * </ul>
+	 * teste l'ensemble de l'arboresceur.<br/>
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
@@ -84,7 +93,7 @@ public class ArboresceurProjetCibleTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -493,5 +502,117 @@ public class ArboresceurProjetCibleTest {
 	} // Fin de testCalculerPaths()._______________________________________
 
 
+	
+	/**
+	 * teste les méthodes setGroupId(...) et s
+	 * etGroupIdPathRelatif(...).<br/>
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testSetGroupId() {
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ArboresceurProjetCibleTest - méthode testSetGroupId() ********** ");
+		}
+		
+		// ************************************************* //
+		final Path projetCiblePath 
+			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven");
+//		final Path projetCiblePath = null;
+		// ************************************************* //
+		
+		final String groupId = "fr.orsys.demo";
+		
+		// UTILISATION DE SETTER DU GROUPID
+		ArboresceurProjetCible.setGroupId(groupId);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(GROUPID_DANS_PROJET_CIBLE + ArboresceurProjetCible.getGroupId());
+			System.out.println(GROUPIDPATHRELATIF_DANS_PROJET_CIBLE + ArboresceurProjetCible.getGroupIdPathRelatif());
+		}
+		
+		assertEquals("le groupId vaut groupId : "
+				, groupId
+				, ArboresceurProjetCible.getGroupId());
+		
+		assertEquals(GROUPIDPATHRELATIF_DANS_PROJET_CIBLE
+				, Paths.get("fr/orsys/demo")
+				, ArboresceurProjetCible.getGroupIdPathRelatif());
+		
+		/* Selection du projet cible. */
+		ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("Racine des sources java : " + ArboresceurProjetCible.getRacineSourcesJavaPath());
+			System.out.println("Racine des tests java : " + ArboresceurProjetCible.getRacineTestsJavaPath());
+		}
+		
+		final Path pathSourcesJava 
+			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven/src/main/java/fr/orsys/demo");
+		
+		final Path pathTestsJava 
+		= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven/src/test/java/fr/orsys/demo");
+		
+		assertEquals("racine des sources java src/main/java/fr/orsys/demo : "
+				, pathSourcesJava
+				, ArboresceurProjetCible.getRacineSourcesJavaPath());
+		
+		assertEquals("racine des tests java src/test/java/fr/orsys/demo : "
+				, pathTestsJava
+				, ArboresceurProjetCible.getRacineTestsJavaPath());
+		
+		final Path pathRelatif = Paths.get("levy/daniel/application");
+		
+		// UTILISATION DE SETTER DU GROUPIDPATHRELATIF
+		ArboresceurProjetCible.setGroupIdPathRelatif(pathRelatif);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(GROUPID_DANS_PROJET_CIBLE + ArboresceurProjetCible.getGroupId());
+			System.out.println(GROUPIDPATHRELATIF_DANS_PROJET_CIBLE + ArboresceurProjetCible.getGroupIdPathRelatif());
+		}
+		
+		assertEquals("le groupId vaut levy.daniel.application : "
+				, "levy.daniel.application"
+				, ArboresceurProjetCible.getGroupId());
+		
+		assertEquals(GROUPIDPATHRELATIF_DANS_PROJET_CIBLE
+				, pathRelatif
+				, ArboresceurProjetCible.getGroupIdPathRelatif());
+
+		/* Selection du projet cible. */
+		ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("Racine des sources java2 : " + ArboresceurProjetCible.getRacineSourcesJavaPath());
+			System.out.println("Racine des tests java2 : " + ArboresceurProjetCible.getRacineTestsJavaPath());
+		}
+		
+		final Path pathSourcesJava2 
+			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven/src/main/java/levy/daniel/application");
+		
+		final Path pathTestsJava2 
+		= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven/src/test/java/levy/daniel/application");
+		
+		assertEquals("racine des sources java src/main/java/levy/daniel/application : "
+				, pathSourcesJava2
+				, ArboresceurProjetCible.getRacineSourcesJavaPath());
+		
+		assertEquals("racine des tests java src/test/java/levy/daniel/application : "
+				, pathTestsJava2
+				, ArboresceurProjetCible.getRacineTestsJavaPath());
+
+
+	} // Fin de testSetGroupId().___________________________________________
+	
+	
 
 } // FIN DE LA CLASSE ArboresceurProjetCibleTest.----------------------------

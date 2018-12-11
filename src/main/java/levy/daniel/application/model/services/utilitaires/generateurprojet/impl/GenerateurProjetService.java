@@ -243,8 +243,8 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 			= ManagerPaths.getPathAbsoluSrcMainResourcesPresentProjet()
 				.resolve("templates/pom/pom-template.txt");
 		
-		final String groupIdJava
-			= "levy.daniel.application";
+		final String groupIdJava 
+			= ArboresceurProjetCible.getGroupId();
 		
 		final String nomProjet 
 			= ArboresceurProjetCible.getProjetCibleNom();
