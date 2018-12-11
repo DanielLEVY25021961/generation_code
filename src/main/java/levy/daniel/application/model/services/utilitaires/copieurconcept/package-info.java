@@ -11,12 +11,21 @@
  * PRINCIPE DE FONCTIONNEMENT de copieurconcept :
  * </span>
  * </p>
+ * <div>
+ * <img src="../../../../../../../../../../javadoc/images/copieurconcept/fonctionnement_copieurconcept.png" 
+ * alt="principe de fonctionnement de copieurconcept" border="1" align="center" />
+ * </div>
+ * 
+ * 
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * Création de répertoire, écriture sur disque, <br/>
+ * copie d'arborescence, racine, <br/>
+ * copie ARBORESCENCE, recopie fichiers,<br/>
  * <br/>
  *
  * - Dépendances :<br/>

@@ -425,6 +425,7 @@ public final class ArboresceurProjetCible {
 	 * <ul>
 	 * <li><b>nom du projet CIBLE Eclipse</b> 
 	 * dont on va générer le code.</li>
+	 * <li>calculé par la méthode selectionnerProjetCible(Path)</li>
 	 * <li>nom sous forme de <b>String</b>.</li>
 	 * <li>Singleton.</li>
 	 * <li>Par exemple : <br/>
