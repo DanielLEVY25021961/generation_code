@@ -3,6 +3,7 @@ package levy.daniel.application.model.services.utilitaires.arboresceurprojet;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -10,9 +11,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+import levy.daniel.application.model.services.utilitaires.managerpaths.ManagerPaths;
+
 /**
- * CLASSE ArboresceurProjetCibleTest :<br/>
- * Test JUnit de la classe ArboresceurProjetCible.<br/>
+ * CLASSE ArboresceurPresentProjetTest :<br/>
+ * Test JUnit de la classe ArboresceurPresentProjet.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -27,10 +30,10 @@ import org.junit.Test;
  *
  * @author daniel.levy Lévy
  * @version 1.0
- * @since 23 nov. 2018
+ * @since 11 déc. 2018
  *
  */
-public class ArboresceurProjetCibleTest {
+public class ArboresceurPresentProjetTest {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -53,32 +56,32 @@ public class ArboresceurProjetCibleTest {
 
 
 	/**
-	 * "groupId dans le projet cible : ".<br/>
+	 * "groupId dans le présent projet : ".<br/>
 	 */
-	public static final String GROUPID_DANS_PROJET_CIBLE 
-		= "groupId dans le projet cible : ";
+	public static final String GROUPID_DANS_PRESENT_PROJET 
+		= "groupId dans le présent projet : ";
 	
 	/**
-	 * "groupIdPathRelatif dans le projet cible : ".<br/>
+	 * "groupIdPathRelatif dans le présent projet : ".<br/>
 	 */
-	public static final String GROUPIDPATHRELATIF_DANS_PROJET_CIBLE 
-		= "groupIdPathRelatif dans le projet cible : ";
+	public static final String GROUPIDPATHRELATIF_DANS_PRESENT_PROJET 
+		= "groupIdPathRelatif dans le présent projet : ";
+
 
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(ArboresceurProjetCibleTest.class);
+		= LogFactory.getLog(ArboresceurPresentProjetTest.class);
 	
-
-	// *************************METHODES************************************/
+	// *************************METHODES************************************/	
 
 	
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public ArboresceurProjetCibleTest() {
+	public ArboresceurPresentProjetTest() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
@@ -98,240 +101,232 @@ public class ArboresceurProjetCibleTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ArboresceurProjetCibleTest - méthode testCalculerPaths() ********** ");
+			System.out.println("********** CLASSE ArboresceurPresentProjetTest - méthode testCalculerPaths() ********** ");
 		}
+
 		
-		// ************************************************* //
-		final Path projetCiblePath 
-			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven");
-//		final Path projetCiblePath = null;
-		// ************************************************* //
-		
-		/* Détermination du projet cible. */
-		ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);
-		
-		final Path projetCiblePathStocke 
-			= ArboresceurProjetCible.getProjetCiblePath();
-		final String projetCibleNom 
-			= ArboresceurProjetCible.getProjetCibleNom();
+		final Path projetSourcePathStocke 
+			= ArboresceurPresentProjet.getProjetSourcePath();
+		final String projetSourceNom 
+			= ArboresceurPresentProjet.getProjetSourceNom();
 		
 		final Path srcMainJavaPath 
-			= ArboresceurProjetCible.getSrcMainJavaPath();
+			= ArboresceurPresentProjet.getSrcMainJavaPath();
 		final Path srcMainResourcesPath 
-			= ArboresceurProjetCible.getSrcMainResourcesPath();
+			= ArboresceurPresentProjet.getSrcMainResourcesPath();
 		final Path srcMainResourcesMetaInfPath 
-			= ArboresceurProjetCible.getSrcMainResourcesMetaInfPath();
+			= ArboresceurPresentProjet.getSrcMainResourcesMetaInfPath();
 		final Path srcTestJavaPath 
-			= ArboresceurProjetCible.getSrcTestJavaPath();
+			= ArboresceurPresentProjet.getSrcTestJavaPath();
 		final Path srcTestResourcesPath 
-			= ArboresceurProjetCible.getSrcTestResourcesPath();
+			= ArboresceurPresentProjet.getSrcTestResourcesPath();
 		final Path srcTestResourcesMetaInfPath 
-			= ArboresceurProjetCible.getSrcTestResourcesMetaInfPath();
+			= ArboresceurPresentProjet.getSrcTestResourcesMetaInfPath();
 		
 		// GROUPID
 		final String groupId 
-			= ArboresceurProjetCible.getGroupId();
+			= ArboresceurPresentProjet.getGroupId();
 		final Path groupIdPathRelatif 
-			= ArboresceurProjetCible.getGroupIdPathRelatif();
+			= ArboresceurPresentProjet.getGroupIdPathRelatif();
 		
 		// RACINEs DES SOURCES ET TESTS
 		final Path racineSourcesJavaPath 
-			= ArboresceurProjetCible.getRacineSourcesJavaPath();
+			= ArboresceurPresentProjet.getRacineSourcesJavaPath();
 		final Path racineTestsJavaPath 
-			= ArboresceurProjetCible.getRacineTestsJavaPath();
+			= ArboresceurPresentProjet.getRacineTestsJavaPath();
 		
 		// APPTECHNIC
 		final Path coucheAppTechnicMainPath 
-			= ArboresceurProjetCible.getCoucheAppTechnicMainPath();
+			= ArboresceurPresentProjet.getCoucheAppTechnicMainPath();
 		final Path coucheAppTechnicTestPath 
-			= ArboresceurProjetCible.getCoucheAppTechnicTestPath();
+			= ArboresceurPresentProjet.getCoucheAppTechnicTestPath();
 		
 		// CONTROLLERS
 		final Path coucheControllersMainPath 
-			= ArboresceurProjetCible.getCoucheControllersMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersMainPath();
 		final Path coucheControllersTestPath 
-			= ArboresceurProjetCible.getCoucheControllersTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersTestPath();
 		
 		final Path coucheControllersDesktopMainPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopMainPath();
 		final Path coucheControllersDesktopTestPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopTestPath();
 		final Path coucheControllersDesktopAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopAccueilMainPath();
 		final Path coucheControllersDesktopAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopAccueilTestPath();
 		final Path coucheControllersDesktopMetierMainPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopMetierMainPath();
 		final Path coucheControllersDesktopMetierTestPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopMetierTestPath();
 		final Path coucheControllersDesktopUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopUtilitairesMainPath();
 		final Path coucheControllersDesktopUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopUtilitairesTestPath();
 	
 		final Path coucheControllersWebMainPath 
-			= ArboresceurProjetCible.getCoucheControllersWebMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebMainPath();
 		final Path coucheControllersWebTestPath 
-			= ArboresceurProjetCible.getCoucheControllersWebTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebTestPath();
 		final Path coucheControllersWebAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheControllersWebAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebAccueilMainPath();
 		final Path coucheControllersWebAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheControllersWebAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebAccueilTestPath();
 		final Path coucheControllersWebMetierMainPath 
-			= ArboresceurProjetCible.getCoucheControllersWebMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebMetierMainPath();
 		final Path coucheControllersWebMetierTestPath 
-			= ArboresceurProjetCible.getCoucheControllersWebMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebMetierTestPath();
 		final Path coucheControllersWebUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheControllersWebUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebUtilitairesMainPath();
 		final Path coucheControllersWebUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheControllersWebUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebUtilitairesTestPath();
 		
 		// VUES
 		final Path coucheVuesMainPath 
-			= ArboresceurProjetCible.getCoucheVuesMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesMainPath();
 		final Path coucheVuesTestPath 
-			= ArboresceurProjetCible.getCoucheVuesTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesTestPath();
 		
 		final Path coucheVuesDesktopMainPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopMainPath();
 		final Path coucheVuesDesktopTestPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopTestPath();
 		final Path coucheVuesDesktopAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopAccueilMainPath();
 		final Path coucheVuesDesktopAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopAccueilTestPath();
 		final Path coucheVuesDesktopMetierMainPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopMetierMainPath();
 		final Path coucheVuesDesktopMetierTestPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopMetierTestPath();
 		final Path coucheVuesDesktopUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopUtilitairesMainPath();
 		final Path coucheVuesDesktopUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopUtilitairesTestPath();
 
 		final Path coucheVuesWebMainPath 
-			= ArboresceurProjetCible.getCoucheVuesWebMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebMainPath();
 		final Path coucheVuesWebTestPath 
-			= ArboresceurProjetCible.getCoucheVuesWebTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebTestPath();
 		final Path coucheVuesWebAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheVuesWebAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebAccueilMainPath();
 		final Path coucheVuesWebAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheVuesWebAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebAccueilTestPath();
 		final Path coucheVuesWebMetierMainPath 
-			= ArboresceurProjetCible.getCoucheVuesWebMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebMetierMainPath();
 		final Path coucheVuesWebMetierTestPath 
-			= ArboresceurProjetCible.getCoucheVuesWebMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebMetierTestPath();
 		final Path coucheVuesWebUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheVuesWebUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebUtilitairesMainPath();
 		final Path coucheVuesWebUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheVuesWebUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebUtilitairesTestPath();
 
 		
 		// MODEL
 		final Path coucheModelMainPath 
-			= ArboresceurProjetCible.getCoucheModelMainPath();
+			= ArboresceurPresentProjet.getCoucheModelMainPath();
 		final Path coucheModelTestPath 
-			= ArboresceurProjetCible.getCoucheModelTestPath();
+			= ArboresceurPresentProjet.getCoucheModelTestPath();
 		
 		final Path coucheModelDTOMainPath 
-			= ArboresceurProjetCible.getCoucheModelDTOMainPath();
+			= ArboresceurPresentProjet.getCoucheModelDTOMainPath();
 		final Path coucheModelDTOTestPath 
-			= ArboresceurProjetCible.getCoucheModelDTOTestPath();
+			= ArboresceurPresentProjet.getCoucheModelDTOTestPath();
 		final Path coucheModelDTOMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelDTOMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelDTOMetierMainPath();
 		final Path coucheModelDTOMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelDTOMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelDTOMetierTestPath();
 		
 		final Path coucheModelMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelMetierMainPath();
 		final Path coucheModelMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelMetierTestPath();
 
 		final Path coucheModelPersistenceMainPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceMainPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceMainPath();
 		final Path coucheModelPersistenceTestPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceTestPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceTestPath();
 		final Path coucheModelPersistenceAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceAccueilMainPath();
 		final Path coucheModelPersistenceAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceAccueilTestPath();
 		final Path coucheModelPersistenceDaoexceptionsMainPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceDaoexceptionsMainPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceDaoexceptionsMainPath();
 		final Path coucheModelPersistenceDaoexceptionsTestPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceDaoexceptionsTestPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceDaoexceptionsTestPath();
 		final Path coucheModelPersistenceMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceMetierMainPath();
 		final Path coucheModelPersistenceMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceMetierTestPath();
 
 		final Path coucheModelServicesMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesMainPath();
 		final Path coucheModelServicesTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTestPath();
 		final Path coucheModelServicesAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesAccueilMainPath();
 		final Path coucheModelServicesAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesAccueilTestPath();
 		final Path coucheModelServicesMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesMetierMainPath();
 		final Path coucheModelServicesMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesMetierTestPath();
 		final Path coucheModelServicesTransformeursMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTransformeursMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTransformeursMainPath();
 		final Path coucheModelServicesTransformeursMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTransformeursMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTransformeursMetierMainPath();
 		final Path coucheModelServicesTransformeursTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTransformeursTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTransformeursTestPath();
 		final Path coucheModelServicesTransformeursMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTransformeursMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTransformeursMetierTestPath();
 		final Path coucheModelServicesUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesUtilitairesMainPath();
 		final Path coucheModelServicesUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesUtilitairesTestPath();
 		final Path coucheModelServicesValideursMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesValideursMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesValideursMainPath();
 		final Path coucheModelServicesValideursMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesValideursMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesValideursMetierMainPath();
 		final Path coucheModelServicesValideursTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesValideursTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesValideursTestPath();
 		final Path coucheModelServicesValideursMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesValideursMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesValideursMetierTestPath();
 		
 		final Path coucheModelUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheModelUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheModelUtilitairesMainPath();
 		final Path coucheModelUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheModelUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheModelUtilitairesTestPath();
 		
 		// REPERTOIRES EXTERNES
 		final Path conceptionAppliPath 
-			= ArboresceurProjetCible.getConceptionAppliPath();
+			= ArboresceurPresentProjet.getConceptionAppliPath();
 		final Path dataPath 
-			= ArboresceurProjetCible.getDataPath();
+			= ArboresceurPresentProjet.getDataPath();
 		final Path dataH2Path 
-			= ArboresceurProjetCible.getDataH2Path();
+			= ArboresceurPresentProjet.getDataH2Path();
 		final Path dataHSQLDBPath 
-			= ArboresceurProjetCible.getDataHSQLDBPath();
+			= ArboresceurPresentProjet.getDataHSQLDBPath();
 		final Path dataJAXBPath 
-			= ArboresceurProjetCible.getDataJAXBPath();
+			= ArboresceurPresentProjet.getDataJAXBPath();
 		final Path dataScriptsSqlPath 
-			= ArboresceurProjetCible.getDataScriptsSqlPath();
+			= ArboresceurPresentProjet.getDataScriptsSqlPath();
 		final Path javadocPath 
-			= ArboresceurProjetCible.getJavadocPath();
+			= ArboresceurPresentProjet.getJavadocPath();
 		final Path javadocImagesPath 
-			= ArboresceurProjetCible.getJavadocImagesPath();
+			= ArboresceurPresentProjet.getJavadocImagesPath();
 		final Path logsPath 
-			= ArboresceurProjetCible.getLogsPath();
+			= ArboresceurPresentProjet.getLogsPath();
 		final Path rapportsControlePath 
-			= ArboresceurProjetCible.getRapportsControlePath();
+			= ArboresceurPresentProjet.getRapportsControlePath();
 		final Path ressourcesExternesPath 
-			= ArboresceurProjetCible.getRessourcesExternesPath();
+			= ArboresceurPresentProjet.getRessourcesExternesPath();
 
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			
-			System.out.println("projet cible : " + projetCiblePathStocke);
-			System.out.println("Nom du projet cible : " + projetCibleNom);
+			System.out.println("projet cible : " + projetSourcePathStocke);
+			System.out.println("Nom du projet cible : " + projetSourceNom);
 			
 			System.out.println("sources java srcMainJavaPath : " + srcMainJavaPath);
 			System.out.println("ressources srcMainResourcesPath : " + srcMainResourcesPath);
@@ -450,22 +445,22 @@ public class ArboresceurProjetCibleTest {
 			
 			System.out.println();
 			System.out.println("LISTE ARBORESCENCE");
-			System.out.println(ArboresceurProjetCible.afficherArborescence());
+			System.out.println(ArboresceurPresentProjet.afficherArborescence());
 			
 			System.out.println();
-			System.out.println("NOMBRE DE REPERTOIRES A CREER : " + ArboresceurProjetCible.fournirNombreRepACreer());
+			System.out.println("NOMBRE DE REPERTOIRES A CREER : " + ArboresceurPresentProjet.fournirNombreRepACreer());
 			
 			System.out.println();
 			System.out.println("MAP ARBORESCENCE MAIN");
-			System.out.println(ArboresceurProjetCible.afficherArborescenceMainMap());
+			System.out.println(ArboresceurPresentProjet.afficherArborescenceMainMap());
 			
 			System.out.println();
 			System.out.println("MAP ARBORESCENCE TEST");
-			System.out.println(ArboresceurProjetCible.afficherArborescenceTestMap());
+			System.out.println(ArboresceurPresentProjet.afficherArborescenceTestMap());
 			
 			System.out.println();
 			System.out.println("MAP ARBORESCENCE REPERTOIRES EXTERNES");
-			System.out.println(ArboresceurProjetCible.afficherArborescenceRepExtMap());
+			System.out.println(ArboresceurPresentProjet.afficherArborescenceRepExtMap());
 
 		}
 		
@@ -512,13 +507,13 @@ public class ArboresceurProjetCibleTest {
 	} // Fin de testCalculerPaths()._______________________________________
 
 
+	
 	/**
 	 * teste l'ensemble de l'arboresceur.<br/>
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testCalculerPathsAvecChangementGroupId() {
-		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
@@ -526,244 +521,235 @@ public class ArboresceurProjetCibleTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ArboresceurProjetCibleTest - méthode testCalculerPathsAvecChangementGroupId() ********** ");
+			System.out.println("********** CLASSE ArboresceurPresentProjetTest - méthode testCalculerPathsAvecChangementGroupId() ********** ");
 		}
 		
-		// ************************************************* //
-		final Path projetCiblePath 
-			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven");
-//		final Path projetCiblePath = null;
-		// ************************************************* //
-
+		
 		/* Changement du groupId. */
-		ArboresceurProjetCible.setGroupId("fr.orsys.demo");
+		ArboresceurPresentProjet.setGroupId("fr.orsys.demo");
 
-		/* Détermination du projet cible. */
-		ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);
-		
-		
-		final Path projetCiblePathStocke 
-			= ArboresceurProjetCible.getProjetCiblePath();
-		final String projetCibleNom 
-			= ArboresceurProjetCible.getProjetCibleNom();
+		final Path projetSourcePathStocke 
+			= ArboresceurPresentProjet.getProjetSourcePath();
+		final String projetSourceNom 
+			= ArboresceurPresentProjet.getProjetSourceNom();
 		
 		final Path srcMainJavaPath 
-			= ArboresceurProjetCible.getSrcMainJavaPath();
+			= ArboresceurPresentProjet.getSrcMainJavaPath();
 		final Path srcMainResourcesPath 
-			= ArboresceurProjetCible.getSrcMainResourcesPath();
+			= ArboresceurPresentProjet.getSrcMainResourcesPath();
 		final Path srcMainResourcesMetaInfPath 
-			= ArboresceurProjetCible.getSrcMainResourcesMetaInfPath();
+			= ArboresceurPresentProjet.getSrcMainResourcesMetaInfPath();
 		final Path srcTestJavaPath 
-			= ArboresceurProjetCible.getSrcTestJavaPath();
+			= ArboresceurPresentProjet.getSrcTestJavaPath();
 		final Path srcTestResourcesPath 
-			= ArboresceurProjetCible.getSrcTestResourcesPath();
+			= ArboresceurPresentProjet.getSrcTestResourcesPath();
 		final Path srcTestResourcesMetaInfPath 
-			= ArboresceurProjetCible.getSrcTestResourcesMetaInfPath();
+			= ArboresceurPresentProjet.getSrcTestResourcesMetaInfPath();
 		
 		// GROUPID
 		final String groupId 
-			= ArboresceurProjetCible.getGroupId();
+			= ArboresceurPresentProjet.getGroupId();
 		final Path groupIdPathRelatif 
-			= ArboresceurProjetCible.getGroupIdPathRelatif();
+			= ArboresceurPresentProjet.getGroupIdPathRelatif();
 		
 		// RACINEs DES SOURCES ET TESTS
 		final Path racineSourcesJavaPath 
-			= ArboresceurProjetCible.getRacineSourcesJavaPath();
+			= ArboresceurPresentProjet.getRacineSourcesJavaPath();
 		final Path racineTestsJavaPath 
-			= ArboresceurProjetCible.getRacineTestsJavaPath();
+			= ArboresceurPresentProjet.getRacineTestsJavaPath();
 		
 		// APPTECHNIC
 		final Path coucheAppTechnicMainPath 
-			= ArboresceurProjetCible.getCoucheAppTechnicMainPath();
+			= ArboresceurPresentProjet.getCoucheAppTechnicMainPath();
 		final Path coucheAppTechnicTestPath 
-			= ArboresceurProjetCible.getCoucheAppTechnicTestPath();
+			= ArboresceurPresentProjet.getCoucheAppTechnicTestPath();
 		
 		// CONTROLLERS
 		final Path coucheControllersMainPath 
-			= ArboresceurProjetCible.getCoucheControllersMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersMainPath();
 		final Path coucheControllersTestPath 
-			= ArboresceurProjetCible.getCoucheControllersTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersTestPath();
 		
 		final Path coucheControllersDesktopMainPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopMainPath();
 		final Path coucheControllersDesktopTestPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopTestPath();
 		final Path coucheControllersDesktopAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopAccueilMainPath();
 		final Path coucheControllersDesktopAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopAccueilTestPath();
 		final Path coucheControllersDesktopMetierMainPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopMetierMainPath();
 		final Path coucheControllersDesktopMetierTestPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopMetierTestPath();
 		final Path coucheControllersDesktopUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopUtilitairesMainPath();
 		final Path coucheControllersDesktopUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheControllersDesktopUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersDesktopUtilitairesTestPath();
 	
 		final Path coucheControllersWebMainPath 
-			= ArboresceurProjetCible.getCoucheControllersWebMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebMainPath();
 		final Path coucheControllersWebTestPath 
-			= ArboresceurProjetCible.getCoucheControllersWebTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebTestPath();
 		final Path coucheControllersWebAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheControllersWebAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebAccueilMainPath();
 		final Path coucheControllersWebAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheControllersWebAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebAccueilTestPath();
 		final Path coucheControllersWebMetierMainPath 
-			= ArboresceurProjetCible.getCoucheControllersWebMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebMetierMainPath();
 		final Path coucheControllersWebMetierTestPath 
-			= ArboresceurProjetCible.getCoucheControllersWebMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebMetierTestPath();
 		final Path coucheControllersWebUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheControllersWebUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebUtilitairesMainPath();
 		final Path coucheControllersWebUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheControllersWebUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheControllersWebUtilitairesTestPath();
 		
 		// VUES
 		final Path coucheVuesMainPath 
-			= ArboresceurProjetCible.getCoucheVuesMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesMainPath();
 		final Path coucheVuesTestPath 
-			= ArboresceurProjetCible.getCoucheVuesTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesTestPath();
 		
 		final Path coucheVuesDesktopMainPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopMainPath();
 		final Path coucheVuesDesktopTestPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopTestPath();
 		final Path coucheVuesDesktopAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopAccueilMainPath();
 		final Path coucheVuesDesktopAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopAccueilTestPath();
 		final Path coucheVuesDesktopMetierMainPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopMetierMainPath();
 		final Path coucheVuesDesktopMetierTestPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopMetierTestPath();
 		final Path coucheVuesDesktopUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopUtilitairesMainPath();
 		final Path coucheVuesDesktopUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheVuesDesktopUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesDesktopUtilitairesTestPath();
 
 		final Path coucheVuesWebMainPath 
-			= ArboresceurProjetCible.getCoucheVuesWebMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebMainPath();
 		final Path coucheVuesWebTestPath 
-			= ArboresceurProjetCible.getCoucheVuesWebTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebTestPath();
 		final Path coucheVuesWebAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheVuesWebAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebAccueilMainPath();
 		final Path coucheVuesWebAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheVuesWebAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebAccueilTestPath();
 		final Path coucheVuesWebMetierMainPath 
-			= ArboresceurProjetCible.getCoucheVuesWebMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebMetierMainPath();
 		final Path coucheVuesWebMetierTestPath 
-			= ArboresceurProjetCible.getCoucheVuesWebMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebMetierTestPath();
 		final Path coucheVuesWebUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheVuesWebUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebUtilitairesMainPath();
 		final Path coucheVuesWebUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheVuesWebUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheVuesWebUtilitairesTestPath();
 
 		
 		// MODEL
 		final Path coucheModelMainPath 
-			= ArboresceurProjetCible.getCoucheModelMainPath();
+			= ArboresceurPresentProjet.getCoucheModelMainPath();
 		final Path coucheModelTestPath 
-			= ArboresceurProjetCible.getCoucheModelTestPath();
+			= ArboresceurPresentProjet.getCoucheModelTestPath();
 		
 		final Path coucheModelDTOMainPath 
-			= ArboresceurProjetCible.getCoucheModelDTOMainPath();
+			= ArboresceurPresentProjet.getCoucheModelDTOMainPath();
 		final Path coucheModelDTOTestPath 
-			= ArboresceurProjetCible.getCoucheModelDTOTestPath();
+			= ArboresceurPresentProjet.getCoucheModelDTOTestPath();
 		final Path coucheModelDTOMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelDTOMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelDTOMetierMainPath();
 		final Path coucheModelDTOMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelDTOMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelDTOMetierTestPath();
 		
 		final Path coucheModelMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelMetierMainPath();
 		final Path coucheModelMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelMetierTestPath();
 
 		final Path coucheModelPersistenceMainPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceMainPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceMainPath();
 		final Path coucheModelPersistenceTestPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceTestPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceTestPath();
 		final Path coucheModelPersistenceAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceAccueilMainPath();
 		final Path coucheModelPersistenceAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceAccueilTestPath();
 		final Path coucheModelPersistenceDaoexceptionsMainPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceDaoexceptionsMainPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceDaoexceptionsMainPath();
 		final Path coucheModelPersistenceDaoexceptionsTestPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceDaoexceptionsTestPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceDaoexceptionsTestPath();
 		final Path coucheModelPersistenceMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceMetierMainPath();
 		final Path coucheModelPersistenceMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelPersistenceMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelPersistenceMetierTestPath();
 
 		final Path coucheModelServicesMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesMainPath();
 		final Path coucheModelServicesTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTestPath();
 		final Path coucheModelServicesAccueilMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesAccueilMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesAccueilMainPath();
 		final Path coucheModelServicesAccueilTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesAccueilTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesAccueilTestPath();
 		final Path coucheModelServicesMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesMetierMainPath();
 		final Path coucheModelServicesMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesMetierTestPath();
 		final Path coucheModelServicesTransformeursMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTransformeursMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTransformeursMainPath();
 		final Path coucheModelServicesTransformeursMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTransformeursMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTransformeursMetierMainPath();
 		final Path coucheModelServicesTransformeursTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTransformeursTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTransformeursTestPath();
 		final Path coucheModelServicesTransformeursMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesTransformeursMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesTransformeursMetierTestPath();
 		final Path coucheModelServicesUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesUtilitairesMainPath();
 		final Path coucheModelServicesUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesUtilitairesTestPath();
 		final Path coucheModelServicesValideursMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesValideursMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesValideursMainPath();
 		final Path coucheModelServicesValideursMetierMainPath 
-			= ArboresceurProjetCible.getCoucheModelServicesValideursMetierMainPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesValideursMetierMainPath();
 		final Path coucheModelServicesValideursTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesValideursTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesValideursTestPath();
 		final Path coucheModelServicesValideursMetierTestPath 
-			= ArboresceurProjetCible.getCoucheModelServicesValideursMetierTestPath();
+			= ArboresceurPresentProjet.getCoucheModelServicesValideursMetierTestPath();
 		
 		final Path coucheModelUtilitairesMainPath 
-			= ArboresceurProjetCible.getCoucheModelUtilitairesMainPath();
+			= ArboresceurPresentProjet.getCoucheModelUtilitairesMainPath();
 		final Path coucheModelUtilitairesTestPath 
-			= ArboresceurProjetCible.getCoucheModelUtilitairesTestPath();
+			= ArboresceurPresentProjet.getCoucheModelUtilitairesTestPath();
 		
 		// REPERTOIRES EXTERNES
 		final Path conceptionAppliPath 
-			= ArboresceurProjetCible.getConceptionAppliPath();
+			= ArboresceurPresentProjet.getConceptionAppliPath();
 		final Path dataPath 
-			= ArboresceurProjetCible.getDataPath();
+			= ArboresceurPresentProjet.getDataPath();
 		final Path dataH2Path 
-			= ArboresceurProjetCible.getDataH2Path();
+			= ArboresceurPresentProjet.getDataH2Path();
 		final Path dataHSQLDBPath 
-			= ArboresceurProjetCible.getDataHSQLDBPath();
+			= ArboresceurPresentProjet.getDataHSQLDBPath();
 		final Path dataJAXBPath 
-			= ArboresceurProjetCible.getDataJAXBPath();
+			= ArboresceurPresentProjet.getDataJAXBPath();
 		final Path dataScriptsSqlPath 
-			= ArboresceurProjetCible.getDataScriptsSqlPath();
+			= ArboresceurPresentProjet.getDataScriptsSqlPath();
 		final Path javadocPath 
-			= ArboresceurProjetCible.getJavadocPath();
+			= ArboresceurPresentProjet.getJavadocPath();
 		final Path javadocImagesPath 
-			= ArboresceurProjetCible.getJavadocImagesPath();
+			= ArboresceurPresentProjet.getJavadocImagesPath();
 		final Path logsPath 
-			= ArboresceurProjetCible.getLogsPath();
+			= ArboresceurPresentProjet.getLogsPath();
 		final Path rapportsControlePath 
-			= ArboresceurProjetCible.getRapportsControlePath();
+			= ArboresceurPresentProjet.getRapportsControlePath();
 		final Path ressourcesExternesPath 
-			= ArboresceurProjetCible.getRessourcesExternesPath();
+			= ArboresceurPresentProjet.getRessourcesExternesPath();
 
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			
-			System.out.println("projet cible : " + projetCiblePathStocke);
-			System.out.println("Nom du projet cible : " + projetCibleNom);
+			System.out.println("projet cible : " + projetSourcePathStocke);
+			System.out.println("Nom du projet cible : " + projetSourceNom);
 			
 			System.out.println("sources java srcMainJavaPath : " + srcMainJavaPath);
 			System.out.println("ressources srcMainResourcesPath : " + srcMainResourcesPath);
@@ -882,22 +868,22 @@ public class ArboresceurProjetCibleTest {
 			
 			System.out.println();
 			System.out.println("LISTE ARBORESCENCE");
-			System.out.println(ArboresceurProjetCible.afficherArborescence());
+			System.out.println(ArboresceurPresentProjet.afficherArborescence());
 			
 			System.out.println();
-			System.out.println("NOMBRE DE REPERTOIRES A CREER : " + ArboresceurProjetCible.fournirNombreRepACreer());
+			System.out.println("NOMBRE DE REPERTOIRES A CREER : " + ArboresceurPresentProjet.fournirNombreRepACreer());
 			
 			System.out.println();
 			System.out.println("MAP ARBORESCENCE MAIN");
-			System.out.println(ArboresceurProjetCible.afficherArborescenceMainMap());
+			System.out.println(ArboresceurPresentProjet.afficherArborescenceMainMap());
 			
 			System.out.println();
 			System.out.println("MAP ARBORESCENCE TEST");
-			System.out.println(ArboresceurProjetCible.afficherArborescenceTestMap());
+			System.out.println(ArboresceurPresentProjet.afficherArborescenceTestMap());
 			
 			System.out.println();
 			System.out.println("MAP ARBORESCENCE REPERTOIRES EXTERNES");
-			System.out.println(ArboresceurProjetCible.afficherArborescenceRepExtMap());
+			System.out.println(ArboresceurPresentProjet.afficherArborescenceRepExtMap());
 
 		}
 		
@@ -943,15 +929,16 @@ public class ArboresceurProjetCibleTest {
 
 	} // Fin de testCalculerPathsAvecChangementGroupId().__________________
 	
-
+	
 	
 	/**
 	 * teste les méthodes setGroupId(...) et s
 	 * etGroupIdPathRelatif(...).<br/>
+	 * @throws IOException 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testSetGroupId() {
+	public void testSetGroupId() throws IOException {
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = false;
@@ -959,102 +946,90 @@ public class ArboresceurProjetCibleTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ArboresceurProjetCibleTest - méthode testSetGroupId() ********** ");
+			System.out.println("********** CLASSE ArboresceurPresentProjetTest - méthode testSetGroupId() ********** ");
 		}
-		
-		// ************************************************* //
-		final Path projetCiblePath 
-			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven");
-//		final Path projetCiblePath = null;
-		// ************************************************* //
 		
 		final String groupId = "fr.orsys.demo";
 		
 		// UTILISATION DE SETTER DU GROUPID
-		ArboresceurProjetCible.setGroupId(groupId);
+		ArboresceurPresentProjet.setGroupId(groupId);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(GROUPID_DANS_PROJET_CIBLE + ArboresceurProjetCible.getGroupId());
-			System.out.println(GROUPIDPATHRELATIF_DANS_PROJET_CIBLE + ArboresceurProjetCible.getGroupIdPathRelatif());
+			System.out.println(GROUPID_DANS_PRESENT_PROJET + ArboresceurPresentProjet.getGroupId());
+			System.out.println(GROUPIDPATHRELATIF_DANS_PRESENT_PROJET + ArboresceurPresentProjet.getGroupIdPathRelatif());
 		}
 		
 		assertEquals("le groupId vaut groupId : "
 				, groupId
-				, ArboresceurProjetCible.getGroupId());
+				, ArboresceurPresentProjet.getGroupId());
 		
-		assertEquals(GROUPIDPATHRELATIF_DANS_PROJET_CIBLE
+		assertEquals(GROUPIDPATHRELATIF_DANS_PRESENT_PROJET
 				, Paths.get("fr/orsys/demo")
-				, ArboresceurProjetCible.getGroupIdPathRelatif());
-		
-		/* Selection du projet cible. */
-		ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);
+				, ArboresceurPresentProjet.getGroupIdPathRelatif());
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("Racine des sources java : " + ArboresceurProjetCible.getRacineSourcesJavaPath());
-			System.out.println("Racine des tests java : " + ArboresceurProjetCible.getRacineTestsJavaPath());
+			System.out.println("Racine des sources java : " + ArboresceurPresentProjet.getRacineSourcesJavaPath());
+			System.out.println("Racine des tests java : " + ArboresceurPresentProjet.getRacineTestsJavaPath());
 		}
 		
 		final Path pathSourcesJava 
-			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven/src/main/java/fr/orsys/demo");
+			= ManagerPaths.getPathPresentProjet().resolve("src/main/java/fr/orsys/demo");
 		
 		final Path pathTestsJava 
-		= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven/src/test/java/fr/orsys/demo");
+			= ManagerPaths.getPathPresentProjet().resolve("src/test/java/fr/orsys/demo");
 		
 		assertEquals("racine des sources java src/main/java/fr/orsys/demo : "
 				, pathSourcesJava
-				, ArboresceurProjetCible.getRacineSourcesJavaPath());
+				, ArboresceurPresentProjet.getRacineSourcesJavaPath());
 		
 		assertEquals("racine des tests java src/test/java/fr/orsys/demo : "
 				, pathTestsJava
-				, ArboresceurProjetCible.getRacineTestsJavaPath());
+				, ArboresceurPresentProjet.getRacineTestsJavaPath());
 		
 		final Path pathRelatif = Paths.get("levy/daniel/application");
 		
 		// UTILISATION DE SETTER DU GROUPIDPATHRELATIF
-		ArboresceurProjetCible.setGroupIdPathRelatif(pathRelatif);
+		ArboresceurPresentProjet.setGroupIdPathRelatif(pathRelatif);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(GROUPID_DANS_PROJET_CIBLE + ArboresceurProjetCible.getGroupId());
-			System.out.println(GROUPIDPATHRELATIF_DANS_PROJET_CIBLE + ArboresceurProjetCible.getGroupIdPathRelatif());
+			System.out.println(GROUPID_DANS_PRESENT_PROJET + ArboresceurPresentProjet.getGroupId());
+			System.out.println(GROUPIDPATHRELATIF_DANS_PRESENT_PROJET + ArboresceurPresentProjet.getGroupIdPathRelatif());
 		}
 		
 		assertEquals("le groupId vaut levy.daniel.application : "
 				, "levy.daniel.application"
-				, ArboresceurProjetCible.getGroupId());
+				, ArboresceurPresentProjet.getGroupId());
 		
-		assertEquals(GROUPIDPATHRELATIF_DANS_PROJET_CIBLE
+		assertEquals(GROUPIDPATHRELATIF_DANS_PRESENT_PROJET
 				, pathRelatif
-				, ArboresceurProjetCible.getGroupIdPathRelatif());
+				, ArboresceurPresentProjet.getGroupIdPathRelatif());
 
-		/* Selection du projet cible. */
-		ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);
-		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("Racine des sources java2 : " + ArboresceurProjetCible.getRacineSourcesJavaPath());
-			System.out.println("Racine des tests java2 : " + ArboresceurProjetCible.getRacineTestsJavaPath());
+			System.out.println("Racine des sources java2 : " + ArboresceurPresentProjet.getRacineSourcesJavaPath());
+			System.out.println("Racine des tests java2 : " + ArboresceurPresentProjet.getRacineTestsJavaPath());
 		}
-		
+				
 		final Path pathSourcesJava2 
-			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven/src/main/java/levy/daniel/application");
-		
+		= ManagerPaths.getPathPresentProjet().resolve("src/main/java/levy/daniel/application");
+	
 		final Path pathTestsJava2 
-		= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/copieur_arborescence_maven/src/test/java/levy/daniel/application");
+			= ManagerPaths.getPathPresentProjet().resolve("src/test/java/levy/daniel/application");
 		
 		assertEquals("racine des sources java src/main/java/levy/daniel/application : "
 				, pathSourcesJava2
-				, ArboresceurProjetCible.getRacineSourcesJavaPath());
+				, ArboresceurPresentProjet.getRacineSourcesJavaPath());
 		
 		assertEquals("racine des tests java src/test/java/levy/daniel/application : "
 				, pathTestsJava2
-				, ArboresceurProjetCible.getRacineTestsJavaPath());
+				, ArboresceurPresentProjet.getRacineTestsJavaPath());
 
 
 	} // Fin de testSetGroupId().__________________________________________
 	
 	
 
-} // FIN DE LA CLASSE ArboresceurProjetCibleTest.----------------------------
+} // FIN DE LA CLASSE ArboresceurPresentProjetTest.--------------------------

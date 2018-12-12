@@ -1052,8 +1052,8 @@ public class ArboresceurProjetSourceTest {
 				, ArboresceurProjetSource.getRacineTestsJavaPath());
 
 
-	} // Fin de testSetGroupId().___________________________________________
+	} // Fin de testSetGroupId().__________________________________________
 	
 	
 
-}
+} // FIN DE LA CLASSE ArboresceurProjetSourceTest.---------------------------
