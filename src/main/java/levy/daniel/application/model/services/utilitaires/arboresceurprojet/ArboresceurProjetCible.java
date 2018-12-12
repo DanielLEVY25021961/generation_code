@@ -307,10 +307,10 @@ import org.apache.commons.logging.LogFactory;
  * <code>
  * // Path du projet cible<br/>
  * <b>Path projetCiblePath = Paths.get("D:/Donnees/toto");</b><br/>
- * // SELECTION DU PROJET CIBLE<br/>
- * <b>ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);</b><br/>
  *  // (Optionnel) sélection du GroupId<br/>
  * ArboresceurProjetCible.setGroupIdPathRelatif("newGroupId") <br/>
+ * // SELECTION DU PROJET CIBLE<br/>
+ * <b>ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);</b><br/>
  *  // RECUPERATION DE L'ARBORESCENCE A CREER DANS LE PROJET CIBLE<br/>
  * <b>List&lt;Path&gt; arborescence = ArboresceurProjetCible.getArborescenceProjetCible();</b><br/>
  *   // RECUPERATION DE L'ARBORESCENCE A CREER DANS LE MAIN du PROJET CIBLE<br/>
@@ -319,6 +319,14 @@ import org.apache.commons.logging.LogFactory;
  * <b>Map&lt;String, Path&gt; arborescenceTestMap = ArboresceurProjetCible.getArborescenceTestProjetCibleMap();</b><br/>
  *   // RECUPERATION DE L'ARBORESCENCE DES REPERTOIRES EXTERNES à créer PROJET CIBLE<br/>
  * <b>Map&lt;String, Path&gt; arborescenceRepExtMap = ArboresceurProjetCible.getArborescenceRepertoiresExternesProjetCibleMap();</b><br/>
+ * </code><br/>
+ * <br/>
+ * Exemple avec changement de groupId :<br/>
+ * <code>
+ *  // CHANGEMENT DU groupId<br/>
+ *  <b>ArboresceurProjetCible.setGroupId("fr.orsys.demo");</b><br/>
+ * // SELECTION DU PROJET CIBLE<br/>
+ * <b>ArboresceurProjetCible.selectionnerProjetCible(projetCiblePath);</b><br/> 
  * </code>
  *<br/>
  * 
@@ -4971,10 +4979,12 @@ public final class ArboresceurProjetCible {
 			final String pGroupId) {
 		
 		synchronized (ArboresceurProjetCible.class) {
+			
 			groupId = pGroupId;
 			
 			/* recalcule automatiquement groupIdPathRelatif. */
 			groupIdPathRelatif = calculerPathRelatifGroupId(pGroupId);
+			
 		}
 		
 	} // Fin de setGroupId(...).___________________________________________
