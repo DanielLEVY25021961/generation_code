@@ -4770,6 +4770,7 @@ public final class ArboresceurPresentProjet {
 	 * @return projetSourcePath : Path.<br/>
 	 */
 	public static Path getProjetSourcePath() {
+		
 		synchronized (ArboresceurPresentProjet.class) {
 			
 			if (projetSourcePath == null) {
@@ -4778,7 +4779,8 @@ public final class ArboresceurPresentProjet {
 			
 			return projetSourcePath;
 			
-		} // Fin de synchronized._______________________		
+		} // Fin de synchronized._______________________	
+		
 	} // Fin de getProjetSourcePath().______________________________________
 
 	
@@ -4821,6 +4823,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (srcMainJavaPath == null) {
 				calculerSrcMainJavaPath();
 			}
@@ -4842,6 +4848,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getSrcMainResourcesPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (srcMainResourcesPath == null) {
 				calculerSrcMainResourcesPath();
@@ -4866,6 +4876,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (srcMainResourcesMetaInfPath == null) {
 				calculerSrcMainResourcesMetaInfPath();
 			}
@@ -4888,6 +4902,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getSrcTestJavaPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (srcTestJavaPath == null) {
 				calculerSrcTestJavaPath();
@@ -4912,6 +4930,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (srcTestResourcesPath == null) {
 				calculerSrcTestResourcesPath();
 			}
@@ -4934,6 +4956,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getSrcTestResourcesMetaInfPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (srcTestResourcesMetaInfPath == null) {
 				calculerSrcTestResourcesMetaInfPath();
@@ -4958,6 +4984,10 @@ public final class ArboresceurPresentProjet {
 	public static String getGroupId() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			return groupId;
 		
@@ -5012,6 +5042,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getGroupIdPathRelatif() {
 				
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (groupIdPathRelatif == null) {
 				groupIdPathRelatif 
@@ -5075,6 +5109,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (racineSourcesJavaPath == null) {
 				calculerRacineSourcesJavaPath();
 			}
@@ -5100,6 +5138,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getRacineTestsJavaPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (racineTestsJavaPath == null) {
 				calculerRacineTestsJavaPath();
@@ -5128,6 +5170,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheAppTechnicMainPath == null) {
 				calculerCoucheAppTechnicMainPath();
 			}
@@ -5154,6 +5200,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheAppTechnicTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheAppTechnicTestPath == null) {
 				calculerCoucheAppTechnicTestPath();
@@ -5182,6 +5232,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheControllersMainPath == null) {
 				calculerCoucheControllersMainPath();
 			}
@@ -5208,6 +5262,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheControllersTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheControllersTestPath == null) {
 				calculerCoucheControllersTestPath();
@@ -5236,6 +5294,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheControllersDesktopMainPath == null) {
 				calculerCoucheControllersDesktopMainPath();
 			}
@@ -5262,6 +5324,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheControllersDesktopTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheControllersDesktopTestPath == null) {
 				calculerCoucheControllersDesktopTestPath();
@@ -5290,6 +5356,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheControllersDesktopAccueilMainPath == null) {
 				calculerCoucheControllersDesktopAccueilMainPath();
 			}
@@ -5316,6 +5386,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheControllersDesktopAccueilTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheControllersDesktopAccueilTestPath == null) {
 				calculerCoucheControllersDesktopAccueilTestPath();
@@ -5344,6 +5418,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheControllersDesktopMetierMainPath == null) {
 				calculerCoucheControllersDesktopMetierMainPath();
 			}
@@ -5370,6 +5448,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheControllersDesktopMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheControllersDesktopMetierTestPath == null) {
 				calculerCoucheControllersDesktopMetierTestPath();
@@ -5398,6 +5480,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheControllersDesktopUtilitairesMainPath == null) {
 				calculerCoucheControllersDesktopUtilitairesMainPath();
 			}
@@ -5424,6 +5510,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheControllersDesktopUtilitairesTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheControllersDesktopUtilitairesTestPath == null) {
 				calculerCoucheControllersDesktopUtilitairesTestPath();
@@ -5452,6 +5542,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheControllersWebMainPath == null) {
 				calculerCoucheControllersWebMainPath();
 			}
@@ -5478,6 +5572,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheControllersWebTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheControllersWebTestPath == null) {
 				calculerCoucheControllersWebTestPath();
@@ -5506,6 +5604,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheControllersWebAccueilMainPath == null) {
 				calculerCoucheControllersWebAccueilMainPath();
 			}
@@ -5532,6 +5634,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheControllersWebAccueilTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheControllersWebAccueilTestPath == null) {
 				calculerCoucheControllersWebAccueilTestPath();
@@ -5560,6 +5666,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheControllersWebMetierMainPath == null) {
 				calculerCoucheControllersWebMetierMainPath();
 			}
@@ -5586,6 +5696,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheControllersWebMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheControllersWebMetierTestPath == null) {
 				calculerCoucheControllersWebMetierTestPath();
@@ -5614,6 +5728,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheControllersWebUtilitairesMainPath == null) {
 				calculerCoucheControllersWebUtilitairesMainPath();
 			}
@@ -5640,6 +5758,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheControllersWebUtilitairesTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheControllersWebUtilitairesTestPath == null) {
 				calculerCoucheControllersWebUtilitairesTestPath();
@@ -5668,6 +5790,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheVuesMainPath == null) {
 				calculerCoucheVuesMainPath();
 			}
@@ -5694,6 +5820,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheVuesTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheVuesTestPath == null) {
 				calculerCoucheVuesTestPath();
@@ -5722,6 +5852,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheVuesDesktopMainPath == null) {
 				calculerCoucheVuesDesktopMainPath();
 			}
@@ -5748,6 +5882,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheVuesDesktopTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheVuesDesktopTestPath == null) {
 				calculerCoucheVuesDesktopTestPath();
@@ -5776,6 +5914,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheVuesDesktopAccueilMainPath == null) {
 				calculerCoucheVuesDesktopAccueilMainPath();
 			}
@@ -5802,6 +5944,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheVuesDesktopAccueilTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheVuesDesktopAccueilTestPath == null) {
 				calculerCoucheVuesDesktopAccueilTestPath();
@@ -5830,6 +5976,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheVuesDesktopMetierMainPath == null) {
 				calculerCoucheVuesDesktopMetierMainPath();
 			}
@@ -5856,6 +6006,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheVuesDesktopMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheVuesDesktopMetierTestPath == null) {
 				calculerCoucheVuesDesktopMetierTestPath();
@@ -5884,6 +6038,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheVuesDesktopUtilitairesMainPath == null) {
 				calculerCoucheVuesDesktopUtilitairesMainPath();
 			}
@@ -5910,6 +6068,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheVuesDesktopUtilitairesTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheVuesDesktopUtilitairesTestPath == null) {
 				calculerCoucheVuesDesktopUtilitairesTestPath();
@@ -5938,6 +6100,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheVuesWebMainPath == null) {
 				calculerCoucheVuesWebMainPath();
 			}
@@ -5964,6 +6130,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheVuesWebTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheVuesWebTestPath == null) {
 				calculerCoucheVuesWebTestPath();
@@ -5992,6 +6162,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheVuesWebAccueilMainPath == null) {
 				calculerCoucheVuesWebAccueilMainPath();
 			}
@@ -6018,6 +6192,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheVuesWebAccueilTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheVuesWebAccueilTestPath == null) {
 				calculerCoucheVuesWebAccueilTestPath();
@@ -6046,6 +6224,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheVuesWebMetierMainPath == null) {
 				calculerCoucheVuesWebMetierMainPath();
 			}
@@ -6072,6 +6254,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheVuesWebMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheVuesWebMetierTestPath == null) {
 				calculerCoucheVuesWebMetierTestPath();
@@ -6100,6 +6286,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheVuesWebUtilitairesMainPath == null) {
 				calculerCoucheVuesWebUtilitairesMainPath();
 			}
@@ -6126,6 +6316,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheVuesWebUtilitairesTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheVuesWebUtilitairesTestPath == null) {
 				calculerCoucheVuesWebUtilitairesTestPath();
@@ -6154,6 +6348,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelMainPath == null) {
 				calculerCoucheModelMainPath();
 			}
@@ -6180,6 +6378,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelTestPath == null) {
 				calculerCoucheModelTestPath();
@@ -6208,6 +6410,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelDTOMainPath == null) {
 				calculerCoucheModelDTOMainPath();
 			}
@@ -6234,6 +6440,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelDTOTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelDTOTestPath == null) {
 				calculerCoucheModelDTOTestPath();
@@ -6262,6 +6472,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelDTOMetierMainPath == null) {
 				calculerCoucheModelDTOMetierMainPath();
 			}
@@ -6288,6 +6502,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelDTOMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelDTOMetierTestPath == null) {
 				calculerCoucheModelDTOMetierTestPath();
@@ -6316,6 +6534,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelMetierMainPath == null) {
 				calculerCoucheModelMetierMainPath();
 			}
@@ -6342,6 +6564,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelMetierTestPath == null) {
 				calculerCoucheModelMetierTestPath();
@@ -6370,6 +6596,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelPersistenceMainPath == null) {
 				calculerCoucheModelPersistenceMainPath();
 			}
@@ -6396,6 +6626,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelPersistenceTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelPersistenceTestPath == null) {
 				calculerCoucheModelPersistenceTestPath();
@@ -6424,6 +6658,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelPersistenceAccueilMainPath == null) {
 				calculerCoucheModelPersistenceAccueilMainPath();
 			}
@@ -6450,6 +6688,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelPersistenceAccueilTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelPersistenceAccueilTestPath == null) {
 				calculerCoucheModelPersistenceAccueilTestPath();
@@ -6478,6 +6720,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelPersistenceDaoexceptionsMainPath == null) {
 				calculerCoucheModelPersistenceDaoexceptionsMainPath();
 			}
@@ -6504,6 +6750,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelPersistenceDaoexceptionsTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelPersistenceDaoexceptionsTestPath == null) {
 				calculerCoucheModelPersistenceDaoexceptionsTestPath();
@@ -6532,6 +6782,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelPersistenceMetierMainPath == null) {
 				calculerCoucheModelPersistenceMetierMainPath();
 			}
@@ -6558,6 +6812,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelPersistenceMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelPersistenceMetierTestPath == null) {
 				calculerCoucheModelPersistenceMetierTestPath();
@@ -6586,6 +6844,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelServicesMainPath == null) {
 				calculerCoucheModelServicesMainPath();
 			}
@@ -6612,6 +6874,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelServicesTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelServicesTestPath == null) {
 				calculerCoucheModelServicesTestPath();
@@ -6640,6 +6906,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelServicesAccueilMainPath == null) {
 				calculerCoucheModelServicesAccueilMainPath();
 			}
@@ -6666,6 +6936,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelServicesAccueilTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelServicesAccueilTestPath == null) {
 				calculerCoucheModelServicesAccueilTestPath();
@@ -6694,6 +6968,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelServicesMetierMainPath == null) {
 				calculerCoucheModelServicesMetierMainPath();
 			}
@@ -6720,6 +6998,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelServicesMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelServicesMetierTestPath == null) {
 				calculerCoucheModelServicesMetierTestPath();
@@ -6748,6 +7030,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelServicesTransformeursMainPath == null) {
 				calculerCoucheModelServicesTransformeursMainPath();
 			}
@@ -6774,6 +7060,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelServicesTransformeursMetierMainPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelServicesTransformeursMetierMainPath == null) {
 				calculerCoucheModelServicesTransformeursMetierMainPath();
@@ -6802,6 +7092,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelServicesTransformeursTestPath == null) {
 				calculerCoucheModelServicesTransformeursTestPath();
 			}
@@ -6828,6 +7122,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelServicesTransformeursMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelServicesTransformeursMetierTestPath == null) {
 				calculerCoucheModelServicesTransformeursMetierTestPath();
@@ -6856,6 +7154,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelServicesUtilitairesMainPath == null) {
 				calculerCoucheModelServicesUtilitairesMainPath();
 			}
@@ -6882,6 +7184,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelServicesUtilitairesTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelServicesUtilitairesTestPath == null) {
 				calculerCoucheModelServicesUtilitairesTestPath();
@@ -6910,6 +7216,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelServicesValideursMainPath == null) {
 				calculerCoucheModelServicesValideursMainPath();
 			}
@@ -6936,6 +7246,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelServicesValideursMetierMainPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelServicesValideursMetierMainPath == null) {
 				calculerCoucheModelServicesValideursMetierMainPath();
@@ -6964,6 +7278,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelServicesValideursTestPath == null) {
 				calculerCoucheModelServicesValideursTestPath();
 			}
@@ -6990,6 +7308,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getCoucheModelServicesValideursMetierTestPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (coucheModelServicesValideursMetierTestPath == null) {
 				calculerCoucheModelServicesValideursMetierTestPath();
@@ -7018,6 +7340,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelUtilitairesMainPath == null) {
 				calculerCoucheModelUtilitairesMainPath();
 			}
@@ -7045,6 +7371,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (coucheModelUtilitairesTestPath == null) {
 				calculerCoucheModelUtilitairesTestPath();
 			}
@@ -7066,6 +7396,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getConceptionAppliPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (conceptionAppliPath == null) {
 				calculerConceptionAppliPath();
@@ -7089,6 +7423,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (dataPath == null) {
 				calculerDataPath();
 			}
@@ -7110,6 +7448,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getDataH2Path() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (dataH2Path == null) {
 				calculerDataH2Path();
@@ -7133,6 +7475,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (dataHSQLDBPath == null) {
 				calculerDataHSQLDBPath();
 			}
@@ -7154,6 +7500,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getDataJAXBPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (dataJAXBPath == null) {
 				calculerDataJAXBPath();
@@ -7178,6 +7528,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (dataScriptsSqlPath == null) {
 				calculerDataScriptsSqlPath();
 			}
@@ -7199,6 +7553,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getJavadocPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (javadocPath == null) {
 				calculerJavadocPath();
@@ -7222,6 +7580,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (javadocImagesPath == null) {
 				calculerJavadocImagesPath();
 			}
@@ -7243,6 +7605,10 @@ public final class ArboresceurPresentProjet {
 	public static Path getLogsPath() {
 		
 		synchronized (ArboresceurPresentProjet.class) {
+			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
 			
 			if (logsPath == null) {
 				calculerLogsPath();
@@ -7266,6 +7632,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (rapportsControlePath == null) {
 				calculerRapportsControlePath();
 			}
@@ -7288,6 +7658,10 @@ public final class ArboresceurPresentProjet {
 		
 		synchronized (ArboresceurPresentProjet.class) {
 			
+			if (projetSourcePath == null) {
+				calculerTout();
+			}
+			
 			if (ressourcesExternesPath == null) {
 				calculerRessourcesExternesPath();
 			}
@@ -7307,7 +7681,13 @@ public final class ArboresceurPresentProjet {
 	 * @return ARBORESCENCE_PROJET_SOURCE : List&lt;Path&gt;.<br/>
 	 */
 	public static List<Path> getArborescenceProjetSource() {
+		
+		if (projetSourcePath == null) {
+			calculerTout();
+		}
+		
 		return ARBORESCENCE_PROJET_SOURCE;
+		
 	} // Fin de getArborescenceProjetSource().______________________________
 
 
@@ -7326,7 +7706,13 @@ public final class ArboresceurPresentProjet {
 	 * Map&lt;String,Path&gt;.<br/>
 	 */
 	public static Map<String, Path> getArborescenceMainProjetSourceMap() {
+		
+		if (projetSourcePath == null) {
+			calculerTout();
+		}
+		
 		return ARBORESCENCE_MAIN_PROJET_SOURCE_MAP;
+		
 	} // Fin de getArborescenceMainProjetSourceMap()._______________________
 
 
@@ -7345,7 +7731,13 @@ public final class ArboresceurPresentProjet {
 	 * Map&lt;String,Path&gt;.<br/>
 	 */
 	public static Map<String, Path> getArborescenceTestProjetSourceMap() {
+		
+		if (projetSourcePath == null) {
+			calculerTout();
+		}
+		
 		return ARBORESCENCE_TEST_PROJET_SOURCE_MAP;
+		
 	} // Fin de getArborescenceTestProjetSourceMap()._______________________
 
 
@@ -7364,7 +7756,13 @@ public final class ArboresceurPresentProjet {
 	 * Map&lt;String,Path&gt;.<br/>
 	 */
 	public static Map<String, Path> getArborescenceRepertoiresExternesProjetSourceMap() {
+		
+		if (projetSourcePath == null) {
+			calculerTout();
+		}
+		
 		return ARBORESCENCE_REPERTOIRES_EXTERNES_PROJET_SOURCE_MAP;
+		
 	} // Fin de getArborescenceRepertoiresExternesProjetSourceMap().________
 
 		
