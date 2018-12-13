@@ -288,6 +288,95 @@
 			<scope>test</scope>
 		</dependency>
 
+		
+		
+		<!-- ====================================================== -->
+		<!--        DEPENDANCES POUR ORM (Hibernate)                -->
+		<!-- ====================================================== -->
+		<!-- ESSENTIEL -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<!-- Remplace hibernate-entitymanager, persistence-api, ... -->
+		<!--                    HIBERNATE-CORE                      -->
+		<!-- Fournit les ANNOTATIONS Javax.persistence....          -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>${hibernate.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- LIEN JPA - HIBERNATE -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+		<dependency>
+		    <groupId>org.hibernate.javax.persistence</groupId>
+		    <artifactId>hibernate-jpa-2.1-api</artifactId>
+		    <version>${hibernate-jpa-2.1-api.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- Intégration du POOL DE CONNEXION c3p0 pour Hibernate 			 -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.hibernate</groupId> -->
+<!-- 		    <artifactId>hibernate-c3p0</artifactId> -->
+<!-- 		    <version>${hibernate.version}</version> -->
+<!-- 		    <scope>compile</scope> -->
+<!-- 		</dependency> -->
+		
+		
+		<!-- ====================================================== -->
+		<!--        DEPENDANCES POUR Pool de connexion              -->
+		<!-- ====================================================== -->
+		<!-- c3p0 -->
+		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0    -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>com.mchange</groupId> -->
+<!-- 		    <artifactId>c3p0</artifactId> -->
+<!-- 		    <version>${c3p0.version}</version> -->
+<!-- 		    <scope>compile</scope> -->
+<!-- 		</dependency> -->
+
+
+		<!-- ====================================================== -->
+		<!--        DEPENDANCES POUR Bases de Données               -->
+		<!-- ====================================================== -->
+		<!-- POSTGRESQL -->
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>${postgresql.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- MySQL -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>${mysql-connector-java.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+
+		<!-- HSQLDB -->
+		<!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+		<dependency>
+		    <groupId>org.hsqldb</groupId>
+		    <artifactId>hsqldb</artifactId>
+		    <version>${hsqldb.version}</version>
+		    <scope>test</scope>		    
+		</dependency>
+
+		<!-- H2 -->
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <version>${h2.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		
 	</dependencies>	
 	
 	

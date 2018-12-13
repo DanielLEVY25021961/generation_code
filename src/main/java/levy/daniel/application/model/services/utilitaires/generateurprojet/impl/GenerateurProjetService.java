@@ -203,26 +203,31 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 			
 		}
 		
-		/* génère l'arborescence dans le projet cible sur disque. */
+		// ARBORESCENCE D'INFRASTRUCTURE
+		/* génère l'arborescence d'INFRASTRUCTURE 
+		 * dans le projet cible sur disque. */
 		this.genererArborescenceDansProjetCible(arborescence);
 		
+		// PACKAGE INFO
 		/* génère tous les package-info dans le projet cible sur disque. */
 		this.genererPackagesInfoDansProjetCible(
 				arborescenceMainProjetCibleMap, projetCiblePath);
 		
+		// JAVADOC
 		/* écrit tout le contenu du REPERTOIRE ORIGINE 
 		 * javadoc du présent projet 
 		 * sur disque sous le même répertoire SOUS LE PROJET CIBLE. */
 		this.recopierContenuOrigineDansCibleIdentique(
 				"javadoc", pProjetCiblePath);
 		
+		// APPTECHNIC
 		/* écrit tout le contenu du PACKAGE ORIGINE 
 		 * apptechnic du présent projet 
 		 * sur disque sous le même PACKAGE SOUS LE PROJET CIBLE. */
 		this.recopierContenuPackageOrigineDansCibleIdentique(
 				"apptechnic", pProjetCiblePath);
 		
-
+		// ${racineSourcesJava}/CONFIGURATIONAPPLICATIONMANAGER.java
 		/* écrit tout le FICHIER SOURCE 
 		 * ConfigurationApplicationManager.java du présent projet 
 		 * sur disque sous le même PACKAGE SOUS LE PROJET CIBLE. */
@@ -230,11 +235,28 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 				"ConfigurationApplicationManager.java"
 					, pProjetCiblePath);
 
+		// ${racineSourcesJava}/ICONSTANTESAPPLICATIVES.java
 		/* écrit tout le FICHIER SOURCE 
 		 * IConstantesApplicatives.java du présent projet 
 		 * sur disque sous le même PACKAGE SOUS LE PROJET CIBLE. */
 		this.recopierFichierSourceOrigineDansCibleIdentique(
 				"IConstantesApplicatives.java"
+					, pProjetCiblePath);
+		
+		// ${racineSourcesJava}/model/metier/IExportateurCsv.java
+		/* écrit tout le FICHIER SOURCE 
+		 * IExportateurCsv.java du présent projet 
+		 * sur disque sous le même PACKAGE SOUS LE PROJET CIBLE. */
+		this.recopierFichierSourceOrigineDansCibleIdentique(
+				"model/metier/IExportateurCsv.java"
+					, pProjetCiblePath);
+		
+		// ${racineSourcesJava}/model/metier/IExportateurJTable.java
+		/* écrit tout le FICHIER SOURCE 
+		 * IExportateurJTable.java du présent projet 
+		 * sur disque sous le même PACKAGE SOUS LE PROJET CIBLE. */
+		this.recopierFichierSourceOrigineDansCibleIdentique(
+				"model/metier/IExportateurJTable.java"
 					, pProjetCiblePath);
 
 		// GENERE LE POM.
