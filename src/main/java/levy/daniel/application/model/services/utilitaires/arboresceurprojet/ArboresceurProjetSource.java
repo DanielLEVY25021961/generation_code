@@ -1470,22 +1470,22 @@ public final class ArboresceurProjetSource {
 	 * - ne fait rien si pPojetSourcePath == null.<br/>
 	 * <br/>
 	 *
-	 * @param pPojetSourcePath : Path : Path du projet source dans lequel 
+	 * @param pProjetSourcePath : Path : Path du projet source dans lequel 
 	 * on va trouver une arborescence d'application n-tiers 
 	 * MAVEN SIMPLE.<br/>
 	 */
 	public static void selectionnerProjetSource(
-			final Path pPojetSourcePath) {
+			final Path pProjetSourcePath) {
 		
 		synchronized (ArboresceurProjetSource.class) {
 			
 			/* ne fait rien si pPojetSourcePath == null. */
-			if (pPojetSourcePath == null) {
+			if (pProjetSourcePath == null) {
 				return;
 			}
 			
-			projetSourcePath = pPojetSourcePath;
-			projetSourceNom = extraireNom(pPojetSourcePath);
+			projetSourcePath = pProjetSourcePath;
+			projetSourceNom = extraireNom(pProjetSourcePath);
 			
 			/* calcule tous les autres attributs. */
 			calculerTousAttributs();

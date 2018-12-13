@@ -1471,22 +1471,22 @@ public final class ArboresceurProjetCible {
 	 * - ne fait rien si pPojetCiblePath == null.<br/>
 	 * <br/>
 	 *
-	 * @param pPojetCiblePath : Path : Path du projet cible dans lequel 
+	 * @param pProjetCiblePath : Path : Path du projet cible dans lequel 
 	 * on va générer une arborescence d'application n-tiers 
 	 * MAVEN SIMPLE.<br/>
 	 */
 	public static void selectionnerProjetCible(
-			final Path pPojetCiblePath) {
+			final Path pProjetCiblePath) {
 		
 		synchronized (ArboresceurProjetCible.class) {
 			
 			/* ne fait rien si pPojetCiblePath == null. */
-			if (pPojetCiblePath == null) {
+			if (pProjetCiblePath == null) {
 				return;
 			}
 			
-			projetCiblePath = pPojetCiblePath;
-			projetCibleNom = extraireNom(pPojetCiblePath);
+			projetCiblePath = pProjetCiblePath;
+			projetCibleNom = extraireNom(pProjetCiblePath);
 			
 			/* calcule tous les autres attributs. */
 			calculerTousAttributs();

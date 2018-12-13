@@ -1,4 +1,4 @@
-package levy.daniel.application.model.services.utilitaires.generateurprojet.impl;
+package levy.daniel.application.model.services.utilitaires.copieurconcept.impl;
 
 import static org.junit.Assert.assertTrue;
 
@@ -9,11 +9,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import levy.daniel.application.model.services.utilitaires.generateurprojet.IGenerateurProjetService;
+import levy.daniel.application.model.services.utilitaires.copieurconcept.ICopieurConceptService;
 
 /**
- * CLASSE GenerateurProjetServiceTest :<br/>
- * Test JUnit de la classe GenerateurProjetService.<br/>
+ * CLASSE CopieurConceptServiceTest :<br/>
+ * Test JUnit de la classe CopieurConcept.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -28,10 +28,10 @@ import levy.daniel.application.model.services.utilitaires.generateurprojet.IGene
  *
  * @author daniel.levy Lévy
  * @version 1.0
- * @since 26 nov. 2018
+ * @since 13 déc. 2018
  *
  */
-public class GenerateurProjetServiceTest {
+public class CopieurConceptServiceTest {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -57,35 +57,37 @@ public class GenerateurProjetServiceTest {
 	 */
 	public static final String BIDON 
 		= "BIDON : ";
-	
+
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(GenerateurProjetServiceTest.class);
+		= LogFactory.getLog(CopieurConceptServiceTest.class);
 
+	
 	// *************************METHODES************************************/
 
 	
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public GenerateurProjetServiceTest() {
+	public CopieurConceptServiceTest() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 
-
+	
 	/**
 	 * .<br/>
 	 * <ul>
 	 * <li></li>
 	 * </ul>
-	 * @throws Exception 
+	 *
+	 * @throws Exception
 	 */
 	@Test
-	public void testGenerer() throws Exception {
+	public void testCopierConcept() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -94,40 +96,24 @@ public class GenerateurProjetServiceTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE GenerateurProjetServiceTest - méthode testGenerer() ********** ");
+			System.out.println("********** CLASSE CopieurConceptServiceTest - méthode testCopierConcept() ********** ");
 		}
+
+		// *****************************************************************
+		final Path projetSourcePath 
+			= Paths.get(".").toAbsolutePath().normalize();
+		final Path projetCiblePath 
+			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/depot_concepts");
+		final String nomConcept = "developpeur";
+		final ICopieurConceptService copieur = new CopieurConceptService();
+		// *****************************************************************
 		
-		final Path projetCiblePath = Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/depot_concepts");
-		
-		/* AFFICHAGE A LA CONSOLE. */
-		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("PROJET CIBLE : " + projetCiblePath);
-		}
-		
-		final IGenerateurProjetService generateur = new GenerateurProjetService();
-		
-		generateur.generer(projetCiblePath);
+		copieur.copierConcept(projetSourcePath, projetCiblePath, nomConcept);
 		
 		assertTrue(BIDON, 1 == 1);
 		
-	} // Fin de testGenerer()._____________________________________________
+	} // Fin de testCopierConcept()._______________________________________
 
-
-	/**
-	 * .<br/>
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 *
-	 * @throws Exception : void :  .<br/>
-	 */
-	@Test
-	public void testBidon() throws Exception {
-		
-
-		
-		assertTrue(BIDON, 1 == 1);
-		
-	}
 	
-} // FIN DE LA CLASSE GenerateurProjetServiceTest.---------------------------
+	
+} // FIN DE LA CLASSE CopieurConceptServiceTest.-----------------------------
