@@ -173,6 +173,10 @@ public class CopieurConceptService implements ICopieurConceptService {
 		this.copierConceptCoucheDTOMetier(
 				pProjetSourcePath, pProjetCiblePath, pNomConcept);
 		
+		/* copie du test DTO. */
+		this.copierTestConceptCoucheDTOMetier(
+				pProjetSourcePath, pProjetCiblePath, pNomConcept);
+		
 	} // Fin de copierConcept(...).________________________________________
 	
 
@@ -245,7 +249,7 @@ public class CopieurConceptService implements ICopieurConceptService {
 	 * de l'objet métier pNomConcept</b> 
 	 * depuis le projet source dans le projet cible.<br/>
 	 * Par exemple :<br/>
-	 * copie <code>test/java/levy/daniel/application/
+	 * copie <code>src/test/java/levy/daniel/application/
 	 * model/metier/developpeur/impl/DeveloppeurTest.java</code> depuis 
 	 * le projet source vers le projet cible.<br/>
 	 * <br/>
@@ -289,6 +293,7 @@ public class CopieurConceptService implements ICopieurConceptService {
 			= this.fournirTestConceptMetierSource(
 					pProjetSourcePath, pNomConcept);
 		
+		/* récupération du test cible. */
 		final Path pathTestObjetMetierCible 
 			= this.fournirTestConceptMetierCible(
 					pProjetCiblePath, pNomConcept);
@@ -365,6 +370,69 @@ public class CopieurConceptService implements ICopieurConceptService {
 	} // Fin de copierConceptCoucheMetier(...).____________________________
 
 
+	
+	/**
+	 * <b>copie le test unitaire JUnit 
+	 * du DTO de l'objet métier pNomConcept</b> 
+	 * depuis le projet source dans le projet cible.<br/>
+	 * Par exemple :<br/>
+	 * copie <code>src/test/java/levy/daniel/application/
+	 * model/dto/metier/developpeur/impl/DeveloppeurDTOTest.java</code> 
+	 * depuis 
+	 * le projet source vers le projet cible.<br/>
+	 * <br/>
+	 * - ne fait rien si pProjetSourcePath n'est pas valide.<br/>
+	 * - ne fait rien si pProjetCiblePath n'est pas valide.<br/>
+	 * - ne fait rien si pNomConcept n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetSourcePath : Path : 
+	 * Path absolu du projet source.
+	 * @param pProjetCiblePath : Path : 
+	 * Path absolu du projet cible.
+	 * @param pNomConcept : String : 
+	 * nom de l'objet métier et de son package dans le projet source.
+	 * 
+	 * @throws Exception
+	 */
+	private void copierTestConceptCoucheDTOMetier(
+			final Path pProjetSourcePath
+				, final Path pProjetCiblePath
+					, final String pNomConcept) 
+									throws Exception {
+		
+		/* ne fait rien si pProjetSourcePath n'est pas valide. */
+		if (!this.validerPathRepertoire(pProjetSourcePath)) {
+			return;
+		}
+		
+		/* ne fait rien si pProjetCiblePath n'est pas valide. */
+		if (!this.validerPathRepertoire(pProjetCiblePath)) {
+			return;
+		}
+		
+		/* ne fait rien si pNomConcept n'est pas valide. */
+		if (!validerNomConcept(pNomConcept, pProjetSourcePath)) {
+			return;
+		}
+		
+		/* récupération du test à recopier. */
+		final Path pathTestSource 
+			= this.fournirTestDTOConceptMetierSource(
+					pProjetSourcePath, pNomConcept);
+		
+		/* récupération du test cible. */
+		final Path pathTestCible 
+			= this.fournirTestDTOConceptMetierCible(
+					pProjetCiblePath, pNomConcept);
+		
+		// COPIE LE TEST.
+		this.copierFichier(
+				pathTestSource, pathTestCible);
+
+	} // Fin de copierTestConceptCoucheDTOMetier(...)._____________________
+	
+	
 	
 	/**
 	 * <b>copie un fichier simple situé à pPathOrigine 
@@ -1101,6 +1169,131 @@ public class CopieurConceptService implements ICopieurConceptService {
 		return pathDTOObjetMetierCible;
 		
 	} // Fin de fournirDTOConceptMetierCible(...)._________________________
+
+	
+	
+	/**
+	 * <b>Fournit le Path du test unitaire JUnit</b> relatif 
+	 * à un DTO d'un OBJET METIER dans le projet <b>source</b> 
+	 * situé à pProjetSourcePath.<br/>
+	 * <ul>
+	 * <li>le test doit s'appeler 
+	 * <code>this.mettrePremiereLettreEnMajuscule(pNomConcept) 
+	 * + "DTOTest.java"</code> dans le projet source.</li>
+	 * <li>Par exemple, pour un pNomConcept "developpeur", 
+	 * le test doit s'appeler <code>DeveloppeurDTOTest.java</code>.</li>
+	 * <li>Le test doit être situé sous 
+	 * <code>model/dto/metier/pNomConcept/impl/</code> comme par exemple :
+	 * <br/> 
+	 * <code>${projetSource}/src/test/java/
+	 * levy/daniel/application/
+	 * model/dto/metier/developpeur/impl/DeveloppeurDTOTest.java</code></li>
+	 * </ul>
+	 * - retourne null si pProjetSourcePath n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetSourcePath : Path : 
+	 * Path absolu du projet source.
+	 * @param pNomConcept : String : 
+	 * nom du package de l'objet métier dans le projet source.
+	 * 
+	 * @return : Path : Path du test unitaire dans le projet source.<br/>
+	 */
+	private Path fournirTestDTOConceptMetierSource(
+			final Path pProjetSourcePath, final String pNomConcept) {
+		
+		/* retourne null si pProjetSourcePath n'est pas valide. */
+		if (!validerPathRepertoire(pProjetSourcePath)) {
+			return null;
+		}
+		
+		/* positionne ArboresceurProjetSource sur le projet source. */
+		ArboresceurProjetSource
+			.selectionnerProjetSource(pProjetSourcePath);
+		
+		final Path pathSource 
+		= ArboresceurProjetSource
+			.getCoucheModelDTOMetierTestPath()
+			.resolve(pNomConcept)
+			.resolve("impl")
+			.resolve(this.mettrePremiereLettreEnMajuscule(pNomConcept) + "DTOTest.java")
+			.toAbsolutePath().normalize();
+		
+		final File fileSource
+			= pathSource.toFile();
+	
+		if (!fileSource.exists()) {
+			
+			final String message 
+				= CLASSE_COPIEURCONCEPTSERVICE 
+				+ " - Méthode fournirTestDTOConceptMetierSource(...) - " 
+				+ "le fichier " 
+				+ pathSource 
+				+ " n'existe pas dans le stockage.";
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+			
+			return null;
+		}
+		
+		return pathSource;
+		
+	} // Fin de fournirTestDTOConceptMetierSource(...).____________________
+
+	
+	
+	/**
+	 * <b>Fournit le Path du test unitaire JUnit</b> relatif 
+	 * à un DTO d'un OBJET METIER dans le projet <b>cible</b> 
+	 * situé à pProjetCiblePath.<br/>
+	 * <ul>
+	 * <li>le test doit s'appeler 
+	 * <code>this.mettrePremiereLettreEnMajuscule(pNomConcept) 
+	 * + "DTOTest.java"</code> dans le projet cible.</li>
+	 * <li>Par exemple, pour un pNomConcept "developpeur", 
+	 * le test doit s'appeler <code>DeveloppeurDTOTest.java</code>.</li>
+	 * <li>Le test doit être situé sous 
+	 * <code>model/dto/metier/pNomConcept/impl/</code> comme par exemple :
+	 * <br/> 
+	 * <code>${projetCible}/src/test/java/
+	 * levy/daniel/application/
+	 * model/dto/metier/developpeur/impl/DeveloppeurDTOTest.java</code></li>
+	 * </ul>
+	 * - retourne null si pProjetCiblePath n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetCiblePath : Path : 
+	 * Path absolu du projet cible.
+	 * @param pNomConcept : String : 
+	 * nom du package de l'objet métier dans le projet cible.
+	 * 
+	 * @return : Path : Path du test unitaire dans le projet cible.<br/>
+	 */
+	private Path fournirTestDTOConceptMetierCible(
+			final Path pProjetCiblePath, final String pNomConcept) {
+		
+		/* retourne null si pProjetCiblePath n'est pas valide. */
+		if (!validerPathRepertoire(pProjetCiblePath)) {
+			return null;
+		}
+		
+		/* positionne ArboresceurProjetCible sur le projet cible. */
+		ArboresceurProjetCible
+			.selectionnerProjetCible(pProjetCiblePath);
+		
+		final Path pathCible 
+		= ArboresceurProjetCible
+			.getCoucheModelDTOMetierTestPath()
+			.resolve(pNomConcept)
+			.resolve("impl")
+			.resolve(this.mettrePremiereLettreEnMajuscule(pNomConcept) + "DTOTest.java")
+			.toAbsolutePath().normalize();
+		
+		return pathCible;
+		
+	} // Fin de fournirTestDTOConceptMetierCible(...)._____________________
 
 
 	
