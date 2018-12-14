@@ -821,7 +821,8 @@ public class GenerateurProjetService implements IGenerateurProjetService {
 		
 		if (pathAbsoluFichierDestinationParent != null) {
 			
-			/* crée l'ascendance de pPathAbsoluFichierDestination si elle n'existe pas déjà. */
+			/* crée l'ascendance de pPathAbsoluFichierDestination 
+			 * si elle n'existe pas déjà. */
 			if (!pathAbsoluFichierDestinationParent.toFile().exists()) {
 				Files.createDirectories(pathAbsoluFichierDestinationParent);
 			}

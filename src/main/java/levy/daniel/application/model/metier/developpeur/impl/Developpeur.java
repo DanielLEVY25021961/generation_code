@@ -2,7 +2,6 @@ package levy.daniel.application.model.metier.developpeur.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
 
 import levy.daniel.application.model.dto.metier.developpeur.IDeveloppeurDTO;
 import levy.daniel.application.model.metier.developpeur.IDeveloppeur;
@@ -29,7 +28,6 @@ import levy.daniel.application.model.persistence.metier.developpeur.entities.jpa
  * @since 12 nov. 2018
  *
  */
-@Component("Developpeur")
 public class Developpeur implements IDeveloppeur {
 
 	// ************************ATTRIBUTS************************************/

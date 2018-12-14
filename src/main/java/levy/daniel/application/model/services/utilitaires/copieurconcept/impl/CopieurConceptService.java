@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -51,6 +52,8 @@ import levy.daniel.application.model.services.utilitaires.copieurconcept.ICopieu
  * répertoire non null, repertoire non null, <br/>
  * répertoire existant, repertoire existant, <br/>
  * répertoire Directory, repertoire isDirectory(), <br/>
+ * mettre première lettre en majuscule, capitalize, <br/>
+ * mettre en majuscules, mettre en majuscule, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -66,6 +69,18 @@ public class CopieurConceptService implements ICopieurConceptService {
 
 	// ************************ATTRIBUTS************************************/
 
+	/**
+	 * "Classe CopieurConceptService".<br/>
+	 */
+	public static final String CLASSE_COPIEURCONCEPTSERVICE 
+		= "Classe CopieurConceptService";
+	
+	/**
+	 * "le File désigné par ".<br/>
+	 */
+	public static final String LE_FILE_DESIGNE_PAR 
+		= "le File désigné par ";
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -95,8 +110,13 @@ public class CopieurConceptService implements ICopieurConceptService {
 					, final String pNomConcept) 
 									throws Exception {
 		
+		// OBJET METIER. ****************
 		/* copie l'objet métier. */
 		this.copierConceptCoucheMetier(
+				pProjetSourcePath, pProjetCiblePath, pNomConcept);
+		
+		/* copie du test. */
+		this.copierTestConceptCoucheMetier(
 				pProjetSourcePath, pProjetCiblePath, pNomConcept);
 		
 	} // Fin de copierConcept(...).________________________________________
@@ -172,6 +192,123 @@ public class CopieurConceptService implements ICopieurConceptService {
 
 	
 	/**
+	 * <b>copie le test unitaire JUnit 
+	 * de l'objet métier pNomConcept</b> 
+	 * depuis le projet source dans le projet cible.<br/>
+	 * Par exemple :<br/>
+	 * copie <code>test/java/levy/daniel/application/
+	 * model/metier/developpeur/impl/DeveloppeurTest.java</code> depuis 
+	 * le projet source vers le projet cible.<br/>
+	 * <br/>
+	 * - ne fait rien si pProjetSourcePath n'est pas valide.<br/>
+	 * - ne fait rien si pProjetCiblePath n'est pas valide.<br/>
+	 * - ne fait rien si pNomConcept n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetSourcePath : Path : 
+	 * Path absolu du projet source.
+	 * @param pProjetCiblePath : Path : 
+	 * Path absolu du projet cible.
+	 * @param pNomConcept : String : 
+	 * nom de l'objet métier et de son package dans le projet source.
+	 * 
+	 * @throws Exception
+	 */
+	private void copierTestConceptCoucheMetier(
+			final Path pProjetSourcePath
+				, final Path pProjetCiblePath
+					, final String pNomConcept) 
+									throws Exception {
+				
+		/* ne fait rien si pProjetSourcePath n'est pas valide. */
+		if (!this.validerPathRepertoire(pProjetSourcePath)) {
+			return;
+		}
+		
+		/* ne fait rien si pProjetCiblePath n'est pas valide. */
+		if (!this.validerPathRepertoire(pProjetCiblePath)) {
+			return;
+		}
+		
+		/* ne fait rien si pNomConcept n'est pas valide. */
+		if (!validerNomConcept(pNomConcept, pProjetSourcePath)) {
+			return;
+		}
+		
+		/* récupération du test à recopier. */
+		final Path pathTestObjetMetierSource 
+			= this.fournirTestConceptMetierSource(
+					pProjetSourcePath, pNomConcept);
+		
+		final Path pathTestObjetMetierCible 
+			= this.fournirTestConceptMetierCible(
+					pProjetCiblePath, pNomConcept);
+		
+		// COPIE LE TEST.
+		this.copierFichier(
+				pathTestObjetMetierSource, pathTestObjetMetierCible);
+				
+	} // Fin de copierTestConceptCoucheMetier(...).________________________
+	
+
+	
+	/**
+	 * <b>copie un fichier simple situé à pPathOrigine 
+	 * à pPathCible</b>.<br/>
+	 * <ul>
+	 * <li>crée l'ascendance de pPathCible si elle n'existe pas.</li>
+	 * <li>ne copie pPathOrigine à pPathCible que si pPathCible 
+	 * n'existe pas déjà.</li>
+	 * </ul>
+	 * - ne fait rien si pPathOrigine ne désigne pas 
+	 * un fichier simple existant.<br/>
+	 * - ne fait rien si pPathCible == null.<br/>
+	 * <br/>
+	 *
+	 * @param pPathOrigine : Path : 
+	 * Path désignant un fichier simple à copier.
+	 * @param pPathCible : Path : 
+	 * Path désignant le fichier copié dans la cible.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	private void copierFichier(
+			final Path pPathOrigine
+				, final Path pPathCible) throws Exception {
+		
+		/* ne fait rien si pPathOrigine ne désigne 
+		 * pas un fichier simple existant. */
+		if (!validerPathFichier(pPathOrigine)) {
+			return;
+		}
+		
+		/* ne fait rien si pPathCible == null. */
+		if (pPathCible == null) {
+			return;
+		}
+		
+		final Path pPathCibleParent = pPathCible.getParent();
+		
+		if (pPathCibleParent != null) {
+			
+			/* crée l'ascendance de pPathCible si elle n'existe pas. */
+			if (!pPathCibleParent.toFile().exists()) {
+				Files.createDirectories(pPathCibleParent);
+			}
+		}
+				
+		/* ne copie pPathOrigine à pPathCible 
+		 * que si pPathCible n'existe pas déjà. */
+		if (!pPathCible.toFile().exists()) {
+			Files.copy(pPathOrigine, pPathCible
+					, StandardCopyOption.REPLACE_EXISTING);
+		}
+		
+	} // Fin de copierFichier(...)._____________________________________________
+	
+	
+	
+	/**
 	 * <b>recopie intégralement un répertoire et son contenu</b> 
 	 * depuis pPathPackageSource dans pPathPackageCible.<br/>
 	 * Par exemple : <br/>
@@ -226,9 +363,8 @@ public class CopieurConceptService implements ICopieurConceptService {
 		 * sous le répertoire situé à pPathPackageCible. */
 		this.copierContenuVersDestination(
 				contenuMap, pPathPackageCible, filePackageSource);
-
 		
-	}
+	} // Fin de recopierPackageEtContenu(...)._____________________________
 	
 	
 		
@@ -441,6 +577,162 @@ public class CopieurConceptService implements ICopieurConceptService {
 
 	
 	/**
+	 * <b>passe la première lettre d'une pString en majuscule</b>.<br/>
+	 * <ul>
+	 * <li>utilise <code>StringUtils.capitalize(pString);</code></li>
+	 * </ul>
+	 * - return null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * chaine de caractères dont on veut passer 
+	 * la première lettre en majuscule.<br/>
+	 * 
+	 * @return : String : 
+	 * String avec la première lettre en majuscule.<br/>
+	 */
+	private String mettrePremiereLettreEnMajuscule(
+			final String pString) {
+		
+		/* return null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		final String resultat = StringUtils.capitalize(pString);
+		
+		return resultat;
+		
+	} // Fin de mettrePremiereLettreEnMajuscule(...).______________________
+	
+
+	
+	/**
+	 * <b>Fournit le Path du test unitaire JUnit</b> relatif 
+	 * à un OBJET METIER dans le projet <b>source</b> 
+	 * situé à pProjetSourcePath.<br/>
+	 * <ul>
+	 * <li>le test doit s'appeler 
+	 * <code>this.mettrePremiereLettreEnMajuscule(pNomConcept) 
+	 * + "Test.java"</code> dans le projet source.</li>
+	 * <li>Par exemple, pour un pNomConcept "developpeur", 
+	 * le test doit s'appeler <code>DeveloppeurTest.java</code>.</li>
+	 * <li>Le test doit être situé sous 
+	 * <code>model/metier/pNomConcept/impl/</code> comme par exemple :
+	 * <br/> 
+	 * <code>${projetSource}/src/test/java/
+	 * levy/daniel/application/
+	 * model/metier/developpeur/impl/DeveloppeurTest.java</code></li>
+	 * </ul>
+	 * - retourne null si pProjetSourcePath n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetSourcePath : Path : 
+	 * Path absolu du projet source.
+	 * @param pNomConcept : String : 
+	 * nom de l'objet métier et de son package dans le projet source.
+	 * 
+	 * @return : Path : Path du test unitaire dans le projet source.<br/>
+	 */
+	private Path fournirTestConceptMetierSource(
+			final Path pProjetSourcePath, final String pNomConcept) {
+		
+		/* retourne null si pProjetSourcePath n'est pas valide. */
+		if (!validerPathRepertoire(pProjetSourcePath)) {
+			return null;
+		}
+		
+		/* positionne ArboresceurProjetSource sur le projet source. */
+		ArboresceurProjetSource
+			.selectionnerProjetSource(pProjetSourcePath);
+		
+		final Path pathTestObjetMetierSource 
+		= ArboresceurProjetSource
+			.getCoucheModelMetierTestPath()
+			.resolve(pNomConcept)
+			.resolve("impl")
+			.resolve(this.mettrePremiereLettreEnMajuscule(pNomConcept) + "Test.java")
+			.toAbsolutePath().normalize();
+		
+		final File fileTestObjetMetierSource 
+		= pathTestObjetMetierSource.toFile();
+	
+		if (!fileTestObjetMetierSource.exists()) {
+			
+			final String message 
+				= CLASSE_COPIEURCONCEPTSERVICE 
+				+ " - Méthode fournirTestConceptMetierSource(...) - " 
+				+ "le fichier " 
+				+ pathTestObjetMetierSource 
+				+ " n'existe pas dans le stockage.";
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+			
+			return null;
+		}
+		
+		return pathTestObjetMetierSource;
+		
+	} // Fin de fournirTestConceptMetierSource(...)._______________________
+	
+
+	
+	/**
+	 * <b>Fournit le Path du test unitaire JUnit</b> relatif 
+	 * à un OBJET METIER dans le projet <b>cible</b> 
+	 * situé à pProjetCiblePath.<br/>
+	 * <ul>
+	 * <li>le test doit s'appeler 
+	 * <code>this.mettrePremiereLettreEnMajuscule(pNomConcept) 
+	 * + "Test.java"</code> dans le projet cible.</li>
+	 * <li>Par exemple, pour un pNomConcept "developpeur", 
+	 * le test doit s'appeler <code>DeveloppeurTest.java</code>.</li>
+	 * <li>Le test doit être situé sous 
+	 * <code>model/metier/pNomConcept/impl/</code> comme par exemple :
+	 * <br/> 
+	 * <code>${projetCible}/src/test/java/
+	 * levy/daniel/application/
+	 * model/metier/developpeur/impl/DeveloppeurTest.java</code></li>
+	 * </ul>
+	 * - retourne null si pProjetCiblePath n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetCiblePath : Path : 
+	 * Path absolu du projet cible.
+	 * @param pNomConcept : String : 
+	 * nom de l'objet métier et de son package dans le projet cible.
+	 * 
+	 * @return : Path : Path du test unitaire dans le projet cible.<br/>
+	 */
+	private Path fournirTestConceptMetierCible(
+			final Path pProjetCiblePath, final String pNomConcept) {
+		
+		/* retourne null si pProjetCiblePath n'est pas valide. */
+		if (!validerPathRepertoire(pProjetCiblePath)) {
+			return null;
+		}
+		
+		/* positionne ArboresceurProjetCible sur le projet cible. */
+		ArboresceurProjetCible
+			.selectionnerProjetCible(pProjetCiblePath);
+		
+		final Path pathTestObjetMetierCible 
+		= ArboresceurProjetCible
+			.getCoucheModelMetierTestPath()
+			.resolve(pNomConcept)
+			.resolve("impl")
+			.resolve(this.mettrePremiereLettreEnMajuscule(pNomConcept) + "Test.java")
+			.toAbsolutePath().normalize();
+				
+		return pathTestObjetMetierCible;
+		
+	} // Fin de fournirTestConceptMetierCible(...).________________________
+	
+
+	
+	/**
 	 * <b>valide pPath</b> 
 	 * en retournant <b>true si le Path est valide 
 	 * pour un REPERTOIRE (Directory)</b> 
@@ -495,7 +787,7 @@ public class CopieurConceptService implements ICopieurConceptService {
 			if (LOG.isFatalEnabled()) {
 				
 				final String message 
-					= "le File désigné par " + pPath 
+					= LE_FILE_DESIGNE_PAR + pPath 
 					+ " n'existe pas sur le stockage";
 				
 				/* LOG fatal. */
@@ -514,7 +806,7 @@ public class CopieurConceptService implements ICopieurConceptService {
 			if (LOG.isFatalEnabled()) {
 				
 				final String message 
-					= "le File désigné par " + pPath 
+					= LE_FILE_DESIGNE_PAR + pPath 
 					+ " n'est pas un répertoire (Directory)";
 				
 				/* LOG fatal. */
@@ -533,6 +825,100 @@ public class CopieurConceptService implements ICopieurConceptService {
 	} // Fin de validerPathRepertoire(...).________________________________
 	
 
+	
+	/**
+	 * <b>valide pPath</b> 
+	 * en retournant <b>true si le Path est valide 
+	 * pour un FICHIER (File Simple)</b> 
+	 * parce qu'il est <i>non null</i> et représente 
+	 * un <i>fichier</i> déjà 
+	 * <i>existant</i> dans le stockage.<br/>
+	 * <ul>
+	 * <li>pPath est <b>invalide</b> si il est <b>null</b>.
+	 * <br/>LOG.fatal et retourne false 
+	 * si pPath == null.</li>
+	 * <li>pPath est <b>invalide</b> si il 
+	 * désigne un File <b>inexistant</b> dans le stockage.<br/>
+	 * LOG.fatal et retourne false 
+	 * si pPath désigne un File inexistant.</li>
+	 * <li>pPath est <b>invalide</b> si il ne désigne 
+	 * <b>pas un fichier simple</b>.<br/>
+	 * LOG.fatal et retourne false si pPath désigne un File 
+	 * qui n'est pas un fichier simple.</li>
+	 * </ul>
+	 *
+	 * @param pPath : Path.<br/>
+	 * 
+	 * @return : boolean : 
+	 * true si le Path est valide pour un FICHIER (File Simple).<br/>
+	 */
+	private boolean validerPathFichier(
+			final Path pPath) {
+		
+		/* LOG.fatal et retourne false si pPath == null. */
+		if (pPath == null) {
+			
+			if (LOG.isFatalEnabled()) {
+				
+				final String message 
+					= "pPath est null";
+				
+				/* LOG fatal. */
+				LOG.fatal(message);
+				
+			}
+			
+			return false;
+			
+		}
+		
+		final File file = pPath.toFile();
+		
+		/* LOG.fatal et retourne false si pPath désigne 
+		 * un File inexistant. */
+		if (!file.exists()) {
+			
+			if (LOG.isFatalEnabled()) {
+				
+				final String message 
+					= LE_FILE_DESIGNE_PAR + pPath 
+					+ " n'existe pas sur le stockage";
+				
+				/* LOG fatal. */
+				LOG.fatal(message);
+				
+			}
+			
+			return false;
+
+		}
+		
+		/* LOG.fatal et retourne false si pPath désigne 
+		 * un File qui n'est pas un fichier simple. */
+		if (!file.isFile()) {
+			
+			if (LOG.isFatalEnabled()) {
+				
+				final String message 
+					= LE_FILE_DESIGNE_PAR + pPath 
+					+ " n'est pas un fichier simple";
+				
+				/* LOG fatal. */
+				LOG.fatal(message);
+				
+			}
+			
+			return false;
+			
+		}
+		
+		/* retourne true si pPath designe 
+		 * un fichier simple valide. */
+		return true;
+				
+	} // Fin de validerPathFichier(...).___________________________________
+	
+	
 	
 	/**
 	 * <b>valide pNomConcept</b> 
