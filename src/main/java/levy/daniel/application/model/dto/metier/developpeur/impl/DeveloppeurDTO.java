@@ -164,6 +164,83 @@ public class DeveloppeurDTO implements IDeveloppeurDTO {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public int hashCode() {
+		
+		final int prime = 31;
+		int result = 1;
+		
+		result = prime * result 
+				+ ((this.idString == null) 
+						? 0 : this.idString.hashCode());
+		result = prime * result 
+				+ ((this.nomString == null) 
+						? 0 : this.nomString.hashCode());
+		result = prime * result 
+				+ ((this.anneesExperienceString == null) 
+						? 0 : this.anneesExperienceString.hashCode());
+
+		return result;
+		
+	} // Fin de hashCode().________________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(
+			final Object pObject) {
+		
+		if (this == pObject) {
+			return true;
+		}
+		if (pObject == null) {
+			return false;
+		}
+		if (!(pObject instanceof DeveloppeurDTO)) {
+			return false;
+		}
+		
+		final DeveloppeurDTO other = (DeveloppeurDTO) pObject;
+		
+		if (this.idString == null) {
+			if (other.idString != null) {
+				return false;
+			}
+		} else if (!this.idString
+				.equalsIgnoreCase(other.idString)) {
+			return false;
+		}
+		
+		if (this.nomString == null) {
+			if (other.nomString != null) {
+				return false;
+			}
+		} else if (!this.nomString
+				.equalsIgnoreCase(other.nomString)) {
+			return false;
+		}
+		
+		if (this.anneesExperienceString == null) {
+			if (other.anneesExperienceString != null) {
+				return false;
+			}
+		} else if (!this.anneesExperienceString
+				.equalsIgnoreCase(other.anneesExperienceString)) {
+			return false;
+		}
+
+		return true;
+		
+	} // Fin de  equals(...).______________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String toString() {
 		
 		final StringBuilder builder = new StringBuilder();

@@ -25,11 +25,60 @@ import levy.daniel.application.model.services.utilitaires.copieurconcept.ICopieu
 /**
  * CLASSE CopieurConceptService :<br/>
  * SERVICE CopieurConcept concret.<br/>
+ * 
  * Possède une méthode copierConcept(
  * Path pProjetSourcePath, Path pProjetCiblePath, String pNomConcept) 
- * qui copie tous les packages et classes liées au concept pNomConcept 
+ * qui <b>copie tous les packages et classes liées au concept pNomConcept</b> 
  * depuis pProjetSourcePath vers pProjetCiblePath.<br/>
  * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * CLASSES ET PACKAGES liés à un CONCEPT :
+ * </span>
+ * </p>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * 1 - package <b>objet metier</b>
+ * </span>  : le CONCEPT lui-même sous ${racineSources}/model/metier/concept
+ * </p>
+ * <div>
+ * <img src="../../../../../../../../../../../javadoc/images/copieurconcept/concept_metier.png" 
+ * alt="concept métier" border="1" align="center" />
+ * </div>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * 2 - classe <b>test JUnit de l'objet metier</b>
+ * </span>  : le TEST JUnit du CONCEPT sous ${racineTests}/model/metier/concept/impl
+ * </p>
+ * <div>
+ * <img src="../../../../../../../../../../../javadoc/images/copieurconcept/test_concept_metier.png" 
+ * alt="test JUnit concept métier" border="1" align="center" />
+ * </div>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * 3 - package <b>DTO l'objet metier</b>
+ * </span>  : DTO du CONCEPT sous ${racineSources}/model/dto/metier/concept
+ * </p>
+ * <div>
+ * <img src="../../../../../../../../../../../javadoc/images/copieurconcept/dto_concept_metier.png" 
+ * alt="DTO du concept métier" border="1" align="center" />
+ * </div>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">
+ * 4 - classe du <b>test JUnit du DTO l'objet metier</b>
+ * </span>  : le TEST JUnit du DTO du CONCEPT sous ${racineTests}/model/dto/metier/concept/impl
+ * </p>
+ * <div>
+ * <img src="../../../../../../../../../../../javadoc/images/copieurconcept/test_dto_concept_metier.png" 
+ * alt="test JUnit du DTO du concept métier" border="1" align="center" />
+ * </div>
+ * 
+ * 
+ * <br/>
  * <p>
  * <span style="text-decoration: underline;">
  * PRINCIPE DE FONCTIONNEMENT de copieurconcept :
@@ -119,6 +168,11 @@ public class CopieurConceptService implements ICopieurConceptService {
 		this.copierTestConceptCoucheMetier(
 				pProjetSourcePath, pProjetCiblePath, pNomConcept);
 		
+		// DTO. **************************
+		/* copie le DTO. */
+		this.copierConceptCoucheDTOMetier(
+				pProjetSourcePath, pProjetCiblePath, pNomConcept);
+		
 	} // Fin de copierConcept(...).________________________________________
 	
 
@@ -166,24 +220,19 @@ public class CopieurConceptService implements ICopieurConceptService {
 			return;
 		}
 		
-		ArboresceurProjetSource
-			.selectionnerProjetSource(pProjetSourcePath);
-		
-		ArboresceurProjetCible
-			.selectionnerProjetCible(pProjetCiblePath);
-		
+		/* récupère le path du package de l'objet métier 
+		 * dans le projet source. */
 		final Path pathObjetMetierSource 
-			= ArboresceurProjetSource
-				.getCoucheModelMetierMainPath()
-				.resolve(pNomConcept)
-				.toAbsolutePath().normalize();
-				
-		final Path pathObjetMetierCible 
-			= ArboresceurProjetCible
-				.getCoucheModelMetierMainPath()
-				.resolve(pNomConcept)
-				.toAbsolutePath().normalize();
+			= this.fournirConceptMetierSource(
+				pProjetSourcePath, pNomConcept);
 		
+		/* récupère le path du package de l'objet métier 
+		 * dans le projet cible. */
+		final Path pathObjetMetierCible 
+			= this.fournirConceptMetierCible(
+					pProjetCiblePath, pNomConcept);
+		
+		// COPIE DU PACKAGE ET DE SON CONTENU.
 		this.recopierPackageEtContenu(
 				pathObjetMetierSource, pathObjetMetierCible);
 		
@@ -250,6 +299,71 @@ public class CopieurConceptService implements ICopieurConceptService {
 				
 	} // Fin de copierTestConceptCoucheMetier(...).________________________
 	
+
+	
+	/**
+	 * <b>copie tout le package (interface, classe concrète, ...) 
+	 * du DTO de l'objet métier pNomConcept</b> 
+	 * depuis le projet source dans le projet cible.<br/>
+	 * Par exemple :<br/>
+	 * copie tout le package model/dto/metier/user depuis 
+	 * le projet source vers le projet cible.<br/>
+	 * <br/>
+	 * - ne fait rien si pProjetSourcePath n'est pas valide.<br/>
+	 * - ne fait rien si pProjetCiblePath n'est pas valide.<br/>
+	 * - ne fait rien si pNomConcept n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetSourcePath : Path : 
+	 * Path absolu du projet source.
+	 * @param pProjetCiblePath : Path : 
+	 * Path absolu du projet cible.
+	 * @param pNomConcept : String : 
+	 * nom de l'objet métier et de son package dans le projet source.
+	 * 
+	 * @throws Exception
+	 */
+	private void copierConceptCoucheDTOMetier(
+			final Path pProjetSourcePath
+				, final Path pProjetCiblePath
+					, final String pNomConcept) 
+									throws Exception {
+		
+		/* ne fait rien si pProjetSourcePath n'est pas valide. */
+		if (!this.validerPathRepertoire(pProjetSourcePath)) {
+			return;
+		}
+		
+		/* ne fait rien si pProjetCiblePath n'est pas valide. */
+		if (!this.validerPathRepertoire(pProjetCiblePath)) {
+			return;
+		}
+		
+		/* ne fait rien si pNomConcept n'est pas valide. */
+		if (!validerNomConcept(pNomConcept, pProjetSourcePath)) {
+			return;
+		}
+		
+		/* récupère le path du package 
+		 * du DTO de l'objet métier 
+		 * dans le projet source. */
+		final Path pathDTOObjetMetierSource 
+			= this.fournirDTOConceptMetierSource(
+				pProjetSourcePath, pNomConcept);
+		
+		/* récupère le path du package 
+		 * du DTO de l'objet métier 
+		 * dans le projet cible. */
+		final Path pathDTOObjetMetierCible 
+			= this.fournirDTOConceptMetierCible(
+					pProjetCiblePath, pNomConcept);
+		
+		// COPIE DU PACKAGE ET DE SON CONTENU.
+		this.recopierPackageEtContenu(
+				pathDTOObjetMetierSource, pathDTOObjetMetierCible);
+		
+	} // Fin de copierConceptCoucheMetier(...).____________________________
+
 
 	
 	/**
@@ -608,6 +722,135 @@ public class CopieurConceptService implements ICopieurConceptService {
 
 	
 	/**
+	 * <b>Fournit le Path du package d'un OBJET METIER</b> 
+	 * pNomConcept 
+	 * dans le projet <b>source</b> 
+	 * situé à pProjetSourcePath.<br/>
+	 * <ul>
+	 * <li>l'OBJET METIER doit s'appeler 
+	 * <code>this.mettrePremiereLettreEnMajuscule(pNomConcept).java 
+	 * </code> dans le projet source.</li>
+	 * <li>Par exemple, pour un pNomConcept "developpeur", 
+	 * l'objet métier doit s'appeler <code>Developpeur.java</code>.</li>
+	 * <li>l'objet métier doit être situé dans un package pNomConcept 
+	 * sous 
+	 * <code>model/metier/pNomConcept/impl/</code> comme par exemple :
+	 * <br/> 
+	 * <code>${projetSource}/src/main/java/
+	 * levy/daniel/application/
+	 * model/metier/developpeur/impl/Developpeur.java</code></li>
+	 * </ul>
+	 * - retourne null si pProjetSourcePath n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetSourcePath : Path : 
+	 * Path absolu du projet source.
+	 * @param pNomConcept : String : 
+	 * nom du package de l'objet métier dans le projet source.
+	 * 
+	 * @return : Path : 
+	 * Path du package de l'objet métier pNomConcept 
+	 * dans le projet source.<br/>
+	 */
+	private Path fournirConceptMetierSource(
+			final Path pProjetSourcePath, final String pNomConcept) {
+		
+		/* retourne null si pProjetSourcePath n'est pas valide. */
+		if (!validerPathRepertoire(pProjetSourcePath)) {
+			return null;
+		}
+		
+		/* positionne ArboresceurProjetSource sur le projet source. */
+		ArboresceurProjetSource
+			.selectionnerProjetSource(pProjetSourcePath);
+		
+		final Path pathObjetMetierSource 
+			= ArboresceurProjetSource
+			.getCoucheModelMetierMainPath()
+			.resolve(pNomConcept)
+			.toAbsolutePath().normalize();
+		
+		final File fileTestObjetMetierSource 
+			= pathObjetMetierSource.toFile();
+	
+		if (!fileTestObjetMetierSource.exists()) {
+			
+			final String message 
+				= CLASSE_COPIEURCONCEPTSERVICE 
+				+ " - Méthode fournirConceptMetierSource(...) - " 
+				+ "le package " 
+				+ pathObjetMetierSource 
+				+ " n'existe pas dans le stockage.";
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+			
+			return null;
+		}
+		
+		return pathObjetMetierSource;
+		
+	} // Fin de fournirConceptMetierSource(...).___________________________
+	
+
+	
+	/**
+	 * <b>Fournit le Path du package d'un OBJET METIER</b> 
+	 * pNomConcept 
+	 * dans le projet <b>cible</b> 
+	 * situé à pProjetCiblePath.<br/>
+	 * <ul>
+	 * <li>l'OBJET METIER doit s'appeler 
+	 * <code>this.mettrePremiereLettreEnMajuscule(pNomConcept).java 
+	 * </code> dans le projet cible.</li>
+	 * <li>Par exemple, pour un pNomConcept "developpeur", 
+	 * l'objet métier doit s'appeler <code>Developpeur.java</code>.</li>
+	 * <li>l'objet métier doit être situé dans un package pNomConcept 
+	 * sous 
+	 * <code>model/metier/pNomConcept/impl/</code> comme par exemple :
+	 * <br/> 
+	 * <code>${projetCible}/src/main/java/
+	 * levy/daniel/application/
+	 * model/metier/developpeur/impl/Developpeur.java</code></li>
+	 * </ul>
+	 * - retourne null si pProjetCiblePath n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetCiblePath : Path : 
+	 * Path absolu du projet cible.
+	 * @param pNomConcept : String : 
+	 * nom du package de l'objet métier dans le projet cible.
+	 * 
+	 * @return : Path : 
+	 * Path du package de l'objet métier pNomConcept 
+	 * dans le projet cible.<br/>
+	 */
+	private Path fournirConceptMetierCible(
+			final Path pProjetCiblePath, final String pNomConcept) {
+		
+		/* retourne null si pProjetCiblePath n'est pas valide. */
+		if (!validerPathRepertoire(pProjetCiblePath)) {
+			return null;
+		}
+		
+		/* positionne ArboresceurProjetCible sur le projet cible. */
+		ArboresceurProjetCible
+			.selectionnerProjetCible(pProjetCiblePath);
+		
+		final Path pathObjetMetierCible 
+			= ArboresceurProjetCible
+			.getCoucheModelMetierMainPath()
+			.resolve(pNomConcept)
+			.toAbsolutePath().normalize();
+		
+		return pathObjetMetierCible;
+		
+	} // Fin de fournirConceptMetierCible(...).___________________________
+
+	
+	
+	/**
 	 * <b>Fournit le Path du test unitaire JUnit</b> relatif 
 	 * à un OBJET METIER dans le projet <b>source</b> 
 	 * situé à pProjetSourcePath.<br/>
@@ -630,7 +873,7 @@ public class CopieurConceptService implements ICopieurConceptService {
 	 * @param pProjetSourcePath : Path : 
 	 * Path absolu du projet source.
 	 * @param pNomConcept : String : 
-	 * nom de l'objet métier et de son package dans le projet source.
+	 * nom du package de l'objet métier dans le projet source.
 	 * 
 	 * @return : Path : Path du test unitaire dans le projet source.<br/>
 	 */
@@ -702,7 +945,7 @@ public class CopieurConceptService implements ICopieurConceptService {
 	 * @param pProjetCiblePath : Path : 
 	 * Path absolu du projet cible.
 	 * @param pNomConcept : String : 
-	 * nom de l'objet métier et de son package dans le projet cible.
+	 * nom du package de l'objet métier dans le projet cible.
 	 * 
 	 * @return : Path : Path du test unitaire dans le projet cible.<br/>
 	 */
@@ -730,6 +973,135 @@ public class CopieurConceptService implements ICopieurConceptService {
 		
 	} // Fin de fournirTestConceptMetierCible(...).________________________
 	
+
+	
+	/**
+	 * <b>Fournit le Path du package du DTO d'un OBJET METIER</b> 
+	 * pNomConcept 
+	 * dans le projet <b>source</b> 
+	 * situé à pProjetSourcePath.<br/>
+	 * <ul>
+	 * <li>le DTO de l'OBJET METIER doit s'appeler 
+	 * <code>this.mettrePremiereLettreEnMajuscule(pNomConcept)+ "DTO.java" 
+	 * </code> dans le projet source.</li>
+	 * <li>Par exemple, pour un pNomConcept "developpeur", 
+	 * le DTO de l'objet métier doit s'appeler <code>DeveloppeurDTO.java</code>.</li>
+	 * <li>l'objet métier doit être situé dans un package pNomConcept 
+	 * sous 
+	 * <code>model/dto/metier/pNomConcept/impl/</code> comme par exemple :
+	 * <br/> 
+	 * <code>${projetSource}/src/main/java/
+	 * levy/daniel/application/
+	 * model/dto/metier/developpeur/impl/DeveloppeurDTO.java</code></li>
+	 * </ul>
+	 * - retourne null si pProjetSourcePath n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetSourcePath : Path : 
+	 * Path absolu du projet source.
+	 * @param pNomConcept : String : 
+	 * nom du package de l'objet métier dans le projet source.
+	 * 
+	 * @return : Path : 
+	 * Path du package de l'objet métier pNomConcept 
+	 * dans le projet source.<br/>
+	 */
+	private Path fournirDTOConceptMetierSource(
+			final Path pProjetSourcePath, final String pNomConcept) {
+		
+		/* retourne null si pProjetSourcePath n'est pas valide. */
+		if (!validerPathRepertoire(pProjetSourcePath)) {
+			return null;
+		}
+		
+		/* positionne ArboresceurProjetSource sur le projet source. */
+		ArboresceurProjetSource
+			.selectionnerProjetSource(pProjetSourcePath);
+		
+		final Path pathDTOObjetMetierSource 
+			= ArboresceurProjetSource
+			.getCoucheModelDTOMetierMainPath()
+			.resolve(pNomConcept)
+			.toAbsolutePath().normalize();
+		
+		final File fileDTOObjetMetierSource 
+			= pathDTOObjetMetierSource.toFile();
+	
+		if (!fileDTOObjetMetierSource.exists()) {
+			
+			final String message 
+				= CLASSE_COPIEURCONCEPTSERVICE 
+				+ " - Méthode fournirDTOConceptMetierSource(...) - " 
+				+ "le package " 
+				+ pathDTOObjetMetierSource 
+				+ " n'existe pas dans le stockage.";
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+			
+			return null;
+		}
+		
+		return pathDTOObjetMetierSource;
+		
+	} // Fin de fournirDTOConceptMetierSource(...).________________________
+	
+
+	
+	/**
+	 * <b>Fournit le Path du package du DTO d'un OBJET METIER</b> 
+	 * pNomConcept 
+	 * dans le projet <b>cible</b> 
+	 * situé à pProjetCiblePath.<br/>
+	 * <ul>
+	 * <li>le DTO de l'OBJET METIER doit s'appeler 
+	 * <code>this.mettrePremiereLettreEnMajuscule(pNomConcept)+ "DTO.java" 
+	 * </code> dans le projet cible.</li>
+	 * <li>Par exemple, pour un pNomConcept "developpeur", 
+	 * le DTO de l'objet métier doit s'appeler <code>DeveloppeurDTO.java</code>.</li>
+	 * <li>l'objet métier doit être situé dans un package pNomConcept 
+	 * sous 
+	 * <code>model/dto/metier/pNomConcept/impl/</code> comme par exemple :
+	 * <br/> 
+	 * <code>${projetCible}/src/main/java/
+	 * levy/daniel/application/
+	 * model/dto/metier/developpeur/impl/DeveloppeurDTO.java</code></li>
+	 * </ul>
+	 * - retourne null si pProjetCiblePath n'est pas valide.<br/>
+	 * <br/>
+	 *
+	 * @param pProjetCiblePath : Path : 
+	 * Path absolu du projet cible.
+	 * @param pNomConcept : String : 
+	 * nom du package de l'objet métier dans le projet cible.
+	 * 
+	 * @return : Path : 
+	 * Path du package de l'objet métier pNomConcept 
+	 * dans le projet cible.<br/>
+	 */
+	private Path fournirDTOConceptMetierCible(
+			final Path pProjetCiblePath, final String pNomConcept) {
+		
+		/* retourne null si pProjetCiblePath n'est pas valide. */
+		if (!validerPathRepertoire(pProjetCiblePath)) {
+			return null;
+		}
+		
+		/* positionne ArboresceurProjetCible sur le projet cible. */
+		ArboresceurProjetCible
+			.selectionnerProjetCible(pProjetCiblePath);
+		
+		final Path pathDTOObjetMetierCible 
+			= ArboresceurProjetCible
+			.getCoucheModelDTOMetierMainPath()
+			.resolve(pNomConcept)
+			.toAbsolutePath().normalize();
+				
+		return pathDTOObjetMetierCible;
+		
+	} // Fin de fournirDTOConceptMetierCible(...)._________________________
+
 
 	
 	/**
