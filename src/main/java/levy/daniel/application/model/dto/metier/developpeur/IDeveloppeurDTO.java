@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * INTERFACE IDeveloppeurDTO :<br/>
  * Interface <b>Data Transfer Object (DTO)</b> 
- * relative au concept de Developpeur.<br/>
+ * relative au concept de <b>Developpeur</b>.<br/>
  * Les DTO ne servent qu'à <b>véhiculer de l'information</b> 
  * entre les couches VUE, CONTROLLER et MODEL.<br/>
  * <br/>
