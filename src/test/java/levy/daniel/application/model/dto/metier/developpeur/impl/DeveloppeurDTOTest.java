@@ -136,7 +136,6 @@ public class DeveloppeurDTOTest {
 		assertEquals("dtoTransforme1 equals objet1DTO : "
 				, objet1DTO, dtoTransforme1);
 
-
 	} // Fin de testConstructeursTransformateur()._________________________
 	
 	
