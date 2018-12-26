@@ -13,7 +13,7 @@ import levy.daniel.application.model.services.utilitaires.copieurconcept.ICopieu
 
 /**
  * CLASSE CopieurConceptServiceTest :<br/>
- * Test JUnit de la classe CopieurConcept.<br/>
+ * Test JUnit de la classe CopieurConceptService.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -103,7 +103,7 @@ public class CopieurConceptServiceTest {
 		final Path projetSourcePath 
 			= Paths.get(".").toAbsolutePath().normalize();
 		final Path projetCiblePath 
-			= Paths.get("D:/Donnees/eclipse/eclipseworkspace_oxygen/depot_concepts");
+			= Paths.get("D:/Donnees/eclipse/eclipseworkspace/depot_concepts");
 		final String nomConcept = "developpeur";
 		final ICopieurConceptService copieur = new CopieurConceptService();
 		// *****************************************************************

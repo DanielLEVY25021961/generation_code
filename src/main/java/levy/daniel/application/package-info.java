@@ -1,7 +1,12 @@
 /**
  * CLASSE package-info :<br/>
- * Ce package contient toutes les 
+ * <br/>
+ * Ce package ${nomprojet}/src/main/java/${groupId} 
+ * comme par exemple 
+ * <b><code>${nomprojet}/src/main/java/levy/daniel/application</code></b> 
+ * contient toutes les 
  * <b>classes source de l'application</b>.<br/>
+ * <br/>
  * Les <b>4 package source</b> situés directement sous le projet Eclipse 
  * exigés PAR CONVENTION par MAVEN (sans artefact) sont :<br/>
  * <ol>
