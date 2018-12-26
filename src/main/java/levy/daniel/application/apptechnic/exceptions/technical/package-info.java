@@ -1,6 +1,6 @@
 /**
  * class package-info :<br/>
- * ce package contient toutes les <b>Exceptions typées FONCTIONNELLES</b> 
+ * ce package contient toutes les <b>Exceptions typées TECHNIQUES</b> 
  * utilisables dans toute l'application.<br/>
  * <br/>
  *
@@ -19,4 +19,4 @@
  * @since 1 oct. 2017
  *
  */
-package levy.daniel.application.apptechnic.exceptions.functional;
+package levy.daniel.application.apptechnic.exceptions.technical;

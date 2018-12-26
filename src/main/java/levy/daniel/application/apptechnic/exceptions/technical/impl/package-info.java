@@ -1,6 +1,7 @@
 /**
  * class package-info :<br/>
- * .<br/>
+ * ce package contient toutes les <b>Exceptions typées TECHNIQUES</b> 
+ * CONCRETES utilisables dans toute l'application.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
