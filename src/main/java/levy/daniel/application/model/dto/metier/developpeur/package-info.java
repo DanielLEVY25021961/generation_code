@@ -1,9 +1,17 @@
 /**
  * CLASSE package-info :<br/>
- * Ce package contient tous les <b>Data Transfer Object (DTO)</b> 
- * relatifs au concept de Developpeur.<br/>
- * Les DTO ne servent qu'à <b>véhiculer de l'information</b> 
- * entre les couches VUE, CONTROLLER et MODEL.<br/>
+ * Ce package contient tous les Data Transfer Object (DTO) 
+ * relatifs au concept de <b>Developpeur</b>.<br/>
+ * 
+ *  <ul>
+ * <li>Les DTO ne servent qu'à véhiculer de l'information 
+ * entre les couches VUE, CONTROLLER et MODEL.</li>
+ * <li>le DTO ne comprend <b>que des attributs typés String</b>.</li>
+ * <li>la VUE alimente le DTO avec les valeurs saisies par l'utilisateur.</li>
+ * <li>le DTO sert ensuite de conteneur de données 
+ * et est envoyé par la VUE vers le CONTROLLER.</li>
+ * </ul>
+ * 
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

@@ -2,14 +2,37 @@ package levy.daniel.application.model.dto.metier.developpeur;
 
 import java.io.Serializable;
 
+import levy.daniel.application.model.metier.developpeur.impl.Developpeur;
+
 /**
  * INTERFACE IDeveloppeurDTO :<br/>
- * Interface <b>Data Transfer Object (DTO)</b> 
- * relative au concept de <b>Developpeur</b>.<br/>
- * Les DTO ne servent qu'à <b>véhiculer de l'information</b> 
- * entre les couches VUE, CONTROLLER et MODEL.<br/>
+ * 
+ * <p>
+ * DTO ABSTRAIT pour les {@link Developpeur}.
+ * </p>
+ * 
+ * 
+ * <ul>
+ * <li>Les DTO ne servent qu'à véhiculer de l'information 
+ * entre les couches VUE, CONTROLLER et MODEL.</li>
+ * <li>le DTO ne comprend <b>que des attributs typés String</b>.</li>
+ * <li>la VUE alimente le DTO avec les valeurs saisies par l'utilisateur.</li>
+ * <li>le DTO sert ensuite de conteneur de données 
+ * et est envoyé par la VUE vers le CONTROLLER.</li>
+ * </ul>
+ * 
+ * <p>
+ * <b><span style="text-decoration: underline;">
+ * Diagramme des classes de DeveloppeurDTO :
+ * </span></b>
+ * </p>
+ * <p>
+ * <img src="../../../../../../../../../../javadoc/images/model/dto/metier/developpeur/diagramme_classes_DeveloppeurDTO.png" 
+ * alt="diagramme de classes de DeveloppeurDTO" border="1" align="center" />
+ * </p>
+ * 
  * <br/>
- * <br/>
+
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
