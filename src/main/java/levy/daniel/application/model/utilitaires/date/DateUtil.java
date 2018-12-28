@@ -3,7 +3,9 @@ package levy.daniel.application.model.utilitaires.date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -65,6 +67,96 @@ public final class DateUtil {
 	private DateUtil() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+
+	
+	/**
+	 * <b>Instancie et retourne une LocalDate à partir d'une String 
+	 * SAISIE soit <br/>
+	 * - sous la forme "dd MMMM yyyy" comme 12 février 1962,<br/>
+	 * - soit sous la forme "dd/MM/yyyy" comme 12/02/1962,<br/>
+	 * - soit sous la forme ISO "yyyy-MMM-dd" comme 1962-02-12</b>.<br/>
+	 * <ul>
+	 * <li>Par exemple, <code>fournirLocalDate("05/01/1976")</code> 
+	 * retourne une LocalDate située le 05 janvier 1976.</li>
+	 * <li>utilise <code>dateFormatterSaisie.<b>parse</b>(pString
+	 * , LocalDate::from);</code></li>
+	 * <li>essaie d'abord avec le format d'affichage 12 février 1962.</li>
+	 * <li>essaie ensuite avec le format d'affichage 12/02/1962.</li>
+	 * <li>essaie finalement avec le format d'affichage ISO 1962-02-12.</li>
+	 * <li>retourne null si pString n'est conforme à aucun de ces formats.</li>
+	 * </ul>
+	 * - retourne null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * date sous forme de String au format "dd MMMM yyyy"
+	 * , "dd/MM/yyyy" ou ISO "yyyy-MMM-dd".<br/>
+	 * 
+	 * @return : LocalDate.<br/>
+	 */
+	public static LocalDate fournirLocalDate(
+							final String pString) {
+		
+		synchronized (DateUtil.class) {
+			
+			/* retourne null si pString est blank. */
+			if (StringUtils.isBlank(pString)) {
+				return null;
+			}
+
+			/* 12 février 1962. */
+			final DateTimeFormatter dateFormatterAffichage 
+				= DateTimeFormatter.ofPattern("dd MMMM yyyy")
+					.withLocale(Locale.getDefault());
+			
+			/* 12/02/1962. */
+			final DateTimeFormatter dateFormatterSaisie 
+			= DateTimeFormatter.ofPattern("dd/MM/yyyy")
+				.withLocale(Locale.getDefault());
+			
+			/* 1962-02-12. */
+			final DateTimeFormatter dateFormatterIso 
+				= DateTimeFormatter.ofPattern("[yyyy-MM-dd][yyyy-MMM-dd]")
+					.withLocale(Locale.getDefault());
+						
+			LocalDate resultat = null;
+			
+			/* essaie d'abord avec le format d'affichage 12 février 1962. */
+			try {
+				
+				resultat 
+					= dateFormatterAffichage.parse(pString, LocalDate::from);
+				
+			} catch (Exception e) {
+				
+				/* essaie ensuite avec le format d'affichage 12/02/1962. */			
+				try {
+					
+					resultat 
+						= dateFormatterSaisie.parse(pString, LocalDate::from);
+					
+				} catch (Exception e1) {
+					
+					/* essaie finalement avec le format d'affichage 
+					 * ISO 1962-02-12. */			
+					try {
+						resultat 
+						= dateFormatterIso.parse(pString, LocalDate::from);
+					} catch (Exception e2) {
+						
+						/* retourne null si pString n'est conforme 
+						 * à aucun de ces formats. */
+						return null;
+					}
+				}
+			}
+			
+			return resultat;
+						
+		} // Fin de synchronized._______________________
+		
+	} // Fin de fournirLocalDate(...)._____________________________________
 	
 
 	

@@ -83,7 +83,7 @@ public class DeveloppeurDTOTest {
 
 	
 	/**
-	 * <b>Teste les conctructeurs transformateurs</b> 
+	 * <b>Teste les constructeurs transformateurs</b> 
 	 * dans l'objet métier et le DTO.<br/>
 	 * <ul>
 	 * <li>vérifie que le constructeur transformateur de DTO 
