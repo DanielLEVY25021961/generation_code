@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- ******************************************************************** -->
+<!-- hiérarchie des niveaux : OFF>FATAL>ERROR>WARN>INFO>DEBUG>TRACE>ALL   -->
+<!-- ******************************************************************** -->
+
 <Configuration name="DEV" status="ERROR">
  
 

@@ -22,18 +22,17 @@
 	<!-- par Spring.  													-->
 	<!-- ============================================================== -->
 	
-	<!-- 							STANDALONE 							-->
+	<!-- 		WEB SANS SPRING - TOMCAT GERE LES TRANSACTIONS 			-->
 	<!-- <persistence-unit name="persistence_unit_base-generation_code" 
 		transaction-type="JTA"> -->
 		
-	<!-- 						WEB SANS SPRING							 -->
-		<!-- <persistence-unit name="persistence_unit_base-generation_code" 
-		transaction-type="RESOURCE_LOCAL"> -->
+	<!-- 						STANDALONE							 	-->
+	<persistence-unit name="persistence_unit_base-generation_code" transaction-type="RESOURCE_LOCAL">
 
 	<!-- 						AVEC SPRING 5.0.0 						-->
 	<!-- transaction manager géré par SPRING.							-->
 	<!-- Donc, ne pas utiliser l'attribut transaction-type 				-->
-	<persistence-unit name="persistence_unit_base-generation_code">
+	<!-- <persistence-unit name="persistence_unit_base-generation_code">		-->
 
 
 		<!-- ========================================================== -->
@@ -46,8 +45,11 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
 
-		
+
+		<!-- 		PERMET LA RECHERCHE DES CLASSES ANNOTEES 			-->
+		<!--  SANS ETRE OBLIGE DE LES LISTER DANS LE persistence.xml 	-->		
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+
 
 			<!-- ================================================== -->
 			<!-- Paramétrages Hibernate -->
@@ -56,6 +58,75 @@
 
 		<properties>
 
+					<!-- *********************************	 -->
+		    		<!-- CONNEXION A LA BASE DU PROJET 		 -->
+		    		<!-- (SI STANDALONE. 					 -->
+		    		<!-- Sinon dans context.xml sous SPRING) -->
+		    		<!-- **********************************	 -->
+		<!-- ========================================================= -->
+		<!--    postgresql 9.6.4 - port : 5432 - [postgres, postgres]  -->
+		<!-- ========================================================= -->
+<!-- 		<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/base-generation_code" /> -->
+    		
+		 <!-- ========================================================= -->
+		 <!--         mySql 5.7.19.0 - port : 3306 - [root, root]       -->
+		 <!-- ========================================================= -->   	
+<!-- 		 <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/base-generation_code" /> -->
+		
+		<!-- ========================================================= -->
+		<!--                     hsqldb 2.4.0 - [sa,    ]              -->
+		<!-- ========================================================= -->
+		<!-- en mode SERVEUR -->
+<!-- 		<property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost/base-generation_code" /> >-->
+    	<!-- en mode FILE -->
+<!--        <property name="hibernate.connection.url" value="jdbc:hsqldb:file:D:/Donnees/eclipse/eclipseworkspace_oxygen/generation_code/data/base-generation_code-hsqldb/base-generation_code" /> -->
+    	<!-- en mode MEMORY -->
+<!-- 	   <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:base-generation_code" />     -->
+
+		<!-- ========================================================= -->
+		<!--                     	H2 1.4.197 - [sa, sa]              -->
+		<!-- ========================================================= -->
+		<!-- en mode FILE -->
+		<!-- chemin relatif (marche dans Eclipse) -->
+<!-- 		<property name="hibernate.connection.url" value="jdbc:h2:file:./data/base-generation_code-h2/base-generation_code" />  -->
+		<!-- chemin absolu (marche dans la console H2) -->
+<!-- 		<property name="hibernate.connection.url" value="jdbc:h2:file:D:/Donnees/eclipse/eclipseworkspace_oxygen/generation_code/data/base-generation_code-h2/base-generation_code" /> -->
+   		<!-- en mode MEMORY -->
+	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-generation_code" />    
+	
+					
+
+					<!-- ********************************** -->
+					<!-- LOGIN, MOT DE PASSE 				-->
+					<!-- (SI STANDALONE. 					-->
+					<!-- Sinon dans context.xml sous SPRING)-->
+					<!-- ********************************** -->
+			
+		<!-- ========================================================= -->
+		<!--    postgresql 9.6.4 - port : 5432 - [postgres, postgres]  -->
+		<!-- ========================================================= --> 
+<!-- 		<property name="hibernate.connection.username" value="postgres" /> -->
+<!-- 		<property name="hibernate.connection.password" value="postgres" /> -->
+		
+		<!-- ========================================================= -->
+		<!--         mySql 5.7.19.0 - port : 3306 - [root, root]       -->
+		<!-- ========================================================= -->   		
+<!--     	<property name="hibernate.connection.username" value="root" /> -->
+<!--     	<property name="hibernate.connection.password" value="root" /> -->
+    	
+ 		<!-- ========================================================= -->
+		<!--                     hsqldb 2.4.0  [sa,   ]                -->
+		<!-- ========================================================= -->	
+<!--     	<property name="hibernate.connection.username" value="sa" /> -->
+<!--     	<property name="hibernate.connection.password" value="" />	 -->
+    	
+		<!-- ========================================================= -->
+		<!--                     	H2 1.4.197 - [sa, sa]              -->
+		<!-- ========================================================= -->
+    	<property name="hibernate.connection.username" value="sa" />
+    	<property name="hibernate.connection.password" value="sa" />	
+
+
 		
 					<!-- ************************* -->
 					<!-- DRIVER DE BASE DE DONNEES -->
@@ -63,7 +134,7 @@
 		<!-- ========================================================= -->
 		<!--    postgresql 9.6.4 - port : 5432 - [postgres, postgres]  -->
 		<!-- ========================================================= -->
-		<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+<!-- 		<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> -->
 			      
 		 <!-- ========================================================= -->
 		 <!--         mySql 5.7.19.0 - port : 3306 - [root, root]       -->
@@ -71,10 +142,14 @@
 <!-- 		 <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" /> -->
 				
 		<!-- ========================================================= -->
-		<!--                     hsqldb 2.4.0                          -->
+		<!--                     hsqldb 2.4.0 - [sa,    ]              -->
 		<!-- ========================================================= -->
-<!-- 		<property name="javax.persistence.jdbc.driver" value="org.hsqldb.JDBCDriver" /> -->
+<!-- 		<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" /> -->
 
+		<!-- ========================================================= -->
+		<!--                     	H2 1.4.197 - [sa, sa]              -->
+		<!-- ========================================================= -->
+		<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 
 		
 						<!-- **************************** -->
@@ -85,7 +160,7 @@
 			<!-- ========================================================= -->
 		    <!--    postgresql 9.6.4 - port : 5432 - [postgres, postgres]  -->
 		    <!-- ========================================================= -->
-    		<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect" />
+<!--     		<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect" /> -->
     		
 		    <!-- ========================================================= -->
 		    <!--         mySql 5.7.19.0 - port : 3306 - [root, root]       -->
@@ -93,18 +168,23 @@
 <!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect" /> -->
 			
 			<!-- ========================================================= -->
-		    <!--                     hsqldb 2.4.0                          -->
+		    <!--                     hsqldb 2.4.0 - [sa,    ]              -->
 		    <!-- ========================================================= -->
 <!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" /> -->
 			
+			<!-- ========================================================= -->
+			<!--                     	H2 1.4.197 - [sa, sa]              -->
+			<!-- ========================================================= -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+
 
 		 			<!-- ************************** -->
 					<!-- pour voir les requetes SQL -->
 					<!-- ************************** -->
 
         	<!-- Montrer toutes les réquêtes générées -->
-	        <property name="hibernate.show_sql" value="true" />
-<!--      	    <property name="hibernate.show_sql" value="false" /> -->
+<!-- 	        <property name="hibernate.show_sql" value="true" /> -->
+     	    <property name="hibernate.show_sql" value="false" />
 	        
 	        <!-- Formater le SQL de sortie -->
 			<property name="hibernate.format_sql" value="true" />
