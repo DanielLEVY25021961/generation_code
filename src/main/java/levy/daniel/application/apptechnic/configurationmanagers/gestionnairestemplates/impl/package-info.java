@@ -11,7 +11,7 @@
  * Les templates sont stockés sous forme de <b>fichiers .txt</b> 
  * dans les <i>ressources internes (sous le classpath)</i> de l'application.<br/>
  * <br/><br/>
- * <img src="../../../../../../../../../../javadoc/images/gestionnairestemplates/gestion_templates.png" 
+ * <img src="../../../../../../../../../../javadoc/images/gestion_templates.png" 
  * alt="Gestion des templates" border="1" align="center" />
  * <br/><br/>
  * <br/>

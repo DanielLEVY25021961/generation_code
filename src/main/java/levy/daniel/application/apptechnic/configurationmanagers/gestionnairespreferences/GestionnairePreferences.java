@@ -170,7 +170,7 @@ public final class GestionnairePreferences {
 	public static final String NEWLINE = System.getProperty("line.separator");
 
 	/**
-	 * SAUT_LIGNE_JAVA : char :<br/>
+	 * SAUT_LIGNE_PLATEFORME : char :<br/>
 	 * '\n'.<br/>
 	 */
 	public static final char SAUT_LIGNE_JAVA = '\n';

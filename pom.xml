@@ -81,6 +81,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- ========================================================== -->
 		<!-- 				Version de SPRING 							-->
 		<spring.version>5.1.3.RELEASE</spring.version>
+		
+		<!-- 				Version de AspectJ RT 						-->
+		<aspectjrt.version>1.9.2</aspectjrt.version>
+		
 		<!-- 				Version d'HIBERNATE 						-->
 		<hibernate.version>5.3.7.Final</hibernate.version>
 		<!-- 			Version hibernate-jpa-2.1-api				    -->
@@ -128,6 +132,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- 				Version de log4j-core					    -->
 		<log4j-core.version>2.9.1</log4j-core.version>
 
+		<!--                 Version logback-classic                    -->
+		<logback-classic.version>1.3.0-alpha4</logback-classic.version>
+		
 		<!-- 				Version de junit						    -->
 		<junit.version>4.12</junit.version>
 
@@ -426,10 +433,41 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <artifactId>spring-orm</artifactId>
 		    <scope>compile</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aspects</artifactId>
+		    <scope>compile</scope>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-test</artifactId>
+		    <scope>test</scope>
+		</dependency>
+
+
+		<!-- ================================ -->
+		<!--      dépendances pour AspectJ    -->
+		<!-- ================================ -->		
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjrt</artifactId>
+		    <version>${aspectjrt.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+
+
+		<!-- ================================ -->
+		<!--      dépendances pour logback    -->
+		<!-- ================================ -->		
+		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-classic</artifactId>
+		    <version>${logback-classic.version}</version>
 		    <scope>test</scope>
 		</dependency>
 

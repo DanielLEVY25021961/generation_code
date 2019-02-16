@@ -558,7 +558,7 @@ static {
 	 * implémentés dans l'application</b>.<br/>
 	 * <ul>
 	 * <li>La String fournie incorpore les 
-	 * sauts de lignes de la plateforme (SAUT_LIGNE_JAVA).</li>
+	 * sauts de lignes de la plateforme (SAUT_LIGNE_PLATEFORME).</li>
 	 * <li>
 	 * Les langues disponibles sont affichées 
 	 * sous la forme du retour de la méthode 
