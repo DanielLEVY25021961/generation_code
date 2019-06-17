@@ -380,10 +380,8 @@ public final class ConfigurationBundlesManager {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ConfigurationBundlesManager() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * private pour interdire l'instanciation.<br/>
-	 * <br/>
 	 */
 	private ConfigurationBundlesManager() {
 		super();

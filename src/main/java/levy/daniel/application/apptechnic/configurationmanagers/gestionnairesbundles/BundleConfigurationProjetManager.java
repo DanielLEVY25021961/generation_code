@@ -22,7 +22,7 @@ import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierInexi
 /**
  * CLASSE <b>BundleConfigurationProjetManager</b> :<br/>
  * Classe <b>utilitaire (méthodes static)</b> chargée de gérer 
- * les données de configuration du code à générer 
+ * les données de configuration du <b>code à générer</b> 
  * (chemin du Workspace, nom du projet, path des sources java, ...).<br/>
  * <br/>
  *
