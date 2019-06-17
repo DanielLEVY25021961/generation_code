@@ -469,6 +469,48 @@ public interface IEncapsulationDeclarationMembre extends
 	*/
 	void setPublicStaticTransient(boolean pPublicStaticTransient);
 
+
+	
+	/**
+	 * Getter du boolean qui stipule si le membre est 
+	 * <b>public final</b>.
+	 *
+	 * @return this.publicFinal : boolean.<br/>
+	 */
+	boolean isPublicFinal();
+
+
+	
+	/**
+	* Setter du boolean qui stipule si le membre est 
+	* <b>public final</b>.
+	*
+	* @param pPublicFinal : boolean : 
+	* valeur à passer à this.publicFinal.<br/>
+	*/
+	void setPublicFinal(boolean pPublicFinal);
+
+
+	
+	/**
+	 * Getter du boolean qui stipule si le membre est 
+	 * <b>public final transient</b>.
+	 *
+	 * @return this.publicFinalTransient : boolean.<br/>
+	 */
+	boolean isPublicFinalTransient();
+
+
+	
+	/**
+	* Setter du boolean qui stipule si le membre est 
+	* <b>public final transient</b>.
+	*
+	* @param pPublicFinalTransient : boolean : 
+	* valeur à passer à this.publicFinalTransient.<br/>
+	*/
+	void setPublicFinalTransient(boolean pPublicFinalTransient);
+
 	
 
 } // FIN DE L'INTERFACE IEncapsulationDeclarationMembre.---------------------

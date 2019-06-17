@@ -306,8 +306,8 @@ public class DecouvreurMembreTest {
 		final String motifRegex = "^(\\s*)((public?|protected?|private?|)\\s*(static?|)\\s*(final?|)\\s*(transient?|)\\s+(\\S+)\\s+([a-zA-Z0-9_]+)\\s*(.*));$";
 		final Pattern pattern = Pattern.compile(motifRegex);
 		
-//		final String ligneATester = "public static final Boolean AFFICHAGE_GENERAL = true;";
-		final String ligneATester = "		private EnumTypeFichierDonnees typeFichier;";
+		final String ligneATester = "public static final Boolean AFFICHAGE_GENERAL = true;";
+//		final String ligneATester = "		private EnumTypeFichierDonnees typeFichier;";
 //		final String ligneATester = "public class Televersement implements ITeleversement {";
 		
 		final Matcher matcher = pattern.matcher(ligneATester);
@@ -353,18 +353,25 @@ public class DecouvreurMembreTest {
 				System.out.println(ligne);
 			}
 		}
-	}
+		
+	} // Fin de testFonction().____________________________________________
 	
 	
 	
 	/**
-	 * .<br/>
+	 * détecte si une ligne d'un fichier source est une déclaration 
+	 * d'un ATTRIBUT conformément au MOTIF_REGEX_ATTRIBUT.<br/>
+	 * <br/>
+	 * - retourne false si pString est blank.<br/>
 	 * <br/>
 	 *
-	 * @param pString
-	 * @return : boolean :  .<br/>
+	 * @param pString : String.
+	 * 
+	 * @return : boolean : 
+	 * true si pString est une déclaration d'attribut.<br/>
 	 */
-	public final boolean estDeclarationAttribut(String pString) {
+	public final boolean estDeclarationAttribut(
+			final String pString) {
 		
 		/* retourne false si pString est blank. */
 		if (StringUtils.isBlank(pString)) {
@@ -381,7 +388,7 @@ public class DecouvreurMembreTest {
 		
 		return false;
 		
-	}
+	} // Fin de estDeclarationAttribut(...)._______________________________
 
 	
 } // FIN DE LA CLASSE CLASSE DecouvreurMembreTest.---------------------------

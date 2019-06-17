@@ -4,8 +4,13 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -14,6 +19,7 @@ import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierNullE
 import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierPasNormalException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierSimpleException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierVideException;
+import levy.daniel.application.model.services.metier.generationcode.decouvreurmembre.impl.EncapsulationDeclarationMembre;
 
 /**
  * CLASSE DecouvreurMembre :<br/>
@@ -65,6 +71,12 @@ public class DecouvreurMembre {
 	 */
 	public static final String METHODE_LIREFICHIERSOURCE 
 		= "méthode lireFichierSource(File pFichierSource)";
+	
+	/**
+	 * "méthode decouvrirAttributs(File pFile)".<br/>
+	 */
+	public static final String METHODE_DECOUVRIR_ATTRIBUTS 
+		= "méthode decouvrirAttributs(File pFile)";
 
 	
 	//*****************************************************************/
@@ -123,14 +135,21 @@ public class DecouvreurMembre {
 	public static final String NEWLINE = System.getProperty("line.separator");
 		
 	/**
-	 * <b>motif REGEX pour détecter les lignes de déclaration des membres</b> 
-	 * (attributs et méthodes) d'une classe.<br/>
-	 * "^(\\s*)((public?|protected?|private?|)\\s*(static?|)\\s*(final?|)\\s*(transient?|)\\s+(\\S+)\\s+([a-zA-Z0-9_]+)\\s*(.*));$".
+	 * <b>motif REGEX pour détecter les lignes de déclaration des ATTRIBUTS</b> 
+	 * d'une classe.<br/>
+	 * <ul>
+	 * <li>seuls les attributs public, protected ou private sont détectés.</li>
+	 * <li>les attributs "friendly" déclarés sans modificateur 
+	 * ne sont pas détectés.</li>
+	 * </ul>
+	 * <p>
+	 * <b>"^(\\s*)((public?|protected?|private?)\\s*(static?|)\\s*(final?|)\\s*(transient?|)\\s+(\\S+)\\s+([a-zA-Z0-9_]+)\\s*(.*));$"</b>.
+	 * </p>
 	 * <ol>
 	 * <li><b>^(\\s*)</b> signifie 
 	 * <i>"commence par 0, 1 ou plusieurs espaces</i>.</li>
-	 * <li><b>((public?|protected?|private?|)</b> 
-	 * signifie <i>"public, ou protected, ou private, ou rien (|)"</i></li>
+	 * <li><b>((public|protected|private)</b> 
+	 * signifie <i>"public, ou protected, ou private"</i></li>
 	 * <li><b>\\s*</b> signifie <i>"0, 1, ou plusieurs espaces"</i></li>
 	 * <li><b>(static?|)</b> signifie <i>"static une seule fois au pas (|)"</i></li>
 	 * <li><b>\\s*</b> signifie <i>"0, 1, ou plusieurs espaces"</i></li>
@@ -147,8 +166,14 @@ public class DecouvreurMembre {
 	 * <li><b>(.*)</b> signifie <i>"termine par un point-virgule"</i></li>
 	 * </ol>
 	 */
-	public static final String MOTIF_REGEX_MEMBRE 
-		= "^(\\s*)((public?|protected?|private?|)\\s*(static?|)\\s*(final?|)\\s*(transient?|)\\s+(\\S+)\\s+([a-zA-Z0-9_]+)\\s*(.*));$";
+	public static final String MOTIF_REGEX_ATTRIBUT 
+		= "^(\\s*)((public|protected|private)\\s*(static?|)\\s*(final?|)\\s*(transient?|)\\s+(\\S+)\\s+([a-zA-Z0-9_]+)\\s*(.*));$";
+	
+	/**
+	 * Pattern.compile(MOTIF_REGEX_ATTRIBUT);
+	 */
+	public static final Pattern PATTERN_MOTIF_REGEX_ATTRIBUT 
+		= Pattern.compile(MOTIF_REGEX_ATTRIBUT);
 	
 	/**
 	 * "null".<br/>
@@ -177,6 +202,66 @@ public class DecouvreurMembre {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
+
+	
+	/**
+	 * .<br/>
+	 * <br/>
+	 * - LOG.fatal et jette une Exception circonstanciée 
+	 * si pFichierSource est null, vide, inexistant ou répertoire.<br/>
+	 * <br/>
+	 *
+	 * @param pFichierSource
+	 * 
+	 * @return : Map<Integer,IEncapsulationDeclarationMembre> :  .<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public final Map<Integer, IEncapsulationDeclarationMembre> 
+					decouvrirAttributs(final File pFichierSource) 
+													throws Exception {
+		
+		/* LOG.fatal et jette une Exception circonstanciée si 
+		 * pFichierSource est null, vide, inexistant 
+		 * ou répertoire. */
+		this.traiterMauvaisFichierSource(
+				pFichierSource, METHODE_DECOUVRIR_ATTRIBUTS);
+		
+		final Map<Integer, IEncapsulationDeclarationMembre> resultat 
+			= new LinkedHashMap<Integer, IEncapsulationDeclarationMembre>();
+		
+		final List<String> lignes = this.lireFichierSource(pFichierSource);
+		
+		for (final String ligne : lignes) {
+			
+			final Matcher matcher 
+				= PATTERN_MOTIF_REGEX_ATTRIBUT.matcher(ligne);
+			
+			if (matcher.matches()) {
+				
+				final IEncapsulationDeclarationMembre membre 
+					= new EncapsulationDeclarationMembre();
+				
+				membre.setLigneEntiere(matcher.group(0));
+				membre.setEspacesEnDebutLigne(matcher.group(1));
+				membre.setContenuLigne(matcher.group(2));
+				membre.setModerateur(matcher.group(3));
+				membre.setModificateurStatic(matcher.group(4));
+				membre.setModificateurFinal(matcher.group(5));
+				membre.setModificateurTransient(matcher.group(6));
+				membre.setType(matcher.group(7));
+				membre.setNomMembre(matcher.group(8));
+				membre.setReste(matcher.group(9));
+				
+				membre.setAttribut(true);
+				
+			}
+		}
+		
+		return null;
+		
+	} // Fin de decouvrirAttributs(...).___________________________________
+	
 	
 	
 	/**
@@ -311,6 +396,40 @@ public class DecouvreurMembre {
 		return stb.toString();
 
 	} // Fin de afficherListeString(...).__________________________________
+	
+	
+	
+	/**
+	 * détecte si une ligne d'un fichier source est une déclaration 
+	 * d'un ATTRIBUT conformément au MOTIF_REGEX_ATTRIBUT.<br/>
+	 * <br/>
+	 * - retourne false si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.
+	 * 
+	 * @return : boolean : 
+	 * true si pString est une déclaration d'attribut.<br/>
+	 */
+	private boolean estDeclarationAttribut(
+			final String pString) {
+		
+		/* retourne false si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return false;
+		}
+		
+		final Pattern pattern = Pattern.compile(MOTIF_REGEX_ATTRIBUT);
+		
+		final Matcher matcher = pattern.matcher(pString);
+		
+		if (matcher.matches()) {
+			return true;
+		}
+		
+		return false;
+		
+	} // Fin de estDeclarationAttribut(...)._______________________________
 		
 	
 	

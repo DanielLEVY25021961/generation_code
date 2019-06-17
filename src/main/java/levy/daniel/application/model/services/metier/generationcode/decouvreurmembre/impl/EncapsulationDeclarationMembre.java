@@ -149,8 +149,16 @@ public class EncapsulationDeclarationMembre
 	 */
 	private boolean publicStaticTransient;
 	
+	/**
+	 * boolean qui stipule si le membre est 
+	 * <b>public final</b>.
+	 */
 	private boolean publicFinal;
 	
+	/**
+	 * boolean qui stipule si le membre est 
+	 * <b>public final transient</b>.
+	 */
 	private boolean publicFinalTransient;
 	
 	/**
@@ -163,7 +171,15 @@ public class EncapsulationDeclarationMembre
 
 	// *************************METHODES************************************/
 
-
+	
+	 /**
+	 * CONSTRUCTEUR D'ARITE NULLE.
+	 */
+	public EncapsulationDeclarationMembre() {
+		super();
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+	
 
 	/**
 	 * {@inheritDoc}
@@ -285,6 +301,8 @@ public class EncapsulationDeclarationMembre
 		clone.setPublicStaticFinalTransient(this.isPublicStaticFinalTransient());
 		clone.setPublicStatic(this.isPublicStatic());
 		clone.setPublicStaticTransient(this.isPublicStaticTransient());
+		clone.setPublicFinal(this.isPublicFinal());
+		clone.setPublicFinalTransient(this.isPublicFinalTransient());
 		
 		return (EncapsulationDeclarationMembre) clone;
 		
@@ -398,7 +416,18 @@ public class EncapsulationDeclarationMembre
 		stb.append(this.isPublicStatic());
 		stb.append(VIRGULE_ESPACE);
 		
-
+		stb.append("publicStaticTransient=");
+		stb.append(this.isPublicStaticTransient());
+		stb.append(VIRGULE_ESPACE);
+		
+		stb.append("publicFinal=");
+		stb.append(this.isPublicFinal());
+		stb.append(VIRGULE_ESPACE);
+		
+		stb.append("publicFinalTransient=");
+		stb.append(this.isPublicFinalTransient());
+		stb.append(VIRGULE_ESPACE);
+		
 		stb.append(']');
 
 		return stb.toString();
@@ -417,7 +446,8 @@ public class EncapsulationDeclarationMembre
 				+ "moderateur;modificateurStatic;modificateurFinal;"
 				+ "modificateurTransient;type;nomMembre;reste;attribut;"
 				+ "publicSimple;publicTransient;publicStaticFinal;"
-				+ "publicStaticFinalTransient;publicStatic;";
+				+ "publicStaticFinalTransient;publicStatic;publicStaticTransient;"
+				+ "publicFinal;publicFinalTransient;";
 
 	} // Fin de fournirEnTeteCsv().________________________________________
 
@@ -464,6 +494,12 @@ public class EncapsulationDeclarationMembre
 		stb.append(this.isPublicStaticFinalTransient());
 		stb.append(POINT_VIRGULE);
 		stb.append(this.isPublicStatic());
+		stb.append(POINT_VIRGULE);
+		stb.append(this.isPublicStaticTransient());
+		stb.append(POINT_VIRGULE);
+		stb.append(this.isPublicFinal());
+		stb.append(POINT_VIRGULE);
+		stb.append(this.isPublicFinalTransient());
 		stb.append(POINT_VIRGULE);
 		
 		return stb.toString();
@@ -549,6 +585,18 @@ public class EncapsulationDeclarationMembre
 
 		case 16:
 			entete = "publicStatic";
+			break;
+
+		case 17:
+			entete = "publicStaticTransient";
+			break;
+
+		case 18:
+			entete = "publicFinal";
+			break;
+
+		case 19:
+			entete = "publicFinalTransient";
 			break;
 
 		default:
@@ -643,6 +691,18 @@ public class EncapsulationDeclarationMembre
 
 		case 16:
 			valeur = String.valueOf(this.isPublicStatic());
+			break;
+
+		case 17:
+			valeur = String.valueOf(this.isPublicStaticTransient());
+			break;
+
+		case 18:
+			valeur = String.valueOf(this.isPublicFinal());
+			break;
+
+		case 19:
+			valeur = String.valueOf(this.isPublicFinalTransient());
 			break;
 
 		default:
@@ -1032,6 +1092,48 @@ public class EncapsulationDeclarationMembre
 			final boolean pPublicStaticTransient) {
 		this.publicStaticTransient = pPublicStaticTransient;
 	} // Fin de setPublicStaticTransient(...)._____________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean isPublicFinal() {
+		return this.publicFinal;
+	} // Fin de isPublicFinal().___________________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setPublicFinal(
+			final boolean pPublicFinal) {
+		this.publicFinal = pPublicFinal;
+	} // Fin de setPublicFinal(...)._______________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean isPublicFinalTransient() {
+		return this.publicFinalTransient;
+	} // Fin de isPublicFinalTransient().__________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setPublicFinalTransient(
+			final boolean pPublicFinalTransient) {
+		this.publicFinalTransient = pPublicFinalTransient;
+	} // Fin de setPublicFinalTransient(...).______________________________
 	
 	
 	

@@ -32,7 +32,7 @@ import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourc
  * @since 7 févr. 2019
  *
  */
-public class MyDataSourceFactory {
+public final class MyDataSourceFactory {
 
 	// ************************ATTRIBUTS************************************/
 
