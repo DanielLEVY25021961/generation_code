@@ -12,7 +12,7 @@ import org.junit.Test;
 
 /**
  * CLASSE ConfigurationApplicationManagerTest :<br/>
- * Test JUnnit de la classe ConfigurationApplicationManager.<br/>
+ * Test JUnit de la classe {@link ConfigurationApplicationManager}.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -78,7 +78,7 @@ public class ConfigurationApplicationManagerTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
