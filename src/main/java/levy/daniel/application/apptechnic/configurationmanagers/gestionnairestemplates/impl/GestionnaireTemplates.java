@@ -31,12 +31,12 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairestem
  * </ul>
  * Le développeur peut alors injecter le code résultant de la lecture et de la substitution du template où il le souhaite dans son code.<br/>
  * <br/><br/>
- * <img src="../../../../../../../../../../javadoc/images/gestionnairestemplates/gestionnaire_templates_role.png" 
+ * <img src="../../../../../../../../../../javadoc/images/gestionnaire_templates_role.png" 
  * alt="Roles des Gestionnaire de templates" border="1" align="center" />
  * <br/><br/>
  * <p><span style="text-decoration: underline;"><b>DIAGRAMME DES CLASSES : </b></span></p>
  * <br/>
- * <img src="../../../../../../../../../../javadoc/images/gestionnairestemplates/gestionnaire_templates.png" 
+ * <img src="../../../../../../../../../../javadoc/images/gestionnaire_templates.png" 
  * alt="Diagramme de classes des Gestionnaires de templates" border="1" align="center" />
  * <br/><br/>
  *
@@ -50,7 +50,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairestem
  * <code><i>// valeurs à substituer aux variables dépendant d'une Locale paramétrée pLocale</i></code>.<br/>
  * <code>final String[] <b>substituants = {pLocale.toString(), LocaleManager.fournirLangueEtPaysEnFrancais(pLocale)};</b></code>.<br/>
  * <code><i>// Récupération du template lu/substitué sous forme de String</i></code>.<br/>
- * <code>final String <b>commentaire = gestionnaireTemplates.fournirTemplateSubstitueSousFormeString(cheminRelatifTemplate, variables, substituants);</b></code>.<br/>
+ * <code>final String <b>commentaire = gestionnaireTemplate.fournirTemplateSubstitueSousFormeString(cheminRelatifTemplate, variables, substituants);</b></code>.<br/>
  * <code>// commentaire peut alors être injecté où le veut le développeur.</code><br/>
  *<br/>
 
@@ -61,7 +61,6 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairestem
  * transformer liste en String, Liste en String, <br/>
  * template, Template, liste de lignes à partir d'un fichier txt, <br/>
  * lire un fichier .txt, lire un fichier txt,<br/>
- * lire fichier .txt, lire fichier txt,<br/>
  * liste lignes à partir d'un fichier .txt, ListeLignes txt, <br/>
  * lire un template txt, lire un template .txt, obtenir liste lignes,<br/>
  * <br/>

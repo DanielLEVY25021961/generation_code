@@ -8,7 +8,7 @@ import java.util.Locale;
  * class IConstantesApplicatives :<br/>
  * <ul>
  * <li>INTERFACE contenant les constantes mises à disposition 
- * de l'ensemble de l'application.</li>
+ * de l'ensemble de levy.daniel.application.</li>
  * <p>
  * <br/>
  * <img src="../../../../../../javadoc/images/IConstantesApplicatives.png" 
@@ -18,8 +18,8 @@ import java.util.Locale;
  * </ul>
  *
  * - Exemple d'utilisation :<br/>
- * <code>// Appel depuis n'importe quelle classe de l'application 
- * pour concaténer le point-virgule au StringBuilder stb : </code><br/>
+ * <code><i>// Appel depuis n'importe quelle classe de levy.daniel.application 
+ * pour concaténer le point-virgule au StringBuilder stb : </i></code><br/>
  * <code>stb.append(IConstantesApplicatives.POINT_VIRGULE);</code><br/>
  *<br/>
  * 
@@ -81,7 +81,7 @@ public interface IConstantesApplicatives {
 
 	
 	/**
-	 * SAUT_LIGNE_JAVA : String :<br/>
+	 * SAUT_LIGNE_PLATEFORME : String :<br/>
 	 * "\n".<br/>
 	 */
 	String SAUT_LIGNE_JAVA = "\n";
@@ -165,6 +165,12 @@ public interface IConstantesApplicatives {
 	String SANS_OBJET 
 		= "Sans Objet (contrôle non effectué)";
 	
+
+	/**
+	 * NAMESPACE : String :<br/>
+	 * Espace de noms pour les fichiers XML.<br/>
+	 */
+	String NAMESPACE = "levy.daniel.application";
 
 	
 	/**

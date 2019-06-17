@@ -1,5 +1,6 @@
 package levy.daniel.application;
 
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -8,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.ConfigurationBundlesManager;
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnairespaths.ArboresceurPresentProjet;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.BundleManquantRunTimeException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.CleManquanteRunTimeException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.CleNullRunTimeException;
@@ -44,13 +46,13 @@ import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierInexi
  * </ul>
  *
  * - Exemple d'utilisation :<br/>
- * <code> // Récupération du ResourceBundle encapsulant 
- * 'application.properties'.<br/></code>
+ * <code> // <i>Récupération du ResourceBundle encapsulant 
+ * 'application.properties'</i>.</code><br/>
  * <code>final ResourceBundle bundleApplication 
- * = ConfigurationApplicationManager.getBundleApplication();<br/>
- * // RAPPORT AU FORMAT CSV si problème (le rapport est alors non null).<br/>
- * ConfigurationApplicationManager.getRapportConfigurationCsv().</code><br/> 
- *<br/>
+ * = ConfigurationApplicationManager.getBundleApplication();</code><br/>
+ * <code>// <i>RAPPORT AU FORMAT CSV si problème (le rapport est alors non null)</i>.</code><br/>
+ * <code>ConfigurationApplicationManager.getRapportConfigurationCsv().</code><br/> 
+ * <br/>
  * 
  * - Mots-clé :<br/>
  * pattern délégation, DELEGATION, <br/>
@@ -174,7 +176,15 @@ public final class ConfigurationApplicationManager {
 	 */
 	private static String rapportUtilisateurCsv;
 	
-
+	/**
+	 * Path du fichier XML pour la serialization en JAXB.
+	 * ul>
+	 * <li>par exemple <code>data/
+	 * base-adresses_javafx-JAXB/base-adresses_javafx-JAXB.xml</code></li>
+	 * </ul>
+	 */
+	private static Path fichierJAXBXMLPath;
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -277,6 +287,7 @@ public final class ConfigurationApplicationManager {
 	 * , et donc présent dans les jar/war.</li>
 	 * <li>NON PARAMETRABLE PAR LA MOA.</li> 
 	 * <li>Uniquement accessible pour le centre serveur.</li>
+	 * <li>délègue au <b>ConfigurationBundlesManager</b>.</li>
 	 * <br/>
 	 * - Jette une BundleManquantRunTimeException, LOG.FATAL et rapporte 
 	 * si le properties est introuvable.<br/>
@@ -330,12 +341,15 @@ public final class ConfigurationApplicationManager {
 	 * method getPathRessourcesExternes() :<br/>
 	 * <ul>
 	 * <li>Fournit le path des ressources <b>EXTERNES</b> 
-	 * (hors classpath) paramétrables par la MOA.</li>
+	 * (hors classpath) paramétrables par la MOA 
+	 * <i>sous forme de String</i>.</li>
 	 * <li>Le path des ressources externes n'est accessible 
 	 * qu'au centre-serveur et doit être écrit en dur dans 
-	 * le properties 'configuration_ressources_externes.properties'. 
+	 * le properties <b>'configuration_ressources_externes.properties'</b> 
+	 * <i>situé sous le classpath</i>. 
 	 * <br/>Par exemple : 'D:/Donnees/eclipse/eclipseworkspace_neon
 	 * /tuto_maven_sonatype/ressources_externes'</li>
+	 * <li>délègue au <b>ConfigurationBundlesManager</b>.</li>
 	 * <li>clé = "ressourcesexternes".</li>
 	 * </ul>
 	 *
@@ -829,7 +843,42 @@ public final class ConfigurationApplicationManager {
 	} // Fin de getRapportUtilisateurCsv().________________________________
 
 	
-	
+		
+	/**
+	 * Getter du Path du fichier XML pour la serialization en JAXB.
+	 * <ul>
+	 * <li>par exemple <code>data/
+	 * base-adresses_javafx-JAXB/base-adresses_javafx-JAXB.xml</code></li>
+	 * </ul>
+	 *
+	 * @return fichierJAXBXMLPath : Path.<br/>
+	 */
+	public static Path getFichierJAXBXMLPath() {
+		
+		/* Bloc synchronized. */
+		synchronized (ConfigurationApplicationManager.class) {
+			
+			if (fichierJAXBXMLPath == null) {
+				
+				final String nomFichier 
+					= "base-" 
+							+ ArboresceurPresentProjet.getProjetSourceNom() 
+								+ "-JAXB.xml";
+				
+				fichierJAXBXMLPath 
+					= ArboresceurPresentProjet.getDataJAXBPath()
+						.resolve(nomFichier)
+							.toAbsolutePath().normalize();
+			}
+			
+			return fichierJAXBXMLPath;
+			
+		} // Fin de synchronized.________________________________________
+				
+	} // Fin de getFichierJAXBXMLPath().___________________________________
+
+
+
 	/**
 	 * method ajouterMessageAuRapportConfigurationCsv(
 	 * String pMessage) :<br/>

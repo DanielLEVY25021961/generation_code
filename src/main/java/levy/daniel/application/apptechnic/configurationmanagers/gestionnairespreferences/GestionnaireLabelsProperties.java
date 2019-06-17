@@ -53,16 +53,16 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairestem
 public final class GestionnaireLabelsProperties {
 	
 	/**
-	 * "PersonneVue.prenomTableColumn.text".<br/>
+	 * "ContactSimpleVue.prenomTableColumn.text".<br/>
 	 */
 	public static final String KEY_LABEL_PRENOM 
-		= "PersonneVue.prenomTableColumn.text";
+		= "ContactSimpleVue.prenomTableColumn.text";
 	
 	/**
-	 * "PersonneVue.nomTableColumn.text".<br/>
+	 * "ContactSimpleVue.nomTableColumn.text".<br/>
 	 */
 	public static final String KEY_LABEL_NOM 
-		= "PersonneVue.nomTableColumn.text";
+		= "ContactSimpleVue.nomTableColumn.text";
 	
 	/**
 	 * <b>nom de base du fichier .properties externe</b> paramétrable 
@@ -182,11 +182,14 @@ public final class GestionnaireLabelsProperties {
 	 */
 	private static void alimenterAttributs() {
 		
-		/* alimente 'properties' avec la valeur fournie par le gestionnaireProperties. */
+		/* alimente 'properties' avec la valeur 
+		 * fournie par le gestionnaireProperties. */
 		properties = gestionnaireProperties.getProperties();
 		
-		/* alimente 'pathAbsoluFichierProperties' avec la valeur fournie par le gestionnaireProperties. */
-		pathAbsoluFichierProperties = gestionnaireProperties.getPathAbsoluFichierProperties();
+		/* alimente 'pathAbsoluFichierProperties' 
+		 * avec la valeur fournie par le gestionnaireProperties. */
+		pathAbsoluFichierProperties 
+			= gestionnaireProperties.getPathAbsoluFichierProperties();
 		
 	} // Fin de alimenterAttributs().__________________________________
 	

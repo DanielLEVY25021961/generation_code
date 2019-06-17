@@ -11,13 +11,14 @@ import levy.daniel.application.apptechnic.exceptions.technical.AbstractTechnical
  * class FichierPasNormalException :<br/>
  * Hérite de AbstractTechnicalException.<br/>
  * Typée pour signaler que le File créé à partir d'un chemin
- * passé en paramètre d'une méthode est inexistant.<br/>
+ * passé en paramètre d'une méthode est un répertoire 
+ * (pas un fichier simple).<br/>
  * Utilise la liste static listeExceptions de
  * AbstractTechnicalException pour y logger les
  * messages d'Exception.<br/>
  * <br/>
  * Exception concrète de type Exception lancée lorsque
- * un fichier passé en paramètre est inexistant.<br/>
+ * un fichier passé en paramètre est un répertoire (pas un fichier simple).<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -158,4 +159,4 @@ public class FichierPasNormalException extends AbstractTechnicalException {
 	
 
 	
-} // FIn DE LA CLASSE FichierPasNormalException.-----------------------------
+} // FIN DE LA CLASSE FichierPasNormalException.-----------------------------

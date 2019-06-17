@@ -69,7 +69,7 @@ public final class DateUtil {
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 
-	
+		
 	/**
 	 * <b>Instancie et retourne une LocalDate à partir d'une String 
 	 * SAISIE soit <br/>
@@ -157,8 +157,8 @@ public final class DateUtil {
 		} // Fin de synchronized._______________________
 		
 	} // Fin de fournirLocalDate(...)._____________________________________
-	
 
+	
 	
 	/**
 	 * <ul>

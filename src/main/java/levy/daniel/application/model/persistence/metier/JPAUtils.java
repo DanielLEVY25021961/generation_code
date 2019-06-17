@@ -83,198 +83,170 @@ public final class JPAUtils {
 	// ************************ATTRIBUTS************************************/
 	
 	/**
-	 * PERSISTENCE_UNIT : String :<br/>
 	 * Persistence-unit déclarée dans META-INF/Persistence.xml.<br/>
-	 * "persistence_unit_base-traficweb_springboot".<br/>
+	 * "persistence_unit_base-adresses_javafx".<br/>
 	 */
 	public static final String PERSISTENCE_UNIT 
-		= "persistence_unit_base-traficweb_springboot";
-
+		= "persistence_unit_base-adresses_javafx";
 
 	/**
-	 * CLASSE_JPAUTILS : String :<br/>
 	 * "Classe JPAUtils".<br/>
 	 */
 	public static final String CLASSE_JPAUTILS 
 		= "Classe JPAUtils";
 	
 	/**
-	 * METHODE_GETENTITYMANAGERFACTORY : String :<br/>
 	 * "Méthode getEntityManagerFactory()".<br/>
 	 */
 	public static final String METHODE_GETENTITYMANAGERFACTORY 
 		= "Méthode getEntityManagerFactory()";
 	
 	/**
-	 * SAUT_LIGNE_JAVA : char :<br/>
-	 * '\n'.<br/>
+	 * saut de ligne de la plateforme.<br/>
 	 */
-	public static final char SAUT_LIGNE_JAVA = '\n';
-	
-	
+	public static final String SAUT_LIGNE_PLATEFORME 
+		= System.getProperty("line.separator");
+		
 	/**
-	 * PROPERTY_PERSISTENCE_UNIT : String :<br/>
 	 * PROPERTY_PERSISTENCE_UNIT.<br/>
 	 */
 	public static final String PROPERTY_PERSISTENCE_UNIT 
 		= "hibernate.ejb.persistenceUnitName";
 	
 	/**
-	 * PROPERTY_TRANSACTION_TYPE : String :<br/>
 	 * "hibernate.transaction.coordinator_class".<br/>
 	 */
 	public static final String PROPERTY_TRANSACTION_TYPE 
 		= "hibernate.transaction.coordinator_class";
 
 	/**
-	 * PROPERTY_HIBERNATE_CONNECTION_URL : String :<br/>
 	 * "hibernate.connection.url".<br/>
 	 */
 	public static final String PROPERTY_HIBERNATE_CONNECTION_URL 
 		= "hibernate.connection.url";
 	
 	/**
-	 * PROPERTY_HIBERNATE_CONNECTION_USERNAME : String :<br/>
 	 * "hibernate.connection.username".<br/>
 	 */
 	public static final String PROPERTY_HIBERNATE_CONNECTION_USERNAME 
 		= "hibernate.connection.username";
 	
 	/**
-	 * PROPERTY_HIBERNATE_CONNECTION_PASSWORD : String :<br/>
 	 * "hibernate.connection.password".<br/>
 	 */
 	public static final String PROPERTY_HIBERNATE_CONNECTION_PASSWORD 
 		= "hibernate.connection.password";
 	
 	/**
-	 * PROPERTY_DRIVER : String :<br/>
 	 * "javax.persistence.jdbc.driver".<br/>
 	 */
 	public static final String PROPERTY_DRIVER 
 		= "javax.persistence.jdbc.driver";
 	
 	/**
-	 * PROPERTY_HIBERNATE_DIALECT : String :<br/>
 	 * "hibernate.dialect".<br/>
 	 */
 	public static final String PROPERTY_HIBERNATE_DIALECT 
 		= "hibernate.dialect";
 	
 	/**
-	 * PROPERTY_SHOW_SQL : String :<br/>
 	 * "hibernate.show_sql".<br/>
 	 */
 	public static final String PROPERTY_SHOW_SQL 
 		= "hibernate.show_sql";
 	
 	/**
-	 * PROPERTY_FORMAT_SQL : String :<br/>
 	 * "hibernate.format_sql".<br/>
 	 */
 	public static final String PROPERTY_FORMAT_SQL 
 		= "hibernate.format_sql";
 	
 	/**
-	 * PROPERTY_USE_SQL_COMMENTS : String :<br/>
 	 * "hibernate.use_sql_comments".<br/>
 	 */
 	public static final String PROPERTY_USE_SQL_COMMENTS 
 		= "hibernate.use_sql_comments";
 	
 	/**
-	 * PROPERTY_GENERATE_STATISTICS : String :<br/>
 	 * "hibernate.generate_statistics".<br/>
 	 */
 	public static final String PROPERTY_GENERATE_STATISTICS 
 		= "hibernate.generate_statistics";
 	
 	/**
-	 * PROPERTY_CACHE_PROVIDER : String :<br/>
 	 * "cache.provider_class".<br/>
 	 */
 	public static final String PROPERTY_CACHE_PROVIDER 
 		= "cache.provider_class";
 	
 	/**
-	 * PROPERTY_HBM2DDL_AUTO : String :<br/>
 	 * "hibernate.hbm2ddl.auto".<br/>
 	 */
 	public static final String PROPERTY_HBM2DDL_AUTO 
 		= "hibernate.hbm2ddl.auto";
 	
 	/**
-	 * PROPERTY_VERSION_JAVA : String :<br/>
 	 * "java.specification.version".<br/>
 	 */
 	public static final String PROPERTY_VERSION_JAVA 
 		= "java.specification.version";
 	
 	/**
-	 * PROPERTY_CLASS_PATH : String :<br/>
 	 * "java.class.path".<br/>
 	 */
 	public static final String PROPERTY_CLASS_PATH 
 		= "java.class.path";
 	
 	/**
-	 * PROPERTY_USER_TIMEZONE : String :<br/>
 	 * "user.timezone".<br/>
 	 */
 	public static final String PROPERTY_USER_TIMEZONE 
 		= "user.timezone";
 	
 	/**
-	 * PROPERTY_OS_NAME : String :<br/>
 	 * "os.name".<br/>
 	 */
 	public static final String PROPERTY_OS_NAME 
 		= "os.name";
 	
 	/**
-	 * PROPERTY_OS_VERSION : String :<br/>
 	 * "os.version".<br/>
 	 */
 	public static final String PROPERTY_OS_VERSION 
 		= "os.version";
 	
 	/**
-	 * PROPERTY_USER_LANGAGE : String :<br/>
 	 * "user.language".<br/>
 	 */
 	public static final String PROPERTY_USER_LANGAGE 
 		= "user.language";
 	
 	/**
-	 * PROPERTY_USER_COUNTRY : String :<br/>
 	 * "user.country".<br/>
 	 */
 	public static final String PROPERTY_USER_COUNTRY 
 		= "user.country";
 	
 	/**
-	 * PROPERTY_FILE_ENCODING : String :<br/>
 	 * "file.encoding".<br/>
 	 */
 	public static final String PROPERTY_FILE_ENCODING 
 		= "file.encoding";
 	
 	/**
-	 * PROPERTY_REP_PROJET : String :<br/>
 	 * "user.dir".<br/>
 	 */
 	public static final String PROPERTY_REP_PROJET 
 		= "user.dir";
 	
 	/**
-	 * entityManagerFactory : EntityManagerFactory :<br/>
 	 * EntityManagerFactory JPA.<br/>
 	 */
 	private static EntityManagerFactory entityManagerFactory;
 
 	/**
-	 * properties : Map&lt;String,Object&gt; :<br/>
-	 * Map des properties lues par l'EntityManagerFactory.<br/>
+	 * Map&lt;String,Object&gt; des properties 
+	 * lues par l'EntityManagerFactory.<br/>
 	 */
 	private static Map<String, Object> properties;
 	
@@ -288,9 +260,7 @@ public final class JPAUtils {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR JPAUtils() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
 	 */
 	private JPAUtils() {
 		super();
@@ -299,8 +269,7 @@ public final class JPAUtils {
 	
 		
 	/**
-	 * method getEntityManagerFactory() :<br/>
-	 * retourne un SINGLETON d'EntityManagerFactory.<br/>
+	 * <b>retourne un SINGLETON d'EntityManagerFactory</b>.<br/>
 	 * <ul>
 	 * <li>lit <b>src/main/resources/META-INF/persistence.xml</b></li>
 	 * <li><b>nécessite que le serveur de base de données indiqué dans 
@@ -322,7 +291,8 @@ public final class JPAUtils {
 		
 		synchronized(JPAUtils.class) {
 			
-			if (entityManagerFactory == null) {
+			if (entityManagerFactory == null 
+					|| !entityManagerFactory.isOpen()) {
 				
 				try {
 
@@ -355,7 +325,8 @@ public final class JPAUtils {
 
 	
 	/**
-	 * fournit une nouvelle instance d'EntityManager à chaque appel.<br/>
+	 * <b>fournit une nouvelle instance d'EntityManager 
+	 * à chaque appel</b>.<br/>
 	 *
 	 * @return : EntityManager.<br/>
 	 * 
@@ -366,16 +337,18 @@ public final class JPAUtils {
 		
 		synchronized(JPAUtils.class) {
 			
-			EntityManagerFactory emf = null;
-			
-			try {
-				emf = JPAUtils.getEntityManagerFactory();
-			} catch (Exception e) {
-				throw new DaoDoublonException("IMPOSSIBLE", e);
+			if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
+				
+				try {
+					entityManagerFactory = JPAUtils.getEntityManagerFactory();
+				} catch (Exception e) {
+					throw new DaoDoublonException("IMPOSSIBLE", e);
+				}
+				
 			}
-					
-			if (emf != null) {
-				return emf.createEntityManager();
+								
+			if (entityManagerFactory != null) {
+				return entityManagerFactory.createEntityManager();
 			}
 			
 			return null;
@@ -387,9 +360,8 @@ public final class JPAUtils {
 
 	
 	/**
-	 * method getProperties() :<br/>
-	 * Retourne les properties lues dans le fichier persistence.xml 
-	 * par l' entityManagerFactory et des propriétés système.<br/>
+	 * <b>Retourne les properties lues dans le fichier persistence.xml 
+	 * par l' entityManagerFactory et des propriétés système</b>.<br/>
 	 * <br/>
 	 *
 	 * @return : Map&lt;String, Object&gt; : Map des properties.<br/>
@@ -422,9 +394,7 @@ public final class JPAUtils {
 
 
 	/**
-	 * method getProperty(
-	 * String pKey) :<br/>
-	 * Retourne la Property ayant pour clé pKey.<br/>
+	 * <b>Retourne la Property ayant pour clé pKey</b>.<br/>
 	 * <ul>
 	 * <li>retourne null si pKey == null.</li>
 	 * </ul>
@@ -467,12 +437,13 @@ public final class JPAUtils {
 	
 	
 	/**
-	 * method isLoaded() :<br/>
-	 * détermine si une EntityJPA a été chargée dans le contexte.<br/>
+	 * <b>détermine si une EntityJPA pEntity 
+	 * a été chargée dans le contexte</b>.<br/>
 	 * <ul>
 	 * <li>par exemple : <br/>
 	 * <code>boolean resultat = JPAUtils.isLoaded(
-	 * PersonneEntityJPA.class);</code> <br/>retourne true si 
+	 * ContactSimpleEntityJPA.class);</code> 
+	 * <br/>retourne true si 
 	 * l'Entity a été chargée.</li>
 	 * </ul>
 	 *
@@ -502,9 +473,7 @@ public final class JPAUtils {
 
 	
 	/**
-	 * method close() :<br/>
-	 * Ferme l'EntityManagerFactory.<br/>
-	 * <br/>
+	 * <b>Ferme l'EntityManagerFactory</b>.<br/>
 	 */
 	public static void close() {
 		
@@ -523,7 +492,25 @@ public final class JPAUtils {
 
 	
 	/**
-	 * Substitue le contenu du src/main/resources/META-INF/persistence.xml 
+	 * met l'EntityManagerFactory à  null.<br/>
+	 */
+	public static void annulerEntityManagerFactory() {
+		
+		synchronized(JPAUtils.class) {
+			
+			if (entityManagerFactory != null) {
+				entityManagerFactory = null;
+			}
+			
+		} // Fin du bloc synchronized._____________________
+
+	} // Fin de annulerEntityManagerFactory()._____________________________
+	
+	
+	
+	/**
+	 * <b>Substitue</b> le contenu du 
+	 * src/main/resources/META-INF/persistence.xml 
 	 * avec le contenu de persistence-test.xml de <b>TEST</b>.<br/>
 	 * <ul>
 	 * <li>Crée une copie de src/main/resources/META-INF/
@@ -567,7 +554,7 @@ public final class JPAUtils {
 	
 	
 	/**
-	 * Remet en place le contenu du persistence.xml de PROD.<br/>
+	 * <b>Remet en place le contenu du persistence.xml de PROD</b>.<br/>
 	 * <ul>
 	 * <li>persistence.xml avait préalablement été copié 
 	 * dans "persistence.xml.original".</li>
@@ -893,9 +880,8 @@ public final class JPAUtils {
 
 	
 	/**
-	 * method afficherPrincipalesProperties() :<br/>
-	 * retourne une String pour l'affichage des principales Properties 
-	 * lues par l'EntityManagerFactory.<br/>
+	 * <b>retourne une String pour l'affichage des principales Properties 
+	 * lues par l'EntityManagerFactory</b>.<br/>
 	 * <br/>
 	 *
 	 * @return : String.<br/>
@@ -962,71 +948,71 @@ public final class JPAUtils {
 			
 			stb.append("Persistence-Unit : ");
 			stb.append(persistenceUnit);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Transaction Type : ");
 			stb.append(transactionType);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("URL De connexion à la base : ");
 			stb.append(url);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Login : ");
 			stb.append(login);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Mdp : ");
 			stb.append(mdp);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Driver : ");
 			stb.append(driver);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Dialecte : ");
 			stb.append(dialecte);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Show SQL : ");
 			stb.append(showSql);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Format SQL : ");
 			stb.append(formatSql);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Commentaires SQL : ");
 			stb.append(commentsSql);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Statistiques Hibernate : ");
 			stb.append(statistics);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Cache de premier niveau : ");
 			stb.append(cache);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Génération du Schéma de BD : ");
 			stb.append(generationSchema);
-			stb.append(SAUT_LIGNE_JAVA);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Version de Java : ");
 			stb.append(versionJava);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("ClassPath : ");
 			stb.append(classPath);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("TimeZone : ");
 			stb.append(timeZone);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("OS : ");
 			stb.append(osName);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Version d'OS : ");
 			stb.append(osVersion);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Langue : ");
 			stb.append(userLangage);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Pays : ");
 			stb.append(userCountry);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Encodage du persistence.xml : ");
 			stb.append(encoding);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Répertoire du projet Java : ");
 			stb.append(projet);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			
 			return stb.toString();
 			
@@ -1037,10 +1023,8 @@ public final class JPAUtils {
 	
 	
 	/**
-	 * method afficherProperties() :<br/>
-	 * retourne une String pour l'affichage de toutes les 
-	 * Properties lues par l'EntityManagerFactory.<br/>
-	 * <br/>
+	 * <b>retourne une String pour l'affichage de toutes les 
+	 * Properties lues par l'EntityManagerFactory</b>.
 	 *
 	 * @return : String.<br/>
 	 */
@@ -1051,9 +1035,8 @@ public final class JPAUtils {
 	
 	
 	/**
-	 * method afficherMapStringObject() :<br/>
-	 * Fournit une String pour l'affichage 
-	 * d'une Map&lt;String, Object&gt;.<br/>
+	 * <b>Fournit une String pour l'affichage 
+	 * d'une Map&lt;String, Object&gt;</b>.<br/>
 	 * <ul>
 	 * <li>retourne null si pMap == null.</li>
 	 * </ul>
@@ -1097,7 +1080,7 @@ public final class JPAUtils {
 
 	
 	/**
-	 * Fournit une String pour l'affichage d'un fichier.<br/>
+	 * <b>Fournit une String pour l'affichage d'un fichier</b>.
 	 * <ul>
 	 * <li>lit le fichier avec 
 	 * <code>Files.readAllLines(pPath);</code></li>
@@ -1140,7 +1123,7 @@ public final class JPAUtils {
 		for (final String ligne : list) {
 			
 			stb.append(ligne);
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 		}
 		
 		return stb.toString();

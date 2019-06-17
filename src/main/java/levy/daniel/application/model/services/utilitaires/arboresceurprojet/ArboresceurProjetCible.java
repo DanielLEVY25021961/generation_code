@@ -1471,9 +1471,12 @@ public final class ArboresceurProjetCible {
 	 * - ne fait rien si pPojetCiblePath == null.<br/>
 	 * <br/>
 	 *
-	 * @param pProjetCiblePath : Path : Path du projet cible dans lequel 
+	 * @param pProjetCiblePath : Path : Path ABSOLU 
+	 * du projet cible dans lequel 
 	 * on va générer une arborescence d'application n-tiers 
 	 * MAVEN SIMPLE.<br/>
+	 * Par exemple : 
+	 * <code>D:/Donnees/eclipse/eclipseworkspace/projet_users</code>
 	 */
 	public static void selectionnerProjetCible(
 			final Path pProjetCiblePath) {

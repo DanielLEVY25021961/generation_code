@@ -79,104 +79,118 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- ========================================================== -->
 		<!-- 		VERSIONS DES COMPOSANTS DANS LES DEPENDANCES		-->
 		<!-- ========================================================== -->
-		<!-- 				Version de SPRING 							-->
-		<spring.version>5.1.3.RELEASE</spring.version>
-		<!-- 				Version d'HIBERNATE 						-->
-		<hibernate.version>5.3.7.Final</hibernate.version>
-		<!-- 			Version hibernate-jpa-2.1-api				    -->
+		<!--                 Version de SPRING                          -->
+		<spring.version>5.1.4.RELEASE</spring.version>
+
+		<!-- 				Version de AspectJ RT 						-->
+		<aspectjrt.version>1.9.2</aspectjrt.version>
+
+		<!--                Version d'HIBERNATE                         -->
+		<hibernate.version>5.4.1.Final</hibernate.version>
+		<!--           Version hibernate-jpa-2.1-api                    -->
 		<hibernate-jpa-2.1-api.version>1.0.2.Final</hibernate-jpa-2.1-api.version>
-		<!-- 			Version validation-api						    -->
+		<!--            Version validation-api                          -->
 		<validation-api.version>2.0.1.Final</validation-api.version>
-		<!-- 			Version d'HIBERNATE VALIDATOR				    -->
+		<!--             Version d'HIBERNATE VALIDATOR                  -->
 		<hibernate.validator>6.0.13.Final</hibernate.validator>
 
-		<!-- 			Version du POOL DE CONNEXION c3p0	 			-->
+		<!--            Version du POOL DE CONNEXION c3p0               -->
 		<c3p0.version>0.9.5.2</c3p0.version>
-
-		<!-- 					Version de JSTL						 	-->
+		<!--            Version du POOL DE CONNEXION dbcp2              -->
+		<commons-dbcp2.version>2.5.0</commons-dbcp2.version>
+		<!--            Version du POOL DE CONNEXION hikariCP           -->
+		<HikariCP.version>3.3.0</HikariCP.version>
+				
+		<!--                    Version de JSTL                         -->
 		<jstl.version>1.2</jstl.version>
-		<!-- 			Version des Taglibs JSTL 						-->
+		<!--                Version des Taglibs JSTL                    -->
 		<taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
 
-		<!-- 				Version de Servlet 							-->
+		<!--                Version de Servlet                          -->
 		<servlets.version>3.1.0</servlets.version>
-		<!-- 		Version de javax.servlet.jsp-api				    -->
+		<!--            Version de javax.servlet.jsp-api                -->
 		<javax.servlet.jsp-api.version>2.3.3</javax.servlet.jsp-api.version>
 
-		<!-- 				Version Driver BD Postgresql			    -->
+		<!--                Version Driver BD Postgresql                -->
 		<postgresql.version>42.2.5</postgresql.version>
-		<!-- 				Version Driver BD MySQL						-->
+		<!--                  Version Driver BD MySQL                   -->
 		<mysql-connector-java.version>8.0.13</mysql-connector-java.version>
-		<!-- 				Version de BD HSQLDB						-->
+		<!--                    Version de BD HSQLDB                    -->
 		<hsqldb.version>2.4.1</hsqldb.version>
-		<!-- 				Version de BD H2							-->
+		<!--                     Version de BD H2                       -->
 		<h2.version>1.4.197</h2.version>
 
-		<!-- 				Version de commons-lang3				    -->
+		<!--                Version de commons-lang3                    -->
 		<commons-lang3.version>3.8.1</commons-lang3.version>
-		<!-- 				Version de commons-io				    	-->
-		<commons-io.version>1.3.2</commons-io.version>
-		<!-- 				Version de commons-fileupload		    	-->
+		<!--                  Version de commons-io                     -->
+		<commons-io.version>2.6</commons-io.version>
+		<!--                 Version de commons-fileupload              -->
 		<commons-fileupload.version>1.3.2</commons-fileupload.version>
-		<!--  				Version de commons-text						-->
+		<!--                  Version de commons-text                   -->
 		<commons-text.version>1.6</commons-text.version>
-		<!-- 				Version de commons-logging				    -->
+		<!--                 Version de commons-logging                 -->
 		<commons-logging.version>1.2</commons-logging.version>
 
-		<!-- 				Version de log4j						    -->
+		<!--                   Version de log4j                         -->
 		<log4j.version>1.2.17</log4j.version>
-		<!-- 				Version de log4j-core					    -->
-		<log4j-core.version>2.9.1</log4j-core.version>
+		<!--                   Version de log4j-core                    -->
+		<log4j-core.version>2.11.1</log4j-core.version>
 
-		<!-- 				Version de junit						    -->
+		<!--                 Version logback-classic                    -->
+		<logback-classic.version>1.3.0-alpha4</logback-classic.version>
+
+		<!--                    Version de junit                        -->
 		<junit.version>4.12</junit.version>
+		<!--             Version de JUnit pour JavaFX                   -->
+		<testfx-junit.version>4.0.15-alpha</testfx-junit.version>
 
-		<!-- 				Version de jDom2						    -->
+		<!--                    Version de jDom2                        -->
 		<jdom2.version>2.0.6</jdom2.version>
 
 
-		<!-- 				Version de joda-time					    -->
-		<joda-time.version>2.9.9</joda-time.version>
-		<!-- 				Version de joda-time-hibernate			    -->
+		<!--                   Version de joda-time                     -->
+		<joda-time.version>2.10.1</joda-time.version>
+		<!--                 Version de joda-time-hibernate             -->
 		<joda-time-hibernate.version>1.4</joda-time-hibernate.version>
-		<!-- 				Version de joda-time-jsptags			    -->
+		<!--                 Version de joda-time-jsptags               -->
 		<joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
-		<!-- 			Version de usertype.core (joda-time Hibernate)  -->
-		<usertype.core.version>6.0.1.GA</usertype.core.version>
-		<!-- 		Version de usertype.jodatime (joda-time Hibernate)  -->
+		<!--          Version de usertype.core (joda-time Hibernate)    -->
+		<usertype.core.version>7.0.0.CR1</usertype.core.version>
+		<!--        Version de usertype.jodatime (joda-time Hibernate)  -->
 		<usertype.jodatime.version>2.0.1</usertype.jodatime.version>
-		
-		<!--  		Version de maven-antrun-plugin 						-->
+
+		<!--              VERSIONS DES PLUGINS MAVEN                    -->
+		<!--              Version de maven-antrun-plugin                -->
 		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
-		<!-- 		Version de maven-assembly-plugin				    -->
+		<!--             Version de maven-assembly-plugin               -->
 		<maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
-		<!-- 		Version de maven-dependency-plugin 					-->
-		<maven-dependency-plugin.version>3.0.2</maven-dependency-plugin.version>
-		<!-- 		Version maven-release-plugin 						-->
+		<!--            Version de maven-dependency-plugin              -->
+		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+		<!--                Version maven-release-plugin                -->
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-		<!-- 		Version maven-clean-plugin						    -->
-		<maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
-		<!-- 		Version maven-resources-plugin					    -->
-		<maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
-		<!-- 		Version maven-war-plugin						    -->
-		<maven-war-plugin.version>3.2.0</maven-war-plugin.version>
-		<!-- 		Version maven-jar-plugin						    -->
-		<maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
-		<!-- 		Version maven-compiler-plugin					    -->
-		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-		<!-- 		Version maven-surefire-plugin					    -->
-		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-		<!-- 		Version maven-install-plugin						-->
-		<maven-install-plugin.version>2.5.2</maven-install-plugin.version>
-		<!-- 		Version maven-deploy-plugin						    -->
-		<maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-		<!-- 		Version maven-site-plugin						    -->
-		<maven-site-plugin.version>2.6</maven-site-plugin.version>
-		<!-- 	Version maven-project-info-reports-plugin			    -->
-		<maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
-		<!-- 		Version maven-javadoc-plugin					    -->
-		<maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
-				
+		<!--                 Version maven-clean-plugin                 -->
+		<maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+		<!--              Version maven-resources-plugin                -->
+		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+		<!--                 Version maven-war-plugin                   -->
+		<maven-war-plugin.version>3.2.2</maven-war-plugin.version>
+		<!--                 Version maven-jar-plugin                   -->
+		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+		<!--                Version maven-compiler-plugin               -->
+		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+		<!--                Version maven-surefire-plugin               -->
+		<maven-surefire-plugin.version>3.0.0-M1</maven-surefire-plugin.version>
+		<!--                 Version maven-install-plugin               -->
+		<maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
+		<!--                 Version maven-deploy-plugin                -->
+		<maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+		<!--                  Version maven-site-plugin                 -->
+		<maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+		<!--            Version maven-project-info-reports-plugin       -->
+		<maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
+		<!--                Version maven-javadoc-plugin                -->
+		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
+
 	</properties>
 	
 
@@ -307,6 +321,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.testfx/testfx-junit -->
+		<dependency>
+			<groupId>org.testfx</groupId>
+			<artifactId>testfx-junit</artifactId>
+			<version>${testfx-junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 
 		<!-- ================================ -->
 		<!--    dépendances pour Joda Time    -->
@@ -393,6 +415,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 <!-- 		</dependency>		 -->
 
 
+
+
 		<!-- ================================ -->
 		<!--    dépendances pour SPRING       -->
 		<!-- ================================ -->
@@ -408,16 +432,42 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <artifactId>spring-context</artifactId>
 		    <scope>compile</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-beans</artifactId>
+		    <scope>compile</scope>
+		</dependency>		
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-aop</artifactId>
 		    <scope>compile</scope>
-		</dependency>		
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jcl -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-webmvc</artifactId>
+		    <artifactId>spring-jcl</artifactId>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-expression -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-expression</artifactId>
+		    <scope>compile</scope>
+		</dependency>
+				
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.springframework</groupId> -->
+<!-- 		    <artifactId>spring-webmvc</artifactId> -->
+<!-- 		    <scope>compile</scope> -->
+<!-- 		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
 		    <scope>compile</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
@@ -426,10 +476,55 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <artifactId>spring-orm</artifactId>
 		    <scope>compile</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-tx</artifactId>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aspects</artifactId>
+		    <scope>compile</scope>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-test</artifactId>
+		    <scope>test</scope>
+		</dependency>
+
+
+		<!-- ================================ -->
+		<!--      dépendances pour AspectJ    -->
+		<!-- ================================ -->		
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjrt</artifactId>
+		    <version>${aspectjrt.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjweaver</artifactId>
+		    <version>${aspectjrt.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+
+
+		<!-- ================================ -->
+		<!--      dépendances pour logback    -->
+		<!-- ================================ -->		
+		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-classic</artifactId>
+		    <version>${logback-classic.version}</version>
 		    <scope>test</scope>
 		</dependency>
 
@@ -443,7 +538,16 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 <!-- 		    <groupId>javax.persistence</groupId> -->
 <!-- 		    <artifactId>persistence-api</artifactId> -->
 <!-- 		    <version>1.0.2</version> -->
+<!-- 		    <scope>compile</scope> -->
 <!-- 		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>javax.persistence</groupId> -->
+<!-- 		    <artifactId>javax.persistence-api</artifactId> -->
+<!-- 		    <version>2.2</version> -->
+<!-- 		</dependency> -->
+		
 
 
 		<!-- ========================================================== -->
@@ -490,6 +594,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <version>${hibernate-jpa-2.1-api.version}</version>
 		    <scope>compile</scope>
 		</dependency>
+
+		
 		
 		<!-- Intégration du POOL DE CONNEXION c3p0 pour Hibernate 			 -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
@@ -500,6 +606,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <scope>compile</scope>
 		</dependency>
 
+		<!-- Intégration du POOL DE CONNEXION HikariCP pour Hibernate 			 -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-hikaricp</artifactId>
+		    <version>${hibernate.version}</version>
+		    <scope>compile</scope>
+		</dependency>
 
 		<!-- ====================================================== -->
 		<!--        DEPENDANCES POUR Pool de connexion  			-->
@@ -510,6 +624,24 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <groupId>com.mchange</groupId>
 		    <artifactId>c3p0</artifactId>
 		    <version>${c3p0.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- dbcp2 -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-dbcp2</artifactId>
+		    <version>${commons-dbcp2.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+
+		<!-- HikariCP -->
+		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+		<dependency>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		    <version>${HikariCP.version}</version>
 		    <scope>compile</scope>
 		</dependency>
 		
@@ -570,19 +702,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				<enabled>false</enabled>
 			</snapshots>			
 		</repository>
-		
-		<!-- http://www.baeldung.com/spring-maven-repository -->
-		<!-- dépôt Maven pour SPRING au cas où le dépôt central est indisponible. -->
-		<repository> 
-        <id>repository.spring.release</id> 
-        	<name>Spring GA Repository</name> 
-        	<url>http://repo.spring.io/release</url>
-        	<!-- Ici les RELEASES, pas les milestones ou les snapshots. -->
-        	<snapshots>
-				<enabled>false</enabled>
-			</snapshots>			         
-    	</repository>
-    	
+		    	
     	<!-- dépôt Maven pour SPRING au cas où le dépôt central est indisponible. -->
     	<repository>
 	        <id>io.spring.repo.maven.release</id>
