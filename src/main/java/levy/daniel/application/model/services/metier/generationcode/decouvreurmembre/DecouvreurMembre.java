@@ -81,6 +81,18 @@ public class DecouvreurMembre {
 	 */
 	public static final String METHODE_DECOUVRIR_ATTRIBUTS 
 		= "méthode decouvrirAttributs(File pFile)";
+	
+	/**
+	 * "methode calculerNomSimplePackageConceptMetier(File pConceptMetier)".
+	 */
+	public static final String METHODE_CALCULER_NOM_SIMPLE_PACKAGE 
+		= "methode calculerNomSimplePackageConceptMetier(File pConceptMetier)";
+	
+	/**
+	 * "methode calculerNomConceptMetier(File pConceptMetier)".
+	 */
+	public static final String METHODE_CALCULER_NOM_CONCEPT_METIER 
+		= "methode calculerNomConceptMetier(File pConceptMetier)";
 
 	
 	//*****************************************************************/
@@ -178,6 +190,11 @@ public class DecouvreurMembre {
 	 */
 	public static final Pattern PATTERN_MOTIF_REGEX_ATTRIBUT 
 		= Pattern.compile(MOTIF_REGEX_ATTRIBUT);
+		
+	/**
+	 * Pattern.compile(".");
+	 */
+	public static final Pattern PATTERN_SEP_POINT = Pattern.compile("\\.");
 	
 	/**
 	 * "null".<br/>
@@ -380,6 +397,187 @@ public class DecouvreurMembre {
 		return listeLignes;
 		
 	} // Fin de lireFichierSource(...).____________________________________
+	
+
+	
+	/**
+	 * <b>retourne le nom simple (sans package et sans impl) 
+	 * du package d'un concept métier</b>.<br/>
+	 * Par exemple : <br/>
+	 * <b>televersement</b> pour 
+	 * "D:/Donnees/eclipse/eclipseworkspace/traficweb_v1
+	 * /src/main/java
+	 * /levy/daniel/application/model
+	 * /metier/televersement/impl/Televersement.java".<br/>
+	 * <br/>
+	 * - LOG.fatal et jette une Exception circonstanciée 
+	 * si pConceptMetier est null, vide, inexistant ou répertoire.<br/>
+	 * <br/>
+	 *
+	 * @param pConceptMetier : File : 
+	 * concept métier dans un projet ECLIPSE externe.
+	 * 
+	 * @return : String : 
+	 * nom simple (sans package et sans impl) 
+	 * du package du concept métier.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public final String calculerNomSimplePackageConceptMetier(
+			final File pConceptMetier) throws Exception {
+		
+		/* LOG.fatal et jette une Exception circonstanciée si 
+		 * pConceptMetier est null, vide, inexistant 
+		 * ou répertoire. */
+		this.traiterMauvaisFichierSource(
+				pConceptMetier, METHODE_CALCULER_NOM_SIMPLE_PACKAGE);
+		
+		final Path packageConceptMetierPath = pConceptMetier.toPath();
+				
+		final Path packageConceptMetierPathParent 
+			= packageConceptMetierPath.getParent();
+		
+		String resultat = null;
+		
+		if (packageConceptMetierPathParent != null) {
+			
+			if (packageConceptMetierPathParent.endsWith("impl")) {
+				
+				final Path packageConceptMetierPathGrandParent 
+					= packageConceptMetierPathParent.getParent();
+				
+				if (packageConceptMetierPathGrandParent != null) {
+					
+					resultat = this.fournirDernierPath(
+							packageConceptMetierPathGrandParent).toString();
+					
+				}
+				
+			} else {
+				
+				resultat = this.fournirDernierPath(
+						packageConceptMetierPathParent).toString();
+			}
+		}
+		
+		return resultat;
+		
+	} // Fin de calculerNomSimplePackageConceptMetier(...).________________
+	
+
+	
+	/**
+	 * <b>retourne le nom simple (sans package et sans extension) 
+	 * d'un concept métier</b>.<br/>
+	 * Par exemple : <br/>
+	 * <b>Televersement</b> pour 
+	 * "D:/Donnees/eclipse/eclipseworkspace/traficweb_v1
+	 * /src/main/java
+	 * /levy/daniel/application/model
+	 * /metier/televersement/impl/Televersement.java".<br/>
+	 * <br/>
+	 * - LOG.fatal et jette une Exception circonstanciée 
+	 * si pConceptMetier est null, vide, inexistant ou répertoire.<br/>
+	 * <br/>
+	 *
+	 * @param pConceptMetier : File : 
+	 * concept métier dans un projet ECLIPSE externe.
+	 * 
+	 * @return : String : nom simple du concept métier.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public final String calculerNomConceptMetier(
+			final File pConceptMetier) throws Exception {
+		
+		/* LOG.fatal et jette une Exception circonstanciée si 
+		 * pConceptMetier est null, vide, inexistant 
+		 * ou répertoire. */
+		this.traiterMauvaisFichierSource(
+				pConceptMetier, METHODE_CALCULER_NOM_CONCEPT_METIER);
+		
+		final Path packageConceptMetierPath = pConceptMetier.toPath();
+		
+		final Path packageSimpleConceptMetierPath 
+			= packageConceptMetierPath.getFileName();
+		
+		String resultat = null;
+		String resultatAvecExtension = null;
+		
+		if (packageSimpleConceptMetierPath != null) {
+			resultatAvecExtension = packageSimpleConceptMetierPath.toString();
+			resultat = this.retirerExtension(resultatAvecExtension);
+		}
+		
+		return resultat;
+		
+	} // Fin de calculerNomConceptMetier(...)._____________________________
+
+
+	
+	/**
+	 * retourne le dernier path (path le plus lointain) de pPath.<br/>
+	 * Par exemple : 
+	 * <br/>
+	 * - retourne null si pPath == null.<br/>
+	 * <br/>
+	 *
+	 * @param pPath
+	 * @return : Path :  .<br/>
+	 */
+	private Path fournirDernierPath(
+			final Path pPath) {
+		
+		/* retourne null si pPath == null. */
+		if (pPath == null) {
+			return null;
+		}
+		
+		final int nombrePaths = pPath.getNameCount();
+		
+		final Path resultat = pPath.getName(nombrePaths - 1);
+		
+		return resultat;
+		
+	} // Fin de fournirDernierPath(...).___________________________________
+	
+
+	
+	/**
+	 * retire l'extension d'une String avec des séparateurs POINT "."<br/>
+	 * Par exemple : <br/>
+	 * retourne <b>Televersement</b> pour "Televersement.java".<br/>
+	 * <br/>
+	 * - retourne null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.
+	 * 
+	 * @return : String : chaine en entrée moins l'extension.<br/>
+	 */
+	private String retirerExtension(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		final String[] tokens = PATTERN_SEP_POINT.split(pString);
+		
+		final int nombreTokens = tokens.length;
+		
+		String resultat = null;
+		
+		if (nombreTokens < 2) {
+			resultat = pString;
+		} else {
+			resultat = tokens[nombreTokens - 2];
+		}
+		
+		return resultat;
+		
+	} // Fin de retirerExtension(...)._____________________________________
 	
 	
 	
