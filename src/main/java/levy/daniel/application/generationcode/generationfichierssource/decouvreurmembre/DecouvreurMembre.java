@@ -1,4 +1,4 @@
-package levy.daniel.application.model.services.metier.generationcode.decouvreurmembre;
+package levy.daniel.application.generationcode.generationfichierssource.decouvreurmembre;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -23,7 +23,7 @@ import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierNullE
 import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierPasNormalException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierSimpleException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierVideException;
-import levy.daniel.application.model.services.metier.generationcode.decouvreurmembre.impl.EncapsulationDeclarationMembre;
+import levy.daniel.application.generationcode.generationfichierssource.decouvreurmembre.impl.EncapsulationDeclarationMembre;
 
 
 /**
@@ -295,6 +295,127 @@ public class DecouvreurMembre {
 		return resultat;
 		
 	} // Fin de decouvrirAttributs(...).___________________________________
+
+
+	
+	/**
+	 * <b>détecte les attributs <i>private</i> (et juste private)
+	 * d'une classe</b> pFichierSource et les retourne 
+	 * sous forme de Map&lt;Integer,IEncapsulationDeclarationMembre&gt; avec :
+	 * <ul>
+	 * <li>Integer : le numéro d'ordre déclaratif de l'attribut dans la classe</li>
+	 * <li>IEncapsulationDeclarationMembre : encapsulation décrivant l'attribut</li>
+	 * </ul>
+	 * - LOG.fatal et jette une Exception circonstanciée 
+	 * si pFichierSource est null, vide, inexistant ou répertoire.<br/>
+	 * <br/>
+	 *
+	 * @param pFichierSource : File : classe dont on détecte les membres.
+	 * 
+	 * @return : Map&lt;Integer,IEncapsulationDeclarationMembre&gt; :  
+	 * Map des attributs.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public final Map<Integer, IEncapsulationDeclarationMembre> 
+					decouvrirAttributsPrivate(final File pFichierSource) 
+													throws Exception {
+		
+		/* LOG.fatal et jette une Exception circonstanciée si 
+		 * pFichierSource est null, vide, inexistant 
+		 * ou répertoire. */
+		this.traiterMauvaisFichierSource(
+				pFichierSource, METHODE_DECOUVRIR_ATTRIBUTS);
+		
+		final Map<Integer, IEncapsulationDeclarationMembre> resultat 
+			= new LinkedHashMap<Integer, IEncapsulationDeclarationMembre>();
+		
+		final List<String> lignes = this.lireFichierSource(pFichierSource);
+		
+		int compteur = 0;
+		
+		for (final String ligne : lignes) {
+			
+			final Matcher matcher 
+				= PATTERN_MOTIF_REGEX_ATTRIBUT.matcher(ligne);
+			
+			if (matcher.matches()) {
+								
+				final IEncapsulationDeclarationMembre membre 
+					= new EncapsulationDeclarationMembre();
+				
+				membre.setLigneEntiere(matcher.group(0));
+				membre.setEspacesEnDebutLigne(matcher.group(1));
+				membre.setContenuLigne(matcher.group(2));
+				membre.setModerateur(matcher.group(3));
+				membre.setModificateurStatic(matcher.group(4));
+				membre.setModificateurFinal(matcher.group(5));
+				membre.setModificateurTransient(matcher.group(6));
+				membre.setType(matcher.group(7));
+				membre.setNomMembre(matcher.group(8));
+				membre.setReste(matcher.group(9));
+				
+				membre.setAttribut(true);
+				
+				if (this.estSimplementPrivate(membre)) {
+					
+					compteur ++;
+					resultat.put(compteur, membre);
+					
+				}
+								
+			}
+			
+		}
+		
+		return resultat;
+		
+	} // Fin de decouvrirAttributsPrivate(...).____________________________
+	
+	
+	
+	/**
+	 * retourne true si pMembre est un attribut simplement private.
+	 *
+	 * @param pMembre : IEncapsulationDeclarationMembre.
+	 * 
+	 * @return : boolean : 
+	 * true si pMembre est un attribut simplement private.
+	 */
+	private boolean estSimplementPrivate(
+			final IEncapsulationDeclarationMembre pMembre) {
+		
+		if (pMembre == null) {
+			return false;
+		}
+		
+		if (!pMembre.isAttribut()) {
+			return false;
+		}
+		
+		if (pMembre.getModerateur() == null) {
+			return false;
+		}
+		
+		if (!pMembre.getModerateur().equalsIgnoreCase("private")) {
+			return false;
+		}
+		
+		if (!StringUtils.isBlank(pMembre.getModificateurFinal())) {
+			return false;
+		}
+		
+		if (!StringUtils.isBlank(pMembre.getModificateurStatic())) {
+			return false;
+		}
+		
+		if (!StringUtils.isBlank(pMembre.getModificateurTransient())) {
+			return false;
+		}
+		
+		return true;
+		
+	} // Fin de estSimplementPrivate(...)._________________________________
 	
 	
 	

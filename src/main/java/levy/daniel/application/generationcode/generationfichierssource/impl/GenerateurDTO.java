@@ -2,17 +2,11 @@ package levy.daniel.application.generationcode.generationfichierssource.impl;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierInexistantException;
-import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierNullException;
-import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierPasNormalException;
-import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierSimpleException;
-import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierVideException;
+import levy.daniel.application.generationcode.generationfichierssource.AbstractGenerateurFichierSource;
 import levy.daniel.application.model.services.utilitaires.arboresceurprojet.ArboresceurProjetCible;
 
 /**
@@ -24,10 +18,7 @@ import levy.daniel.application.model.services.utilitaires.arboresceurprojet.Arbo
  *<br/>
  * 
  * - Mots-clé :<br/>
- * nom simple (sans package et sans extension) d'un concept metier,
- * nom simple (sans package et sans extension) d'un concept métier,
- * Nom Concept Metier,<br/>
- * retirer extension, <br/>
+ * nommer Interface DTO, nommer abstraction DTO, nommer DTO, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -39,152 +30,96 @@ import levy.daniel.application.model.services.utilitaires.arboresceurprojet.Arbo
  * @since 18 juin 2019
  *
  */
-public class GenerateurDTO {
+public class GenerateurDTO extends AbstractGenerateurFichierSource {
 
 	// ************************ATTRIBUTS************************************/
-	
+
 	/**
 	 * "Classe GenerateurDTO".
 	 */
 	public static final String CLASSE_GENERATEUR_DTO 
 		= "Classe GenerateurDTO";
-
-	/**
-	 * "méthode obtenirFichierSource(Path pCheminAbsoluProjetEclipseCiblePath
-	 * , Path cheminRelatifFichierSourcePath".
-	 */
-	public static final String METHODE_OBTENIRFICHIERSOURCE 
-		= "méthode obtenirFichierSource("
-				+ "Path pCheminAbsoluProjetEclipseCiblePath"
-				+ ", Path cheminRelatifFichierSourcePath";
-
-	/**
-	 * "methode calculerAttributsImposes()".
-	 */
-	public static final String METHODE_CALCULER_ATTRIBUTS_IMPOSES 
-		= "methode calculerAttributsImposes()";
-	
-	/**
-	 * "methode calculerNomSimplePackageConceptMetier(File pConceptMetier)".
-	 */
-	public static final String METHODE_CALCULER_NOM_SIMPLE_PACKAGE 
-		= "methode calculerNomSimplePackageConceptMetier(File pConceptMetier)";
-	
-	/**
-	 * "methode calculerNomConceptMetier(File pConceptMetier)".
-	 */
-	public static final String METHODE_CALCULER_NOM_CONCEPT_METIER 
-		= "methode calculerNomConceptMetier(File pConceptMetier)";
-	
-	
-	//*****************************************************************/
-	//**************************** SEPARATEURS ************************/
-	//*****************************************************************/
 		
-	/**
-	 * ';'.<br/>
-	 */
-	public static final char POINT_VIRGULE = ';';
-	
-	/**
-	 * Séparateur pour les CSV ";".<br/>
-	 */
-	public static final String SEP_PV = ";";
-	
-	/**
-	 * '.'.<br/>
-	 */
-	public static final char POINT = '.';
-	
-	/**
-	 * " - ".
-	 */
-	public static final String MOINS_ESPACE = " - ";
-	
-	/**
-	 * ", ".<br/>
-	 */
-	public static final String VIRGULE_ESPACE = ", ";
-	
-	/**
-	 * "_".<br/>
-	 */
-	public static final String UNDERSCORE = "_";
-	
-	/**
-	 * '/'.<br/>
-	 */
-	public static final char SLASH = '/';
-		
-	/**
-	 * '\'.<br/>
-	 * ATTENTION : antislash est un caractère spécial 
-	 * qui doit être échappé en Java ('\\')<br/>
-	 */
-	public static final char ANTISLASH = '\\';
-
-	//*****************************************************************/
-	//**************************** SAUTS ******************************/
-	//*****************************************************************/	
-	/**
-	 * Saut de ligne spécifique de la plateforme.<br/>
-	 * System.getProperty("line.separator").<br/>
-	 */
-	public static final String NEWLINE = System.getProperty("line.separator");
-		
-	/**
-	 * Pattern.compile(".");
-	 */
-	public static final Pattern PATTERN_SEP_POINT = Pattern.compile("\\.");
-	
-	/**
-	 * 
-	 * <b>path ABSOLU du projet CIBLE Eclipse</b> 
-	 * dont on va générer le code.
-	 * <ul>
-	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
-	 * <li>Par exemple : <br/>
-	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users
-	 * </code></li>
-	 * </ul>
-	 */
-	private Path projetCiblePath;
-	
-	/**
-	 * concept métier pour lequel on va générer les classes de DTO.
-	 */
-	private File conceptMetier;
-	
-	/**
-	 * nom simple (sans package et sans impl) 
-	 * du package d'un concept métier</b>.<br/>
-	 * Par exemple : <br/>
-	 * <b>televersement</b> pour 
-	 * "D:/Donnees/eclipse/eclipseworkspace/traficweb_v1
-	 * /src/main/java
-	 * /levy/daniel/application/model
-	 * /metier/televersement/impl/Televersement.java".<br/>
-	 */
-	private transient String nomSimplePackageConceptMetier;
-	
-	/**
-	 * nom simple (sans package et sans extension) 
-	 * d'un concept métier.<br/>
-	 * Par exemple : <br/>
-	 * <b>Televersement</b> pour 
-	 * "D:/Donnees/eclipse/eclipseworkspace/traficweb_v1/
-	 * src/main/java
-	 * /levy/daniel/application/model
-	 * /metier/televersement/impl/Televersement.java"<br/>
-	 */
-	private transient String nomConceptMetier;
-	
 	/**
 	 * path ABSOLU du REPERTOIRE des abstractions éventuelles 
 	 * (Interface et Classe Abstraite) du DTO.<br/>
+	 * <code><b>${projet}/src/main/java/levy/daniel/application/model/
+	 * dto/metier/package</b></code><br/>
+	 * 
 	 */
-	private transient Path repertoireAbstractionDTOPath;
+	private transient Path repertoireAbstractionDTOAbsoluPath;
 
+	/**
+	 * path ABSOLU du REPERTOIRE des implémentations 
+	 * (si Interface et/ou Classe Abstraite) du DTO.<br/>
+	 * <code><b>${projet}/src/main/java/levy/daniel/application/model/
+	 * dto/metier/package/impl</b></code><br/>
+	 */
+	private transient Path repertoireConcreteDTOAbsoluPath;
+	
+	/**
+	 * path ABSOLU de l'INTERFACE du DTO.<br/>
+	 * <code><b>${projet}/src/main/java/levy/daniel/application/model/
+	 * dto/metier/package/I{$ConceptMetier}DTO.java</b></code><br/>
+	 */
+	private transient Path interfaceDTOAbsoluPath;
+	
+	/**
+	 * path ABSOLU du DTO CONCRET.<br/>
+	 * <code><b>${projet}/src/main/java/levy/daniel/application/model/
+	 * dto/metier/package/impl/{$ConceptMetier}DTO.java</b></code><br/>
+	 */
+	private transient Path concreteDTOAbsoluPath;
+	
+	/**
+	 * path RELATIF du REPERTOIRE des abstractions éventuelles 
+	 * (Interface et Classe Abstraite) du DTO par rapport 
+	 * au chemin des src/main/java du projet cible ECLIPSE.<br/>
+	 * <code><b>levy/daniel/application/model/
+	 * dto/metier/package</b></code><br/>
+	 * 
+	 */
+	private transient Path repertoireAbstractionDTORelatifPath;
+	
+	/**
+	 * package JAVA des abstractions éventuelles 
+	 * (Interface et Classe Abstraite) du DTO par rapport 
+	 * au chemin des src/main/java du projet cible ECLIPSE.<br/>
+	 * avec des points au lieu des slashes.<br/>
+	 * <code><b>levy.daniel.application.model.dto.metier.package</b></code><br/>
+	 */
+	private transient String cheminPackageJavaAbstractionDTO;
+
+	/**
+	 * path RELATIF du REPERTOIRE des implémentations 
+	 * (si Interface et/ou Classe Abstraite) du DTO par rapport 
+	 * au chemin des src/main/java du projet cible ECLIPSE.<br/>
+	 * <code><b>levy/daniel/application/model/
+	 * dto/metier/package/impl</b></code><br/>
+	 */
+	private transient Path repertoireConcreteDTORelatifPath;
+	
+	/**
+	 * package JAVA des implémentations 
+	 * (si Interface et Classe Abstraite) du DTO par rapport 
+	 * au chemin des src/main/java du projet cible ECLIPSE.<br/>
+	 * avec des points au lieu des slashes.<br/>
+	 * <code><b>levy.daniel.application.model.dto.metier.package.impl</b></code><br/>
+	 */
+	private transient String cheminPackageJavaConcreteDTO;
+	
+	/**
+	 * nom simple de l'INTERFACE du DTO sans extension.<br/>
+	 * Par exemple : <code><b>ITeleversementDTO</b></code>.<br/>
+	 */
+	private transient String nomSimpleInterfaceDTO;
+	
+	/**
+	 * nom simple ddu DTO CONCRET sans extension.<br/>
+	 * Par exemple : <code><b>TeleversementDTO</b></code>.<br/>
+	 */
+	private transient String nomSimpleConcreteDTO;
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -194,600 +129,423 @@ public class GenerateurDTO {
 
 	// *************************METHODES************************************/
 	
-	
-	
-	/**
-	 * <b>retourne le File correspondant à un fichier source situé 
-	 * à pCheminRelatifFichierSourcePath dans un projet cible ECLIPSE externe 
-	 * pCheminAbsoluProjetEclipseCiblePath</b>.<br/>
-	 * Par exemple :<br/>
-	 * <code><b>obtenirFichierSource(Paths.get(
-	 * "D:/Donnees/eclipse/eclipseworkspace/traficweb_v1")
-	 * , Paths.get("src/main/java/levy/daniel/application/
-	 * model/metier/televersement/impl/Televersement.java"))</b></code>
-	 * retourne le File situé à
-	 * <code>D:/Donnees/eclipse/eclipseworkspace/traficweb_v1/
-	 * src/main/java/
-	 * levy/daniel/application/model/metier/televersement/impl/
-	 * Televersement.java</code>
-	 * <br/>
-	 * <br/>
-	 * - retourne null si pCheminAbsoluProjetEclipseCiblePath == null.<br/>
-	 * - LOG.fatal et jette une Exception circonstanciée si le 
-	 * projet cible Eclipse est null, vide, inexistant ou pas un répertoire.<br/>
-	 * - retourne null si le fichier source cible n'existe pas.<br/>
-	 * <br/>
-	 *
-	 * @param pCheminAbsoluProjetEclipseCiblePath : Path : 
-	 * Path ABSOLU du projet cible ECLIPSE
-	 * @param pCheminRelatifFichierSourcePath : Path : 
-	 * Path RELATIF du fichier source par rapport au projet cible Eclipse
-	 * 
-	 * @return File : le fichier source situé 
-	 * dans le projet cible ECLIPSE externe.<br/>
+		
+	 /**
+	 * CONSTRUCTEUR D'ARITE NULLE.
 	 * 
 	 * @throws Exception
 	 */
-	public final File obtenirFichierSource(
-			final Path pCheminAbsoluProjetEclipseCiblePath
-				, final Path pCheminRelatifFichierSourcePath) 
-													throws Exception {
+	public GenerateurDTO() throws Exception {
+		this(null, null);
+		// TODO Auto-generated constructor stub
+	} // Fin du CONSTRUCTEUR D'ARITE NULLE.________________________________
+
+
+
+	/**
+	 * CONSTRUCTEUR COMPLET.
+	 * <ul>
+	 * calcule les attributs imposés :
+	 * <li>calcule <code><b>this.nomSimplePackageConceptMetier</b></code>.</li>
+	 * <li>calcule <code><b>this.nomConceptMetier</b></code>.</li>
+	 * <li>calcule <code><b>this.attributsPrivateMap</b></code>.</li>
+	 * <li>calcule les attributs spécifiques au DESIGN PATTERN 
+	 * (DTO, DAO, ...) grâce à un HOOK.</li>
+	 * </ul>
+	 * 
+	 * @param pProjetCiblePath : Path : 
+	 * path ABSOLU du projet CIBLE Eclipse dans lequel on va générer le code
+	 * @param pConceptMetier : File : 
+	 * concept métier pour lequel on va générer les classes 
+	 * DESIGN PATTERN (DTO, DAO, ...).
+	 * 
+	 * @throws Exception 
+	 */
+	public GenerateurDTO(
+			final Path pProjetCiblePath
+				, final File pConceptMetier) throws Exception {
 		
-		/* retourne null si pCheminAbsoluProjetEclipseCiblePath == null. */
-		if (pCheminAbsoluProjetEclipseCiblePath == null) {
-			return null;
-		}
-		
-		final File projetEclipseCible 
-			= pCheminAbsoluProjetEclipseCiblePath.toFile();
-		
-		/* LOG.fatal et jette une Exception circonstanciée si le 
-		 * projet cible Eclipse est null, vide, inexistant 
-		 * ou pas un répertoire. */
-		this.traiterMauvaisFichierProjetCibleEclipse(
-				projetEclipseCible
-				, METHODE_OBTENIRFICHIERSOURCE);
-		
-		final Path pathAbsoluFichierSourceCible 
-			= pCheminAbsoluProjetEclipseCiblePath
-					.resolve(pCheminRelatifFichierSourcePath);
-		
-		final File fichierSourceCible = pathAbsoluFichierSourceCible.toFile();
-		
-		/* retourne null si le fichier source cible n'existe pas. */
-		if (!fichierSourceCible.exists()) {
-			return null;
-		}
-		
-		return fichierSourceCible;
-		
-	} // Fin de obtenirFichierSource(...)._________________________________
+		super(pProjetCiblePath, pConceptMetier);
+
+	} // Fin de CONSTRUCTEUR COMPLET.______________________________________
+
+
 	
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append("GenerateurDTO [");
+		
+		stb.append("projetCiblePath=");
+		if (this.projetCiblePath != null) {			
+			stb.append(this.projetCiblePath.toString());
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+		
+		stb.append("conceptMetier=");
+		if (this.conceptMetier != null) {			
+			stb.append(this.conceptMetier.getAbsolutePath());
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+
+		stb.append("nomSimplePackageConceptMetier=");
+		if (this.nomSimplePackageConceptMetier != null) {			
+			stb.append(this.nomSimplePackageConceptMetier);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+		
+		stb.append("nomConceptMetier=");
+		if (this.nomConceptMetier != null) {			
+			stb.append(this.nomConceptMetier);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+
+		stb.append("repertoireAbstractionDTOAbsoluPath=");
+		if (this.repertoireAbstractionDTOAbsoluPath != null) {			
+			stb.append(this.repertoireAbstractionDTOAbsoluPath.toString());
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+		
+		stb.append("repertoireConcreteDTOAbsoluPath=");
+		if (this.repertoireConcreteDTOAbsoluPath != null) {			
+			stb.append(this.repertoireConcreteDTOAbsoluPath);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+		
+		stb.append("interfaceDTOAbsoluPath=");
+		if (this.interfaceDTOAbsoluPath != null) {			
+			stb.append(this.interfaceDTOAbsoluPath);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+		
+		stb.append("concreteDTOAbsoluPath=");
+		if (this.concreteDTOAbsoluPath != null) {			
+			stb.append(this.concreteDTOAbsoluPath);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+		
+		stb.append("repertoireAbstractionDTORelatifPath=");
+		if (this.repertoireAbstractionDTORelatifPath != null) {			
+			stb.append(this.repertoireAbstractionDTORelatifPath);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+
+		stb.append("repertoireConcreteDTORelatifPath=");
+		if (this.repertoireConcreteDTORelatifPath != null) {			
+			stb.append(this.repertoireConcreteDTORelatifPath);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+
+		stb.append("nomSimpleInterfaceDTO=");
+		if (this.nomSimpleInterfaceDTO != null) {			
+			stb.append(this.nomSimpleInterfaceDTO);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+
+		stb.append("nomSimpleConcreteDTO=");
+		if (this.nomSimpleConcreteDTO != null) {			
+			stb.append(this.nomSimpleConcreteDTO);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+
+		stb.append("cheminPackageJavaAbstractionDTO=");
+		if (this.cheminPackageJavaAbstractionDTO != null) {			
+			stb.append(this.cheminPackageJavaAbstractionDTO);
+		} else {
+			stb.append(NULL);
+		}
+		stb.append(VIRGULE_ESPACE);
+
+		stb.append("cheminPackageJavaConcreteDTO=");
+		if (this.cheminPackageJavaConcreteDTO != null) {			
+			stb.append(this.cheminPackageJavaConcreteDTO);
+		} else {
+			stb.append(NULL);
+		}
+
+		stb.append(']');
+		
+		return stb.toString();
+		
+	} // Fin de toString().________________________________________________
 
 	
 	
-	
-//	genererInterfaceEtClasseConcrete() {
-//		
-//	}
+	/**
+	 * .<br/>
+	 * <br/>
+	 * : void :  .<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public void genererInterfaceEtClasseConcrete() throws Exception {
+		
+		this.genererInterface();
+		
+		this.genererClasseConcrete();
+		
+	}
 
 
 	
 	/**
-	 * 
-	 * <ul>
-	 * <li>délègue à un ArboresceurProjetCible le soin 
-	 * de calculer les chemins du projet cible.</li>
-	 * </ul>
 	 * .<br/>
-	 * - ne fait rien si <code>this.projetCiblePath</code> == null 
-	 * || <code>this.conceptMetier</code> == null.<br/>
-	 * - LOG.fatal et jette une Exception circonstanciée si le 
-	 * projet cible Eclipse <code>this.projetCiblePath</code> 
-	 * est null, vide, inexistant ou pas un répertoire.<br/>
-	 * - LOG.fatal et jette une Exception circonstanciée 
-	 * si <code>this.conceptMetier</code> est 
-	 * null, vide, inexistant ou répertoire.<br/>
+	 * <br/>
+	 * : void :  .<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private void genererInterface() throws Exception {
+		
+		/* crée d'abord le fichier vide sur disque si nécessaire. */
+		this.creerFichierVideEtArborescenceSurDisque(
+				this.interfaceDTOAbsoluPath.toFile());
+		
+	}
+
+	
+	
+	/**
+	 * .<br/>
 	 * <br/>
 	 *
-	 * @throws Exception : void :  .<br/>
+	 * @throws Exception
 	 */
-	private void calculerAttributsImposes() throws Exception {
+	private void genererClasseConcrete() throws Exception {
 		
-		/* ne fait rien si this.projetCiblePath == null 
-		 * || this.conceptMetier == null. */
-		if (this.projetCiblePath == null || this.conceptMetier == null) {
-			return;
-		}
+		/* crée d'abord le fichier vide sur disque si nécessaire. */
+		this.creerFichierVideEtArborescenceSurDisque(
+				this.concreteDTOAbsoluPath.toFile());
 		
-		/* LOG.fatal et jette une Exception circonstanciée si le 
-		 * projet cible Eclipse this.projetCiblePath 
-		 * est null, vide, inexistant 
-		 * ou pas un répertoire. */
-		this.traiterMauvaisFichierProjetCibleEclipse(
-				this.projetCiblePath.toFile()
-					, METHODE_CALCULER_ATTRIBUTS_IMPOSES);
-		
-		/* LOG.fatal et jette une Exception circonstanciée si 
-		 * this.conceptMetier est null, vide, inexistant 
-		 * ou répertoire. */
-		this.traiterMauvaisFichierSource(
-				this.conceptMetier, METHODE_CALCULER_ATTRIBUTS_IMPOSES);
+	}
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 * <ul>
+	 * <li>calcule <code><b>this.repertoireAbstractionDTOAbsoluPath</b></code></li>
+	 * <li>calcule <code><b>this.interfaceDTOAbsoluPath</b></code></li>
+	 * <li>calcule <code><b>this.repertoireConcreteDTOAbsoluPath</b></code></li>
+	 * <li>calcule <code><b>this.concreteDTOAbsoluPath</b></code></li>
+	 * <li>calcule <code><b>this.repertoireAbstractionDTORelatifPath</b></code></li>
+	 * <li>calcule <code><b>this.repertoireConcreteDTORelatifPath</b></code></li>
+	 * <li>calcule <code><b>this.nomSimpleInterfaceDTO</b></code></li>
+	 * <li>calcule <code><b>this.nomSimpleConcreteDTO</b></code></li>
+	 * <li>calcule <code><b>this.cheminPackageJavaAbstractionDTO</b></code></li>
+	 * </ul>
+	 */
+	@Override
+	protected final void calculerAttributsImposesHook() throws Exception {
 		
 		/* délègue à un ArboresceurProjetCible le soin de 
 		 * calculer les chemins du projet cible. */
 		ArboresceurProjetCible.selectionnerProjetCible(this.projetCiblePath);
 		
-		final Path repertoireMetierDTOProjetCible 
+		/* ${projet}/src/main/java/levy/daniel/application/model/dto/metier */
+		final Path repertoireMetierDTOProjetCiblePath 
 			= ArboresceurProjetCible.getCoucheModelDTOMetierMainPath();
 		
-	} // Fin de calculerAttributsImposes().________________________________
-	
+		/* ${projet}/src/main/java/levy/daniel/application/model/dto/metier/
+		 * package */
+		this.repertoireAbstractionDTOAbsoluPath 
+			= repertoireMetierDTOProjetCiblePath
+				.resolve(this.nomSimplePackageConceptMetier)
+					.normalize();
+		
+		/* ${projet}/src/main/java/levy/daniel/application/model/dto/metier/
+		 * package/I{$ConceptMetier}DTO.java */
+		this.interfaceDTOAbsoluPath 
+			= this.repertoireAbstractionDTOAbsoluPath
+				.resolve(this.nommerinterfaceDesignPattern())
+					.normalize();
+		
+		/* ${projet}/src/main/java/levy/daniel/application/model/dto/metier/
+		 * package/impl */
+		this.repertoireConcreteDTOAbsoluPath 
+			= this.repertoireAbstractionDTOAbsoluPath.resolve(IMPL)
+				.normalize();
+		
+		/* ${projet}/src/main/java/levy/daniel/application/model/dto/metier/
+		 * package/impl/{$ConceptMetier}DTO.java */
+		this.concreteDTOAbsoluPath 
+			= this.repertoireConcreteDTOAbsoluPath
+				.resolve(this.nommerConcreteDesignPattern())
+					.normalize();
 
-	
+		final Path pathSrcMainJava 
+			= ArboresceurProjetCible.getSrcMainJavaPath();
+		
+		/* levy/daniel/application/model/dto/metier/package */
+		this.repertoireAbstractionDTORelatifPath 
+			= pathSrcMainJava
+				.relativize(this.repertoireAbstractionDTOAbsoluPath)
+					.normalize();
+		
+		/* levy/daniel/application/model/dto/metier/package/impl */
+		this.repertoireConcreteDTORelatifPath 
+			= pathSrcMainJava
+				.relativize(this.repertoireConcreteDTOAbsoluPath)
+					.normalize();
+		
+		this.nomSimpleInterfaceDTO = this.nommerSimpleinterfaceDesignPattern();
+		
+		this.nomSimpleConcreteDTO = this.nommerSimpleConcreteDesignPattern();
+		
+		this.cheminPackageJavaAbstractionDTO 
+			= this.transformerPathEnCheminJava(
+					this.repertoireAbstractionDTORelatifPath);
+		
+		this.cheminPackageJavaConcreteDTO 
+			= this.transformerPathEnCheminJava(
+					this.repertoireConcreteDTORelatifPath);
+		
+	} // Fin de calculerAttributsImposesHook().____________________________
+
+
+
 	/**
-	 * <b>retourne le nom simple (sans package et sans impl) 
-	 * du package d'un concept métier</b>.<br/>
-	 * Par exemple : <br/>
-	 * <b>televersement</b> pour 
-	 * "D:/Donnees/eclipse/eclipseworkspace/traficweb_v1
-	 * /src/main/java
-	 * /levy/daniel/application/model
-	 * /metier/televersement/impl/Televersement.java".<br/>
+	 * retourne une String pour le nom de l'Interface du DTO.<br/>
 	 * <br/>
-	 * - LOG.fatal et jette une Exception circonstanciée 
-	 * si pConceptMetier est null, vide, inexistant ou répertoire.<br/>
+	 * Par exemple :<br/>
+	 * <code><b>ITeleversementDTO.java</b></code> 
+	 * pour un Concept Metier "Televersement.java".<br/>
 	 * <br/>
-	 *
-	 * @param pConceptMetier : File : 
-	 * concept métier dans un projet ECLIPSE externe.
-	 * 
-	 * @return : String : 
-	 * nom simple (sans package et sans impl) 
-	 * du package du concept métier.<br/>
-	 * 
-	 * @throws Exception 
+	 * - retourne null si this.nomConceptMetier == null.<br/>
+	 * <br/>
 	 */
-	public final String calculerNomSimplePackageConceptMetier(
-			final File pConceptMetier) throws Exception {
+	private String nommerinterfaceDesignPattern() {
 		
-		/* LOG.fatal et jette une Exception circonstanciée si 
-		 * pConceptMetier est null, vide, inexistant 
-		 * ou répertoire. */
-		this.traiterMauvaisFichierSource(
-				pConceptMetier, METHODE_CALCULER_NOM_SIMPLE_PACKAGE);
-		
-		final Path packageConceptMetierPath = pConceptMetier.toPath();
-				
-		final Path packageConceptMetierPathParent 
-			= packageConceptMetierPath.getParent();
-		
-		String resultat = null;
-		
-		if (packageConceptMetierPathParent != null) {
+		/* retourne null si this.nomConceptMetier == null. */
+		if (this.nomConceptMetier != null) {
 			
-			if (packageConceptMetierPathParent.endsWith("impl")) {
-				
-				final Path packageConceptMetierPathGrandParent 
-					= packageConceptMetierPathParent.getParent();
-				
-				if (packageConceptMetierPathGrandParent != null) {
-					
-					resultat = this.fournirDernierPath(
-							packageConceptMetierPathGrandParent).toString();
-					
-				}
-				
-			} else {
-				
-				resultat = this.fournirDernierPath(
-						packageConceptMetierPathParent).toString();
-			}
-		}
-		
-		return resultat;
-		
-	} // Fin de calculerNomSimplePackageConceptMetier(...).________________
-	
-
-	
-	/**
-	 * <b>retourne le nom simple (sans package et sans extension) 
-	 * d'un concept métier</b>.<br/>
-	 * Par exemple : <br/>
-	 * <b>Televersement</b> pour 
-	 * "D:/Donnees/eclipse/eclipseworkspace/traficweb_v1
-	 * /src/main/java
-	 * /levy/daniel/application/model
-	 * /metier/televersement/impl/Televersement.java".<br/>
-	 * <br/>
-	 * - LOG.fatal et jette une Exception circonstanciée 
-	 * si pConceptMetier est null, vide, inexistant ou répertoire.<br/>
-	 * <br/>
-	 *
-	 * @param pConceptMetier : File : 
-	 * concept métier dans un projet ECLIPSE externe.
-	 * 
-	 * @return : String : nom simple du concept métier.<br/>
-	 * 
-	 * @throws Exception 
-	 */
-	public final String calculerNomConceptMetier(
-			final File pConceptMetier) throws Exception {
-		
-		/* LOG.fatal et jette une Exception circonstanciée si 
-		 * pConceptMetier est null, vide, inexistant 
-		 * ou répertoire. */
-		this.traiterMauvaisFichierSource(
-				pConceptMetier, METHODE_CALCULER_NOM_CONCEPT_METIER);
-		
-		final Path packageConceptMetierPath = pConceptMetier.toPath();
-		
-		final Path packageSimpleConceptMetierPath 
-			= packageConceptMetierPath.getFileName();
-		
-		String resultat = null;
-		String resultatAvecExtension = null;
-		
-		if (packageSimpleConceptMetierPath != null) {
-			resultatAvecExtension = packageSimpleConceptMetierPath.toString();
-			resultat = this.retirerExtension(resultatAvecExtension);
-		}
-		
-		return resultat;
-		
-	} // Fin de calculerNomConceptMetier(...)._____________________________
-
-
-	
-	/**
-	 * retourne le dernier path (path le plus lointain) de pPath.<br/>
-	 * Par exemple : 
-	 * <br/>
-	 * - retourne null si pPath == null.<br/>
-	 * <br/>
-	 *
-	 * @param pPath
-	 * @return : Path :  .<br/>
-	 */
-	private Path fournirDernierPath(
-			final Path pPath) {
-		
-		/* retourne null si pPath == null. */
-		if (pPath == null) {
-			return null;
-		}
-		
-		final int nombrePaths = pPath.getNameCount();
-		
-		final Path resultat = pPath.getName(nombrePaths - 1);
-		
-		return resultat;
-		
-	} // Fin de fournirDernierPath(...).___________________________________
-	
-
-	
-	/**
-	 * retire l'extension d'une String avec des séparateurs POINT "."<br/>
-	 * Par exemple : <br/>
-	 * retourne <b>Televersement</b> pour "Televersement.java".<br/>
-	 * <br/>
-	 * - retourne null si pString est blank.<br/>
-	 * <br/>
-	 *
-	 * @param pString : String.
-	 * 
-	 * @return : String : chaine en entrée moins l'extension.<br/>
-	 */
-	private String retirerExtension(
-			final String pString) {
-		
-		/* retourne null si pString est blank. */
-		if (StringUtils.isBlank(pString)) {
-			return null;
-		}
-		
-		final String[] tokens = PATTERN_SEP_POINT.split(pString);
-		
-		final int nombreTokens = tokens.length;
-		
-		String resultat = null;
-		
-		if (nombreTokens < 2) {
-			resultat = pString;
-		} else {
-			resultat = tokens[nombreTokens - 2];
-		}
-		
-		return resultat;
-		
-	} // Fin de retirerExtension(...)._____________________________________
-	
-	
-	
-	/**
-	 * Getter du <b>path ABSOLU du projet CIBLE Eclipse</b> 
-	 * dont on va générer le code.
-	 * <ul>
-	 * <li>path sous forme de <b>java.nio.file.Path</b>.</li>
-	 * <li>Par exemple : <br/>
-	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users
-	 * </code></li>
-	 * </ul>
-	 *
-	 * @return this.projetCiblePath : Path.<br/>
-	 */
-	public final Path getProjetCiblePath() {
-		return this.projetCiblePath;
-	} // Fin de getProjetCiblePath().______________________________________
-
-
-	
-	/**
-	* Setter du <b>path ABSOLU du projet CIBLE Eclipse</b> 
-	* dont on va générer le code.
-	* <ul>
-	* <li>path sous forme de <b>java.nio.file.Path</b>.</li>
-	* <li>Par exemple : <br/>
-	* <code>D:/Donnees/eclipse/eclipseworkspace_neon/projet_users
-	* </code></li>
-	* </ul>
-	*
-	* @param pProjetCiblePath : Path : 
-	* valeur à passer à this.projetCiblePath.<br/>
-	*/
-	public final void setProjetCiblePath(
-			final Path pProjetCiblePath) {
-		this.projetCiblePath = pProjetCiblePath;
-	} // Fin de setProjetCiblePath(...).___________________________________
-
-
-	
-	/**
-	 * Getter du concept métier pour lequel on va générer les classes de DTO.
-	 *
-	 * @return this.conceptMetier : File.<br/>
-	 */
-	public final File getConceptMetier() {
-		return this.conceptMetier;
-	} // Fin de getConceptMetier().________________________________________
-
-
-	
-	/**
-	* Setter du concept métier pour lequel on va générer les classes de DTO.
-	*
-	* @param pConceptMetier : File : 
-	* valeur à passer à this.conceptMetier.<br/>
-	*/
-	public final void setConceptMetier(
-			final File pConceptMetier) {
-		this.conceptMetier = pConceptMetier;
-	} // Fin de setConceptMetier(...)._____________________________________
-	
-	
-	
-/**
- * <ul>
- * <li>LOG.fatal et jette une FichierNullException si pFile est null.</li>
- * <li>LOG.fatal et jette une FichierVideException si pFile est vide.</li>
- * <li>LOG.fatal et jette une FichierInexistantException 
- * si pFile est inexistant.</li>
- * <li>LOG.fatal et jette une FichierSimpleException 
- * si pFile est un fichier simple (pas un répertoire).</li>
- * </ul>
- *
- * @param pFile : File.
- * @param pMethode : String : nom de la méthode appelante.
- * 
- * @throws Exception
- */
-private void traiterMauvaisFichierProjetCibleEclipse(
-		final File pFile, final String pMethode) 
-										throws Exception {
-	
-	this.traiterFichierNull(pFile, pMethode);
-	this.traiterFichierVide(pFile, pMethode);
-	this.traiterFichierInexistant(pFile, pMethode);
-	this.traiterFichierSimple(pFile, pMethode);
-	
-} // Fin de traiterMauvaisFichierProjetCibleEclipse(...).______________
-
-
-
-/**
- * <ul>
- * <li>LOG.fatal et jette une FichierNullException si pFile est null.</li>
- * <li>LOG.fatal et jette une FichierVideException si pFile est vide.</li>
- * <li>LOG.fatal et jette une FichierInexistantException 
- * si pFile est inexistant.</li>
- * <li>LOG.fatal et jette une FichierPasNormalException 
- * si pFile est un répertoire (pas un fichier simple).</li>
- * </ul>
- *
- * @param pFile : File.
- * @param pMethode : String : nom de la méthode appelante.
- * 
- * @throws Exception
- */
-private void traiterMauvaisFichierSource(
-		final File pFile, final String pMethode) 
-										throws Exception {
-	
-	this.traiterFichierNull(pFile, pMethode);
-	this.traiterFichierVide(pFile, pMethode);
-	this.traiterFichierInexistant(pFile, pMethode);
-	this.traiterFichierPasNormal(pFile, pMethode);
-	
-} // Fin de traiterMauvaisFichierSource(...).__________________________
-
-
-
-/**
- * LOG.fatal et jette une FichierNullException si pFile est null.
- *
- * @param pFile : File.
- * @param pMethode : String : nom de la méthode appelante.
- * 
- * @throws FichierNullException
- */
-private void traiterFichierNull(
-		final File pFile, final String pMethode) 
-							throws FichierNullException {
-	
-	if (pFile == null) {
-		
-		final String message 
-			= CLASSE_GENERATEUR_DTO
-				+ MOINS_ESPACE 
-				+ pMethode 
-				+ MOINS_ESPACE 
-				+ "le File passé en paramètre est null";
-		
-		if (LOG.isFatalEnabled()) {
-			LOG.fatal(message);
-		}
-		
-		throw new FichierNullException(message);
-	}
-	
-} // Fin de traiterFichierNull(...).___________________________________
-
-
-
-/**
- * LOG.fatal et jette une FichierVideException si pFile est vide.
- *
- * @param pFile : File.
- * @param pMethode : String : nom de la méthode appelante.
- * 
- * @throws FichierVideException
- */
-private void traiterFichierVide(
-		final File pFile, final String pMethode) 
-								throws FichierVideException {
-	
-	if (pFile.length() == 0) {
-		
-		final String message 
-			= CLASSE_GENERATEUR_DTO 
-					+ MOINS_ESPACE 
-					+ pMethode 
-					+ MOINS_ESPACE 
-					+"le File passé en paramètre est vide : " 
-					+ pFile.getAbsolutePath();
-		
-		if (LOG.isFatalEnabled()) {
-			LOG.fatal(message);
-		}
-		
-		throw new FichierVideException(message);
-	}
+			final String resultat = "I" + this.nomConceptMetier + "DTO.java";			
+			return resultat;
 			
-} // Fin de traiterFichierVide(...).___________________________________
-
-
-
-/**
- * LOG.fatal et jette une FichierInexistantException 
- * si pFile est inexistant.
- *
- * @param pFile : File.
- * @param pMethode : String : nom de la méthode appelante.
- * 
- * @throws FichierInexistantException
- */
-private void traiterFichierInexistant(
-		final File pFile, final String pMethode) 
-					throws FichierInexistantException {
-	
-	if (!pFile.exists()) {
-		
-		final String message 
-			= CLASSE_GENERATEUR_DTO 
-					+ MOINS_ESPACE 
-					+ pMethode 
-					+ MOINS_ESPACE 
-					+"le File passé en paramètre est inexistant : " 
-					+ pFile.getAbsolutePath();
-		
-		if (LOG.isFatalEnabled()) {
-			LOG.fatal(message);
 		}
 		
-		throw new FichierInexistantException(message);
-	}			
-	
-} // Fin de traiterFichierInexistant(...)._____________________________
-
-
-
-/**
- * LOG.fatal et jette une FichierSimpleException 
- * si pFile est un fichier simple (pas un répertoire).
- *
- * @param pFile : File.
- * @param pMethode : String : nom de la méthode appelante.
- * 
- * @throws FichierSimpleException
- */
-private void traiterFichierSimple(
-		final File pFile, final String pMethode) 
-						throws FichierSimpleException {
-	
-	if (!pFile.exists()) {
+		return null;
 		
-		final String message 
-			= CLASSE_GENERATEUR_DTO 
-			+ MOINS_ESPACE 
-			+ pMethode 
-			+ MOINS_ESPACE 
-			+"le File passé en paramètre est simple (pas un répertoire) : " 
-			+ pFile.getAbsolutePath();
+	} // Fin de nommerinterfaceDesignPattern().____________________________
+
+
+
+	/**
+	 * retourne une String pour le nom du DTO concret.<br/>
+	 * <br/>
+	 * Par exemple :<br/>
+	 * <code><b>TeleversementDTO.java</b></code> 
+	 * pour un Concept Metier "Televersement.java".<br/>
+	 * <br/>
+	 * - retourne null si this.nomConceptMetier == null.<br/>
+	 * <br/>
+	 */
+	private String nommerConcreteDesignPattern() {
 		
-		if (LOG.isFatalEnabled()) {
-			LOG.fatal(message);
+		/* retourne null si this.nomConceptMetier == null. */
+		if (this.nomConceptMetier != null) {
+			
+			final String resultat = this.nomConceptMetier + "DTO.java";			
+			return resultat;
+			
 		}
 		
-		throw new FichierSimpleException(message);
-	}					
-	
-} // Fin de traiterFichierSimple(...)._________________________________
-
-
-
-/**
- * LOG.fatal et jette une FichierPasNormalException 
- * si pFile est un répertoire (pas un fichier simple).
- *
- * @param pFile : File.
- * @param pMethode : String : nom de la méthode appelante.
- * 
- * @throws FichierPasNormalException
- */
-private void traiterFichierPasNormal(
-		final File pFile, final String pMethode) 
-						throws FichierPasNormalException {
-	
-	if (!pFile.exists()) {
+		return null;
 		
-		final String message 
-			= CLASSE_GENERATEUR_DTO 
-			+ MOINS_ESPACE 
-			+ pMethode 
-			+ MOINS_ESPACE 
-			+"le File passé en paramètre est un répertoire (pas un fichier simple) : " 
-			+ pFile.getAbsolutePath();
+	} // Fin de nommerConcreteDesignPattern()._____________________________
+
+
+
+	/**
+	 * retourne une String pour le nom SIMPLE 
+	 * de l'Interface du DTO sans Extension.<br/>
+	 * <br/>
+	 * Par exemple :<br/>
+	 * <code><b>ITeleversementDTO</b></code> 
+	 * pour un Concept Metier "Televersement.java".<br/>
+	 * <br/>
+	 * - retourne null si this.nomConceptMetier == null.<br/>
+	 * <br/>
+	 */
+	private String nommerSimpleinterfaceDesignPattern() {
 		
-		if (LOG.isFatalEnabled()) {
-			LOG.fatal(message);
+		/* retourne null si this.nomConceptMetier == null. */
+		if (this.nomConceptMetier != null) {
+			
+			final String resultat = "I" + this.nomConceptMetier + "DTO";			
+			return resultat;
+			
 		}
 		
-		throw new FichierPasNormalException(message);
-	}					
+		return null;
+		
+	} // Fin de nommerSimpleinterfaceDesignPattern().______________________
+
+
+
+	/**
+	 * retourne une String pour le nom SIMPLE 
+	 * du DTO concret sans Extension.<br/>
+	 * <br/>
+	 * Par exemple :<br/>
+	 * <code><b>TeleversementDTO</b></code> 
+	 * pour un Concept Metier "Televersement.java".<br/>
+	 * <br/>
+	 * - retourne null si this.nomConceptMetier == null.<br/>
+	 * <br/>
+	 */
+	private String nommerSimpleConcreteDesignPattern() {
+		
+		/* retourne null si this.nomConceptMetier == null. */
+		if (this.nomConceptMetier != null) {
+			
+			final String resultat = this.nomConceptMetier + "DTO";			
+			return resultat;
+			
+		}
+		
+		return null;
+		
+	} // Fin de nommerSimpleConcreteDesignPattern()._______________________
 	
-} // Fin de traiterFichierPasNormal(...).______________________________
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final String fournirClassePourMessage() {
+		return CLASSE_GENERATEUR_DTO;
+	} // Fin de fournirClassePourMessage().________________________________
 	
 	
 		

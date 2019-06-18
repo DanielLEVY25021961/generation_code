@@ -1,12 +1,11 @@
-package levy.daniel.application.model.services.metier.generationcode.decouvreurmembre.impl;
+package levy.daniel.application.generationcode.generationfichierssource.decouvreurmembre.impl;
 
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.model.services.metier.generationcode.decouvreurmembre.IEncapsulationDeclarationMembre;
-
+import levy.daniel.application.generationcode.generationfichierssource.decouvreurmembre.IEncapsulationDeclarationMembre;
 
 
 

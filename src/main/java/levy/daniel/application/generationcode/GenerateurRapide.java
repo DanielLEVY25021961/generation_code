@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import levy.daniel.application.apptechnic.configurationmanagers.gestionnairespaths.ArboresceurPresentProjet;
 
 /**
- * CLASSE Generateur :<br/>
+ * CLASSE GenerateurRapide :<br/>
  * .<br/>
  * <br/>
  *
@@ -44,6 +44,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairespat
  * extraire nom, extraire nom simple d'un Type, extraire Type Simple,<br/>
  * transforme points chemin Java en slashes, transformer point en slash,<br/>
  * transformer chemin java en Path avec des slashes,<br/>
+ * transformer path en chemin Java, transformer Path en chemin java,<br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -55,7 +56,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairespat
  * @since 8 juin 2019
  *
  */
-public final class Generateur {
+public final class GenerateurRapide {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -150,7 +151,7 @@ public final class Generateur {
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	@SuppressWarnings("unused")
-	private static final Log LOG = LogFactory.getLog(Generateur.class);
+	private static final Log LOG = LogFactory.getLog(GenerateurRapide.class);
 
 	// *************************METHODES************************************/
 	
@@ -159,7 +160,7 @@ public final class Generateur {
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * privat pour bloquer l'instanciation.
 	 */
-	private Generateur() {
+	private GenerateurRapide() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
@@ -1442,8 +1443,7 @@ public final class Generateur {
 	 * @return : File : File encapsulant pClass.java.<br/>
 	 */
 	public static File trouverFichierSource(final Class<?> pClass) {
-		
-		
+				
 		final Path pathSrcMainJava 
 			= ArboresceurPresentProjet.getSrcMainJavaPath();
 		
@@ -1755,4 +1755,4 @@ public final class Generateur {
 
 	
 	
-} // FIN DE LA CLASSE Generateur.--------------------------------------------
+} // FIN DE LA CLASSE GenerateurRapide.--------------------------------------------

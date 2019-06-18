@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -109,7 +110,7 @@ public class GenerateurDTOTest {
 	/**
 	 * new GenerateurDTO();.<br/>
 	 */
-	private transient GenerateurDTO generateur = new GenerateurDTO();
+	private static transient GenerateurDTO generateur;
 	
 	/**
 	 * LOG : Log : 
@@ -154,12 +155,12 @@ public class GenerateurDTOTest {
 		
 		// METHODE A TESTER
 		final File fichierSource 
-		= this.generateur.obtenirFichierSource(
+		= generateur.obtenirFichierSource(
 				PATH_ABSOLU_PROJET_ECLIPSE
 					, PATH_RELATIF_FICHIER_SOURCE);
 		
 		final String resultat 
-			= this.generateur
+			= generateur
 				.calculerNomSimplePackageConceptMetier(fichierSource);
 				
 		/* AFFICHAGE A LA CONSOLE. */
@@ -203,12 +204,12 @@ public class GenerateurDTOTest {
 		
 		// METHODE A TESTER
 		final File fichierSource 
-		= this.generateur.obtenirFichierSource(
+		= generateur.obtenirFichierSource(
 				PATH_ABSOLU_PROJET_ECLIPSE
 					, PATH_RELATIF_FICHIER_SOURCE);
 		
 		final String resultat 
-			= this.generateur
+			= generateur
 				.calculerNomConceptMetier(fichierSource);
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -225,6 +226,35 @@ public class GenerateurDTOTest {
 
 	} // fin de testCalculerNomConceptMetier().____________________________
 
+
+	
+	/**
+	 * Exécuté avant tout test de la classe.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+				
+		generateur 
+			= new GenerateurDTO(PATH_ABSOLU_PROJET_ECLIPSE, null);
+		
+		final File fichierSource 
+		= generateur.obtenirFichierSource(
+				PATH_ABSOLU_PROJET_ECLIPSE
+					, PATH_RELATIF_FICHIER_SOURCE);
+		
+		generateur.setConceptMetier(fichierSource);
+		
+		System.out.println(generateur.toString());
+		
+		System.out.println(
+				generateur
+				.afficherMapEncapsulationDeclarationMembre(
+						generateur.getAttributsPrivateMap()));
+		
+	} // Fin de beforeClass()._____________________________________________
+	
 	
 
 } // FIN DE LA CLASSE GenerateurDTOTest.-------------------------------------
