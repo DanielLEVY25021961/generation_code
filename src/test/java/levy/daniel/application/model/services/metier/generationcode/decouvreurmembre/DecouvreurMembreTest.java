@@ -7,6 +7,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -145,6 +146,41 @@ public class DecouvreurMembreTest {
 	 */
 	public static final String MOTIF_REGEX_ATTRIBUT 
 		= "^(\\s*)((public|protected|private)\\s*(static?|)\\s*(final?|)\\s*(transient?|)\\s+(\\S+)\\s+([a-zA-Z0-9_]+)\\s*(.*));$";
+		
+	/**
+	 * <b>motif REGEX pour détecter les lignes de déclaration des METHODES</b> 
+	 * d'une classe.<br/>
+	 * <ul>
+	 * <li>seuls les attributs public, protected ou private sont détectés.</li>
+	 * <li>les attributs "friendly" déclarés sans modificateur 
+	 * ne sont pas détectés.</li>
+	 * </ul>
+	 * <p>
+	 * <b>"^(\\s*)((public?|protected?|private?)\\s*(static?|)\\s*(final?|)\\s*(transient?|)\\s+(\\S+)\\s+([a-zA-Z0-9_]+)\\s*(.*));$"</b>.
+	 * </p>
+	 * <ol>
+	 * <li><b>^(\\s*)</b> signifie 
+	 * <i>"commence par 0, 1 ou plusieurs espaces</i>.</li>
+	 * <li><b>((public|protected|private)</b> 
+	 * signifie <i>"public, ou protected, ou private"</i></li>
+	 * <li><b>\\s*</b> signifie <i>"0, 1, ou plusieurs espaces"</i></li>
+	 * <li><b>(static?|)</b> signifie <i>"static une seule fois au pas (|)"</i></li>
+	 * <li><b>\\s*</b> signifie <i>"0, 1, ou plusieurs espaces"</i></li>
+	 * <li><b>(final?|)</b> signifie <i>"final une seule fois au pas (|)"</i></li>
+	 * <li><b>\\s*</b> signifie <i>"0, 1, ou plusieurs espaces"</i></li>
+	 * <li><b>(transient?|)</b> signifie <i>"transient une seule fois au pas (|)"</i></li>
+	 * <li><b>\\s+</b> signifie <i>"au moins un espace"</i></li>
+	 * <li><b>(\\S+)</b> signifie <i>"au moins 1 caractère non blanc"</i></li>
+	 * <li><b>\\s+</b> signifie <i>"au moins un espace"</i></li>
+	 * <li><b>([a-zA-Z0-9_]+)</b> signifie <i>"au moins un caractère 
+	 * parmi minuscules, majuscules, chiffre ou UNDERSCORE"</i></li>
+	 * <li><b>\\s*</b> signifie <i>"0, 1, ou plusieurs espaces"</i></li>
+	 * <li><b>(.*)</b> signifie <i>"0, 1, ou plusieurs caractères QUELCONQUES"</i></li>
+	 * <li><b>(.*)</b> signifie <i>"termine par un point-virgule"</i></li>
+	 * </ol>
+	 */
+	public static final String MOTIF_REGEX_METHODE 
+		= "^(\\s*)((public|protected|private)\\s*(static?|)\\s*(final?|)\\s*(transient?|)\\s+(\\S+)\\s+([a-zA-Z0-9_]+\\()\\s*(.*))$";
 	
 	/**
 	 * new DecouvreurMembre().
@@ -337,7 +373,7 @@ public class DecouvreurMembreTest {
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testFonction() throws Exception {
+	public void testDetectionAttribut() throws Exception {
 		
 		final File fichierSource 
 		= this.decouvreur.obtenirFichierSource(
@@ -355,6 +391,60 @@ public class DecouvreurMembreTest {
 		}
 		
 	} // Fin de testFonction().____________________________________________
+	
+	
+	
+	/**
+	 * .<br/>
+	 * <br/>
+	 *
+	 * @throws Exception : void :  .<br/>
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDetectionMethode() throws Exception {
+		
+		final File fichierSource 
+		= this.decouvreur.obtenirFichierSource(
+				PATH_ABSOLU_PROJET_ECLIPSE
+					, PATH_RELATIF_FICHIER_SOURCE);
+	
+		// METHODE A TESTER
+		final List<String> resultat 
+			= this.decouvreur.lireFichierSource(fichierSource);
+		
+		for (final String ligne : resultat) {
+			if (this.estDeclarationMethode(ligne)) {
+				System.out.println(ligne);
+			}
+		}
+		
+	} // Fin de testFonction().____________________________________________
+	
+	
+	
+	/**
+	 * .<br/>
+	 * <br/>
+	 *
+	 * @throws Exception : void :  .<br/>
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFonction2() throws Exception {
+		
+		final File fichierSource 
+		= this.decouvreur.obtenirFichierSource(
+				PATH_ABSOLU_PROJET_ECLIPSE
+					, PATH_RELATIF_FICHIER_SOURCE);
+	
+		// METHODE A TESTER
+		final Map<Integer, IEncapsulationDeclarationMembre> resultat 
+			= this.decouvreur.decouvrirAttributs(fichierSource);
+		
+		System.out.println(this.decouvreur.afficherMapEncapsulationDeclarationMembre(resultat));
+		
+	} // Fin de testFonction().____________________________________________	
 	
 	
 	
@@ -390,5 +480,42 @@ public class DecouvreurMembreTest {
 		
 	} // Fin de estDeclarationAttribut(...)._______________________________
 
+	
+	
+	
+	
+	/**
+	 * détecte si une ligne d'un fichier source est une déclaration 
+	 * d'une METHODE conformément au MOTIF_REGEX_METHODE.<br/>
+	 * <br/>
+	 * - retourne false si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String.
+	 * 
+	 * @return : boolean : 
+	 * true si pString est une déclaration de méthode.<br/>
+	 */
+	public final boolean estDeclarationMethode(
+			final String pString) {
+		
+		/* retourne false si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return false;
+		}
+		
+		final Pattern pattern = Pattern.compile(MOTIF_REGEX_METHODE);
+		
+		final Matcher matcher = pattern.matcher(pString);
+		
+		if (matcher.matches()) {
+			return true;
+		}
+		
+		return false;
+		
+	} // Fin de estDeclarationMethode(...).________________________________
+
+	
 	
 } // FIN DE LA CLASSE CLASSE DecouvreurMembreTest.---------------------------

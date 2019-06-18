@@ -4,9 +4,13 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -205,15 +209,20 @@ public class DecouvreurMembre {
 
 	
 	/**
-	 * .<br/>
-	 * <br/>
+	 * <b>détecte les attributs d'une classe</b> pFichierSource et les retourne 
+	 * sous forme de Map&lt;Integer,IEncapsulationDeclarationMembre&gt; avec :
+	 * <ul>
+	 * <li>Integer : le numéro d'ordre déclaratif de l'attribut dans la classe</li>
+	 * <li>IEncapsulationDeclarationMembre : encapsulation décrivant l'attribut</li>
+	 * </ul>
 	 * - LOG.fatal et jette une Exception circonstanciée 
 	 * si pFichierSource est null, vide, inexistant ou répertoire.<br/>
 	 * <br/>
 	 *
-	 * @param pFichierSource
+	 * @param pFichierSource : File : classe dont on détecte les membres.
 	 * 
-	 * @return : Map<Integer,IEncapsulationDeclarationMembre> :  .<br/>
+	 * @return : Map&lt;Integer,IEncapsulationDeclarationMembre&gt; :  
+	 * Map des attributs.<br/>
 	 * 
 	 * @throws Exception 
 	 */
@@ -232,12 +241,16 @@ public class DecouvreurMembre {
 		
 		final List<String> lignes = this.lireFichierSource(pFichierSource);
 		
+		int compteur = 0;
+		
 		for (final String ligne : lignes) {
 			
 			final Matcher matcher 
 				= PATTERN_MOTIF_REGEX_ATTRIBUT.matcher(ligne);
 			
 			if (matcher.matches()) {
+				
+				compteur ++;
 				
 				final IEncapsulationDeclarationMembre membre 
 					= new EncapsulationDeclarationMembre();
@@ -255,10 +268,13 @@ public class DecouvreurMembre {
 				
 				membre.setAttribut(true);
 				
+				resultat.put(compteur, membre);
+				
 			}
+			
 		}
 		
-		return null;
+		return resultat;
 		
 	} // Fin de decouvrirAttributs(...).___________________________________
 	
@@ -397,6 +413,57 @@ public class DecouvreurMembre {
 
 	} // Fin de afficherListeString(...).__________________________________
 	
+	
+	
+	/**
+	 * fournit une String pour l'affichage d'une 
+	 * Map&lt;Integer,IEncapsulationDeclarationMembre&gt;.<br/>
+	 * <br/>
+	 * - retourne null si pMap == null.<br/>
+	 * <br/>
+	 *
+	 * @param pMap : Map&lt;Integer,IEncapsulationDeclarationMembre&gt;
+	 * 
+	 * @return : String.<br/>
+	 */
+	public final String afficherMapEncapsulationDeclarationMembre(
+			final Map<Integer, IEncapsulationDeclarationMembre> pMap) {
+		
+		/* retourne null si pMap == null. */
+		if (pMap == null) {
+			return null;
+		}
+		
+		final StringBuffer stb = new StringBuffer();
+		
+		final Set<Entry<Integer, IEncapsulationDeclarationMembre>> entrySet 
+			= pMap.entrySet();
+		
+		final Iterator<Entry<Integer, IEncapsulationDeclarationMembre>> ite 
+			= entrySet.iterator();
+		
+		while (ite.hasNext()) {
+			
+			final Entry<Integer, IEncapsulationDeclarationMembre> entry 
+				= ite.next();
+			
+			final Integer numOrdre = entry.getKey();
+			final IEncapsulationDeclarationMembre membre = entry.getValue();
+			
+			final String ligne 
+				= String.format(
+						Locale.getDefault()
+						, "champ numéro %1$-10d : %2$s"
+						, numOrdre, membre.toString());
+			
+			stb.append(ligne);
+			stb.append(NEWLINE);
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherMapEncapsulationDeclarationMembre(...).____________
+
 	
 	
 	/**

@@ -118,50 +118,6 @@ public class EncapsulationDeclarationMembre
 	private boolean attribut;
 	
 	/**
-	 * boolean qui stipule si le membre est juste <b>public</b>.
-	 */
-	private boolean publicSimple;
-	
-	/**
-	 * boolean qui stipule si le membre est <b>public transient</b>.
-	 */
-	private boolean publicTransient;
-	
-	/**
-	 * boolean qui stipule si le membre est <b>public static final</b>.
-	 */
-	private boolean publicStaticFinal;
-	
-	/**
-	 * boolean qui stipule si le membre est 
-	 * <b>public static final transient</b>.
-	 */
-	private boolean publicStaticFinalTransient;
-	
-	/**
-	 * boolean qui stipule si le membre est <b>public static</b>.
-	 */
-	private boolean publicStatic;
-	
-	/**
-	 * boolean qui stipule si le membre est 
-	 * <b>public static transient</b>.
-	 */
-	private boolean publicStaticTransient;
-	
-	/**
-	 * boolean qui stipule si le membre est 
-	 * <b>public final</b>.
-	 */
-	private boolean publicFinal;
-	
-	/**
-	 * boolean qui stipule si le membre est 
-	 * <b>public final transient</b>.
-	 */
-	private boolean publicFinalTransient;
-	
-	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -295,14 +251,6 @@ public class EncapsulationDeclarationMembre
 		clone.setNomMembre(this.getNomMembre());
 		clone.setReste(this.getReste());
 		clone.setAttribut(this.isAttribut());
-		clone.setPublicSimple(this.isPublicSimple());
-		clone.setPublicTransient(this.isPublicTransient());
-		clone.setPublicStaticFinal(this.isPublicStaticFinal());
-		clone.setPublicStaticFinalTransient(this.isPublicStaticFinalTransient());
-		clone.setPublicStatic(this.isPublicStatic());
-		clone.setPublicStaticTransient(this.isPublicStaticTransient());
-		clone.setPublicFinal(this.isPublicFinal());
-		clone.setPublicFinalTransient(this.isPublicFinalTransient());
 		
 		return (EncapsulationDeclarationMembre) clone;
 		
@@ -394,39 +342,6 @@ public class EncapsulationDeclarationMembre
 
 		stb.append("attribut=");
 		stb.append(this.isAttribut());
-		stb.append(VIRGULE_ESPACE);
-		
-		stb.append("publicSimple=");
-		stb.append(this.isPublicSimple());
-		stb.append(VIRGULE_ESPACE);
-		
-		stb.append("publicTransient=");
-		stb.append(this.isPublicTransient());
-		stb.append(VIRGULE_ESPACE);
-		
-		stb.append("publicStaticFinal=");
-		stb.append(this.isPublicStaticFinal());
-		stb.append(VIRGULE_ESPACE);
-		
-		stb.append("publicStaticFinalTransient=");
-		stb.append(this.isPublicStaticFinalTransient());
-		stb.append(VIRGULE_ESPACE);
-		
-		stb.append("publicStatic=");
-		stb.append(this.isPublicStatic());
-		stb.append(VIRGULE_ESPACE);
-		
-		stb.append("publicStaticTransient=");
-		stb.append(this.isPublicStaticTransient());
-		stb.append(VIRGULE_ESPACE);
-		
-		stb.append("publicFinal=");
-		stb.append(this.isPublicFinal());
-		stb.append(VIRGULE_ESPACE);
-		
-		stb.append("publicFinalTransient=");
-		stb.append(this.isPublicFinalTransient());
-		stb.append(VIRGULE_ESPACE);
 		
 		stb.append(']');
 
@@ -444,10 +359,7 @@ public class EncapsulationDeclarationMembre
 		
 		return "id;ligneEntiere;espacesEnDebutLigne;contenuLigne;"
 				+ "moderateur;modificateurStatic;modificateurFinal;"
-				+ "modificateurTransient;type;nomMembre;reste;attribut;"
-				+ "publicSimple;publicTransient;publicStaticFinal;"
-				+ "publicStaticFinalTransient;publicStatic;publicStaticTransient;"
-				+ "publicFinal;publicFinalTransient;";
+				+ "modificateurTransient;type;nomMembre;reste;attribut;";
 
 	} // Fin de fournirEnTeteCsv().________________________________________
 
@@ -484,22 +396,6 @@ public class EncapsulationDeclarationMembre
 		stb.append(this.getReste());
 		stb.append(POINT_VIRGULE);
 		stb.append(this.isAttribut());
-		stb.append(POINT_VIRGULE);
-		stb.append(this.isPublicSimple());
-		stb.append(POINT_VIRGULE);
-		stb.append(this.isPublicTransient());
-		stb.append(POINT_VIRGULE);
-		stb.append(this.isPublicStaticFinal());
-		stb.append(POINT_VIRGULE);
-		stb.append(this.isPublicStaticFinalTransient());
-		stb.append(POINT_VIRGULE);
-		stb.append(this.isPublicStatic());
-		stb.append(POINT_VIRGULE);
-		stb.append(this.isPublicStaticTransient());
-		stb.append(POINT_VIRGULE);
-		stb.append(this.isPublicFinal());
-		stb.append(POINT_VIRGULE);
-		stb.append(this.isPublicFinalTransient());
 		stb.append(POINT_VIRGULE);
 		
 		return stb.toString();
@@ -565,38 +461,6 @@ public class EncapsulationDeclarationMembre
 
 		case 11:
 			entete = "attribut";
-			break;
-
-		case 12:
-			entete = "publicSimple";
-			break;
-
-		case 13:
-			entete = "publicTransient";
-			break;
-
-		case 14:
-			entete = "publicStaticFinal";
-			break;
-
-		case 15:
-			entete = "publicStaticFinalTransient";
-			break;
-
-		case 16:
-			entete = "publicStatic";
-			break;
-
-		case 17:
-			entete = "publicStaticTransient";
-			break;
-
-		case 18:
-			entete = "publicFinal";
-			break;
-
-		case 19:
-			entete = "publicFinalTransient";
 			break;
 
 		default:
@@ -671,38 +535,6 @@ public class EncapsulationDeclarationMembre
 
 		case 11:
 			valeur = String.valueOf(this.isAttribut());
-			break;
-
-		case 12:
-			valeur = String.valueOf(this.isPublicSimple());
-			break;
-
-		case 13:
-			valeur = String.valueOf(this.isPublicTransient());
-			break;
-
-		case 14:
-			valeur = String.valueOf(this.isPublicStaticFinal());
-			break;
-
-		case 15:
-			valeur = String.valueOf(this.isPublicStaticFinalTransient());
-			break;
-
-		case 16:
-			valeur = String.valueOf(this.isPublicStatic());
-			break;
-
-		case 17:
-			valeur = String.valueOf(this.isPublicStaticTransient());
-			break;
-
-		case 18:
-			valeur = String.valueOf(this.isPublicFinal());
-			break;
-
-		case 19:
-			valeur = String.valueOf(this.isPublicFinalTransient());
 			break;
 
 		default:
@@ -966,174 +798,6 @@ public class EncapsulationDeclarationMembre
 			final boolean pAttribut) {
 		this.attribut = pAttribut;
 	} // Fin de setAttribut(...).__________________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean isPublicSimple() {
-		return this.publicSimple;
-	} // Fin de isPublicSimple().__________________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void setPublicSimple(
-			final boolean pPublicSimple) {
-		this.publicSimple = pPublicSimple;
-	} // Fin de setPublicSimple(...).______________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean isPublicTransient() {
-		return this.publicTransient;
-	} // Fin de isPublicTransient()._______________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void setPublicTransient(
-			final boolean pPublicTransient) {
-		this.publicTransient = pPublicTransient;
-	} // Fin de setPublicTransient(...).___________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean isPublicStaticFinal() {
-		return this.publicStaticFinal;
-	} // Fin de isPublicStaticFinal()._____________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void setPublicStaticFinal(
-			final boolean pPublicStaticFinal) {
-		this.publicStaticFinal = pPublicStaticFinal;
-	} // Fin de setPublicStaticFinal(...)._________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean isPublicStaticFinalTransient() {
-		return this.publicStaticFinalTransient;
-	} // Fiin de isPublicStaticFinalTransient().___________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void setPublicStaticFinalTransient(
-			final boolean pPublicStaticFinalTransient) {
-		this.publicStaticFinalTransient = pPublicStaticFinalTransient;
-	} // Fin de setPublicStaticFinalTransient(...).________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean isPublicStatic() {
-		return this.publicStatic;
-	} // Fin de isPublicStatic().__________________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void setPublicStatic(
-			final boolean pPublicStatic) {
-		this.publicStatic = pPublicStatic;
-	} // Fin de setPublicStatic(...).______________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean isPublicStaticTransient() {
-		return this.publicStaticTransient;
-	} // Fin de isPublicStaticTransient()._________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void setPublicStaticTransient(
-			final boolean pPublicStaticTransient) {
-		this.publicStaticTransient = pPublicStaticTransient;
-	} // Fin de setPublicStaticTransient(...)._____________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean isPublicFinal() {
-		return this.publicFinal;
-	} // Fin de isPublicFinal().___________________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void setPublicFinal(
-			final boolean pPublicFinal) {
-		this.publicFinal = pPublicFinal;
-	} // Fin de setPublicFinal(...)._______________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean isPublicFinalTransient() {
-		return this.publicFinalTransient;
-	} // Fin de isPublicFinalTransient().__________________________________
-
-
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void setPublicFinalTransient(
-			final boolean pPublicFinalTransient) {
-		this.publicFinalTransient = pPublicFinalTransient;
-	} // Fin de setPublicFinalTransient(...).______________________________
 	
 	
 	
