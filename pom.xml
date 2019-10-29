@@ -95,7 +95,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<hibernate.validator>6.0.13.Final</hibernate.validator>
 
 		<!--            Version du POOL DE CONNEXION c3p0               -->
-		<c3p0.version>0.9.5.2</c3p0.version>
+		<c3p0.version>0.9.5.4</c3p0.version>
 		<!--            Version du POOL DE CONNEXION dbcp2              -->
 		<commons-dbcp2.version>2.5.0</commons-dbcp2.version>
 		<!--            Version du POOL DE CONNEXION hikariCP           -->
