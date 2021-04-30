@@ -80,7 +80,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- 		VERSIONS DES COMPOSANTS DANS LES DEPENDANCES		-->
 		<!-- ========================================================== -->
 		<!--                 Version de SPRING                          -->
-		<spring.version>5.1.4.RELEASE</spring.version>
+		<spring.version>5.1.18.RELEASE</spring.version>
 
 		<!-- 				Version de AspectJ RT 						-->
 		<aspectjrt.version>1.9.2</aspectjrt.version>
