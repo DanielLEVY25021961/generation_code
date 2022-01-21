@@ -118,7 +118,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!--                    Version de BD HSQLDB                    -->
 		<hsqldb.version>2.4.1</hsqldb.version>
 		<!--                     Version de BD H2                       -->
-		<h2.version>1.4.197</h2.version>
+		<h2.version>2.1.210</h2.version>
 
 		<!--                Version de commons-lang3                    -->
 		<commons-lang3.version>3.8.1</commons-lang3.version>
