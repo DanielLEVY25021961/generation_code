@@ -112,7 +112,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<javax.servlet.jsp-api.version>2.3.3</javax.servlet.jsp-api.version>
 
 		<!--                Version Driver BD Postgresql                -->
-		<postgresql.version>42.2.5</postgresql.version>
+		<postgresql.version>42.2.25</postgresql.version>
 		<!--                  Version Driver BD MySQL                   -->
 		<mysql-connector-java.version>8.0.13</mysql-connector-java.version>
 		<!--                    Version de BD HSQLDB                    -->
