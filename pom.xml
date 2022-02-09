@@ -86,7 +86,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<aspectjrt.version>1.9.2</aspectjrt.version>
 
 		<!--                Version d'HIBERNATE                         -->
-		<hibernate.version>5.4.1.Final</hibernate.version>
+		<hibernate.version>5.4.24.Final</hibernate.version>
 		<!--           Version hibernate-jpa-2.1-api                    -->
 		<hibernate-jpa-2.1-api.version>1.0.2.Final</hibernate-jpa-2.1-api.version>
 		<!--            Version validation-api                          -->
